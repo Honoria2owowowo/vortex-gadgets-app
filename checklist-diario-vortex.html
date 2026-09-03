@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checklist Diario · Plan 1-2-5k · VÓRTEX Gadgets</title>
+<style>
+  :root{--teal:#00A6A6;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--green:#15803d;--amber:#b45309;--red:#b91c1c}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;background:#eef2f6;color:var(--ink);padding:16px}
+  .page{max-width:860px;margin:0 auto;background:#fff;border-radius:14px;padding:22px 24px;box-shadow:0 1px 6px rgba(15,23,42,.08)}
+  header{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--teal);padding-bottom:10px;margin-bottom:14px;flex-wrap:wrap;gap:6px}
+  header h1{font-size:19px;letter-spacing:.5px}
+  header .fecha{font-size:13px;color:var(--mut)}
+  h2{font-size:14px;text-transform:uppercase;letter-spacing:1px;margin:16px 0 8px;color:#0b4a4a}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+  th{background:#f0fbfb;color:#0b4a4a}
+  td.num,th.num{text-align:right}
+  .nota{font-size:11.5px;color:var(--mut);margin-top:5px;line-height:1.4}
+  ul.check{list-style:none;margin:4px 0 0}
+  ul.check li{padding:7px 8px;border:1px dashed var(--line);border-radius:8px;margin:4px 0;display:flex;align-items:flex-start;gap:8px;font-size:13.5px;line-height:1.35}
+  ul.check li b{color:#0b4a4a}
+  ul.check li::before{content:"☐";font-size:16px;color:var(--teal);flex:none}
+  .tags{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0}
+  .tag{font-size:11px;padding:3px 8px;border-radius:99px;background:#f0fbfb;color:#0b4a4a;border:1px solid #bce6e6}
+  footer{margin-top:16px;font-size:11px;color:var(--mut);border-top:1px solid var(--line);padding-top:8px;text-align:center}
+  @media print{body{background:#fff;padding:0}.page{box-shadow:none;max-width:100%}header h1{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <h1>CHECKLIST DIARIO · VÓRTEX Gadgets</h1>
+      <div class="tags"><span class="tag">Plan 1-2-5k</span><span class="tag">COD + WhatsApp</span><span class="tag">Imprimir y marcar ☐</span></div>
+    </div>
+    <div class="fecha" id="fecha"></div>
+  </header>
+
+  <h2>Meta mensual (USD) → objetivo diario</h2>
+  <table>
+    <tr><th>Mes</th><th class="num">Meta ingresos USD</th><th class="num">Meta COP (tasa 4.100)</th><th class="num">Pedidos pagados/mes</th><th class="num">Pedidos pagados/día</th><th class="num">Despachos/día</th><th class="num">Leads/día</th><th class="num">Presupuesto ads/día</th></tr>
+    <tr><td><b>Mes 1</b></td><td class="num">1.000</td><td class="num">4.100.000</td><td class="num">~55</td><td class="num">1,8</td><td class="num">~2,5</td><td class="num">~7</td><td class="num">~35.000</td></tr>
+    <tr><td><b>Mes 2</b></td><td class="num">2.000</td><td class="num">8.200.000</td><td class="num">~110</td><td class="num">3,7</td><td class="num">~5</td><td class="num">~14</td><td class="num">~70.000</td></tr>
+    <tr><td><b>Mes 3</b></td><td class="num">5.000</td><td class="num">20.500.000</td><td class="num">~275</td><td class="num">9,2</td><td class="num">~12</td><td class="num">~34</td><td class="num">~175.000</td></tr>
+  </table>
+  <p class="nota">Supuestos editables con tus números reales: ticket promedio entregado ~$75.000 COP (mezcla M10 a $77.700, bombilla y demás); conversión WhatsApp leads→confirmados 40 %; 90 % de confirmados se despachan; éxito COD 75 % (entregados y pagados); ROAS 3 para ads (inversión = ingresos ÷ 3). Ajusta en tu Excel/simuladores: si tu ticket real es mayor, necesitas menos pedidos; si tu conversión es menor, necesitas más leads.</p>
+
+  <h2>Rutina diaria</h2>
+  <ul class="check">
+    <li><b>08:30 Mañana — Vender:</b> responder WhatsApp pendientes → registrar cada persona nueva en <b>Gestor de Leads</b> (temperatura + driver emocional) → confirmar pedidos → pasarlos a <b>Gestor de Pedidos</b> con dirección completa.</li>
+    <li><b>09:30 Despacho:</b> crear envíos en <b>Dropi</b> con el botón "Copiar para Dropi" de cada pedido confirmado. Meta: guía en &lt; 24 h.</li>
+    <li><b>Mediodía Seguimiento:</b> mensajes a clientes con guía nueva / en camino (botones del Gestor de Pedidos).</li>
+    <li><b>18:00 Cierre de día:</b> actualizar chips en Gestor de Pedidos (salió/camino/entregado/pagó) → enviar 1er recordatorio a leads "por recordar" → <b>Excel al día</b> (venta del día).</li>
+    <li><b>20:00 Revisión:</b> 10 min a métricas de anuncios (sin decidir nada aún; los datos reales se leen el viernes).</li>
+  </ul>
+
+  <h2>Cadena de no romper (¿cumplí hoy?)</h2>
+  <ul class="check">
+    <li>Cada lead nuevo quedó registrado en Gestor de Leads (ninguno solo en el chat).</li>
+    <li>Los confirmados pasaron a Gestor de Pedidos el mismo día.</li>
+    <li>Pedidos con guía antes de 24 h y cliente avisado.</li>
+    <li>Cobros COD marcados como "Pagó" el día de la entrega.</li>
+    <li>Excel con la venta del día (producto, valor, costo, ads).</li>
+    <li>Reclamos respondidos en &lt; 48 h (Gestor de Garantías).</li>
+    <li>Al final del día: cero pedidos sin estado y cero leads sin clasificar.</li>
+  </ul>
+
+  <h2>Mis números del día</h2>
+  <table>
+    <tr><th>Indicador</th><th class="num">Hoy (real)</th><th>Observación</th></tr>
+    <tr><td>Leads nuevos</td><td class="num"></td><td></td></tr>
+    <tr><td>Confirmados</td><td class="num"></td><td></td></tr>
+    <tr><td>Pedidos creados en Dropi</td><td class="num"></td><td></td></tr>
+    <tr><td>Guías registradas</td><td class="num"></td><td></td></tr>
+    <tr><td>Entregados y pagados</td><td class="num"></td><td></td></tr>
+    <tr><td>Inversión en ads</td><td class="num"></td><td></td></tr>
+  </table>
+  <p class="nota">Herramientas: gestor de leads/pedidos/garantías, email y simuladores en <b>app.vortexgadgets.com.co</b> · Control maestro: <b>VORTEX_Control_Dropshipping.xlsx</b> · Análisis y decisiones de escalar: <b>viernes</b> (ROAS ≥ 3 escala · &lt; 2 dos semanas, mata/ajusta).</p>
+
+  <footer>VÓRTEX Gadgets · vortexgadgets.com.co · WhatsApp +57 318 173 8642 · Metas: mes 1 = USD 1.000 · mes 2 = USD 2.000 · mes 3 = USD 5.000</footer>
+</div>
+<script>document.getElementById('fecha').textContent=new Date().toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long',year:'numeric'});</script>
+</body>
+</html>
