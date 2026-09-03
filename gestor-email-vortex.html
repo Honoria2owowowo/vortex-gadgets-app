@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Email Marketing · VÓRTEX Gadgets</title>
+<style>
+  :root{--bg:#f1f5f9;--card:#fff;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--teal:#00A6A6;--teal-d:#0b7e7e;--green:#15803d;--green-bg:#dcfce7;--blue:#1d4ed8;--blue-bg:#dbeafe;--amber:#b45309;--amber-bg:#fef3c7;--red:#b91c1c;--red-bg:#fee2e2;--slate:#475569;--slate-bg:#e2e8f0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:60px}
+  .top{background:linear-gradient(135deg,#062a2a,#0b4a4a 55%,#0e6363);color:#fff;padding:16px 18px;position:sticky;top:0;z-index:50;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+  .top h1{font-size:18px}.top h1 span{color:#4CE0D6}
+  .top .sub{font-size:12px;opacity:.85;margin-top:2px}
+  .top-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .btn{border:0;border-radius:10px;padding:9px 14px;font-size:14px;font-weight:600;cursor:pointer;background:#e2e8f0;color:#0f172a}
+  .btn:active{transform:scale(.97)}
+  .btn.teal{background:var(--teal);color:#fff}.btn.teal:hover{background:var(--teal-d)}
+  .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}
+  .btn.sm{padding:5px 9px;font-size:12px;border-radius:8px}
+  .btn.danger{background:var(--red);color:#fff}
+  .btn.ok{background:var(--green);color:#fff}
+  .wrap{max-width:1020px;margin:0 auto;padding:14px 14px 0}
+  nav.tabs{display:flex;gap:6px;margin-bottom:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:5px;position:sticky;top:76px;z-index:40}
+  .tab{flex:1;text-align:center;padding:9px 6px;border-radius:9px;cursor:pointer;font-size:13.5px;font-weight:700;color:var(--mut);background:transparent}
+  .tab.on{background:var(--teal);color:#fff}
+  .seccion{display:none}
+  .seccion.on{display:block}
+  .stats{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none}
+  .stats::-webkit-scrollbar{display:none}
+  .stat{flex:0 0 auto;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:7px 12px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:7px}
+  .stat b{font-size:16px}
+  .stat.on{border-color:var(--teal);box-shadow:0 0 0 2px rgba(0,166,166,.25)}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .toolbar{display:flex;gap:8px;align-items:center;margin:6px 0 14px;flex-wrap:wrap}
+  .search{flex:1;min-width:200px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:#fff}
+  .list{display:grid;grid-template-columns:1fr;gap:10px}
+  @media(min-width:820px){.list{grid-template-columns:1fr 1fr}}
+  .ct{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px}
+  .ct-h{display:flex;gap:9px;align-items:flex-start}
+  .ava{width:36px;height:36px;border-radius:50%;background:var(--teal);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;flex:0 0 36px;font-size:14px}
+  .ct-h .who{flex:1;min-width:0}
+  .who .nm{font-weight:700;font-size:14px}
+  .who .em{font-size:12px;color:var(--mut);word-break:break-all}
+  .bdg{font-size:10.5px;font-weight:700;border-radius:999px;padding:2px 8px;margin-left:6px}
+  .seg-frios{background:#e2e8f0;color:#475569}
+  .seg-tibios{background:var(--amber-bg);color:var(--amber)}
+  .seg-calientes{background:var(--green-bg);color:var(--green)}
+  .seg-carrito{background:var(--blue-bg);color:var(--blue)}
+  .seg-objeciones{background:#f3e8ff;color:#7c3aed}
+  .ct-acciones{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+  .paso{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+  .paso h3{font-size:14px;color:#062a2a;margin-bottom:10px}
+  .paso h3 span{background:var(--teal);color:#fff;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;margin-right:7px}
+  .opts{display:flex;gap:8px;flex-wrap:wrap}
+  .opt{border:2px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;cursor:pointer;font-size:13px;flex:0 0 auto;max-width:340px}
+  .opt.on{border-color:var(--teal);box-shadow:0 0 0 2px rgba(0,166,166,.2)}
+  .opt b{display:block;font-size:13.5px}
+  .opt small{color:var(--mut);line-height:1.35;display:block;margin-top:3px}
+  .flyer-min{width:150px;border:2px solid var(--line);border-radius:10px;overflow:hidden;cursor:pointer;background:#fff}
+  .flyer-min img{width:100%;display:block}
+  .flyer-min.on{border-color:var(--teal);box-shadow:0 0 0 2px rgba(0,166,166,.2)}
+  .flyer-min small{display:block;font-size:10.5px;text-align:center;padding:4px;color:var(--mut)}
+  .campo{margin-bottom:10px}
+  .campo label{font-size:12px;font-weight:700;color:var(--slate);display:block;margin-bottom:4px}
+  .campo input,.campo textarea,.campo select{border:1px solid var(--line);border-radius:9px;padding:9px 10px;font-size:13.5px;width:100%;background:#fff}
+  .campo textarea{min-height:70px;resize:vertical}
+  .recip{margin-top:10px}
+  .recip h4{font-size:13px;color:var(--slate);margin-bottom:8px}
+  .rec{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 11px;margin-bottom:7px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .rec .em{flex:1;min-width:160px;font-size:12.5px;word-break:break-all}
+  .rec .st{font-size:11px;color:var(--mut)}
+  .rec.enviado{opacity:.65;background:#f8fafc}
+  .empty{background:var(--card);border:1.5px dashed var(--line);border-radius:14px;padding:30px 16px;text-align:center;color:var(--mut);font-size:13.5px}
+  .empty b{display:block;font-size:15px;color:var(--ink);margin-bottom:5px}
+  .ov{position:fixed;inset:0;background:rgba(8,25,25,.6);display:none;align-items:flex-start;justify-content:center;overflow:auto;z-index:100;padding:18px 10px}
+  .ov.open{display:flex}
+  .modal{background:#fff;border-radius:16px;width:100%;max-width:640px;padding:18px;margin:auto 0;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+  .modal h2{font-size:16px;margin-bottom:12px;color:#062a2a}
+  .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .f{display:flex;flex-direction:column;gap:4px;margin-bottom:9px}
+  .f label{font-size:12px;font-weight:600;color:var(--slate)}
+  .f input,.f select,.f textarea{border:1px solid var(--line);border-radius:9px;padding:9px 10px;font-size:14px;background:#fff}
+  .full{grid-column:1/-1}
+  .mail-prev{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .mail-prev iframe{width:100%;border:0;min-height:420px;background:#fff}
+  #toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(80px);background:#062a2a;color:#fff;padding:10px 18px;border-radius:999px;font-size:13.5px;transition:.25s;z-index:200;opacity:0;pointer-events:none;max-width:92vw;text-align:center}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .file-in{display:none}
+  .guia{font-size:13.5px;line-height:1.65;color:#334155}
+  .guia ol{padding-left:20px}
+  .guia li{margin-bottom:8px}
+  .guia code{background:#e2e8f0;border-radius:6px;padding:1px 6px;font-size:12px}
+  .aviso{background:var(--amber-bg);color:#92400e;border-radius:10px;padding:9px 12px;font-size:12.5px;margin-bottom:10px;line-height:1.5}
+  @media(max-width:560px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-row">
+    <div>
+      <h1>VÓRTEX <span>Gadgets</span> · Email Marketing</h1>
+      <div class="sub">Segmentos frío/tibio/caliente · carrito abandonado · objeciones — con flyers</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn teal" id="btnNuevo">+ Contacto</button>
+      <button class="btn ghost sm" id="btnImportar">Importar</button>
+      <button class="btn ghost sm" id="btnExportar">Exportar</button>
+      <input type="file" id="fileImp" class="file-in" accept=".json,.csv,application/json,text/csv">
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav class="tabs">
+    <div class="tab on" data-tab="c">Contactos</div>
+    <div class="tab" data-tab="m">Campaña</div>
+    <div class="tab" data-tab="g">Guía</div>
+  </nav>
+
+  <!-- ===================== CONTACTOS ===================== -->
+  <section class="seccion on" id="sec-c">
+    <div class="stats" id="stats"></div>
+    <div class="toolbar">
+      <input class="search" id="buscar" placeholder="Buscar por nombre, email, teléfono o producto…">
+      <button class="btn" id="btnLimpiar" style="display:none">Limpiar</button>
+    </div>
+    <div class="aviso">Pega aquí tus listas: botón <b>Importar</b> acepta CSV (nombre;email;segmento) o pegar texto "Nombre,email" por línea (usa el segmento seleccionado arriba). Los emails de campaña se envían desde <b>soportevortexgadgets@gmail.com</b>.</div>
+    <div id="lista" class="list"></div>
+    <div class="empty" id="vacio" style="display:none">
+      <b>Aún no hay contactos</b>
+      Registra contactos manualmente o impórtalos (CSV / texto). Clasifícalos: fríos, tibios, calientes, carrito abandonado u objeciones.
+    </div>
+  </section>
+
+  <!-- ===================== CAMPAÑA ===================== -->
+  <section class="seccion" id="sec-m">
+    <div class="paso">
+      <h3><span>1</span>Elige el segmento a enviar</h3>
+      <div class="opts" id="segOpts"></div>
+    </div>
+    <div class="paso">
+      <h3><span>2</span>Elige la plantilla (hook / promo / objeciones / carrito / recompra)</h3>
+      <div class="opts" id="tplOpts"></div>
+      <div class="campo" style="margin-top:10px"><label>Asunto (editable)</label><input id="asuntoTxt"></div>
+      <div class="campo"><label>Mensaje de texto (editable — se verá igual en el correo)</label><textarea id="cuerpoTxt"></textarea></div>
+      <div class="campo"><label>Botón / enlace principal</label>
+        <select id="ctaUrl">
+          <option value="https://app.vortexgadgets.com.co">Ir a la app (catálogo)</option>
+          <option value="https://vortexgadgets.com.co">Ir a la tienda web</option>
+        </select>
+      </div>
+    </div>
+    <div class="paso">
+      <h3><span>3</span>Flyer del correo (integrados o sube el tuyo)</h3>
+      <div class="opts" id="flyerOpts" style="align-items:flex-start"></div>
+      <button class="btn sm" id="btnSubirFlyer" style="margin-top:8px">+ Subir mi propio flyer (imagen)</button>
+      <input type="file" id="fileFlyer" class="file-in" accept="image/*">
+      <div class="aviso" style="margin-top:8px">El flyer se inserta dentro del correo como imagen (recomendado para que no rebote como adjunto). Los flyers que subas se guardan en este dispositivo para tu vista previa y registro.</div>
+    </div>
+    <div class="paso">
+      <h3><span>4</span>Destinatarios y envío</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="btn teal" id="btnVista">Vista previa del correo</button>
+        <button class="btn" id="btnExportCampa">Exportar campaña (envío masivo)</button>
+      </div>
+      <div class="recip" id="recipBox"></div>
+    </div>
+  </section>
+
+  <!-- ===================== GUÍA ===================== -->
+  <section class="seccion" id="sec-g">
+    <div class="paso guia">
+      <h3>Cómo funciona el envío</h3>
+      <ol>
+        <li><b>Una página no puede enviar correos sola</b> (necesita un servidor de correo). Por eso esta herramienta <b>prepara todo</b>: destinatarios, asunto, texto y flyer.</li>
+        <li><b>Envío individual:</b> botón "Enviar" en cada destinatario — abre Gmail con el correo ya escrito y pegado del remitente <b>soportevortexgadgets@gmail.com</b> (solo texto; adjunta el flyer manualmente si quieres).</li>
+        <li><b>Envío masivo profesional (recomendado):</b> pulsa <b>"Exportar campaña"</b> y pásame el archivo (o dime "envía la campaña del segmento X"). Yo la envío desde tu Gmail con diseño HTML y flyer integrado, en tandas, y te confirmo entregas y rebotes.</li>
+        <li>Primera vez: al enviar te pedirá <b>conectar tu cuenta de Google</b> (soportevortexgadgets@gmail.com) — es un clic de autorización, se hace una sola vez.</li>
+        <li><b>Límites Gmail:</b> ~500 correos/día desde una cuenta gratuita. Para volumen real usa segmentos pequeños y espacia campañas. Nunca envíes a quien no te dio su correo (Ley 1581/2012, habeas data).</li>
+      </ol>
+      <h3 style="margin-top:14px">Qué significa cada segmento</h3>
+      <ul style="padding-left:20px">
+        <li><b>Fríos:</b> nunca han comprado ni respondido (usa hooks y promos de primer contacto).</li>
+        <li><b>Tibios:</b> preguntaron o vieron productos pero no compraron (usa objeciones y recordatorios suaves).</li>
+        <li><b>Calientes:</b> compraron o están a punto (usa recompra y novedades).</li>
+        <li><b>Carrito abandonado:</b> dejaron el carrito en la tienda (usa urgencia + soporte).</li>
+        <li><b>Objeciones:</b> te dijeron "no tengo tarjeta", "desconfío", "es caro" (responde cada objeción con confianza: COD, garantía, comparación de precio).</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<!-- Modal contacto -->
+<div class="ov" id="ovContacto">
+  <div class="modal">
+    <h2 id="tContacto">Nuevo contacto</h2>
+    <div class="grid2">
+      <div class="f"><label>Nombre *</label><input id="c_nombre"></div>
+      <div class="f"><label>Email *</label><input id="c_email" type="email" placeholder="cliente@correo.com"></div>
+      <div class="f"><label>Teléfono (opcional)</label><input id="c_tel"></div>
+      <div class="f"><label>Producto de interés</label><input id="c_prod"></div>
+      <div class="f"><label>Segmento</label>
+        <select id="c_seg">
+          <option value="frios">Fríos</option><option value="tibios">Tibios</option>
+          <option value="calientes">Calientes</option><option value="carrito">Carrito abandonado</option>
+          <option value="objeciones">Objeciones</option>
+        </select>
+      </div>
+      <div class="f"><label>Fuente</label><input id="c_fuente" placeholder="Meta / TikTok / página…"></div>
+      <div class="f full"><label>Notas</label><textarea id="c_nota" style="min-height:40px"></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="btnCancelarC">Cancelar</button>
+      <button class="btn teal" id="btnGuardarC">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal vista previa -->
+<div class="ov" id="ovPrev">
+  <div class="modal" style="max-width:680px">
+    <h2>Vista previa del correo</h2>
+    <div style="font-size:12px;color:var(--mut);margin-bottom:8px">De: VÓRTEX Gadgets &lt;soportevortexgadgets@gmail.com&gt;</div>
+    <div style="font-size:13px;font-weight:700;margin-bottom:8px" id="prevAsunto"></div>
+    <div class="mail-prev"><iframe id="prevFrame" sandbox="allow-same-origin"></iframe></div>
+    <div class="modal-actions">
+      <button class="btn" id="btnCerrarPrev">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+(function(){
+  'use strict';
+  var LS='vortex_email_v1', LSF='vortex_email_flyers';
+  var contactos=[], flyersPropios=[];
+  var filtro='todos', termino='', editId=null;
+  var campSeg='todos', campTpl=null, campFlyer='f-vortex10', cta='https://app.vortexgadgets.com.co';
+  var BASE='https://app.vortexgadgets.com.co';
+  var FLYERS=[
+    {id:'f-vortex10', nombre:'Cupón 10% + envío', url:BASE+'/flyers/flyer-vortex10.png'},
+    {id:'f-m10', nombre:'Audífonos M10 (-26%)', url:BASE+'/flyers/flyer-m10.png'},
+    {id:'f-cod', nombre:'Paga contra entrega', url:BASE+'/flyers/flyer-cod.png'}
+  ];
+  var SEGS=[['todos','Todos','#0f172a'],['frios','Fríos','#94a3b8'],['tibios','Tibios','#f59e0b'],['calientes','Calientes','#22c55e'],['carrito','Carrito','#3b82f6'],['objeciones','Objeciones','#7c3aed']];
+  var SEGCLS={frios:'seg-frios',tibios:'seg-tibios',calientes:'seg-calientes',carrito:'seg-carrito',objeciones:'seg-objeciones'};
+  var TEMPLATES=[
+    {id:'hook', nombre:'Hook / novedad', tipo:'Curiosidad', asunto:'Novedad en VÓRTEX Gadgets — algo que te va a gustar, {{nombre}}',
+     texto:'Hola {{nombre}},\n\nEn VÓRTEX Gadgets acabamos de recibir productos que vuelan en Colombia y queríamos que los conocieras primero tú.\n\nSin tarjeta, sin anticipo: pides, revisas y pagas cuando te llega.\n\nMira el catálogo aquí: {{tienda}}\n\nCualquier duda, respóndeme este correo.\n\n— VÓRTEX Gadgets',
+     h1:'¿Qué tan útil es tu gadget del día a día?', p1:'Te presentamos lo nuevo de VÓRTEX Gadgets: tecnología que resuelve, con envío gratis a toda Colombia.'},
+    {id:'promo', nombre:'Promo descuento', tipo:'Urgencia', asunto:'{{nombre}}, hoy 10% OFF + envío gratis (cupón VORTEX10)',
+     texto:'Hola {{nombre}},\n\nPor tiempo limitado: aplica el cupón VORTEX10 y llévate un 10% de descuento extra con ENVÍO GRATIS a toda Colombia.\n\nPago contra entrega: revisas tu pedido y pagas en efectivo cuando llega.\n\nPedir aquí: {{tienda}}\n\nEl cupón no dura para siempre. ¡Aprovecha hoy!\n\n— VÓRTEX Gadgets',
+     h1:'10% OFF + envío gratis — hoy', p1:'Usa el cupón VORTEX10 al pedir. Paga contra entrega, sin tarjeta y sin riesgo.'},
+    {id:'obj1', nombre:'Objeción: sin tarjeta', tipo:'Confianza COD', asunto:'¿Sin tarjeta? Tranquilo/a {{nombre}}: pagas al recibir',
+     texto:'Hola {{nombre}},\n\nEntendemos que a veces no se tiene tarjeta o no se quiere pagar por adelantado. Por eso trabajamos con PAGO CONTRA ENTREGA:\n\n• Pagas solo cuando el pedido llega a tu puerta\n• Revisas el producto antes de pagar\n• Envío gratis a toda Colombia\n\nPide aquí: {{tienda}}\n\n— VÓRTEX Gadgets · Garantía 30 días',
+     h1:'Sin tarjeta no es problema', p1:'Pide hoy y paga en efectivo cuando recibas. Tú revisas antes de pagar.'},
+    {id:'obj2', nombre:'Objeción: desconfianza/garantía', tipo:'Confianza garantía', asunto:'Compra sin riesgo, {{nombre}}: garantía de 30 días',
+     texto:'Hola {{nombre}},\n\nSabemos que comprar por internet genera dudas. En VÓRTEX Gadgets:\n\n• Garantía de 30 días en todos los productos\n• Pago contra entrega (no pagas por adelantado)\n• Soporte real por WhatsApp y correo\n\nTe respaldamos antes y después de la compra.\n\nVer productos: {{tienda}}\n\n— VÓRTEX Gadgets',
+     h1:'Tu compra está protegida', p1:'Garantía 30 días + pago contra entrega + soporte humano en Colombia.'},
+    {id:'carrito', nombre:'Carrito abandonado', tipo:'Recuperación', asunto:'{{nombre}}, dejaste un pedido pendiente en VÓRTEX',
+     texto:'Hola {{nombre}},\n\nVimos que dejaste un pedido sin terminar. ¿Te ayudo a completarlo?\n\nTe recuerdo: envío GRATIS + pago contra entrega + cupón VORTEX10 (10% OFF).\n\nContinúa tu pedido aquí: {{tienda}}\n\nSi tienes dudas de envío, pago o el producto, respóndeme: te atiendo yo.\n\n— VÓRTEX Gadgets',
+     h1:'Tu pedido te está esperando', p1:'Completa tu pedido hoy: envío gratis, pagas al recibir y con 10% extra con VORTEX10.'},
+    {id:'recompra', nombre:'Gracias / recompra', tipo:'Fidelización', asunto:'Gracias {{nombre}} — un beneficio solo para ti',
+     texto:'Hola {{nombre}},\n\nGracias por confiar en VÓRTEX Gadgets. Queremos que tu próxima compra sea aún mejor:\n\n• Cupón VORTEX10: 10% OFF en tu próximo pedido\n• Envío gratis a toda Colombia\n• Nuevos productos cada semana\n\nVer novedades: {{tienda}}\n\n¿Cómo te fue con tu pedido? Cuéntanos, nos ayuda a mejorar.\n\n— VÓRTEX Gadgets',
+     h1:'Gracias por comprar con nosotros', p1:'Tu próximo pedido con 10% OFF (VORTEX10) y envío gratis. Te esperamos.'}
+  ];
+  function $(id){return document.getElementById(id);}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}
+  function hoyISO(){return new Date().toISOString();}
+  function fmt(iso){var d=new Date(iso);if(!d||isNaN(d))return'';return d.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit'});}
+  function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove('show');},2400);}
+  function guardar(){localStorage.setItem(LS,JSON.stringify(contactos));renderAll();}
+  function cargar(){
+    try{var r=localStorage.getItem(LS);contactos=r?JSON.parse(r):[];if(!Array.isArray(contactos))contactos=[];}catch(e){contactos=[];}
+    try{flyersPropios=JSON.parse(localStorage.getItem(LSF)||'[]');}catch(e){flyersPropios=[];}
+  }
+  function nuevoId(){return'E'+Date.now().toString(36).toUpperCase();}
+  function nuevoC(){return{id:nuevoId(),creado:hoyISO(),nombre:'',email:'',tel:'',producto:'',segmento:'frios',fuente:'',nota:'',enviados:0,ultimo:''};}
+
+  /* ---------- plantillas ---------- */
+  function reemplazar(txt,c){
+    return txt.replace(/\{\{nombre\}\}/g,c.nombre||'').replace(/\{\{producto\}\}/g,c.producto||'tu producto').replace(/\{\{cupon\}\}/g,'VORTEX10').replace(/\{\{tienda\}\}/g,cta);
+  }
+  function htmlCorreo(tpl,c,flyerUrl){
+    var t=reemplazar(tpl.texto,c);
+    var parrafos=t.split('\n\n').map(function(p){return'<p style="margin:0 0 12px;line-height:1.6">'+esc(p).replace(/\n/g,'<br>')+'</p>';}).join('');
+    var img=flyerUrl?'<img src="'+esc(flyerUrl)+'" alt="Flyer VÓRTEX" style="width:100%;max-width:560px;display:block;margin:14px auto;border-radius:12px">':'';
+    return '<div style="background:#f4f7f9;padding:22px 12px;font-family:Arial,Helvetica,sans-serif">'+
+      '<div style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #e5e7eb">'+
+        '<div style="background:linear-gradient(135deg,#062a2a,#0b4a4a);padding:18px 24px">'+
+          '<span style="color:#4CE0D6;font-weight:bold;font-size:19px">VÓRTEX</span> <span style="color:#e2e8f0;font-size:15px">Gadgets</span>'+
+        '</div>'+
+        '<div style="padding:24px">'+
+          '<h1 style="font-size:22px;color:#0f172a;margin:0 0 12px">'+esc(reemplazar(tpl.h1,c))+'</h1>'+
+          '<p style="font-size:14px;color:#334155;line-height:1.6;margin:0 0 14px">'+esc(reemplazar(tpl.p1,c))+'</p>'+
+          parrafos+img+
+          '<p style="text-align:center;margin:16px 0 6px"><a href="'+esc(cta)+'" style="background:#00A6A6;color:#ffffff;text-decoration:none;padding:13px 26px;border-radius:999px;font-weight:bold;display:inline-block">Ver catálogo y pedir</a></p>'+
+          '<p style="font-size:11.5px;color:#94a3b8;text-align:center;margin:14px 0 0">Envío GRATIS a Colombia · Pago contra entrega · Garantía 30 días<br>'+
+          'VÓRTEX Gadgets · soportevortexgadgets@gmail.com · +57 318 173 8642</p>'+
+        '</div>'+
+      '</div></div>';
+  }
+
+  /* ---------- tabs ---------- */
+  function tab(nombre){
+    ['c','m','g'].forEach(function(t){
+      $('sec-'+t).classList.toggle('on',t===nombre);
+    });
+    document.querySelectorAll('.tab').forEach(function(el){el.classList.toggle('on',el.dataset.tab===nombre);});
+    if(nombre==='m')renderCamp();
+  }
+  document.querySelectorAll('.tab').forEach(function(el){el.onclick=function(){tab(el.dataset.tab);};});
+
+  /* ---------- contactos render ---------- */
+  function catC(c){
+    if(filtro!=='todos'&&c.segmento!==filtro)return false;
+    if(termino){var q=termino.toLowerCase();var hay=(c.nombre+' '+c.email+' '+c.tel+' '+c.producto+' '+c.nota).toLowerCase();if(hay.indexOf(q)===-1)return false;}
+    return true;
+  }
+  function renderStats(){
+    var c={};SEGS.forEach(function(s){c[s[0]]=0;});
+    contactos.forEach(function(x){c[x.segmento]++;c.todos++;});
+    var h='';
+    SEGS.forEach(function(s){h+='<div class="stat'+(filtro===s[0]?' on':'')+'" data-f="'+s[0]+'"><span class="dot" style="background:'+s[2]+'"></span><b>'+c[s[0]]+'</b> '+s[1]+'</div>';});
+    $('stats').innerHTML=h;
+  }
+  function cardC(c){
+    var ini=esc(((c.nombre||'?').charAt(0)).toUpperCase());
+    var enviado=c.enviados>0?'<span style="color:var(--green);font-weight:700">· enviado '+c.enviados+'x'+(c.ultimo?' ('+fmt(c.ultimo)+')':'')+'</span>':'';
+    return '<div class="ct" data-id="'+esc(c.id)+'">'+
+      '<div class="ct-h"><div class="ava">'+ini+'</div><div class="who">'+
+        '<div class="nm">'+esc(c.nombre||'(sin nombre)')+'<span class="bdg '+SEGCLS[c.segmento]+'">'+segNombre(c.segmento)+'</span></div>'+
+        '<div class="em">✉ '+esc(c.email||'—')+'</div>'+
+        '<div class="em">'+(c.tel?'📱 '+esc(c.tel)+' · ':'')+(c.producto?'🛍 '+esc(c.producto):'')+' '+(c.fuente?'· '+esc(c.fuente):'')+' '+enviado+'</div>'+
+        (c.nota?'<div class="em" style="color:#94a3b8">📝 '+esc(c.nota)+'</div>':'')+
+      '</div></div>'+
+      '<div class="ct-acciones">'+
+        '<button class="btn sm" data-a="editar">Editar</button>'+
+        '<button class="btn sm" data-a="enviar1">Enviar 1:1</button>'+
+        '<button class="btn sm danger" data-a="borrar">Borrar</button>'+
+      '</div>'+
+    '</div>';
+  }
+  function segNombre(s){var r=SEGS.find(function(x){return x[0]===s;});return r?r[1]:s;}
+  function renderLista(){
+    var vis=contactos.filter(catC).sort(function(a,b){return(b.creado||'').localeCompare(a.creado||'');});
+    $('lista').innerHTML=vis.map(cardC).join('');
+    $('vacio').style.display=contactos.length?'none':'block';
+    $('btnLimpiar').style.display=(filtro!=='todos'||termino)?'inline-block':'none';
+  }
+  function renderAll(){renderStats();renderLista();if(tabActual()==='m')renderCamp();}
+  function tabActual(){var t=document.querySelector('.tab.on');return t?t.dataset.tab:'c';}
+
+  /* ---------- campaña ---------- */
+  function segCounts(){var c={};contactos.forEach(function(x){c[x.segmento]=(c[x.segmento]||0)+1;});return c;}
+  function renderCamp(){
+    var c=segCounts();
+    var hs='';
+    SEGS.forEach(function(s){var n=s[0]==='todos'?contactos.length:(c[s[0]]||0);hs+='<div class="opt'+(campSeg===s[0]?' on':'')+'" data-opt="seg" data-v="'+s[0]+'"><b><span class="dot" style="background:'+s[2]+';display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px"></span>'+s[1]+' ('+n+')</b></div>';});
+    $('segOpts').innerHTML=hs;
+    if(!campTpl){campTpl=TEMPLATES[0].id;cargarTpl();}
+    var ht='';
+    TEMPLATES.forEach(function(t){ht+='<div class="opt'+(campTpl===t.id?' on':'')+'" data-opt="tpl" data-v="'+t.id+'"><b>'+esc(t.nombre)+'</b><small>'+esc(t.tipo)+' · '+esc(t.asunto)+'</small></div>';});
+    $('tplOpts').innerHTML=ht;
+    var hf='';
+    FLYERS.concat(flyersPropios.map(function(f,i){return{id:'p'+i,nombre:f.nombre,url:f.url};})).forEach(function(f){
+      hf+='<div class="flyer-min'+(campFlyer===f.id?' on':'')+'" data-opt="flyer" data-v="'+f.id+'"><img src="'+esc(f.url)+'" alt=""><small>'+esc(f.nombre)+'</small></div>';
+    });
+    $('flyerOpts').innerHTML=hf;
+    renderRecips();
+  }
+  function flyerSel(){var all=FLYERS.concat(flyersPropios.map(function(f,i){return{id:'p'+i,nombre:f.nombre,url:f.url};}));var f=all.find(function(x){return x.id===campFlyer;});return f?f.url:null;}
+  function cargarTpl(){
+    var t=TEMPLATES.find(function(x){return x.id===campTpl;});
+    if(t){$('asuntoTxt').value=t.asunto;$('cuerpoTxt').value=t.texto;}
+  }
+  function destinatarios(){
+    var list=contactos.filter(function(x){return x.email&&(campSeg==='todos'||x.segmento===campSeg);});
+    return list;
+  }
+  function asuntoFinal(c){return reemplazar($('asuntoTxt').value||'',c);}
+  function cuerpoFinal(c){return reemplazar($('cuerpoTxt').value||'',c);}
+  function renderRecips(){
+    var list=destinatarios();
+    var h='<h4>'+list.length+' destinatario(s) — segmento "'+segNombre(campSeg)+'"</h4>';
+    if(!list.length){h+='<div class="empty">No hay contactos con email en este segmento. Agrega contactos en la pestaña Contactos.</div>';}
+    list.forEach(function(c){
+      h+='<div class="rec'+(c.enviados>0?' enviado':'')+'" data-id="'+esc(c.id)+'">'+
+        '<div class="em"><b>'+esc(c.nombre||'')+'</b> · '+esc(c.email)+'</div>'+
+        '<div class="st">Asunto: '+esc(asuntoFinal(c).slice(0,46))+'…</div>'+
+        '<button class="btn sm teal" data-a="enviar" data-id="'+esc(c.id)+'">Enviar ahora</button>'+
+        '<button class="btn sm" data-a="marcar" data-id="'+esc(c.id)+'">Marcar enviado</button>'+
+      '</div>';
+    });
+    $('recipBox').innerHTML=h;
+  }
+  function exportCampa(){
+    var list=destinatarios();
+    if(!list.length){toast('No hay destinatarios');return;}
+    var f=flyerSel();
+    var filas=[['email','nombre','segmento','asunto','cuerpo_texto','flyer_url'].join(';')];
+    list.forEach(function(c){
+      filas.push([c.email,('"'+c.nombre.replace(/"/g,'""')+'"'),c.segmento,('"'+asuntoFinal(c).replace(/"/g,'""')+'"'),('"'+cuerpoFinal(c).replace(/\n/g,'\\n').replace(/"/g,'""')+'"'),f||''].join(';'));
+    });
+    var blob='\uFEFF'+filas.join('\r\n');
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([blob],{type:'text/csv;charset=utf-8'}));
+    a.download='campana-'+segNombre(campSeg).toLowerCase().replace(/[^a-z]/g,'')+'-'+new Date().toISOString().slice(0,10)+'.csv';
+    document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);document.body.removeChild(a);},400);
+    toast('Campaña exportada: '+list.length+' correos');
+  }
+
+  /* ---------- modal contacto ---------- */
+  function abrirC(c){
+    editId=c?c.id:null;
+    $('tContacto').textContent=c?'Editar contacto':'Nuevo contacto';
+    $('c_nombre').value=c?c.nombre:'';$('c_email').value=c?c.email:'';
+    $('c_tel').value=c?c.tel:'';$('c_prod').value=c?c.producto:'';
+    $('c_seg').value=c?(c.segmento||'frios'):(filtro!=='todos'?filtro:'frios');
+    $('c_fuente').value=c?(c.fuente||''):'';$('c_nota').value=c?c.nota:'';
+    $('ovContacto').classList.add('open');
+    setTimeout(function(){$('c_nombre').focus();},60);
+  }
+  function cerrarC(){$('ovContacto').classList.remove('open');editId=null;}
+  function leerC(){
+    var d={nombre:$('c_nombre').value.trim(),email:$('c_email').value.trim().toLowerCase(),tel:$('c_tel').value.trim(),producto:$('c_prod').value.trim(),segmento:$('c_seg').value,fuente:$('c_fuente').value.trim(),nota:$('c_nota').value.trim()};
+    if(!d.nombre||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)){toast('Nombre y un email válido son obligatorios');return null;}
+    return d;
+  }
+  function guardarC(){
+    var d=leerC();if(!d)return;
+    if(editId){var c=contactos.find(function(x){return x.id===editId;});if(c){for(var k in d)c[k]=d[k];toast('Contacto actualizado');}}
+    else{var n=nuevoC();for(var k2 in d)n[k2]=d[k2];contactos.push(n);toast('Contacto agregado');}
+    cerrarC();guardar();
+  }
+
+  /* ---------- import/export ---------- */
+  function exportAll(){
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([JSON.stringify({app:'gestor-email-vortex',version:1,exportado:new Date().toISOString(),contactos:contactos},null,2)],{type:'application/json'}));
+    a.download='contactos-email-vortex-'+new Date().toISOString().slice(0,10)+'.json';
+    document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);document.body.removeChild(a);},400);
+    toast('Exportados '+contactos.length+' contactos');
+  }
+  function importar(file){
+    var name=file.name||'';var r=new FileReader();
+    r.onload=function(){
+      var txt=String(r.result||'');
+      var arr=null;
+      if(/\.json$/i.test(name)){
+        try{var d=JSON.parse(txt);arr=Array.isArray(d)?d:(d&&Array.isArray(d.contactos)?d.contactos:null);}catch(e){toast('JSON no válido');return;}
+      }else{
+        arr=[];
+        txt.split(/\r?\n/).forEach(function(linea){
+          linea=linea.trim();if(!linea)return;
+          var p=linea.split(/[;,]/).map(function(x){return x.trim();});
+          var nombre=p[0]||'',email=(p[1]||'').toLowerCase();
+          var segRaw=(p[2]||'').toLowerCase();
+          if(!email)return;
+          var seg=SEGS.some(function(s){return s[0]===segRaw;})?segRaw:'frios';
+          arr.push({id:nuevoId(),creado:hoyISO(),nombre:nombre,email:email,tel:p[3]||'',producto:'',segmento:seg,fuente:'',nota:'',enviados:0,ultimo:''});
+        });
+        if(!arr.length){toast('No se encontraron filas nombre,email');return;}
+      }
+      if(arr.length&&confirm('¿Agregar '+arr.length+' contacto(s) a los '+contactos.length+' actuales?')){
+        arr.forEach(function(x){x.id=x.id||nuevoId();x.creado=x.creado||hoyISO();x.enviados=x.enviados||0;x.segmento=x.segmento||'frios';contactos.push(x);});
+        guardar();toast('Importados '+arr.length+' contactos');
+      }
+    };
+    r.readAsText(file);
+  }
+
+  /* ---------- envío 1:1 / marcar ---------- */
+  function enviarUno(c){
+    if(!c.email){toast('Sin email');return;}
+    var asu=asuntoFinal(c),cuer=cuerpoFinal(c);
+    var url='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(c.email)+'&su='+encodeURIComponent(asu)+'&body='+encodeURIComponent(cuer+'\n\n—\nVÓRTEX Gadgets · Envío gratis · Pago contra entrega\n'+cta);
+    window.open(url,'_blank');
+    c.enviados=(c.enviados||0)+1;c.ultimo=hoyISO();guardar();
+    toast('Abierto Gmail para '+c.email+' (marcado enviado)');
+  }
+
+  /* ---------- eventos UI ---------- */
+  $('btnNuevo').onclick=function(){abrirC(null);};
+  $('btnCancelarC').onclick=cerrarC;
+  $('btnGuardarC').onclick=guardarC;
+  $('btnExportar').onclick=exportAll;
+  $('btnImportar').onclick=function(){$('fileImp').click();};
+  $('fileImp').onchange=function(){if(this.files[0])importar(this.files[0]);this.value='';};
+  $('btnLimpiar').onclick=function(){filtro='todos';termino='';$('buscar').value='';renderAll();};
+  $('buscar').oninput=function(){termino=this.value.trim();renderLista();};
+  $('stats').onclick=function(e){var el=e.target.closest('.stat');if(!el)return;filtro=el.dataset.f;renderAll();};
+  $('lista').onclick=function(e){
+    var card=e.target.closest('.ct');if(!card)return;
+    var c=contactos.find(function(x){return x.id===card.dataset.id;});if(!c)return;
+    var b=e.target.closest('[data-a]');if(!b)return;
+    if(b.dataset.a==='editar')abrirC(c);
+    else if(b.dataset.a==='borrar'){if(confirm('¿Borrar a '+(c.nombre||c.email)+'?')){contactos=contactos.filter(function(x){return x.id!==c.id;});guardar();toast('Borrado');}}
+    else if(b.dataset.a==='enviar1'){if(!campTpl){cargarTpl();}enviarUno(c);}
+  };
+  $('ovContacto').onclick=function(e){if(e.target===$('ovContacto'))cerrarC();};
+
+  /* campaña eventos */
+  $('segOpts').onclick=function(e){var el=e.target.closest('[data-opt="seg"]');if(!el)return;campSeg=el.dataset.v;renderCamp();};
+  $('tplOpts').onclick=function(e){var el=e.target.closest('[data-opt="tpl"]');if(!el)return;campTpl=el.dataset.v;cargarTpl();renderCamp();};
+  $('flyerOpts').onclick=function(e){var el=e.target.closest('[data-opt="flyer"]');if(!el)return;campFlyer=el.dataset.v;renderCamp();};
+  $('asuntoTxt').oninput=function(){renderRecips();};
+  $('cuerpoTxt').oninput=function(){renderRecips();};
+  $('ctaUrl').onchange=function(){cta=this.value;cargarTpl();renderRecips();};
+  $('btnSubirFlyer').onclick=function(){$('fileFlyer').click();};
+  $('fileFlyer').onchange=function(){
+    var f=this.files[0];this.value='';
+    if(!f||!f.type.indexOf('image')===0){toast('Elige una imagen');return;}
+    if(f.size>900000){toast('Imagen muy grande (máx 900 KB). Reduce el tamaño.');return;}
+    var rd=new FileReader();
+    rd.onload=function(){
+      var img=new Image();
+      img.onload=function(){
+        var cv=document.createElement('canvas');
+        var mw=1200,scale=Math.min(1,mw/img.width);
+        cv.width=Math.round(img.width*scale);cv.height=Math.round(img.height*scale);
+        cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
+        var url=cv.toDataURL('image/jpeg',0.85);
+        var nom=f.name.replace(/\.[^.]+$/,'').slice(0,22);
+        flyersPropios.push({nombre:nom,url:url});
+        if(flyersPropios.length>5)flyersPropios.shift();
+        try{localStorage.setItem(LSF,JSON.stringify(flyersPropios));}catch(e){toast('Sin espacio para guardar más flyers');flyersPropios.pop();}
+        campFlyer='p'+(flyersPropios.length-1);
+        renderCamp();toast('Flyer subido: '+nom);
+      };
+      img.onerror=function(){toast('No se pudo leer la imagen');};
+      img.src=rd.result;
+    };
+    rd.readAsDataURL(f);
+  };
+  $('btnExportCampa').onclick=exportCampa;
+  $('btnVista').onclick=function(){
+    var list=destinatarios();if(!list.length){toast('Sin destinatarios');return;}
+    var c=list[0];
+    var t=TEMPLATES.find(function(x){return x.id===campTpl;})||TEMPLATES[0];
+    $('prevAsunto').textContent='Asunto: '+asuntoFinal(c);
+    $('prevFrame').srcdoc=htmlCorreo(t,c,flyerSel());
+    $('ovPrev').classList.add('open');
+  };
+  $('btnCerrarPrev').onclick=function(){$('ovPrev').classList.remove('open');};
+  $('ovPrev').onclick=function(e){if(e.target===$('ovPrev'))$('ovPrev').classList.remove('open');};
+  $('recipBox').onclick=function(e){
+    var b=e.target.closest('[data-a]');if(!b)return;
+    var c=contactos.find(function(x){return x.id===b.dataset.id;});if(!c)return;
+    if(b.dataset.a==='enviar')enviarUno(c);
+    else if(b.dataset.a==='marcar'){c.enviados=(c.enviados||0)+1;c.ultimo=hoyISO();guardar();toast('Marcado enviado');}
+  };
+
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){cerrarC();$('ovPrev').classList.remove('open');}});
+
+  cargar();
+  cargarTpl();
+  renderAll();
+  tab('c');
+})();
+</script>
+</body>
+</html>
