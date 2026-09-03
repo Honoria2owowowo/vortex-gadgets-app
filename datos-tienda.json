@@ -1,0 +1,562 @@
+{
+ "shop": {
+  "name": "VórtexGadgets",
+  "domain": "vortexgadgets.com.co",
+  "url": null,
+  "currency": "COP",
+  "email": "marlontorrealba78@gmail.com",
+  "phone": "",
+  "description": null
+ },
+ "collections": [
+  {
+   "id": 459925389563,
+   "title": "Audio",
+   "handle": "audio",
+   "image": null
+  },
+  {
+   "id": 459943805179,
+   "title": "Automóvil y Herramientas",
+   "handle": "automovil-herramientas",
+   "image": null
+  },
+  {
+   "id": 459943870715,
+   "title": "Bebé",
+   "handle": "bebe",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/collections/d9566a401702f07f48ab1a15b669b94f.webp?v=1788194002"
+  },
+  {
+   "id": 459925455099,
+   "title": "Bienestar",
+   "handle": "bienestar",
+   "image": null
+  },
+  {
+   "id": 459943903483,
+   "title": "Gaming y Computación",
+   "handle": "gaming",
+   "image": null
+  },
+  {
+   "id": 459942297851,
+   "title": "Hogar",
+   "handle": "hogar",
+   "image": null
+  },
+  {
+   "id": 459856511227,
+   "title": "Página de inicio",
+   "handle": "frontpage",
+   "image": null
+  },
+  {
+   "id": 459925422331,
+   "title": "Smart Home",
+   "handle": "smart-home",
+   "image": null
+  },
+  {
+   "id": 459925487867,
+   "title": "Todos",
+   "handle": "todos",
+   "image": null
+  }
+ ],
+ "products": [
+  {
+   "id": 9403833843963,
+   "title": "Aspiradora de Mano Inalámbrica Portátil — Recargable por USB",
+   "handle": "aspiradora-de-mano-inalambrica-portatil-recargable-por-usb",
+   "vendor": "DEMIN",
+   "type": "Hogar y Limpieza",
+   "tags": "aspiradora, auto, mano, portatil, usb",
+   "available": true,
+   "price": "69900.00",
+   "compare_at": "109900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/42_aspiradora_4_usos.png?v=1788215109",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/42_aspiradora_4_usos.png?v=1788215109",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/43_aspiradora_producto.png?v=1788215109",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/47_aspiradora_succion_soplado.png?v=1788215109",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/46_aspiradora_usos_2.png?v=1788215110",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/45_aspiradora_interna.png?v=1788215110"
+   ],
+   "url": "/products/aspiradora-de-mano-inalambrica-portatil-recargable-por-usb",
+   "body": "<p>Limpia el auto, la casa o la oficina en segundos con la <strong>aspiradora de mano inalámbrica</strong>: liviana, recargable por USB y lista para usar en cualquier lugar.</p>\n<ul>\n<li>Operación inalámbrica con batería recargable (carga por cable USB)</li>\n<li>Boquilla ranura con cepillo deslizante 2 en 1 para grietas y tapicería</li>\n<li>Depósito de polvo transparente con filtro lavable</li>\n<l"
+  },
+  {
+   "id": 9403802747131,
+   "title": "Aspiradora Robot Inteligente — Navegación LiDAR, Limpieza Automática",
+   "handle": "aspiradora-robot-inteligente-navegacion-lidar-limpieza-automatica",
+   "vendor": "DISTRIBUCIONES ROMAN S.A.S",
+   "type": "Hogar Inteligente",
+   "tags": "aspiradora, limpieza, robot, smart-home",
+   "available": false,
+   "price": "59900.00",
+   "compare_at": "119900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/23_robot_app_mapa.png?v=1788212243",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/23_robot_app_mapa.png?v=1788212243",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/D_NQ_NP_665598-MLA99968782533_112025-O.webp?v=1788200742",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/25_robot_rv30_infografia.png?v=1788212243",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/D_NQ_NP_998395-MLA94122666730_102025-O.webp?v=1788200755",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/24_robot_rv30_especificaciones.png?v=1788212243",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/22_robot_aspirador_fregasuelos.png?v=1788212243"
+   ],
+   "url": "/products/aspiradora-robot-inteligente-navegacion-lidar-limpieza-automatica",
+   "body": "<p>Limpia tu casa sin esfuerzo con la aspiradora robot inteligente con <strong>navegación LiDAR</strong>: mapea la habitación y se mueve de forma autónoma evitando obstáculos.</p>\n<ul>\n<li>Navegación LiDAR con mapeo inteligente de la habitación</li>\n<li>Detector frontal de obstáculos y parachoques mecánico</li>\n<li>Cepillo lateral para esquinas y bordes</li>\n<li>Diseño bajo y delgado: llega debajo"
+  },
+  {
+   "id": 9403834073339,
+   "title": "Audífonos AirPods Pro Pantalla A9 — Compatibles con Estuche LED",
+   "handle": "airpods-pro-2-compatibles-audifonos-inalambricos-con-estuche-de-carga",
+   "vendor": "REDCOVE COMERCIO",
+   "type": "Audio",
+   "tags": "airpods, audifonos, audio, bluetooth, inalambricos",
+   "available": true,
+   "price": "94900.00",
+   "compare_at": "159900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/55cd9f31e23ec0c3b1cb844bdfc92236.jpg?v=1788033415",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/55cd9f31e23ec0c3b1cb844bdfc92236.jpg?v=1788033415",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/Auriculares_Bluetooth_Inalambricos_Con_Pantalla_In_3.webp?v=1788198313",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/fab46a9f131de1db748ebdce8483fc29.jpg?v=1788033419",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/Sb33b909d22474f99ac2931df158b4a282.webp?v=1788197723",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/Se8a1171564e84f419aad127299536e3fi.webp?v=1788197742",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/Auriculares_Bluetooth_Inalambricos_Con_Pantalla_In_2.webp?v=1788198323"
+   ],
+   "url": "/products/airpods-pro-2-compatibles-audifonos-inalambricos-con-estuche-de-carga",
+   "body": "<p>Disfruta de audio inalámbrico con cancelación de ruido y un detalle único: el <strong>estuche con pantalla LED</strong> que muestra en tiempo real el nivel de batería de los audífonos y del estuche.</p>\n<ul>\n<li>Estuche de carga con pantalla LED digital (modelo A9)</li>\n<li>Cancelación activa de ruido y modo transparencia</li>\n<li>Almohadillas de silicona para un ajuste cómodo</li>\n<li>Controle"
+  },
+  {
+   "id": 9403511636219,
+   "title": "Audífonos M10 — Sonido Premium Bluetooth con Estuche de Carga (24 h de batería)",
+   "handle": "auda-fonos-bluetooth-inala-mbricos-m10-a-sonido-premium-con-estuche-de-carga",
+   "vendor": "VORTEX",
+   "type": "Audio",
+   "tags": "",
+   "available": true,
+   "price": "77700.00",
+   "compare_at": "104900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/867e48e4de56f4fbbc6a6c4e5ad9e99e.png?v=1788023406",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/867e48e4de56f4fbbc6a6c4e5ad9e99e.png?v=1788023406",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/70a259a4957dd45107943e29b88d8949.png?v=1788023403",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/12_audifonos_amoi_bluetooth.png?v=1788205308",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/10_audifonos_m10_diseno.png?v=1788205322",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/11_audifonos_m10_carga.png?v=1788205308",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/M10_en_mano_urbana.png?v=1788207627"
+   ],
+   "url": "/products/auda-fonos-bluetooth-inala-mbricos-m10-a-sonido-premium-con-estuche-de-carga",
+   "body": "<h3>Sonido que se siente, a precio inteligente</h3>\n<ul>\n  <li>Sonido premium — graves profundos y agudos limpios, sin distorsión al máximo volumen</li>\n  <li>24 horas de música con el estuche — cárgalos una vez y olvídate del cable por días</li>\n  <li>Bluetooth de 10 metros — déjalos en el escritorio y muévete libre por la casa u oficina</li>\n  <li>Controles táctiles y micrófono — contesta llamad"
+  },
+  {
+   "id": 9403834040571,
+   "title": "Barras de Luz LED RGB Recargables — 3 Unidades con Sensor",
+   "handle": "barras-de-luz-led-rgb-recargables-3-unidades-con-sensor",
+   "vendor": "IMPORTACIONES LOPEZ",
+   "type": "Iluminación Inteligente",
+   "tags": "decoracion, iluminacion, led, recargable, rgb",
+   "available": false,
+   "price": "125900.00",
+   "compare_at": "163900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/Ae548dbfab02a4515b43441038a64b634i.webp?v=1788050116",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/Ae548dbfab02a4515b43441038a64b634i.webp?v=1788050116"
+   ],
+   "url": "/products/barras-de-luz-led-rgb-recargables-3-unidades-con-sensor",
+   "body": "<p>Ilumina cocinas, closets y pasillos con las <strong>barras de luz LED RGB recargables</strong>: sin cables, con sensor y modo de color para cada ambiente.</p>\n<ul>\n<li>3 unidades recargables por USB</li>\n<li>Sensor de movimiento/luz para encendido automático</li>\n<li>Colores RGB y luz blanca para decorar cualquier espacio</li>\n<li>Fácil instalación sin herramientas</li>\n</ul>\n<p><strong>Envío G"
+  },
+  {
+   "id": 9403849343227,
+   "title": "Bolso Pañalera con Cuna y Colchón Portátil — Cambiador 3 en 1",
+   "handle": "bolso-panalera-con-cuna-y-colchon-portatil-cambiador-3-en-1",
+   "vendor": "SHOP COLOMBIA",
+   "type": "Bebé",
+   "tags": "bebe, bolso, cuna, pañalera, portatil",
+   "available": true,
+   "price": "109900.00",
+   "compare_at": "169900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/76d46e44328c5d1994edebaebb4a23ab.webp?v=1788035527",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/76d46e44328c5d1994edebaebb4a23ab.webp?v=1788035527",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/76_bolso_instrucciones_cuna.png?v=1788218646",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/75_bolso_interior.png?v=1788218646",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/9951ba4c93b5bace2916328e4839b536.webp?v=1788035527",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/77_bolso_multibolsillos.png?v=1788218646",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/78_bolso_especificaciones.png?v=1788218646"
+   ],
+   "url": "/products/bolso-panalera-con-cuna-y-colchon-portatil-cambiador-3-en-1",
+   "body": "<p>Todo en uno para salir con tu bebé: <strong>bolso pañalera que se convierte en cuna portátil con colchón</strong>. Ideal para viajes, visitas o el parque.</p>\n<ul>\n<li>Se transforma en cuna portátil con colchón</li>\n<li>Espacio para pañales, biberones, ropita y accesorios</li>\n<li>Fácil de llevar y transportar</li>\n<li>Diseño pensado para papás y mamás en movimiento</li>\n</ul>\n<p><strong>Envío "
+  },
+  {
+   "id": 9403511701755,
+   "title": "Bombillo Inteligente RGB WiFi — Luces de Colores con Control por App",
+   "handle": "bombillo-inteligente-rgb-wifi-a-luces-de-colores-con-control-por-app",
+   "vendor": "VORTEX",
+   "type": "Smart Home",
+   "tags": "",
+   "available": true,
+   "price": "55600.00",
+   "compare_at": "75000.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/A5b010d558cd343b1bd09e72567ea945bh.webp?v=1787975086",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/A5b010d558cd343b1bd09e72567ea945bh.webp?v=1787975086",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/06_bombillo_app_colores.png?v=1788205308",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/14_bombillas_tuya_3unidades.png?v=1788205308",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/15_bombillo_sala_noche.png?v=1788206691",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/07_bombillo_funciones.png?v=1788205308",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/16_bombillo_habitacion_mano.png?v=1788206691"
+   ],
+   "url": "/products/bombillo-inteligente-rgb-wifi-a-luces-de-colores-con-control-por-app",
+   "body": "<h3>Controla tus luces desde el celular</h3><ul>\n<li>Millones de colores RGB + blanco cálido y frío</li>\n<li>Control por app desde cualquier lugar (WiFi)</li>\n<li>Compatible con Alexa y Google Assistant</li>\n<li>Programa horarios y escenas de iluminación</li>\n<li>Ahorra energía con luz LED de bajo consumo</li>\n</ul><p><strong>Especificaciones:</strong> rosca E27 · WiFi 2.4GHz · app gratuita · cont"
+  },
+  {
+   "id": 9403833778427,
+   "title": "Cable USB-C Carga Rápida Multiuso 2 Metros — Alta Potencia y Durabilidad",
+   "handle": "cable-usb-c-carga-rapida-2-metros-alta-potencia-y-durabilidad",
+   "vendor": "CONTAINER TECHNOLOGY",
+   "type": "Accesorios Móviles",
+   "tags": "accesorios, cable, carga rapida, usb-c",
+   "available": true,
+   "price": "49900.00",
+   "compare_at": "89900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/36_cable_soporte_kickstand.png?v=1788214500",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/36_cable_soporte_kickstand.png?v=1788214500",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/37_cable_compatibilidad_universal.png?v=1788214500",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/38_mini_afeitadora_usb.png?v=1788214501",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/41_cable_240w.png?v=1788214500",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/39_cable_angulo_90.png?v=1788214500",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/40_cable_trenzado_nylon.png?v=1788214500"
+   ],
+   "url": "/products/cable-usb-c-carga-rapida-2-metros-alta-potencia-y-durabilidad",
+   "body": "<p>Carga tus dispositivos a máxima velocidad con el <strong>cable USB-C de carga rápida de 2 metros</strong>, con trenzado resistente para durar mucho más.</p>\n<ul>\n<li>Conector USB-C a USB-C para teléfonos, tablets y laptops modernos</li>\n<li>Alta potencia de carga y transferencia de datos</li>\n<li>Recubrimiento trenzado antienredos y antidesgaste</li>\n<li>Conectores reforzados con protección en "
+  },
+  {
+   "id": 9403511734523,
+   "title": "Cámara WiFi Mini A9 — Vigilancia Inteligente desde tu Celular",
+   "handle": "ca-mara-wifi-mini-a9-a-vigilancia-inteligente-desde-tu-celular",
+   "vendor": "VORTEX",
+   "type": "Smart Home",
+   "tags": "",
+   "available": true,
+   "price": "106900.00",
+   "compare_at": "139900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/Ae0c854747ecd4786bd552944bf063134O.webp?v=1787975088",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/Ae0c854747ecd4786bd552944bf063134O.webp?v=1787975088",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/H521cac87ed054f5999ca38d5e90e7203p.avif?v=1788211573",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/H7fd1da98a23447faa429b78f62b261f4J.avif?v=1788211573",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/18_camara_a9_app_voz.png?v=1788211575",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/20_camara_a9_funciones.png?v=1788211575"
+   ],
+   "url": "/products/ca-mara-wifi-mini-a9-a-vigilancia-inteligente-desde-tu-celular",
+   "body": "<h3>Vigila tu hogar desde cualquier lugar</h3><ul>\n<li>Visión nocturna y detección de movimiento</li>\n<li>Rotación 360° controlada desde la app</li>\n<li>Audio bidireccional: habla a través de la cámara</li>\n<li>Instalación fácil, sin cables complejos</li>\n<li>Almacenamiento en nube o tarjeta SD</li>\n</ul><p><strong>Especificaciones:</strong> WiFi 2.4GHz · app gratuita · HD · visión nocturna</p>"
+  },
+  {
+   "id": 9403511668987,
+   "title": "Cargador Rápido Xiaomi 33W USB-C — Carga Rápida para Celular",
+   "handle": "cargador-ra-pido-xiaomi-33w-usb-c-a-carga-ra-pida-para-celular",
+   "vendor": "VORTEX",
+   "type": "Audio",
+   "tags": "",
+   "available": true,
+   "price": "93900.00",
+   "compare_at": "122900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/Ab94bd68b150c458cbdfb9b8a46575dfbm.webp?v=1787975084",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/Ab94bd68b150c458cbdfb9b8a46575dfbm.webp?v=1787975084",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/D_NQ_NP_952791-MLA99437914962_112025-O.webp?v=1788200785",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/D_NQ_NP_948469-MCO52110419658_102022-O.webp?v=1788200787",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/D_NQ_NP_825577-MLA91956956495_092025-O.webp?v=1788200790",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/D_NQ_NP_888084-MLA91956808845_092025-O.webp?v=1788200792",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/D_NQ_NP_669124-MLA91558005298_092025-O.webp?v=1788200804"
+   ],
+   "url": "/products/cargador-ra-pido-xiaomi-33w-usb-c-a-carga-ra-pida-para-celular",
+   "body": "<h3>Carga tu teléfono al máximo en minutos</h3><ul>\n<li>33W de potencia: carga rápida certificada</li>\n<li>Compatible con la mayoría de Android e iPhone</li>\n<li>Protección contra sobrecarga y sobrecalentamiento</li>\n<li>Compacto: perfecto para casa, oficina o viaje</li>\n<li>Cable USB-C incluido</li>\n</ul><p><strong>Especificaciones:</strong> 33W · entrada 100-240V · salida USB-C</p>"
+  },
+  {
+   "id": 9403834007803,
+   "title": "Carro Plegable Utilitario — Carretilla de Carga Multiusos",
+   "handle": "carro-plegable-utilitario-carretilla-de-carga-multiusos",
+   "vendor": "G.W.T.",
+   "type": "Hogar y Jardín",
+   "tags": "carretilla, carro, jardin, mercado, plegable",
+   "available": true,
+   "price": "199900.00",
+   "compare_at": "299900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/A3081f7ce904544cdbee8a24ec69a1017U.webp?v=1788050102",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/A3081f7ce904544cdbee8a24ec69a1017U.webp?v=1788050102",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/60_carro_uso_versatil.png?v=1788217047",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/61_carro_cuerpo_ligero.png?v=1788217046",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/59_carro_plegado_rapido.png?v=1788217046",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/62_carro_materiales.png?v=1788217047",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/63_carro_mango_ajustable.png?v=1788217046"
+   ],
+   "url": "/products/carro-plegable-utilitario-carretilla-de-carga-multiusos",
+   "body": "<p>Transporta mercado, herramientas, equipos de playa o jardín con el <strong>carro plegable utilitario</strong>: resistente, con ruedas todoterreno y fácil de guardar.</p>\n<ul>\n<li>Estructura de acero con mecanismo plegable tipo acordeón</li>\n<li>Ruedas grandes todoterreno (delanteras giratorias 360°)</li>\n<li>Lona de poliéster resistente al agua, desmontable</li>\n<li>Mango telescópico ajustable "
+  },
+  {
+   "id": 9403849244923,
+   "title": "Cepillo de Limpieza Eléctrico 9 en 1 — Multiusos con 9 Cabezales",
+   "handle": "cepillo-electrico-giratorio-de-limpieza-7-cabezales-con-pantalla-digital",
+   "vendor": "TECNONNEK NICOL",
+   "type": "Hogar y Limpieza",
+   "tags": "cepillo, eléctrico, giratorio, hogar, limpieza",
+   "available": true,
+   "price": "79900.00",
+   "compare_at": "129900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/69_cepilloelectrico_kit.png?v=1788217534",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/69_cepilloelectrico_kit.png?v=1788217534",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/68_cepilloelectrico_8_cabezales.png?v=1788217534",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/71_cepilloelectrico_coche.png?v=1788217534",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/67_cepilloelectrico_longitud.png?v=1788217533",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/72_cepilloelectrico_cocina.png?v=1788217534",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/70_cepilloelectrico_bano.png?v=1788217534"
+   ],
+   "url": "/products/cepillo-electrico-giratorio-de-limpieza-7-cabezales-con-pantalla-digital",
+   "body": "<p>Limpia baños, cocinas, pisos y techos sin esfuerzo con el <strong>cepillo eléctrico de limpieza 9 en 1</strong>: gira por ti mientras tú solo lo guías.</p>\n<ul>\n<li>9 accesorios intercambiables: cepillos de cerdas, esponjas y pads de pulido</li>\n<li>3 largos ajustables (mano, medio y extensión telescópica) para alcanzar todo sin agacharte</li>\n<li>Cabezal giratorio motorizado</li>\n<li>Carga por"
+  },
+  {
+   "id": 9403850293499,
+   "title": "Combo Tensiómetro de Muñeca y Oxímetro — Monitoreo de Salud en Casa",
+   "handle": "combo-tensiometro-de-muneca-y-oximetro-monitoreo-de-salud-en-casa",
+   "vendor": "TECNONNEK NICOL",
+   "type": "Salud y Bienestar",
+   "tags": "medicion, oximetro, presion, salud, tensiometro",
+   "available": true,
+   "price": "79900.00",
+   "compare_at": "119900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/3f40f1ba256c0aaeaa7e5f994cbcd933.jpg?v=1788036212",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/3f40f1ba256c0aaeaa7e5f994cbcd933.jpg?v=1788036212",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/04_tensiometro_pantalla_led.png?v=1788205308",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/17b03dc206b2007a2c8f1a39837f219d.png?v=1788036212",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/947d6df9a7f0f86751544f66fb6d4dd5.jpg?v=1788036212",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/03_tensiometro_pantalla_tactil.png?v=1788205308",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/02_tensiometro_bateria_litio.png?v=1788205308"
+   ],
+   "url": "/products/combo-tensiometro-de-muneca-y-oximetro-monitoreo-de-salud-en-casa",
+   "body": "<p>Cuida tu salud desde casa con el <strong>combo de tensiómetro digital de muñeca y oxímetro de pulso</strong>: controla tu presión arterial y tu saturación de oxígeno con precisión.</p>\n<ul>\n<li>Tensiómetro digital de muñeca con pantalla LCD</li>\n<li>Oxímetro de pulso para medir SpO2 y frecuencia cardíaca</li>\n<li>Operación con un solo botón, lectura rápida</li>\n<li>Ideal para adultos mayores y "
+  },
+  {
+   "id": 9403849310459,
+   "title": "Compresor de Aire y Arrancador de Batería Portátil — Auxilio Vial",
+   "handle": "compresor-de-aire-y-arrancador-de-bateria-portatil-auxilio-vial",
+   "vendor": "DENUEVOO",
+   "type": "Automóvil y Herramientas",
+   "tags": "arrancador, auto, auxilio, bateria, compresor",
+   "available": true,
+   "price": "329900.00",
+   "compare_at": "499900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/Ad148379924924c56b56bd1a4e66b5001S.webp?v=1788050087",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/Ad148379924924c56b56bd1a4e66b5001S.webp?v=1788050087",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/1_d66de4b4-6389-42f0-8a28-83f36271c9a4.png?v=1788200829",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/73_compresor_controles.png?v=1788218721",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/5_1_ca81597e-c548-420a-aa86-02eb6c4eff83.png?v=1788200840",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/6_1_8defc65b-3561-4225-ab78-efb2682b35b3.png?v=1788200843",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/7_1_66a5e632-005f-4812-b509-e2028588e100.png?v=1788200846"
+   ],
+   "url": "/products/compresor-de-aire-y-arrancador-de-bateria-portatil-auxilio-vial",
+   "body": "<p>No te quedes varado: el <strong>arrancador de batería con compresor de aire</strong> portátil te saca de apuros en la carretera y además infla llantas.</p>\n<ul>\n<li>Arranca tu vehículo si la batería está descargada</li>\n<li>Compresor de aire para inflar llantas, balones y más</li>\n<li>Portátil y recargable, ideal para el baúl del carro</li>\n<li>Herramienta de auxilio vial todo en uno</li>\n</ul>"
+  },
+  {
+   "id": 9403833876731,
+   "title": "Hidrolavadora Inalámbrica con 2 Baterías — Kit Completo con Espumador",
+   "handle": "hidrolavadora-inalambrica-con-2-baterias-kit-completo-con-espumador",
+   "vendor": "ALPHATECHNOLOGY",
+   "type": "Hogar y Limpieza",
+   "tags": "auto, hidrolavadora, inalambrica, presion",
+   "available": true,
+   "price": "109900.00",
+   "compare_at": "169900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/22cc8433211bc4e8988cd191bce4e762.jpg?v=1788030769",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/22cc8433211bc4e8988cd191bce4e762.jpg?v=1788030769",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/hf_20260809_040328_8347c9d5-130e-4ff5-b696-877b72f6e48c.png?v=1788200853",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/hf_20260809_040328_ecda82a8-e255-4ef1-8b4f-18d16f5ed07c.png?v=1788200858",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/hf_20260809_040328_4a0bca32-e2b5-40e2-bf94-665565e64dff.png?v=1788200862",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/hf_20260809_040328_1e6e2a8c-358d-414e-b612-71a923933727.png?v=1788200867",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/hf_20260809_040328_a2b2c327-0daa-43d9-a453-c63253e6e962.png?v=1788200873"
+   ],
+   "url": "/products/hidrolavadora-inalambrica-con-2-baterias-kit-completo-con-espumador",
+   "body": "<p>Lava el carro, la moto, fachadas y más con la <strong>hidrolavadora inalámbrica</strong> de alta presión, sin cables ni conexión directa a la llave de agua.</p>\n<ul>\n<li>Incluye 2 baterías recargables + cargador</li>\n<li>Boquilla ajustable con múltiples patrones de rocío</li>\n<li>Manguera con filtro para succionar agua de balde o piscina</li>\n<li>Botella espumadora para aplicar jabón y espuma</"
+  },
+  {
+   "id": 9403802878203,
+   "title": "Limpiadora a Vapor Multiusos 15 en 1 — Desinfección sin Químicos",
+   "handle": "limpiadora-a-vapor-multiusos-15-en-1-desinfeccion-sin-quimicos",
+   "vendor": "TIENDAFY",
+   "type": "Hogar y Limpieza",
+   "tags": "desinfeccion, hogar, limpieza, vapor",
+   "available": true,
+   "price": "182900.00",
+   "compare_at": "237900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/29_limpiadora_contenido_paquete.png?v=1788212968",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/29_limpiadora_contenido_paquete.png?v=1788212968",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/26_limpiadora_4_usos.png?v=1788212968",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/27_limpiadora_thankshare.png?v=1788212968",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/28_calentador_agua_atwfs.png?v=1788212968",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/30_limpiadora_partes.png?v=1788212968"
+   ],
+   "url": "/products/limpiadora-a-vapor-multiusos-15-en-1-desinfeccion-sin-quimicos",
+   "body": "<p>Desinfecta y limpia a fondo cualquier superficie con la <strong>limpiadora a vapor portátil multiusos</strong>: vapor de alta presión sin necesidad de químicos.</p>\n<ul>\n<li>15 accesorios incluidos: extensión metálica, boquilla para vidrios con paño, cepillos de cerdas y espátulas</li>\n<li>Tanque de agua transparente con medidas</li>\n<li>Perilla para ajustar la intensidad del vapor</li>\n<li>Man"
+  },
+  {
+   "id": 9403803107579,
+   "title": "Masajeador Corporal Infrarrojo con 6 Cabezales — Relajación y Recuperación",
+   "handle": "masajeador-corporal-infrarrojo-con-6-cabezales-relajacion-y-recuperacion",
+   "vendor": "NEGI",
+   "type": "Bienestar y Cuidado",
+   "tags": "bienestar, corporal, masajeador, relajacion",
+   "available": true,
+   "price": "139900.00",
+   "compare_at": "199900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/31_masajeador_uso_cuerpo.png?v=1788213806",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/31_masajeador_uso_cuerpo.png?v=1788213806",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/99c78f0ad0ceb0d0dfe7d4a0a3f6e3e9.jpg?v=1788027356",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/32_masajeador_zonas_cuerpo.png?v=1788213805",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/33_masajeador_uso_pierna.png?v=1788213805",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/34_masajeador_fundas.png?v=1788213805",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/35_masajeador_homedics.png?v=1788213806"
+   ],
+   "url": "/products/masajeador-corporal-infrarrojo-con-6-cabezales-relajacion-y-recuperacion",
+   "body": "<p>Relaja músculos y mejora tu recuperación con el <strong>masajeador corporal</strong> con tecnología infrarroja y cabezales intercambiables.</p>\n<ul>\n<li>6 cabezales/pads intercambiables para distintas zonas y tipos de masaje</li>\n<li>Intensidad regulable con perilla de control</li>\n<li>Mango ergonómico para masajes sin esfuerzo</li>\n<li>Almohadilla suave removible con cierre para fácil limpieza"
+  },
+  {
+   "id": 9403511767291,
+   "title": "Masajeador de Pies Eléctrico EMS — Esterilla de Acupresión y Reflexología",
+   "handle": "masajeador-de-pies-ela©ctrico-a-alivio-y-relajacia-n-diaria",
+   "vendor": "ZOCOCIO TIENDA",
+   "type": "Bienestar",
+   "tags": "",
+   "available": true,
+   "price": "49900.00",
+   "compare_at": "89900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/2a0d6fbfadaa4bc9aeaa92394ae41ff9.jpg?v=1788035487",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/2a0d6fbfadaa4bc9aeaa92394ae41ff9.jpg?v=1788035487",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/ba48e3f4be36097578921a63cd927de9.jpg?v=1788035490",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/bf842e76cc521db1930a2bb0810d6a72.jpg?v=1788035493",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/4e877918db827c969d217bd229b89ef2.jpg?v=1788035496",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/e3b7bb77ba62e886dd2156df5b03008c.jpg?v=1788035499",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/ff49c9a73b83de3c45b98c12aa47dc06.jpg?v=1788035502"
+   ],
+   "url": "/products/masajeador-de-pies-ela©ctrico-a-alivio-y-relajacia-n-diaria",
+   "body": "<p>Masajea y relaja tus pies con la <strong>esterilla eléctrica EMS de acupresión</strong>: estimulación muscular mediante pulsos eléctricos guiados por un mapa de reflexología para todo el pie.</p>\n<ul>\n<li>Tecnología EMS (estimulación muscular eléctrica)</li>\n<li>Mapa de reflexología que trabaja puntos según zonas del cuerpo</li>\n<li>Ciclo programado de 3 fases: calentamiento, ejercicio y relaja"
+  },
+  {
+   "id": 9403833975035,
+   "title": "Mini Aire Acondicionado Portátil — Enfría tu cuarto sin instalar nada (solo agua)",
+   "handle": "mini-aire-acondicionado-evaporativo-portatil-enfria-y-humecta",
+   "vendor": "G-MASS SAS",
+   "type": "Hogar y Limpieza",
+   "tags": "aire, clima, enfriador, evaporativo, portatil",
+   "available": true,
+   "price": "149900.00",
+   "compare_at": "194900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/Aad7a722a6c004ad2b81b9aff9f9a40249.webp?v=1788050097",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/Aad7a722a6c004ad2b81b9aff9f9a40249.webp?v=1788050097",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/55_aire_tanque_500ml.png?v=1788216424",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/54_aire_enchufado.png?v=1788216424",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/56_aire_funcionando.png?v=1788216425",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/57_aire_dimensiones.png?v=1788216424",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/58_aire_escritorio.png?v=1788216425"
+   ],
+   "url": "/products/mini-aire-acondicionado-evaporativo-portatil-enfria-y-humecta",
+   "body": "<h3>Fresco en minutos, sin instalar nada</h3>\n<ul>\n  <li>Baja la sensación térmica en minutos — aire fresco y húmedo directo a tu cara o escritorio</li>\n  <li>Solo agua o hielo, cero instalación — ni un tornillo, ni un técnico, ni obras en tu cuarto</li>\n  <li>2 boquillas de nebulización + panel táctil — controla velocidad y luz LED con un dedo</li>\n  <li>Silencioso y de bajo consumo — duerme con "
+  },
+  {
+   "id": 9403833942267,
+   "title": "Power Bank Solar 20000 mAh 4 en 1 — Cables Integrados y Linterna",
+   "handle": "power-bank-solar-20000-mah-4-en-1-cables-integrados-y-linterna",
+   "vendor": "BARATON VENTAS",
+   "type": "Energía Portátil",
+   "tags": "20000mah, camping, linterna, power bank, solar",
+   "available": true,
+   "price": "157900.00",
+   "compare_at": "205900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/49_powerbank_frontal.png?v=1788215783",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/49_powerbank_frontal.png?v=1788215783",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/A37de6337ebde4d36af31883028c97ee7l.webp?v=1788200924",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/48_powerbank_linterna.png?v=1788215783",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/51_powerbank_camping.png?v=1788215783",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/52_powerbank_parque.png?v=1788215783",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/53_powerbank_oficina.png?v=1788215783"
+   ],
+   "url": "/products/power-bank-solar-20000-mah-4-en-1-cables-integrados-y-linterna",
+   "body": "<p>Nunca te quedes sin batería con el <strong>power bank solar de 20.000 mAh</strong>: panel solar, cables integrados y linterna LED en un solo dispositivo resistente.</p>\n<ul>\n<li>Capacidad 20000 mAh con 4 cables integrados (USB-C, Lightning, Micro-USB y USB-A)</li>\n<li>Panel solar para recarga de emergencia en exteriores</li>\n<li>Pantalla LED con porcentaje de batería e indicador solar</li>\n<li>"
+  },
+  {
+   "id": 9403803009275,
+   "title": "Secador de Zapatos Eléctrico 360° — Secado, Desodorización y UV",
+   "handle": "secador-de-zapatos-electrico-360-secado-desodorizacion-y-uv",
+   "vendor": "PerduOutlet",
+   "type": "Bienestar y Cuidado",
+   "tags": "bienestar, secador, uv, zapatos",
+   "available": true,
+   "price": "149900.00",
+   "compare_at": "249900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/b62119ff13d5ebe11680107b26ac1b86.jpg?v=1788027353",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/b62119ff13d5ebe11680107b26ac1b86.jpg?v=1788027353",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/A40ed8ab27c5946a4806d53c996f4a6d6m.webp?v=1788200954",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/A9b7f3e972200496ba35904263c639598K.webp?v=1788200960",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/A4b6faad697f0416fa5a147e8d6ee6919F.webp?v=1788200962",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/A88b9f73619e94b239cfa9802b72962d2g.webp?v=1788200965",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/A325584e72cec44b0a49be20e4bea39c9N.webp?v=1788200968"
+   ],
+   "url": "/products/secador-de-zapatos-electrico-360-secado-desodorizacion-y-uv",
+   "body": "<p>Mantén tus zapatos secos, frescos y libres de bacterias con el <strong>secador de zapatos eléctrico</strong> con aire caliente y luz UV.</p>\n<ul>\n<li>Brazos plegables con circulación de aire caliente 360°</li>\n<li>Luces UV para desodorizar y eliminar bacterias</li>\n<li>Pantalla digital con perilla de control de temperatura/tiempo</li>\n<li>Diseño portátil con correa de transporte</li>\n<li>Ideal "
+  },
+  {
+   "id": 9403850359035,
+   "title": "Teclado Mecánico Gamer MK1098 — RGB con Retroiluminación",
+   "handle": "teclado-mecanico-gamer-mk1098-rgb-con-retroiluminacion",
+   "vendor": "CAMBIO SYSTEMS",
+   "type": "Gaming y Computación",
+   "tags": "gamer, mecanico, pc, rgb, teclado",
+   "available": true,
+   "price": "199900.00",
+   "compare_at": "299900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/A7a8b508e14f04ce590081f6692e274dfC_f8788d72-2f48-4aa4-9af2-8ec8a4d07506.webp?v=1788050077",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/A7a8b508e14f04ce590081f6692e274dfC_f8788d72-2f48-4aa4-9af2-8ec8a4d07506.webp?v=1788050077",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/Ad1748f2aaab9404cb12789c0076baae9V.webp?v=1788200973",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/A37dacdd1d24e43ee9094565ad7b9366cS.webp?v=1788200979",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/A6a97fe65f3be4fd69c67a121f0ed9c7bC.webp?v=1788200982"
+   ],
+   "url": "/products/teclado-mecanico-gamer-mk1098-rgb-con-retroiluminacion",
+   "body": "<p>Domina cada partida con el <strong>teclado mecánico gamer MK1098</strong>: switches mecánicos con retroiluminación RGB y estructura resistente.</p>\n<ul>\n<li>Switches mecánicos con respuesta táctil</li>\n<li>Retroiluminación RGB con múltiples modos</li>\n<li>Diseño ergonómico para sesiones largas</li>\n<li>Conexión USB plug &amp; play, compatible con PC</li>\n</ul>\n<p><strong>Envío GRATIS</strong> a"
+  },
+  {
+   "id": 9403850424571,
+   "title": "Ventilador de Techo Sankey con Luz LED — Silencioso y Moderno",
+   "handle": "ventilador-de-techo-sankey-con-luz-led-silencioso-y-moderno",
+   "vendor": "BRITOCHET SAS",
+   "type": "Hogar y Climatización",
+   "tags": "clima, led, sankey, techo, ventilador",
+   "available": true,
+   "price": "499900.00",
+   "compare_at": "649900.00",
+   "image": "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/A8911616049dd443ba884a9fea8f0664ct.webp?v=1788050106",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/A8911616049dd443ba884a9fea8f0664ct.webp?v=1788050106",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/05_ventilador_techo_e27.png?v=1788205321",
+    "https://cdn.shopify.com/s/files/1/0828/1178/1371/files/13_ventilador_guia_aire.png?v=1788205308"
+   ],
+   "url": "/products/ventilador-de-techo-sankey-con-luz-led-silencioso-y-moderno",
+   "body": "<p>Refresca y ahorra espacio con el <strong>ventilador de techo con luz LED</strong>: ventilación silenciosa e iluminación integrada en un solo equipo.</p>\n<ul>\n<li>Motor silencioso de alta eficiencia</li>\n<li>Luz LED integrada con control</li>\n<li>Diseño moderno que combina con cualquier decoración</li>\n<li>3 velocidades ajustables</li>\n<li>Ideal para salas, habitaciones y oficinas</li>\n</ul>\n<p>"
+  }
+ ]
+}

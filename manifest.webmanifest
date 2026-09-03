@@ -1,0 +1,19 @@
+{
+  "name": "VÓRTEX Gadgets — Compras con contra entrega",
+  "short_name": "VÓRTEX",
+  "description": "Catálogo oficial de VÓRTEX Gadgets Colombia. Envío gratis a toda Colombia y pago contra entrega. Pide por WhatsApp o desde la tienda.",
+  "lang": "es",
+  "start_url": "./#/inicio",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0B0F14",
+  "theme_color": "#00A6A6",
+  "categories": ["shopping", "business"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/maskable-1024.png", "sizes": "1024x1024", "type": "image/png", "purpose": "maskable" }
+  ]
+}
