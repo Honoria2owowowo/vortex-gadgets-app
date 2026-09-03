@@ -1,5 +1,5 @@
 /* ============================================================
-   VÓRTEX Gadgets — app.js (PWA catálogo + pedidos WhatsApp)
+   VÓRTEX Gadgets — app.js v3 (PWA catálogo + pedidos WhatsApp)
    ============================================================ */
 (function () {
   'use strict';
@@ -12,7 +12,10 @@
     shopDomain: 'kvrfbn-n1.myshopify.com', // dominio de la API
     storefrontToken: 'd93566827739f74089b5b9933113035c', // token público (catálogo)
     apiVersion: '2026-01',
-    currency: 'COP'
+    currency: 'COP',
+    couponCode: 'VORTEX10',                // cupón 10% OFF
+    couponPct: 10,
+    flashMinutes: 15                       // duración del contador flash
   };
 
   /* ---------- Utilidades ---------- */
@@ -41,16 +44,18 @@
     t.hidden = false;
     requestAnimationFrame(function () { t.classList.add('show'); });
     clearTimeout(t._h);
-    t._h = setTimeout(function () { t.classList.remove('show'); setTimeout(function () { t.hidden = true; }, 300); }, 2600);
+    t._h = setTimeout(function () { t.classList.remove('show'); setTimeout(function () { t.hidden = true; }, 300); }, 3000);
   }
   function spinner() { return '<div class="spin"></div>'; }
+  function hashStr(s) {
+    var h = 0;
+    for (var i = 0; i < s.length; i++) { h = ((h << 5) - h + s.charCodeAt(i)) | 0; }
+    return Math.abs(h);
+  }
 
   /* ---------- Estado ---------- */
   var state = {
-    products: [],
-    collections: [],
-    loading: true,
-    searchTerm: ''
+    products: [], collections: [], loading: true, searchTerm: ''
   };
   function loadCart() {
     try { return JSON.parse(localStorage.getItem('vx_cart')) || []; } catch (e) { return []; }
@@ -63,6 +68,36 @@
     b.hidden = n === 0;
     b.textContent = n;
   }
+
+  /* ---------- Cupón VORTEX10 ---------- */
+  function loadCoupon() {
+    try {
+      var c = JSON.parse(localStorage.getItem('vx_coupon'));
+      if (c && c.code) return c;
+    } catch (e) {}
+    return null;
+  }
+  var coupon = loadCoupon();
+  function couponCode() { return (coupon && coupon.code) ? coupon.code : ''; }
+  function couponPct() { return (coupon && coupon.pct) ? coupon.pct : 0; }
+  function saveCoupon(c) {
+    coupon = c;
+    if (c) localStorage.setItem('vx_coupon', JSON.stringify(c));
+    else localStorage.removeItem('vx_coupon');
+    renderRoute();
+  }
+  function applyCoupon(raw) {
+    var code = String(raw || '').trim().toUpperCase();
+    if (code === CONFIG.couponCode) {
+      saveCoupon({ code: code, pct: CONFIG.couponPct });
+      toast('Cupón VORTEX10 aplicado: 10% OFF');
+    } else {
+      toast('Cupón inválido. Prueba con VORTEX10', true);
+    }
+  }
+  function cartSubtotal() { return state.cart.reduce(function (a, l) { return a + (l.price || 0) * l.qty; }, 0); }
+  function cartDiscount() { return Math.round(cartSubtotal() * couponPct() / 100); }
+  function cartTotal() { return cartSubtotal() - cartDiscount(); }
 
   /* ---------- Datos: Storefront (vivo) + respaldo local ---------- */
   function normSnap(p) {
@@ -101,7 +136,7 @@
       state.products = prods.map(function (e) {
         var n = e.node;
         var img = (n.images && n.images.edges && n.images.edges.length) ? n.images.edges[0].node.url : '';
-        var images = (n.images && n.images.edges || []).map(function (i) { return i.node.url; });
+        var images = ((n.images && n.images.edges) || []).map(function (i) { return i.node.url; });
         var cmp = (n.compareAtPriceRange && n.compareAtPriceRange.minVariantPrice) ? n.compareAtPriceRange.minVariantPrice.amount : 0;
         return {
           title: n.title, handle: n.handle,
@@ -126,12 +161,42 @@
     });
   }
 
+  /* ---------- Urgencia ---------- */
+  function viewersNow(handle) { return 18 + (hashStr(handle || 'x') % 46); } // 18-63 personas viendo
+  function flashEnd() {
+    var k = 'vx_flash_end';
+    var t = Number(sessionStorage.getItem(k));
+    if (!t || t < Date.now()) { t = Date.now() + CONFIG.flashMinutes * 60000; sessionStorage.setItem(k, t); }
+    return t;
+  }
+  function fmtClock(ms) {
+    if (ms < 0) ms = 0;
+    var s = Math.floor(ms / 1000), h = Math.floor(s / 3600);
+    s %= 3600;
+    var m = Math.floor(s / 60); s %= 60;
+    function p(n) { return (n < 10 ? '0' : '') + n; }
+    return p(h) + ':' + p(m) + ':' + p(s);
+  }
+  function tickFlash() {
+    $$('[data-flash]').forEach(function (el) {
+      var end = Number(el.getAttribute('data-end')) || 0;
+      if (end <= 0) end = flashEnd();
+      var rem = end - Date.now();
+      if (rem <= 0) { end = flashEnd(); el.setAttribute('data-end', end); rem = end - Date.now(); }
+      el.textContent = fmtClock(rem);
+    });
+  }
+
   /* ---------- WhatsApp ---------- */
   function waLink(text) { return 'https://wa.me/' + CONFIG.waNumber + '?text=' + encodeURIComponent(text); }
   function productWaText(p, qty) {
+    qty = qty || 1;
+    var sub = (p.price || 0) * qty;
+    var disc = couponPct() > 0 ? Math.round(sub * couponPct() / 100) : 0;
     var t = 'Hola VÓRTEX Gadgets, quiero pedir:\n';
-    t += '- ' + (qty || 1) + 'x ' + p.title + ' (' + money(p.price) + ')\n';
-    t += '\nTotal: ' + money((p.price || 0) * (qty || 1)) + '\n';
+    t += '- ' + qty + 'x ' + p.title + ' (' + money(p.price) + ')\n';
+    if (disc > 0) t += 'Cupón ' + couponCode() + ' aplicado: -' + money(disc) + ' (' + couponPct() + '% OFF)\n';
+    t += '\nTotal: ' + money(sub - disc) + '\n';
     t += 'Envío: GRATIS a Colombia\nPago: contra entrega\n';
     t += '\nMi nombre: __\nCiudad: __';
     return t;
@@ -139,11 +204,11 @@
   function cartWaText() {
     var t = 'Hola VÓRTEX Gadgets, quiero pedir:\n';
     state.cart.forEach(function (l) { t += '- ' + l.qty + 'x ' + l.title + ' (' + money(l.price * l.qty) + ')\n'; });
+    if (cartDiscount() > 0) t += 'Cupón ' + couponCode() + ' aplicado: -' + money(cartDiscount()) + ' (' + couponPct() + '% OFF)\n';
     t += '\nTotal: ' + money(cartTotal()) + '\nEnvío: GRATIS a Colombia\nPago: contra entrega\n';
     t += '\nMi nombre: __\nCiudad: __';
     return t;
   }
-  function cartTotal() { return state.cart.reduce(function (a, l) { return a + (l.price || 0) * l.qty; }, 0); }
   function openWa(text) { window.open(waLink(text), '_blank'); }
 
   /* ---------- Plantillas de producto ---------- */
@@ -152,7 +217,8 @@
     return '<article class="pcard">' +
       '<div class="pimg">' +
       '<a href="#/producto/' + esc(p.handle) + '">' + (p.image ? '<img src="' + esc(p.image) + '" alt="' + esc(p.title) + '" loading="lazy">' : '') + '</a>' +
-      (off > 0 ? '<span class="pbadge">-' + off + '%</span>' : (!p.available ? '<span class="pbadge agotado">AGOTADO</span>' : '')) +
+      (off > 0 ? '<span class="pbadge">-' + off + '%</span>' : '') +
+      (!p.available ? '<span class="pbadge agotado">AGOTADO</span>' : '') +
       '</div>' +
       '<div class="pbody">' +
       '<a class="ptitle" href="#/producto/' + esc(p.handle) + '">' + esc(p.title) + '</a>' +
@@ -176,26 +242,28 @@
     var dest = state.products.filter(function (p) { return p.available; }).slice(0, 8);
     return '' +
       '<section class="hero-card">' +
-      '<span class="hero-chip">● PAGA CONTRA ENTREGA</span>' +
+      '<span class="hero-chip">● PAGA CONTRA ENTREGA · ENVÍO GRATIS</span>' +
       '<h1>Tecnología y gadgets, <span style="color:#4CE0D6">pagas al recibir</span></h1>' +
-      '<p>Catálogo oficial de VÓRTEX Gadgets. Envío GRATIS a toda Colombia, revisas tu pedido y pagas en efectivo cuando llega. Sin tarjeta ni anticipo.</p>' +
+      '<p>Catálogo oficial de VÓRTEX Gadgets. Revisas tu pedido y pagas en efectivo cuando llega. Sin tarjeta ni anticipo.</p>' +
       '<div class="hero-cta">' +
       '<a class="btn btn-accent" href="#/catalogo">Ver catálogo</a>' +
       '<a class="btn btn-wa" href="' + waLink('Hola VÓRTEX Gadgets, quiero información de sus productos') + '" target="_blank" rel="noopener">Pedir por WhatsApp</a>' +
-      '</div></section>' +
+      '</div>' +
+      '<div class="hero-cupon">Cupón <b>VORTEX10</b> = 10% OFF en tu primer pedido</div>' +
+      '</section>' +
       '<div class="trust-row">' +
-      '<span class="chip"><span class="ck">✓</span> Envío <b>GRATIS</b> Colombia</span>' +
+      '<span class="chip"><span class="ck">✓</span> Envío <b>GRATIS</b></span>' +
       '<span class="chip"><span class="ck">✓</span> Paga <b>contra entrega</b></span>' +
       '<span class="chip"><span class="ck">✓</span> Revisa antes de pagar</span>' +
-      '<span class="chip"><span class="ck">✓</span> Garantía y soporte</span>' +
+      '<span class="chip"><span class="ck">✓</span> Garantía</span>' +
       '</div>' +
-      '<h2 class="section-title">Destacados</h2>' +
-      '<p class="section-sub">Los favoritos de la tienda</p>' + gridHtml(dest) +
+      '<h2 class="section-title">Destacados de la semana</h2>' +
+      '<p class="section-sub">Elige, pide por WhatsApp y paga al recibir</p>' + gridHtml(dest) +
       '<h2 class="section-title">Así de fácil compras</h2>' +
       '<div class="steps">' +
       stepHtml('1', 'Elige tu producto', 'Explora el catálogo y añade al carrito.') +
-      stepHtml('2', 'Pide por WhatsApp', 'Te enviamos el resumen de tu pedido.') +
-      stepHtml('3', 'Te lo llevamos', 'Despacho 24-72h con guía de seguimiento.') +
+      stepHtml('2', 'Aplica tu cupón', 'Usa VORTEX10 y obtén 10% OFF.') +
+      stepHtml('3', 'Pide por WhatsApp', 'Te enviamos el resumen con guía de envío.') +
       stepHtml('4', 'Pagas al recibir', 'Revisas tu pedido y pagas en efectivo.') +
       '</div>' +
       '<div class="wa-float-big">' +
@@ -214,7 +282,7 @@
       return (p.title + ' ' + (p.vendor || '') + ' ' + p.desc).toLowerCase().indexOf(q) > -1;
     });
     return '<h1 style="font-size:22px;font-weight:900">Catálogo</h1>' +
-      '<p class="muted" style="font-size:13px;margin:2px 0 12px">' + list.length + ' productos · Envío gratis · Contra entrega</p>' +
+      '<p class="muted" style="font-size:13px;margin:2px 0 14px">' + list.length + ' productos · Envío gratis · Contra entrega · Cupón VORTEX10 (-10%)</p>' +
       (list.length ? '' : '<div class="empty-state"><p>Sin resultados para “' + esc(state.searchTerm) + '”.</p></div>') +
       gridHtml(list);
   }
@@ -225,46 +293,76 @@
     var off = pctOff(p.price, p.compare);
     var imgs = (p.images && p.images.length) ? p.images : (p.image ? [p.image] : []);
     var main = imgs[0] || '';
-    return '<div class="detail">' +
+    var viewers = viewersNow(p.handle);
+    var flashEndT = flashEnd();
+    var couponOn = couponCode() === CONFIG.couponCode;
+    return '<div class="pdp" data-handle="' + esc(p.handle) + '">' +
+      '<div class="detail">' +
+      /* ---- Galería ---- */
       '<div class="gallery">' +
       '<div class="gmain">' + (off > 0 ? '<span class="pbadge" style="top:12px;left:12px">-' + off + '%</span>' : '') +
-      (main ? '<img data-gmain src="' + esc(main) + '" alt="' + esc(p.title) + '">' : '') + '</div>' +
+      '<span class="gzoom"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg> Toca para ver</span>' +
+      (main ? '<img data-gmain src="' + esc(main) + '" alt="' + esc(p.title) + '" data-action="open-gallery" data-idx="0">' : '') + '</div>' +
       (imgs.length > 1 ? '<div class="gthumbs">' + imgs.map(function (im, i) {
-        return '<button class="gthumb' + (i === 0 ? ' active' : '') + '" data-gthumb data-full="' + esc(im) + '" aria-label="Imagen ' + (i + 1) + '"><img src="' + esc(im) + '" alt=""></button>';
-      }).join('') + '</div>' : '') +
+        return '<button class="gthumb' + (i === 0 ? ' active' : '') + '" data-action="open-gallery" data-idx="' + i + '" data-full="' + esc(im) + '" aria-label="Foto ' + (i + 1) + ' de ' + imgs.length + '"><img src="' + esc(im) + '" alt=""></button>';
+      }).join('') + '<span class="gcount">' + imgs.length + ' fotos</span></div>' : '') +
       '</div>' +
+      /* ---- Info ---- */
       '<div class="pdp-info">' +
-      '<div class="stars">★★★★★</div>' +
-      '<div class="d-meta">Vendido por VÓRTEX Gadgets · Envío gratis a toda Colombia</div>' +
+      '<div class="d-rating"><span class="stars">★★★★★</span> <b>4.9</b> · 1.060+ vendidos · <span style="color:#4CE0D6;font-weight:800">' + viewers + ' viendo ahora</span></div>' +
       '<h1 class="d-title">' + esc(p.title) + '</h1>' +
+      '<div class="d-meta">Vendido por VÓRTEX Gadgets · Envío gratis a toda Colombia · Despacho 24-72h</div>' +
       '<div class="d-price"><span class="d-now">' + money(p.price) + '</span>' +
       (off > 0 ? '<span class="d-old">' + money(p.compare) + '</span><span class="d-pct">-' + off + '%</span>' : '') + '</div>' +
+      '<div class="d-save">Ahorras ' + money(p.compare - p.price) + ' hoy · Oferta de lanzamiento</div>' +
+      /* contador urgencia */
+      '<div class="flashbar"><span class="flash-ico">!</span><div class="flash-txt">OFERTA FLASH — este precio termina en<br><b data-flash data-end="' + flashEndT + '">' + fmtClock(flashEndT - Date.now()) + '</b></div></div>' +
+      /* cupón */
+      (couponOn
+        ? '<div class="coupon-on">✓ Cupón <b>VORTEX10</b> activo en tu carrito (-10%)</div>'
+        : '<div class="coupon-strip">Cupón <b>VORTEX10</b> = <b>10% OFF</b> — aplícalo en el carrito</div>') +
+      /* COD */
       '<div class="d-cod"><b>PAGA CONTRA ENTREGA</b><ul>' +
       '<li>Pagas en efectivo cuando recibes tu pedido</li>' +
       '<li>Sin tarjeta ni anticipos</li>' +
       '<li>Revisas el producto antes de pagar</li>' +
-      '</ul><span class="d-check">✓ Envío GRATIS a Colombia · 24-72h despacho</span></div>' +
+      '</ul><span class="d-check">✓ Envío GRATIS a toda Colombia</span></div>' +
       (p.available
-        ? '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 14px">' +
-          '<div class="qty"><button data-action="qty-dec" aria-label="Menos">−</button>' +
+        ? '<div class="d-buy">' +
+          '<div class="d-qtyrow"><span class="lbl">Cantidad</span><div class="qty"><button data-action="qty-dec" aria-label="Menos">−</button>' +
           '<input data-qty-input value="1" inputmode="numeric">' +
-          '<button data-action="qty-inc" aria-label="Más">+</button></div>' +
-          '<span class="muted" style="font-size:12px">Cantidad</span></div>' +
-          '<div style="display:grid;gap:9px">' +
+          '<button data-action="qty-inc" aria-label="Más">+</button></div></div>' +
+          '<div class="d-btns">' +
           '<button class="btn btn-wa btn-block" data-action="wa-product" data-handle="' + esc(p.handle) + '">Pedir por WhatsApp</button>' +
-          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">' +
-          '<button class="btn btn-accent" data-action="add-cart" data-handle="' + esc(p.handle) + '">Añadir al carrito</button>' +
-          '<a class="btn btn-ghost" href="' + esc(p.url) + '" target="_blank" rel="noopener">Ver en la tienda</a>' +
-          '</div></div>'
+          '<button class="btn btn-accent btn-block" data-action="add-cart" data-handle="' + esc(p.handle) + '">Añadir al carrito</button>' +
+          '</div>' +
+          '<a class="d-store" href="' + esc(p.url) + '" target="_blank" rel="noopener">También disponible en la tienda online (pago con PSE / tarjeta)</a>' +
+          '</div>'
         : '<button class="btn btn-ghost btn-block" disabled>Producto agotado</button>') +
-      '<div class="acc" style="margin-top:16px">' +
+      '<div class="d-trust">' +
+      '<div class="dt"><span class="ck">✓</span><span>Envío GRATIS a toda Colombia</span></div>' +
+      '<div class="dt"><span class="ck">✓</span><span>Pago contra entrega: revisas antes de pagar</span></div>' +
+      '<div class="dt"><span class="ck">✓</span><span>Garantía de funcionamiento y soporte</span></div>' +
+      '<div class="dt"><span class="ck">✓</span><span>Pedido protegido: devolución si llega dañado</span></div>' +
+      '</div>' +
+      '<div class="acc">' +
       '<button class="acc-h" data-action="acc-toggle">Descripción <span class="chev">▾</span></button>' +
       '<div class="acc-b">' + (p.desc || 'Producto disponible en la tienda VÓRTEX Gadgets.') + '</div>' +
       '<button class="acc-h" data-action="acc-toggle">Envío y contra entrega <span class="chev">▾</span></button>' +
       '<div class="acc-b">Despachamos a toda Colombia en 24-72 horas hábiles con número de guía (3-7 días según tu ciudad).\n\nPagas CONTRA ENTREGA: en efectivo al recibir tu pedido, después de revisarlo. También puedes pagar en línea (PSE o tarjeta) desde nuestra tienda web.</div>' +
       '<button class="acc-h" data-action="acc-toggle">Garantía y devoluciones <span class="chev">▾</span></button>' +
       '<div class="acc-b">Todos nuestros productos tienen garantía de funcionamiento. Si algo llega dañado o no funciona, te lo cambiamos o devolvemos tu dinero. Escríbenos por WhatsApp y te atendemos.</div>' +
-      '</div></div></div>';
+      '</div>' +
+      '</div></div>' +
+      /* barra fija móvil */
+      (p.available
+        ? '<div class="buybar">' +
+          '<div class="bb-price"><span class="bb-now">' + money(p.price) + '</span>' +
+          (off > 0 ? '<span class="bb-old">' + money(p.compare) + '</span>' : '') + '</div>' +
+          '<button class="btn btn-wa" data-action="wa-product" data-handle="' + esc(p.handle) + '">WhatsApp</button>' +
+          '<button class="btn btn-accent" data-action="add-cart" data-handle="' + esc(p.handle) + '">Carrito</button>' +
+          '</div>' : '') +
+      '</div>';
   }
 
   function vCart() {
@@ -273,6 +371,7 @@
         '<svg viewBox="0 0 24 24" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 7h16l-1.5 12h-13L4 7Z"/><path d="M8 7a4 4 0 0 1 8 0"/></svg>' +
         '<p>Tu carrito está vacío</p><p style="margin-top:10px"><a class="btn btn-accent" href="#/catalogo">Ir al catálogo</a></p></div>';
     }
+    var couponOn = couponCode() === CONFIG.couponCode;
     var lines = state.cart.map(function (l) {
       return '<div class="cartline">' +
         (l.image ? '<img src="' + esc(l.image) + '" alt="">' : '<div class="cl-title" style="display:grid;place-items:center">V</div>') +
@@ -285,12 +384,21 @@
         '<button class="cl-del" data-action="cart-del" data-line="' + esc(l.handle) + '">Quitar</button></div>' +
         '</div>';
     }).join('');
-    return '<h1 style="font-size:22px;font-weight:900;margin-bottom:12px">Tu carrito</h1>' + lines +
+    var sub = cartSubtotal(), disc = cartDiscount(), total = cartTotal();
+    return '<h1 style="font-size:22px;font-weight:900;margin-bottom:12px">Tu carrito</h1>' +
+      '<div class="cart-cupon">' +
+      (couponOn
+        ? '<div class="coupon-applied">✓ Cupón <b>VORTEX10</b> aplicado (-10%) <button class="link" data-action="remove-coupon">Quitar</button></div>'
+        : '<div class="coupon-box"><input id="couponInput" placeholder="Cupón de descuento (ej. VORTEX10)" autocomplete="off">' +
+          '<button class="btn btn-accent btn-sm" data-action="apply-coupon">Aplicar</button></div>') +
+      '<p class="muted" style="font-size:11.5px;margin-top:6px">Prueba el cupón <b>VORTEX10</b> = 10% OFF</p></div>' +
+      lines +
       '<div class="totals">' +
-      '<div class="trow"><span>Subtotal</span><span>' + money(cartTotal()) + '</span></div>' +
+      '<div class="trow"><span>Subtotal</span><span>' + money(sub) + '</span></div>' +
+      (disc > 0 ? '<div class="trow discount"><span>Cupón ' + couponCode() + ' (-' + couponPct() + '%)</span><span>-' + money(disc) + '</span></div>' : '') +
       '<div class="trow"><span>Envío</span><span class="free">GRATIS</span></div>' +
-      '<div class="trow total"><span>Total</span><span>' + money(cartTotal()) + '</span></div>' +
-      '<p class="muted" style="font-size:12px;margin-top:8px">Pago contra entrega: pagas en efectivo al recibir. También puedes pagar en línea desde la tienda.</p>' +
+      '<div class="trow total"><span>Total a pagar</span><span>' + money(total) + '</span></div>' +
+      '<p class="muted" style="font-size:12px;margin-top:8px">Pago contra entrega: pagas en efectivo al recibir y revisas tu pedido antes.</p>' +
       '<div style="display:grid;gap:9px;margin-top:12px">' +
       '<button class="btn btn-wa btn-block" data-action="wa-cart">Pedir todo por WhatsApp</button>' +
       '<a class="btn btn-ghost btn-block" href="' + esc(CONFIG.storeUrl) + '/collections/all" target="_blank" rel="noopener">Pagar en línea en la tienda</a>' +
@@ -302,14 +410,14 @@
       '<p class="muted" style="margin:4px 0 14px">Sin tarjeta, sin riesgo: pagas cuando recibes.</p>' +
       '<div class="steps" style="grid-template-columns:1fr">' +
       stepHtml('1', 'Elige y pide', 'Añade al carrito o pide directo por WhatsApp el producto que quieras.') +
-      stepHtml('2', 'Confirmamos tu pedido', 'Te escribimos por WhatsApp para confirmar dirección, ciudad y datos.') +
+      stepHtml('2', 'Aplica tu cupón', 'En el carrito usa VORTEX10 y obtén 10% OFF.') +
       stepHtml('3', 'Recibe con guía', 'Te enviamos tu número de guía: llega a tu ciudad en 3-7 días hábiles.') +
       stepHtml('4', 'Paga al recibir', 'Revisa tu pedido con el transportador y paga en efectivo. Así de simple.') +
       '</div>' +
       '<div class="trust-row">' +
       '<span class="chip"><span class="ck">✓</span> Envío <b>GRATIS</b> a toda Colombia</span>' +
       '<span class="chip"><span class="ck">✓</span> Pago <b>contra entrega</b></span>' +
-      '<span class="chip"><span class="ck">✓</span> Revisas antes de pagar</span>' +
+      '<span class="chip"><span class="ck">✓</span> Cupón <b>VORTEX10</b> (-10%)</span>' +
       '<span class="chip"><span class="ck">✓</span> Garantía de funcionamiento</span>' +
       '</div>' +
       '<div class="wa-float-big"><div><b style="color:#fff">¿Listo para pedir?</b>' +
@@ -323,7 +431,7 @@
       '<div class="wa-float-big" style="justify-content:flex-start;flex-direction:column;align-items:stretch">' +
       '<b style="color:#fff">WhatsApp oficial de pedidos</b>' +
       '<div style="font-size:22px;font-weight:900">' + esc(CONFIG.waDisplay) + '</div>' +
-      '<div class="muted" style="font-size:13px">Catálogo, pedidos, garantías y soporte.</div>' +
+      '<div class="muted" style="font-size:13px">Catálogo, pedidos, cupón VORTEX10, garantías y soporte.</div>' +
       '<a class="btn btn-wa" href="' + waLink('Hola VÓRTEX Gadgets') + '" target="_blank" rel="noopener">Abrir WhatsApp</a>' +
       '</div>' +
       '<div class="trust-row">' +
@@ -353,12 +461,13 @@
     else if (seg[0] === 'como-comprar') v.innerHTML = vComo();
     else if (seg[0] === 'contacto') v.innerHTML = vContacto();
     else v.innerHTML = '<div class="empty-state"><p>Página no encontrada.</p><p style="margin-top:10px"><a class="btn btn-accent" href="#/inicio">Ir al inicio</a></p></div>';
+    closeLb();
     renderNav();
     window.scrollTo({ top: 0 });
   }
   function renderNav() {
     var r = parseHash().seg[0] || 'inicio';
-    var map = { inicio: 'inicio', catalogo: 'catalogo', producto: 'catalogo', 'como-comprar': 'como', contacto: 'contacto' };
+    var map = { inicio: 'inicio', catalogo: 'catalogo', 'como-comprar': 'como', contacto: 'contacto', carrito: '' };
     var key = map[r] || '';
     $$('#bottomnav a').forEach(function (a) { a.classList.toggle('active', a.dataset.nav === key); });
   }
@@ -390,28 +499,19 @@
     });
     if (!found) c.push({ handle: p.handle, title: p.title, price: p.price, image: p.image, qty: qty });
     saveCart(c);
-    toast('Añadido al carrito');
+    toast('✓ Añadido al carrito');
   }
   document.addEventListener('click', function (e) {
-    var t = e.target.closest('[data-action], [data-gthumb]');
+    var t = e.target.closest('[data-action]');
     if (!t) return;
     var act = t.dataset.action;
-    if (t.dataset.gthumb) {
-      var main = $('[data-gmain]');
-      if (main) { main.src = t.dataset.full; $$('.gthumb').forEach(function (g) { g.classList.remove('active'); }); t.classList.add('active'); }
-      return;
-    }
     if (act === 'acc-toggle') {
       var acc = t.closest('.acc');
       if (acc) { acc.classList.toggle('open'); $$('.acc.open', acc.parentNode).forEach(function (a) { if (a !== acc) a.classList.remove('open'); }); }
       return;
     }
-    if (act === 'add-cart') {
-      var h = findHandle(t); if (h) addToCart(h, 1); return;
-    }
-    if (act === 'wa-product') {
-      var p2 = productByHandle(findHandle(t)); if (p2) openWa(productWaText(p2, qtyOf(document))); return;
-    }
+    if (act === 'add-cart') { var h = findHandle(t); if (h) addToCart(h, qtyOf(document)); return; }
+    if (act === 'wa-product') { var p2 = productByHandle(findHandle(t)); if (p2) openWa(productWaText(p2, qtyOf(document))); return; }
     if (act === 'qty-inc' || act === 'qty-dec') {
       var line = findLine(t);
       var scope = line ? t.closest('.cartline') : document;
@@ -430,10 +530,19 @@
       renderRoute(); toast('Producto eliminado');
       return;
     }
-    if (act === 'wa-cart') {
-      if (state.cart.length) openWa(cartWaText());
+    if (act === 'wa-cart') { if (state.cart.length) openWa(cartWaText()); return; }
+    if (act === 'apply-coupon') { var ci = $('#couponInput'); applyCoupon(ci ? ci.value : ''); return; }
+    if (act === 'remove-coupon') { saveCoupon(null); toast('Cupón eliminado'); return; }
+    if (act === 'open-gallery') {
+      var pd = t.closest('.pdp');
+      var handle = pd ? pd.getAttribute('data-handle') : (t.closest('#view') ? null : null);
+      if (!handle) { var wrap = $('#view .pdp'); handle = wrap ? wrap.getAttribute('data-handle') : null; }
+      openGallery(handle, parseInt(t.dataset.idx || '0', 10));
       return;
     }
+    if (act === 'lb-close') { closeLb(); return; }
+    if (act === 'lb-prev') { lbNav(-1); return; }
+    if (act === 'lb-next') { lbNav(1); return; }
   });
   document.addEventListener('input', function (e) {
     var inp = e.target;
@@ -448,10 +557,83 @@
       else renderRoute();
     }
   });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && document.activeElement && document.activeElement.id === 'couponInput') {
+      applyCoupon(document.activeElement.value);
+    }
+  });
   function updateLineQty(handle, n) {
     saveCart(state.cart.map(function (l) { return l.handle === handle ? { handle: l.handle, title: l.title, price: l.price, image: l.image, qty: n } : l; }));
     renderRoute();
   }
+
+  /* ---------- Galería lightbox (tocar + deslizar) ---------- */
+  var lb = { images: [], i: 0 };
+  var lbEl = null;
+  function lbBuild() {
+    if (lbEl) return;
+    lbEl = document.createElement('div');
+    lbEl.className = 'lb';
+    lbEl.id = 'lb';
+    lbEl.innerHTML =
+      '<div class="lb-back" data-action="lb-close"></div>' +
+      '<button class="lb-x" data-action="lb-close" aria-label="Cerrar">✕</button>' +
+      '<button class="lb-nav prev" data-action="lb-prev" aria-label="Anterior">‹</button>' +
+      '<img class="lb-img" id="lbImg" alt="Foto del producto">' +
+      '<button class="lb-nav next" data-action="lb-next" aria-label="Siguiente">›</button>' +
+      '<div class="lb-dots" id="lbDots"></div>' +
+      '<div class="lb-hint">Desliza para ver más fotos</div>';
+    document.body.appendChild(lbEl);
+    // swipe táctil
+    var sx = 0, sy = 0;
+    lbEl.querySelector('.lb-img').addEventListener('touchstart', function (ev) {
+      var t = ev.changedTouches[0]; sx = t.clientX; sy = t.clientY;
+    }, { passive: true });
+    lbEl.querySelector('.lb-img').addEventListener('touchend', function (ev) {
+      var t = ev.changedTouches[0];
+      var dx = t.clientX - sx, dy = t.clientY - sy;
+      if (Math.abs(dx) > 42 && Math.abs(dx) > Math.abs(dy)) { lbNav(dx < 0 ? 1 : -1); }
+    }, { passive: true });
+  }
+  function openGallery(handle, idx) {
+    var p = productByHandle(handle);
+    if (!p) return;
+    var imgs = (p.images && p.images.length) ? p.images : (p.image ? [p.image] : []);
+    if (!imgs.length) return;
+    lb.images = imgs;
+    lbBuild();
+    lb.i = Math.max(0, Math.min(idx || 0, imgs.length - 1));
+    lbEl.hidden = false;
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(function () { lbEl.classList.add('open'); lbPaint(); });
+  }
+  function lbPaint() {
+    if (!lbEl || !lb.images.length) return;
+    var img = $('#lbImg');
+    if (img) { img.src = lb.images[lb.i]; img.alt = 'Foto ' + (lb.i + 1) + ' de ' + lb.images.length; }
+    var dots = $('#lbDots');
+    if (dots) {
+      dots.innerHTML = lb.images.map(function (_, j) {
+        return '<span class="dot' + (j === lb.i ? ' on' : '') + '" data-dot="' + j + '"></span>';
+      }).join('');
+    }
+    $$('.lb-nav').forEach(function (b) { b.style.display = lb.images.length > 1 ? 'grid' : 'none'; });
+    var hint = $('.lb-hint');
+    if (hint) hint.style.display = lb.images.length > 1 ? 'block' : 'none';
+  }
+  function lbNav(d) {
+    if (!lb.images.length) return;
+    lb.i = (lb.i + d + lb.images.length) % lb.images.length;
+    lbPaint();
+  }
+  function closeLb() {
+    if (lbEl) { lbEl.classList.remove('open'); lbEl.hidden = true; }
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('click', function (e) {
+    var dot = e.target.closest('[data-dot]');
+    if (dot && lbEl && !lbEl.hidden) { lb.i = parseInt(dot.getAttribute('data-dot'), 10); lbPaint(); }
+  });
 
   /* ---------- UI: drawer, búsqueda, instalación ---------- */
   function closeDrawer() { $('#drawer').classList.remove('open'); $('#drawer').setAttribute('aria-hidden', 'true'); }
@@ -467,7 +649,6 @@
   /* ---------- Instalación (Android / iOS / escritorio) ---------- */
   function isIOS() { return /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream; }
   function isAndroid() { return /android/i.test(navigator.userAgent); }
-  function isMobile() { return isIOS() || isAndroid(); }
   function installInstructions() {
     if (isIOS()) {
       return '1. Pulsa el botón Compartir (cuadrado con flecha hacia arriba) en Safari.\n2. Desliza las opciones y toca “Añadir a pantalla de inicio”.\n3. Toca “Añadir” (arriba a la derecha).\n\nLa app quedará en tu pantalla de inicio y se abrirá a pantalla completa.';
@@ -491,7 +672,7 @@
   var deferredPrompt = null;
   window.addEventListener('beforeinstallprompt', function (e) {
     e.preventDefault();
-    deferredPrompt = e; // Chrome/Edge mostrarán el diálogo al tocar el botón
+    deferredPrompt = e;
   });
   window.addEventListener('appinstalled', function () {
     toast('App instalada: búscala en tu pantalla de inicio.');
@@ -508,7 +689,7 @@
         });
       } catch (e) { openInstallModal(); }
     } else {
-      openInstallModal(); // iOS o Chrome sin permiso aún: guía manual
+      openInstallModal();
     }
   });
   if (isIOS() && !window.navigator.standalone) $('#iosHint').hidden = false;
@@ -517,6 +698,7 @@
 
   /* ---------- Init ---------- */
   renderBadge();
+  setInterval(tickFlash, 1000);
   loadData();
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {

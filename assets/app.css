@@ -193,3 +193,107 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .wa-float-big{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(37,211,102,.16),rgba(0,166,166,.1));border:1px solid rgba(37,211,102,.45);border-radius:18px;padding:16px;margin-top:12px}
 .spin{width:34px;height:34px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite;margin:40px auto}
 @keyframes sp{to{transform:rotate(360deg)}}
+
+/* ============================================================
+   v3 — correcciones móviles + galería + urgencia + cupón
+   ============================================================ */
+html,body{max-width:100%;overflow-x:hidden}
+.view{max-width:1120px;margin:0 auto;padding:18px 16px calc(190px + var(--nav-h) + var(--safe))}
+.view>*{max-width:100%}
+img{max-width:100%}
+
+/* ---- Ficha: aire y jerarquía ---- */
+.detail{display:grid;gap:22px;grid-template-columns:1fr}
+@media(min-width:860px){.detail{grid-template-columns:1.02fr 1fr;gap:34px}}
+.gallery{position:static;min-width:0}
+@media(min-width:860px){.gallery{position:sticky;top:84px;align-self:start}}
+.pdp-info{min-width:0;display:flex;flex-direction:column}
+.pdp-info>*{margin-bottom:0}
+.d-title{font-size:21px;font-weight:900;line-height:1.28;margin:4px 0 6px}
+.d-meta{color:var(--muted);font-size:12.5px;line-height:1.5}
+.d-rating{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;color:#C7D0DA;margin-bottom:2px}
+.d-price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:8px 0 0}
+.d-now{font-size:30px;font-weight:900;color:#fff}
+.d-old{color:var(--muted);text-decoration:line-through;font-size:15px}
+.d-pct{background:var(--sale);color:#fff;font-weight:900;font-size:12px;padding:3px 8px;border-radius:8px}
+.d-save{color:#4CE0D6;font-size:12.5px;font-weight:700;margin:2px 0 6px}
+.d-cod{margin:14px 0 4px;padding:13px 15px}
+.d-buy{display:flex;flex-direction:column;gap:12px;margin:16px 0 4px;padding:14px;background:var(--panel);border:1px solid var(--line);border-radius:16px}
+.d-qtyrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.d-qtyrow .lbl{font-size:13px;color:#C7D0DA;font-weight:700}
+.d-btns{display:grid;gap:9px}
+.d-store{display:block;text-align:center;font-size:11.5px;color:var(--muted);margin-top:2px;text-decoration:underline}
+.d-trust{display:grid;gap:7px;margin:14px 0 2px;padding:12px 14px;background:var(--panel2);border:1px dashed var(--line);border-radius:14px}
+.dt{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:#C7D0DA}
+.dt .ck{color:#3EE6A0;font-weight:900}
+
+/* ---- Galería: zoom + miniaturas ordenadas ---- */
+.gmain{position:relative;aspect-ratio:1/1;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#0A0E13;cursor:zoom-in}
+.gmain img{width:100%;height:100%;object-fit:cover;display:block}
+.gzoom{position:absolute;left:12px;bottom:12px;display:inline-flex;align-items:center;gap:6px;background:rgba(10,14,19,.82);color:#DCE4EC;font-size:11px;font-weight:700;padding:6px 10px;border-radius:999px;pointer-events:none}
+.gthumbs{display:flex;gap:9px;margin-top:12px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:none;position:relative}
+.gthumbs::-webkit-scrollbar{display:none}
+.gthumb{width:64px;height:64px;flex:none;border:2px solid var(--line);border-radius:12px;overflow:hidden;opacity:.8;padding:0;background:none}
+.gthumb img{width:100%;height:100%;object-fit:cover}
+.gthumb.active{border-color:var(--accent);opacity:1}
+.gcount{flex:none;align-self:center;font-size:11px;color:var(--muted);padding-left:4px}
+
+/* ---- Barra fija móvil de compra ---- */
+.buybar{display:none}
+@media(max-width:859px){
+  .buybar{display:flex;align-items:center;gap:8px;position:fixed;left:0;right:0;bottom:calc(var(--nav-h) + var(--safe));z-index:64;background:rgba(13,18,25,.98);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px 12px}
+  .bb-price{display:flex;flex-direction:column;line-height:1.15;min-width:0;margin-right:auto}
+  .bb-now{font-weight:900;font-size:17px;color:#fff}
+  .bb-old{color:var(--muted);font-size:11px;text-decoration:line-through}
+  .buybar .btn{flex:1;padding:11px 8px;font-size:12.5px;white-space:nowrap}
+}
+
+/* ---- Urgencia ---- */
+.flashbar{display:flex;align-items:center;gap:10px;background:linear-gradient(90deg,rgba(255,77,109,.16),rgba(245,166,35,.10));border:1px solid rgba(255,77,109,.5);border-radius:14px;padding:10px 13px;margin:10px 0 2px}
+.flash-ico{font-size:20px}
+.flash-txt{font-size:12px;color:#FFB3C2;line-height:1.45;font-weight:700}
+.flash-txt b{font-family:ui-monospace,'Roboto Mono',Consolas,monospace;font-size:19px;color:#fff;letter-spacing:1px}
+
+/* ---- Cupón ---- */
+.hero-cupon{margin-top:14px;background:rgba(245,166,35,.14);border:1px dashed rgba(245,166,35,.65);color:#FFD38A;font-size:13px;font-weight:700;padding:9px 12px;border-radius:12px;display:inline-block}
+.coupon-strip{margin:8px 0 0;background:rgba(245,166,35,.12);border:1px dashed rgba(245,166,35,.55);color:#FFD38A;font-size:12.5px;padding:8px 12px;border-radius:12px}
+.coupon-strip b,.coupon-applied b{color:#fff}
+.coupon-on{margin:8px 0 0;background:rgba(0,166,166,.13);border:1px solid rgba(0,166,166,.5);color:#4CE0D6;font-size:12.5px;font-weight:700;padding:8px 12px;border-radius:12px}
+.cart-cupon{margin-bottom:14px}
+.coupon-box{display:flex;gap:8px}
+.coupon-box input{flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;color:#fff;padding:11px 12px;font-size:13.5px;outline:none}
+.coupon-box input:focus{border-color:var(--accent)}
+.coupon-applied{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:rgba(0,166,166,.13);border:1px solid rgba(0,166,166,.5);color:#4CE0D6;font-size:13px;font-weight:700;padding:10px 12px;border-radius:12px}
+.coupon-applied .link{background:none;border:0;color:var(--sale);font-size:12px;font-weight:800;text-decoration:underline;margin-left:auto}
+.trow.discount{color:#4CE0D6;font-weight:700}
+
+/* ---- Acordeón legible ---- */
+.acc-h{padding:14px 4px;text-align:left;width:100%}
+.acc-b{overflow-wrap:break-word}
+
+/* ---- Lightbox (fotos a pantalla completa, deslizables) ---- */
+.lb{position:fixed;inset:0;z-index:400;background:rgba(4,6,9,.96);display:grid;place-items:center;opacity:0;transition:.22s}
+.lb.open{opacity:1}
+.lb-back{position:absolute;inset:0}
+.lb-img{position:relative;z-index:2;max-width:94vw;max-height:82vh;object-fit:contain;border-radius:8px;touch-action:pan-y;user-select:none;-webkit-user-drag:none}
+.lb-x{position:absolute;top:12px;right:14px;z-index:3;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);color:#fff;font-size:19px}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:46px;height:64px;border-radius:14px;background:rgba(255,255,255,.09);color:#fff;font-size:34px;display:grid;place-items:center}
+.lb-nav.prev{left:8px}
+.lb-nav.next{right:8px}
+.lb-dots{position:absolute;bottom:22px;left:0;right:0;z-index:3;display:flex;justify-content:center;gap:7px}
+.lb-dots .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.28)}
+.lb-dots .dot.on{background:#00E0D5;width:22px;border-radius:6px}
+.lb-hint{position:absolute;bottom:52px;left:0;right:0;text-align:center;color:rgba(255,255,255,.55);font-size:11.5px;z-index:2}
+
+/* ---- Ajustes menores móvil ---- */
+@media(max-width:520px){
+  .d-now{font-size:26px}
+  .d-price{gap:8px}
+  .gthumb{width:58px;height:58px}
+  .pcard .pbtns .btn{font-size:12px;padding:8px}
+}
+.stars{color:#F5A623;letter-spacing:1px;font-size:14px}
+.stars .base{color:#D8DCE1;letter-spacing:1px}
+.stars .fill{color:#F5A623}
+.flash-ico{width:26px;height:26px;flex:none;border-radius:50%;background:var(--sale);color:#fff;display:grid;place-items:center;font-weight:900;font-size:15px}
+
