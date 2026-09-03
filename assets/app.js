@@ -275,11 +275,14 @@
     return '<div class="step"><div class="n">' + n + '</div><b>' + t + '</b><p>' + d + '</p></div>';
   }
 
+  function normTxt(s) {
+    return String(s || '').toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
   function vCatalog() {
-    var q = (state.searchTerm || '').toLowerCase().trim();
+    var q = normTxt(state.searchTerm);
     var list = state.products.filter(function (p) {
       if (!q) return true;
-      return (p.title + ' ' + (p.vendor || '') + ' ' + p.desc).toLowerCase().indexOf(q) > -1;
+      return normTxt(p.title + ' ' + (p.vendor || '') + ' ' + p.desc).indexOf(q) > -1;
     });
     return '<h1 style="font-size:22px;font-weight:900">Catálogo</h1>' +
       '<p class="muted" style="font-size:13px;margin:2px 0 14px">' + list.length + ' productos · Envío gratis · Contra entrega · Cupón VORTEX10 (-10%)</p>' +

@@ -1,5 +1,5 @@
 /* Service Worker — VÓRTEX Gadgets PWA */
-const VERSION = 'vortex-app-v4';
+const VERSION = 'vortex-app-v5';
 const PRECACHE = [
   './',
   'index.html',

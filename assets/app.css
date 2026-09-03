@@ -294,6 +294,7 @@ img{max-width:100%}
   .gthumb{width:58px;height:58px}
   .pcard .pbtns .btn{font-size:12px;padding:8px}
 }
+[hidden]{display:none!important}
 .stars{color:#F5A623;letter-spacing:1px;font-size:14px}
 .stars .base{color:#D8DCE1;letter-spacing:1px}
 .stars .fill{color:#F5A623}
