@@ -13,7 +13,7 @@
     storefrontToken: 'd93566827739f74089b5b9933113035c', // token público (catálogo)
     apiVersion: '2026-01',
     currency: 'COP',
-    pixelId: '',                           // ID del píxel de Meta (15 dígitos) — pégalo aquí
+    pixelId: '1724390862126477',           // Píxel de Meta "Vórtex Gadgets's pixel"
     couponCode: 'VORTEX10',                // cupón 10% OFF
     couponPct: 10,
     flashMinutes: 15                       // duración del contador flash
@@ -228,7 +228,11 @@
   }
   function trackPixel(ev, data) {
     if (!CONFIG.pixelId || typeof window.fbq === 'undefined') return;
-    try { window.fbq('track', ev, data || {}); } catch (e) {}
+    try {
+      var d = data || {};
+      d.source = 'app_pwa'; // etiqueta para saber que el evento vino de la app
+      window.fbq('track', ev, d);
+    } catch (e) {}
   }
 
   /* ---------- Plantillas de producto ---------- */
