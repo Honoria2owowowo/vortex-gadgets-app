@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gestor de Leads COD · VÓRTEX Gadgets</title>
+<style>
+  :root{
+    --bg:#f1f5f9; --card:#fff; --ink:#0f172a; --mut:#64748b; --line:#e2e8f0;
+    --teal:#00A6A6; --teal-d:#0b7e7e; --green:#15803d; --green-bg:#dcfce7;
+    --blue:#1d4ed8; --blue-bg:#dbeafe; --amber:#b45309; --amber-bg:#fef3c7;
+    --red:#b91c1c; --red-bg:#fee2e2; --slate:#475569; --slate-bg:#e2e8f0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:60px}
+  .top{background:linear-gradient(135deg,#062a2a,#0b4a4a 55%,#0e6363);color:#fff;padding:16px 18px;position:sticky;top:0;z-index:50;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+  .top h1{font-size:18px}.top h1 span{color:#4CE0D6}
+  .top .sub{font-size:12px;opacity:.85;margin-top:2px}
+  .top-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .btn{border:0;border-radius:10px;padding:9px 14px;font-size:14px;font-weight:600;cursor:pointer;background:#e2e8f0;color:#0f172a}
+  .btn:active{transform:scale(.97)}
+  .btn.teal{background:var(--teal);color:#fff}.btn.teal:hover{background:var(--teal-d)}
+  .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}
+  .btn.sm{padding:5px 9px;font-size:12px;border-radius:8px}
+  .btn.danger{background:var(--red);color:#fff}
+  .wrap{max-width:1020px;margin:0 auto;padding:14px 14px 0}
+  .stats{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none}
+  .stats::-webkit-scrollbar{display:none}
+  .stat{flex:0 0 auto;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:7px 12px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:7px}
+  .stat b{font-size:16px}
+  .stat.on{border-color:var(--teal);box-shadow:0 0 0 2px rgba(0,166,166,.25)}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .toolbar{display:flex;gap:8px;align-items:center;margin:6px 0 14px;flex-wrap:wrap}
+  .search{flex:1;min-width:200px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:#fff}
+  .list{display:grid;grid-template-columns:1fr;gap:12px}
+  @media(min-width:760px){.list{grid-template-columns:1fr 1fr}}
+  .ld{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+  .ld.cerrado{opacity:.7}
+  .ld-h{display:flex;gap:10px;align-items:flex-start}
+  .ava{width:40px;height:40px;border-radius:50%;background:var(--amber);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;flex:0 0 40px;font-size:15px}
+  .ld-h .who{flex:1;min-width:0}
+  .who .nm{font-weight:700;font-size:15px}
+  .who .meta{font-size:12.5px;color:var(--mut)}
+  .badges{margin-top:6px;display:flex;flex-wrap:wrap;gap:5px}
+  .bdg{font-size:11px;font-weight:700;border-radius:999px;padding:2px 9px}
+  .bdg.nuevo{background:var(--blue-bg);color:var(--blue)}
+  .bdg.recordado{background:var(--amber-bg);color:var(--amber)}
+  .bdg.confirmado{background:var(--green-bg);color:var(--green)}
+  .bdg.nocompro{background:var(--red-bg);color:var(--red)}
+  .bdg.descartado{background:var(--slate-bg);color:var(--slate)}
+  .bdg.alerta{background:#dc2626;color:#fff}
+  .hist{margin-top:8px;font-size:11.5px;color:var(--mut);border-top:1px dashed var(--line);padding-top:6px}
+  .hist div{padding:1px 0}
+  .acciones{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px;border-top:1px dashed var(--line);padding-top:8px}
+  .empty{background:var(--card);border:1.5px dashed var(--line);border-radius:14px;padding:34px 18px;text-align:center;color:var(--mut)}
+  .empty b{display:block;font-size:16px;color:var(--ink);margin-bottom:6px}
+  .ov{position:fixed;inset:0;background:rgba(8,25,25,.55);display:none;align-items:flex-start;justify-content:center;overflow:auto;z-index:100;padding:18px 12px}
+  .ov.open{display:flex}
+  .modal{background:#fff;border-radius:16px;width:100%;max-width:560px;padding:18px;margin:auto 0;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+  .modal h2{font-size:17px;margin-bottom:14px;color:#062a2a}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .f{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+  .f label{font-size:12px;font-weight:600;color:var(--slate)}
+  .f input,.f select,.f textarea{border:1px solid var(--line);border-radius:9px;padding:9px 10px;font-size:14px;background:#fff}
+  .f input:focus,.f select:focus,.f textarea:focus{outline:2px solid rgba(0,166,166,.4);border-color:var(--teal)}
+  .f textarea{resize:vertical;min-height:48px}
+  .full{grid-column:1/-1}
+  .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}
+  #toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(80px);background:#062a2a;color:#fff;padding:10px 18px;border-radius:999px;font-size:13.5px;transition:.25s;z-index:200;opacity:0;pointer-events:none;max-width:92vw;text-align:center}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .file-in{display:none}
+  @media(max-width:520px){.grid2{grid-template-columns:1fr}}
+  .plant{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:12px;font-size:13px}
+  .plant b{color:var(--teal-d)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-row">
+    <div>
+      <h1>VÓRTEX <span>Gadgets</span> · Leads WhatsApp (COD)</h1>
+      <div class="sub">Recupera a quien no confirmó · mide tu conversión</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn teal" id="btnNuevo">+ Nuevo lead</button>
+      <button class="btn ghost sm" id="btnExportar">Exportar</button>
+      <button class="btn ghost sm" id="btnImportar">Importar</button>
+      <input type="file" id="fileImp" class="file-in" accept=".json,application/json">
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="plant"><b>Regla de oro:</b> si un lead no responde, escríbele a las <b>2-4 h</b> y vuelve a intentar a las <b>24-48 h</b>. Muchos compran COD en el segundo o tercer contacto.</div>
+  <div class="stats" id="stats"></div>
+  <div class="toolbar">
+    <input class="search" id="buscar" placeholder="Buscar por nombre, teléfono o producto…">
+    <button class="btn" id="btnLimpiar" style="display:none">Limpiar</button>
+  </div>
+  <div id="lista" class="list"></div>
+  <div class="empty" id="vacio" style="display:none">
+    <b>No hay leads registrados</b>
+    Cada persona que te escribe por WhatsApp y no compra todavía es un lead. Regístrala para no perderla.
+  </div>
+</main>
+
+<div class="ov" id="ov">
+  <div class="modal">
+    <h2 id="modalTitulo">Nuevo lead</h2>
+    <div class="grid2">
+      <div class="f"><label>Nombre *</label><input id="f_nombre" placeholder="Nombre del interesado"></div>
+      <div class="f"><label>Teléfono / WhatsApp *</label><input id="f_telefono" inputmode="tel" placeholder="3001234567"></div>
+      <div class="f"><label>Producto que le interesa</label><input id="f_producto" placeholder="Ej: Audífonos M10"></div>
+      <div class="f"><label>Valor (COP)</label><input id="f_valor" type="number" min="0" placeholder="69930"></div>
+      <div class="f"><label>Fuente</label>
+        <select id="f_fuente">
+          <option>WhatsApp</option><option>Meta (FB/IG)</option><option>TikTok</option>
+          <option>App / página</option><option>Referido</option><option>Otro</option>
+        </select>
+      </div>
+      <div class="f"><label>Estado</label>
+        <select id="f_estado">
+          <option value="nuevo">Nuevo (sin respuesta)</option>
+          <option value="recordado">Recordado (le escribí)</option>
+          <option value="confirmado">Confirmó / va a comprar</option>
+          <option value="nocompro">No compró</option>
+          <option value="descartado">Descartado (no contesta)</option>
+        </select>
+      </div>
+      <div class="f full"><label>Notas / motivo (si no compró)</label><textarea id="f_nota" placeholder="Ej: dice que es caro, quiere pensarlo, no le llegó el mensaje…"></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="btnCancelar">Cancelar</button>
+      <button class="btn teal" id="btnGuardar">Guardar lead</button>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+(function(){
+  'use strict';
+  var LS='vortex_leads_v1';
+  var leads=[], filtro='todos', termino='', editId=null;
+  function $(id){return document.getElementById(id);}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}
+  function money(n){n=Number(n)||0;return '$'+n.toLocaleString('es-CO');}
+  function hoyISO(){return new Date().toISOString();}
+  function fmt(iso){var d=new Date(iso);if(isNaN(d))return'';return d.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'2-digit'})+' '+d.toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});}
+  function hDiff(iso){return Math.floor((Date.now()-new Date(iso).getTime())/3600000);}
+  function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove('show');},2400);}
+  function guardar(){localStorage.setItem(LS,JSON.stringify(leads));render();}
+  function cargar(){try{var r=localStorage.getItem(LS);leads=r?JSON.parse(r):[];if(!Array.isArray(leads))leads=[];}catch(e){leads=[];}}
+  function nuevoId(){return'L'+Date.now().toString(36).toUpperCase();}
+  function nuevoLead(){return{id:nuevoId(),creado:hoyISO(),nombre:'',telefono:'',producto:'',valor:0,fuente:'WhatsApp',estado:'nuevo',nota:'',hist:[]};}
+
+  function estadoLead(l){
+    if(l.estado==='confirmado')return'confirmado';
+    if(l.estado==='nocompro')return'nocompro';
+    if(l.estado==='descartado')return'descartado';
+    var h=hDiff(l.creado);
+    if(l.estado==='nuevo'&&h>=24)return'porrecordar';
+    return'activo';
+  }
+  function catLead(l){
+    var e=estadoLead(l);
+    if(e==='porrecordar')return'recordar';
+    if(e==='confirmado')return'confirmados';
+    if(e==='nocompro')return'nocompraron';
+    if(e==='descartado')return'descartados';
+    return'activos';
+  }
+  function enFiltro(l){
+    var c=catLead(l);
+    if(filtro!=='todos'&&c!==filtro)return false;
+    if(termino){var q=termino.toLowerCase();var hay=(l.nombre+' '+l.telefono+' '+l.producto+' '+l.nota).toLowerCase();if(hay.indexOf(q)===-1)return false;}
+    return true;
+  }
+  var CATS=[['todos','Todos'],['activos','Activos (responder)'],['recordar','¡Por recordar!'],['confirmados','Confirmaron'],['nocompraron','No compraron'],['descartados','Descartados']];
+  var DOT={todos:'#0f172a',activos:'#3b82f6',recordar:'#dc2626',confirmados:'#22c55e',nocompraron:'#f59e0b',descartados:'#94a3b8'};
+  var ETIQ={nuevo:'Nuevo',recordado:'Recordado',confirmado:'Confirmó',nocompro:'No compró',descartado:'Descartado'};
+  function renderStats(){
+    var c={};CATS.forEach(function(x){c[x[0]]=0;});
+    leads.forEach(function(l){c[catLead(l)]++;c.todos++;});
+    var conv=leads.length?(Math.round(leads.filter(function(l){return l.estado==='confirmado';}).length/leads.length*100)):0;
+    var h='';
+    CATS.forEach(function(x){
+      h+='<div class="stat'+(filtro===x[0]?' on':'')+'" data-f="'+x[0]+'"><span class="dot" style="background:'+DOT[x[0]]+'"></span><b>'+c[x[0]]+'</b> '+x[1]+'</div>';
+    });
+    h+='<div class="stat"><span class="dot" style="background:#00A6A6"></span><b>'+conv+'%</b> conversión</div>';
+    $('stats').innerHTML=h;
+  }
+  function msjPlantilla(l,tipo){
+    var nom=l.nombre||'';
+    var prod=l.producto||'tu pedido';
+    var val=l.valor?money(l.valor):'';
+    if(tipo==='segundo'){
+      return 'Hola '+nom+' 👋 soy de VÓRTEX Gadgets. Te escribí antes por '+prod+(val?' ('+val+')':'')+' y no me quedó claro si te llegó mi mensaje.\n\nSolo para confirmar: ¿te interesa todavía? Pagas contra entrega, sin tarjeta, y el envío es GRATIS. 😊';
+    }
+    if(tipo==='ultimo'){
+      return 'Hola '+nom+' 🙌 te dejo el dato por si aún te interesa '+prod+' '+(val?'por '+val+' ':'')+': tenemos pocas unidades y hoy aplica ENVÍO GRATIS + pago contra entrega.\n\n¿Te lo aparto? Solo dime tu dirección y te confirmo la entrega.';
+    }
+    return 'Hola '+nom+' 👋 ¿Qué tal? Te escribía por '+prod+' '+(val?'('+val+') ':'')+'— pagas al recibir, sin tarjeta y envío gratis a toda Colombia.\n\n¿Te interesa? Te ayudo con el pedido en 2 minutos.';
+  }
+  function msjConfirmado(l){
+    var m='¡Hola '+nomSafe(l)+'! 🙌 Gracias por confirmar tu pedido de '+(l.producto||'')+(l.valor?' ('+money(l.valor)+')':'')+'.';
+    m+='\n\nTe pido por favor: tu dirección completa y ciudad para coordinar el envío (pagas contra entrega cuando te llegue). 📍';
+    m+='\n\nQuedo atento — VÓRTEX Gadgets.';
+    return m;
+    function nomSafe(x){return x.nombre||'';}
+  }
+  function cardLead(l){
+    var e=estadoLead(l);
+    var ini=esc(((l.nombre||'?').charAt(0)).toUpperCase());
+    var wa='https://wa.me/'+String(l.telefono||'').replace(/\D/g,'');
+    var bdg='';
+    var bdgCls={nuevo:'nuevo',recordado:'recordado',confirmado:'confirmado',nocompro:'nocompro',descartado:'descartado'};
+    if(e==='porrecordar')bdg='<span class="bdg alerta">¡Sin respuesta hace '+(hDiff(l.creado)>=48?'+48 h':'24 h+')+'!</span>';
+    bdg+='<span class="bdg '+bdgCls[l.estado]+'">'+ETIQ[l.estado]+'</span>';
+    if(l.fuente)bdg+='<span class="bdg descartado" style="background:#e2e8f0;color:#475569">'+esc(l.fuente)+'</span>';
+    var hist=(l.hist||[]).slice(-4).map(function(h){return'<div>• '+fmt(h.fecha)+' — '+esc(h.tipo)+'</div>';}).join('');
+    var ult=hDiff(l.creado);
+    var ant=ult<1?'hace <1 h':(ult<24?'hace '+ult+' h':'hace '+Math.floor(ult/24)+' d');
+    return '<article class="ld'+(l.estado==='descartado'||l.estado==='nocompro'?' cerrado':'')+'" data-id="'+esc(l.id)+'">'+
+      '<div class="ld-h"><div class="ava">'+ini+'</div><div class="who">'+
+        '<div class="nm">'+esc(l.nombre||'(sin nombre)')+'</div>'+
+        '<div class="meta">📱 '+(l.telefono?'<a href="'+wa+'" target="_blank" rel="noopener" style="color:var(--teal-d)">'+esc(l.telefono)+'</a>':'—')+' · '+ant+'</div>'+
+        '<div class="meta">🛍 '+esc(l.producto||'—')+(l.valor?' · '+money(l.valor):'')+'</div>'+
+        '<div class="badges">'+bdg+'</div>'+
+      '</div></div>'+
+      (l.nota?'<div style="margin-top:6px;font-size:12.5px;color:var(--mut);background:#f8fafc;border-left:3px solid var(--line);padding:5px 8px;border-radius:0 6px 6px 0">📝 '+esc(l.nota)+'</div>':'')+
+      '<div class="acciones">'+
+        '<button class="btn sm teal" data-a="rec1">1er recordatorio</button>'+
+        '<button class="btn sm" data-a="rec2">2º recordatorio</button>'+
+        '<button class="btn sm" data-a="chatear">Chatear</button>'+
+        '<button class="btn sm" data-a="confirmo" style="background:var(--green);color:#fff">✓ Confirmó</button>'+
+        '<button class="btn sm" data-a="nocompro" style="background:#e2e8f0">No compró</button>'+
+        '<button class="btn sm" data-a="editar">Editar</button>'+
+        '<button class="btn sm danger" data-a="borrar">✕</button>'+
+      '</div>'+
+      (hist?'<div class="hist">'+hist+'</div>':'')+
+    '</article>';
+  }
+  function render(){
+    renderStats();
+    var vis=leads.filter(enFiltro).sort(function(a,b){return(b.creado||'').localeCompare(a.creado||'');});
+    $('lista').innerHTML=vis.map(cardLead).join('');
+    $('vacio').style.display=leads.length?'none':'block';
+    $('btnLimpiar').style.display=(filtro!=='todos'||termino)?'inline-block':'none';
+  }
+  function copiar(texto,msg){
+    function fb(){var t=document.createElement('textarea');t.value=texto;document.body.appendChild(t);t.select();try{document.execCommand('copy');toast(msg);}catch(e){toast('No se pudo copiar');}document.body.removeChild(t);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(texto).then(function(){toast(msg);},fb);}else fb();
+  }
+  function abrirWA(l,msg,customToast){
+    if(!l.telefono){toast('Sin teléfono');return;}
+    window.open('https://wa.me/'+String(l.telefono).replace(/\D/g,'')+'?text='+encodeURIComponent(msg),'_blank');
+    l.hist=l.hist||[];
+    l.hist.push({fecha:hoyISO(),tipo:customToast});
+    l.updated=hoyISO();
+    guardar();
+  }
+  /* modal */
+  function abrirModal(l){
+    editId=l?l.id:null;
+    $('modalTitulo').textContent=l?'Editar lead':'Nuevo lead';
+    $('f_nombre').value=l?l.nombre:'';
+    $('f_telefono').value=l?l.telefono:'';
+    $('f_producto').value=l?l.producto:'';
+    $('f_valor').value=l?(l.valor||''):'';
+    $('f_fuente').value=l?(l.fuente||'WhatsApp'):'WhatsApp';
+    $('f_estado').value=l?(l.estado||'nuevo'):'nuevo';
+    $('f_nota').value=l?l.nota:'';
+    $('ov').classList.add('open');
+    setTimeout(function(){$('f_nombre').focus();},60);
+  }
+  function cerrar(){ $('ov').classList.remove('open'); editId=null; }
+  function leer(){
+    var d={nombre:$('f_nombre').value.trim(),telefono:$('f_telefono').value.trim(),producto:$('f_producto').value.trim(),valor:Math.max(0,parseInt($('f_valor').value,10)||0),fuente:$('f_fuente').value,estado:$('f_estado').value,nota:$('f_nota').value.trim()};
+    if(!d.nombre||!d.telefono){toast('Nombre y teléfono son obligatorios');return null;}
+    return d;
+  }
+  function guardarForm(){
+    var d=leer();if(!d)return;
+    if(editId){
+      var l=leads.find(function(x){return x.id===editId;});
+      if(l){for(var k in d)l[k]=d[k];l.hist=l.hist||[];l.hist.push({fecha:hoyISO(),tipo:'Datos actualizados'});toast('Lead actualizado');}
+    }else{
+      var n=nuevoLead();for(var k2 in d)n[k2]=d[k2];n.hist.push({fecha:hoyISO(),tipo:'Lead registrado'});leads.push(n);toast('Lead registrado');
+    }
+    cerrar();guardar();
+  }
+  function exportJSON(){
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([JSON.stringify({app:'gestor-leads-cod-vortex',version:1,exportado:new Date().toISOString(),leads:leads},null,2)],{type:'application/json'}));
+    a.download='leads-vortex-'+new Date().toISOString().slice(0,10)+'.json';
+    document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);document.body.removeChild(a);},400);
+    toast('Exportados '+leads.length+' leads');
+  }
+  function importJSON(f){
+    var r=new FileReader();
+    r.onload=function(){
+      try{var d=JSON.parse(r.result);var arr=Array.isArray(d)?d:(d&&Array.isArray(d.leads)?d.leads:null);
+        if(!arr){toast('Archivo no válido');return;}
+        if(arr.length&&confirm('¿Reemplazar los '+leads.length+' leads actuales por '+arr.length+'?')){
+          leads=arr.map(function(l){l.id=l.id||nuevoId();l.creado=l.creado||hoyISO();l.hist=l.hist||[];return l;});
+          guardar();toast('Importados '+arr.length+' leads');
+        }
+      }catch(e){toast('Error al leer archivo');}
+    };
+    r.readAsText(f);
+  }
+  $('btnNuevo').onclick=function(){abrirModal(null);};
+  $('btnCancelar').onclick=cerrar;
+  $('btnGuardar').onclick=guardarForm;
+  $('btnExportar').onclick=exportJSON;
+  $('btnImportar').onclick=function(){$('fileImp').click();};
+  $('fileImp').onchange=function(){if(this.files[0])importJSON(this.files[0]);this.value='';};
+  $('btnLimpiar').onclick=function(){filtro='todos';termino='';$('buscar').value='';render();};
+  $('buscar').oninput=function(){termino=this.value.trim();render();};
+  $('stats').onclick=function(e){var el=e.target.closest('.stat');if(!el)return;filtro=el.dataset.f;render();};
+  $('lista').onclick=function(e){
+    var card=e.target.closest('.ld');if(!card)return;
+    var l=leads.find(function(x){return x.id===card.dataset.id;});if(!l)return;
+    var b=e.target.closest('[data-a]');if(!b)return;
+    var a=b.dataset.a;
+    if(a==='editar')abrirModal(l);
+    else if(a==='borrar'){if(confirm('¿Borrar el lead de '+(l.nombre||l.id)+'?')){leads=leads.filter(function(x){return x.id!==l.id;});guardar();toast('Lead borrado');}}
+    else if(a==='chatear'){window.open('https://wa.me/'+String(l.telefono).replace(/\D/g,''),'_blank');}
+    else if(a==='rec1'){abrirWA(l,msjPlantilla(l,'primero'),'Enviado 1er recordatorio');}
+    else if(a==='rec2'){abrirWA(l,msjPlantilla(l,'segundo'),'Enviado 2º recordatorio');}
+    else if(a==='confirmo'){l.estado='confirmado';l.hist=l.hist||[];l.hist.push({fecha:hoyISO(),tipo:'Confirmó compra'});toast('¡Lead confirmado! Regístralo en el Gestor de Pedidos');guardar();abrirWA(l,msjConfirmado(l),'Confirmación enviada');}
+    else if(a==='nocompro'){l.estado='nocompro';l.hist=l.hist||[];l.hist.push({fecha:hoyISO(),tipo:'No compró'});toast('Marcado: no compró');guardar();}
+  };
+  $('ov').onclick=function(e){if(e.target===$('ov'))cerrar();};
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')cerrar();});
+  cargar();render();
+})();
+</script>
+</body>
+</html>

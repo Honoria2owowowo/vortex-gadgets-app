@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulador de Flujo de Caja COD · VÓRTEX Gadgets</title>
+<style>
+  :root{--bg:#f1f5f9;--card:#fff;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--teal:#00A6A6;--teal-d:#0b7e7e;--green:#15803d;--green-bg:#dcfce7;--amber:#b45309;--amber-bg:#fef3c7;--red:#b91c1c;--red-bg:#fee2e2}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:50px}
+  .top{background:linear-gradient(135deg,#062a2a,#0b4a4a 55%,#0e6363);color:#fff;padding:16px 18px}
+  .top h1{font-size:18px}.top h1 span{color:#4CE0D6}
+  .top .sub{font-size:12px;opacity:.85;margin-top:2px}
+  .wrap{max-width:860px;margin:0 auto;padding:16px 14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  .card h2{font-size:15px;color:#062a2a;margin-bottom:12px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .f{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+  .f label{font-size:12px;font-weight:600;color:#475569}
+  .f input{border:1px solid var(--line);border-radius:9px;padding:9px 10px;font-size:15px;background:#fff}
+  .f input:focus{outline:2px solid rgba(0,166,166,.4);border-color:var(--teal)}
+  .hint{font-size:11px;color:var(--mut);margin-top:1px}
+  .res{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .kpi{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+  .kpi .v{font-size:20px;font-weight:800;color:#062a2a}
+  .kpi .l{font-size:11.5px;color:var(--mut);margin-top:2px}
+  .kpi.big{grid-column:1/-1;background:linear-gradient(135deg,#b45309,#f59e0b)}
+  .kpi.big .v{color:#fff;font-size:28px}
+  .kpi.big .l{color:#ffedd5}
+  .kpi.ok{background:var(--green-bg)}.kpi.ok .v{color:var(--green)}
+  .tabla{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
+  .tabla th{background:#062a2a;color:#fff;padding:6px 8px;text-align:right;position:sticky;top:0}
+  .tabla th:first-child,.tabla td:first-child{text-align:left}
+  .tabla td{padding:5px 8px;border-bottom:1px solid var(--line);text-align:right}
+  .tabla tr:nth-child(even){background:#f8fafc}
+  .neg{color:var(--red);font-weight:700}
+  .pos{color:var(--green);font-weight:700}
+  .note{font-size:12px;color:var(--mut);margin-top:10px;line-height:1.5}
+  .scroll{max-height:320px;overflow:auto;border:1px solid var(--line);border-radius:10px}
+  @media(max-width:560px){.grid2,.grid3,.res{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>VÓRTEX <span>Gadgets</span> · Flujo de Caja COD</h1>
+  <div class="sub">¿Cuánta caja necesitas mientras pagas el pedido y aún no cobras?</div>
+</header>
+<main class="wrap">
+
+  <div class="card">
+    <h2>Escenario de operación</h2>
+    <div class="grid3">
+      <div class="f"><label>Pedidos por día (promedio)</label><input id="c_dia" type="number" min="0" step="0.5" value="3"></div>
+      <div class="f"><label>Ticket promedio (COP)</label><input id="c_ticket" type="number" min="0" value="80000"></div>
+      <div class="f"><label>Costo por pedido (COP)</label><input id="c_costo" type="number" min="0" value="55000">
+        <div class="hint">Producto + flete + comisiones</div>
+      </div>
+      <div class="f"><label>Días hasta cobrar (desfase)</label><input id="c_desfase" type="number" min="1" max="60" value="7">
+        <div class="hint">De pagar al proveedor a cobrar en la entrega</div>
+      </div>
+      <div class="f"><label>Tasa de éxito COD (%)</label><input id="c_exito" type="number" min="0" max="100" value="75">
+        <div class="hint">% de pedidos que se entregan y pagan</div>
+      </div>
+      <div class="f"><label>Días a simular</label><input id="c_horizonte" type="number" min="3" max="120" value="30"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Resultado</h2>
+    <div class="res">
+      <div class="kpi big"><div class="v" id="r_pico">—</div><div class="l">CAJA MÁXIMA QUE NECESITAS (pico del desfase)</div></div>
+      <div class="kpi"><div class="v" id="r_pordia">—</div><div class="l">Gasto diario en pedidos</div></div>
+      <div class="kpi"><div class="v" id="r_recupera">—</div><div class="l">Cobro diario esperado (cuando arranca)</div></div>
+      <div class="kpi ok"><div class="v" id="r_ganancia">—</div><div class="l">Ganancia neta diaria esperada</div></div>
+      <div class="kpi"><div class="v" id="r_mensual">—</div><div class="l">Ganancia neta en el periodo simulado</div></div>
+      <div class="kpi"><div class="v" id="r_saldo">—</div><div class="l">Saldo final acumulado (periodo)</div></div>
+    </div>
+    <div style="margin-top:12px" id="r_juicio"></div>
+  </div>
+
+  <div class="card">
+    <h2>Día a día (gasto hoy → cobro al entregar)</h2>
+    <div class="scroll">
+      <table class="tabla" id="tabla">
+        <thead><tr><th>Día</th><th>Gasto pedidos</th><th>Cobros entregas</th><th>Flujo del día</th><th>Saldo acumulado</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="note">Modelo conservador: el día 1 pagas todos los pedidos del día al proveedor; el cobro del pedido hecho el día X llega en X + desfase si la entrega fue exitosa. Los pedidos no entregados (falla COD) son costo perdido: su gasto ya se pagó y no se recupera. En la vida real ajusta con tus datos reales de entrega.</div>
+  </div>
+</main>
+
+<script>
+(function(){
+  'use strict';
+  var LS='vortex_flujo_v1';
+  var ids=['c_dia','c_ticket','c_costo','c_desfase','c_exito','c_horizonte'];
+  function $(id){return document.getElementById(id);}
+  function money(n){return '$'+Math.round(n).toLocaleString('es-CO');}
+  function n(id){var v=parseFloat($(id).value);return isNaN(v)?0:v;}
+  function guardar(){var o={};ids.forEach(function(i){o[i]=$(i).value;});try{localStorage.setItem(LS,JSON.stringify(o));}catch(e){}}
+  function cargar(){try{var o=JSON.parse(localStorage.getItem(LS)||'{}');ids.forEach(function(i){if(o[i]!==undefined)$(i).value=o[i];});}catch(e){}}
+  function calc(){
+    var pDia=n('c_dia'),ticket=n('c_ticket'),costo=n('c_costo'),desfase=Math.max(1,Math.round(n('c_desfase'))),exito=n('c_exito')/100,hor=Math.max(3,Math.round(n('c_horizonte')));
+    var gastoDiario=pDia*costo;
+    var cobroDiario=pDia*exito*ticket;
+    var ganDiaria=pDia*(exito*ticket-costo); /* pedidos fallidos: costo pagado sin cobro */
+    var pico=gastoDiario*desfase;
+    $('r_pico').textContent=money(pico);
+    $('r_pordia').textContent=money(gastoDiario);
+    $('r_recupera').textContent=money(cobroDiario);
+    $('r_ganancia').textContent=money(ganDiaria);
+    $('r_mensual').textContent=money(ganDiaria*hor);
+    /* tabla */
+    var saldo=0,rows='',maxNeg=0,minSaldo=0;
+    for(var d=1;d<=hor;d++){
+      var cobro=(d>desfase)?cobroDiario:0;
+      var flujo=cobro-gastoDiario;
+      saldo+=flujo;
+      if(saldo<minSaldo)minSaldo=saldo;
+      var cls=flujo<0?'neg':(flujo>0?'pos':'');
+      var clsS=saldo<0?'neg':(saldo>0?'pos':'');
+      rows+='<tr><td>'+d+'</td><td>'+money(gastoDiario)+'</td><td>'+money(cobro)+'</td><td class="'+cls+'">'+(flujo>=0?'+':'')+money(flujo)+'</td><td class="'+clsS+'">'+(saldo>=0?'+':'')+money(saldo)+'</td></tr>';
+    }
+    $('tbody').innerHTML=rows;
+    $('r_saldo').textContent=money(saldo);
+    var j='';
+    var necesario=Math.max(pico,0); /* necesita caja inicial = pico de gasto antes de cobros */
+    if(ganDiaria<=0){j='<div class="kpi" style="background:var(--red-bg);color:var(--red);grid-column:1/-1"><b>¡Cuidado!</b> Con esos números pierdes dinero por pedido (el costo supera lo que cobras en promedio). Revisa precio o tasa de éxito.</div>';}
+    else{j='<div class="kpi" style="background:var(--amber-bg);color:var(--amber);grid-column:1/-1"><b>Caja inicial recomendada: '+money(Math.ceil(necesario/1000)*1000)+'</b> — es lo que debes tener disponible antes de arrancar para cubrir el desfase de '+desfase+' días sin quedarte en ceros (tu saldo mínimo simulado: '+money(minSaldo)+').</div>';}
+    $('r_juicio').innerHTML=j;
+    guardar();
+  }
+  ids.forEach(function(i){$(i).addEventListener('input',calc);});
+  cargar();calc();
+})();
+</script>
+</body>
+</html>

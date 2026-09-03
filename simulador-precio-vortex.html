@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulador de Precio (landed cost) · VÓRTEX Gadgets</title>
+<style>
+  :root{--bg:#f1f5f9;--card:#fff;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--teal:#00A6A6;--teal-d:#0b7e7e;--green:#15803d;--green-bg:#dcfce7;--amber:#b45309;--amber-bg:#fef3c7;--red:#b91c1c;--red-bg:#fee2e2;--blue:#1d4ed8;--blue-bg:#dbeafe}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:50px}
+  .top{background:linear-gradient(135deg,#062a2a,#0b4a4a 55%,#0e6363);color:#fff;padding:16px 18px}
+  .top h1{font-size:18px}.top h1 span{color:#4CE0D6}
+  .top .sub{font-size:12px;opacity:.85;margin-top:2px}
+  .wrap{max-width:820px;margin:0 auto;padding:16px 14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  .card h2{font-size:15px;color:#062a2a;margin-bottom:12px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .f{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+  .f label{font-size:12px;font-weight:600;color:var(--slate,#475569)}
+  .f input{border:1px solid var(--line);border-radius:9px;padding:9px 10px;font-size:15px;background:#fff}
+  .f input:focus{outline:2px solid rgba(0,166,166,.4);border-color:var(--teal)}
+  .hint{font-size:11px;color:var(--mut);margin-top:1px}
+  .res{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .kpi{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+  .kpi .v{font-size:21px;font-weight:800;color:#062a2a;word-break:break-all}
+  .kpi .l{font-size:11.5px;color:var(--mut);margin-top:2px}
+  .kpi.big{grid-column:1/-1;background:linear-gradient(135deg,#062a2a,#0b4a4a);border:0}
+  .kpi.big .v{color:#4CE0D6;font-size:30px}
+  .kpi.big .l{color:#cbd5e1}
+  .ok{color:var(--green)}.bad{color:var(--red)}.warn{color:var(--amber)}
+  .note{font-size:12px;color:var(--mut);margin-top:10px;line-height:1.5}
+  .fila{display:flex;justify-content:space-between;font-size:13.5px;padding:4px 0;border-bottom:1px dashed var(--line)}
+  .fila:last-child{border:0}
+  .fila b{color:#062a2a}
+  #toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(80px);background:#062a2a;color:#fff;padding:10px 18px;border-radius:999px;font-size:13.5px;transition:.25s;z-index:200;opacity:0;pointer-events:none;max-width:92vw;text-align:center}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  @media(max-width:560px){.grid2,.grid3,.res{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>VÓRTEX <span>Gadgets</span> · Simulador de Precio</h1>
+  <div class="sub">Del costo en AliExpress/Dropi al precio final con margen sano</div>
+</header>
+<main class="wrap">
+
+  <div class="card">
+    <h2>1 · Costo real del producto (landed cost)</h2>
+    <div class="grid3">
+      <div class="f"><label>Costo en USD (proveedor)</label><input id="c_usd" type="number" step="0.01" min="0" value="12.5"></div>
+      <div class="f"><label>Tasa de cambio COP/USD</label><input id="c_tasa" type="number" min="0" value="4100"></div>
+      <div class="f"><label>Comisión plataforma (%)</label><input id="c_com" type="number" step="0.1" min="0" value="0">
+        <div class="hint">Ej: comisión Dropi o pasarela</div>
+      </div>
+      <div class="f"><label>Flete nacional por unidad (COP)</label><input id="c_flete" type="number" min="0" value="0">
+        <div class="hint">0 si el envío es gratis para ti</div>
+      </div>
+      <div class="f"><label>Otros costos por unidad (COP)</label><input id="c_otros" type="number" min="0" value="0">
+        <div class="hint">Empaque, pérdidas, devoluciones</div>
+      </div>
+      <div class="f"><label>Cupón promocional (%)</label><input id="c_cupon" type="number" min="0" max="100" value="10">
+        <div class="hint">Tu cupón tipo VORTEX10</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2 · Tu objetivo</h2>
+    <div class="grid2">
+      <div class="f"><label>Margen neto objetivo (%)</label><input id="c_margen" type="number" min="0" max="90" value="50"></div>
+      <div class="f"><label>¿Precio que quieres cobrar? (COP, opcional)</label><input id="c_prueba" type="number" min="0" placeholder="Déjalo vacío si no lo tienes">
+        <div class="hint">Si lo llenas, valida el margen real</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>3 · Resultado</h2>
+    <div class="res">
+      <div class="kpi big"><div class="v" id="r_precio">—</div><div class="l">PRECIO DE VENTA SUGERIDO (sin cupón)</div></div>
+      <div class="kpi"><div class="v" id="r_cupon">—</div><div class="l">Precio con cupón</div></div>
+      <div class="kpi"><div class="v" id="r_costo">—</div><div class="l">Costo total por unidad</div></div>
+      <div class="kpi"><div class="v" id="r_gan">—</div><div class="l">Ganancia neta por unidad (con cupón)</div></div>
+      <div class="kpi"><div class="v" id="r_margen">—</div><div class="l">Margen neto real</div></div>
+      <div class="kpi"><div class="v" id="r_be">—</div><div class="l">Precio mínimo (break-even)</div></div>
+    </div>
+    <div style="margin-top:12px" id="r_juicio"></div>
+    <div class="fila"><span>Costo producto (USD→COP)</span><b id="d1">—</b></div>
+    <div class="fila"><span>Comisión plataforma</span><b id="d2">—</b></div>
+    <div class="fila"><span>Flete + otros costos</span><b id="d3">—</b></div>
+    <div class="note">La ganancia se calcula sobre el precio con cupón (el peor escenario: el cliente siempre usa el cupón). Fórmula sugerida: precio = costo total ÷ (1 − margen objetivo/100). Ajusta con tu hoja de control real.</div>
+  </div>
+</main>
+<div id="toast"></div>
+
+<script>
+(function(){
+  'use strict';
+  var LS='vortex_precio_v1';
+  var ids=['c_usd','c_tasa','c_com','c_flete','c_otros','c_cupon','c_margen','c_prueba'];
+  function $(id){return document.getElementById(id);}
+  function money(n){return '$'+Math.round(n).toLocaleString('es-CO');}
+  function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove('show');},2000);}
+  function n(id){var v=parseFloat($(id).value);return isNaN(v)?0:v;}
+  function guardar(){
+    var o={};ids.forEach(function(i){o[i]=$(i).value;});
+    try{localStorage.setItem(LS,JSON.stringify(o));}catch(e){}
+  }
+  function cargar(){
+    try{
+      var o=JSON.parse(localStorage.getItem(LS)||'{}');
+      ids.forEach(function(i){if(o[i]!==undefined)$(i).value=o[i];});
+    }catch(e){}
+  }
+  function calc(){
+    var usd=n('c_usd'),tasa=n('c_tasa'),comPct=n('c_com'),flete=n('c_flete'),otros=n('c_otros'),cuponPct=n('c_cupon'),margen=n('c_margen');
+    var costoProd=usd*tasa;
+    var comision=costoProd*comPct/100;
+    var costoTotal=costoProd+comision+flete+otros;
+    var precio= costoTotal/(1-margen/100);
+    var precioCupon=precio*(1-cuponPct/100);
+    var ganCupon=precioCupon-costoTotal;
+    var margenReal=precioCupon>0?ganCupon/precioCupon*100:0;
+    var be=costoTotal; /* break-even = costo (sin cupón aún sería pérdida si cupón; con cupón el BE sube) */
+    var beCupon=costoTotal/(1-cuponPct/100);
+
+    $('r_costo').textContent=money(costoTotal);
+    $('r_precio').textContent=money(precio);
+    $('r_cupon').textContent=money(precioCupon);
+    $('r_gan').textContent=money(ganCupon)+' <span class="'+(ganCupon>=0?'ok':'bad')+'" style="font-size:13px">('+(margenReal>=0?'+':'')+Math.round(margenReal)+'%)</span>';
+    $('r_margen').textContent=Math.round(margenReal)+'%';
+    $('r_be').textContent=money(beCupon);
+    $('d1').textContent=money(costoProd);
+    $('d2').textContent=money(comision)+(comPct?' ('+comPct+'%)':'');
+    $('d3').textContent=money(flete+otros);
+    /* juicio */
+    var j='';
+    if(precioCupon<=costoTotal){j='<div class="kpi" style="background:var(--red-bg);color:var(--red);grid-column:1/-1"><b>¡ALERTA!</b> Con el cupón actual vendes por debajo o igual al costo. Sube el precio o baja el cupón.</div>';}
+    else if(margenReal<margen-5){j='<div class="kpi" style="background:var(--amber-bg);color:var(--amber);grid-column:1/-1">Con el cupón el margen real ('+Math.round(margenReal)+'%) queda por debajo de tu objetivo ('+margen+'%). Considera subir el precio base.</div>';}
+    else{j='<div class="kpi" style="background:var(--green-bg);color:var(--green);grid-column:1/-1">✓ El precio sugerido cumple tu objetivo incluso con cupón ('+Math.round(margenReal)+'%).</div>';}
+    /* validar precio de prueba */
+    var prueba=n('c_prueba');
+    if(prueba>0){
+      var pc=prueba*(1-cuponPct/100);
+      var mg=(pc-costoTotal)/pc*100;
+      j+='<div class="kpi" style="grid-column:1/-1">Tu precio de prueba '+money(prueba)+' → con cupón '+money(pc)+' → <b class="'+(mg>=30?'ok':(mg>0?'warn':'bad'))+'">margen '+Math.round(mg)+'%</b>'+(mg>=50?' (excelente)':mg>=30?' (aceptable)':mg>0?' (bajo)':' (¡pierdes!)')+'</div>';
+    }
+    $('r_juicio').innerHTML=j;
+    guardar();
+  }
+  ids.forEach(function(i){$(i).addEventListener('input',calc);});
+  cargar();calc();
+})();
+</script>
+</body>
+</html>

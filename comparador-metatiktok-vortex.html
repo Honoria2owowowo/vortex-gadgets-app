@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comparador Meta vs TikTok · VÓRTEX Gadgets</title>
+<style>
+  :root{--bg:#f1f5f9;--card:#fff;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--teal:#00A6A6;--teal-d:#0b7e7e;--green:#15803d;--green-bg:#dcfce7;--amber:#b45309;--amber-bg:#fef3c7;--red:#b91c1c;--red-bg:#fee2e2;--fb:#1877f2;--tt:#000}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:50px}
+  .top{background:linear-gradient(135deg,#062a2a,#0b4a4a 55%,#0e6363);color:#fff;padding:16px 18px}
+  .top h1{font-size:18px}.top h1 span{color:#4CE0D6}
+  .top .sub{font-size:12px;opacity:.85;margin-top:2px}
+  .wrap{max-width:900px;margin:0 auto;padding:16px 14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  .card h2{font-size:15px;color:#062a2a;margin-bottom:12px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
+  .f{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+  .f label{font-size:12px;font-weight:600;color:#475569}
+  .f input{border:1px solid var(--line);border-radius:9px;padding:9px 10px;font-size:15px;background:#fff}
+  .f input:focus{outline:2px solid rgba(0,166,166,.4);border-color:var(--teal)}
+  .hint{font-size:11px;color:var(--mut);margin-top:1px}
+  .plat{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .pcol{border:1px solid var(--line);border-radius:14px;padding:14px}
+  .pcol h3{font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .pcol.meta h3{color:var(--fb)}.pcol.tiktok h3{color:#0f172a}
+  .res2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+  .kpi{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:11px;text-align:center}
+  .kpi .v{font-size:19px;font-weight:800;color:#062a2a}
+  .kpi .l{font-size:11px;color:var(--mut);margin-top:2px}
+  .kpi.gan .v{font-size:24px}
+  .ganador{background:linear-gradient(135deg,#062a2a,#0b4a4a);color:#fff;border-radius:14px;padding:16px;text-align:center;margin-bottom:14px}
+  .ganador .v{font-size:26px;font-weight:800;color:#4CE0D6;margin:4px 0}
+  .ganador .l{font-size:13px;color:#cbd5e1}
+  .ganador .diff{font-size:14px;margin-top:6px}
+  .ok{color:var(--green)}.bad{color:var(--red)}.warn{color:var(--amber)}
+  .note{font-size:12px;color:var(--mut);margin-top:10px;line-height:1.5}
+  @media(max-width:640px){.grid2,.grid3,.grid4,.plat,.res2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>VÓRTEX <span>Gadgets</span> · Meta vs TikTok</h1>
+  <div class="sub">Mismo presupuesto, mismas métricas — ¿dónde te conviene pautar?</div>
+</header>
+<main class="wrap">
+
+  <div class="card">
+    <h2>Parámetros comunes</h2>
+    <div class="grid4">
+      <div class="f"><label>Presupuesto por día (COP)</label><input id="c_bud" type="number" min="0" value="30000"></div>
+      <div class="f"><label>Días de campaña</label><input id="c_dias" type="number" min="1" value="7"></div>
+      <div class="f"><label>Ticket promedio (COP)</label><input id="c_ticket" type="number" min="0" value="80000"></div>
+      <div class="f"><label>Margen neto por venta (%)</label><input id="c_margen" type="number" min="0" max="95" value="40"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Métricas por plataforma (usa tus datos reales de campañas o benchmarks de Colombia)</h2>
+    <div class="plat">
+      <div class="pcol meta">
+        <h3><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--fb)"></span> Meta (FB/IG)</h3>
+        <div class="grid2">
+          <div class="f"><label>CPM (COP)</label><input id="m_cpm" type="number" min="0" value="9000"><div class="hint">Costo por 1000 impresiones</div></div>
+          <div class="f"><label>CTR (%)</label><input id="m_ctr" type="number" step="0.01" min="0" value="1.2"><div class="hint">Clics / impresiones</div></div>
+          <div class="f"><label>CVR (%)</label><input id="m_cvr" type="number" step="0.01" min="0" value="1.8"><div class="hint">Compras / clics</div></div>
+        </div>
+      </div>
+      <div class="pcol tiktok">
+        <h3><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#000"></span> TikTok</h3>
+        <div class="grid2">
+          <div class="f"><label>CPM (COP)</label><input id="t_cpm" type="number" min="0" value="7500"><div class="hint">Costo por 1000 impresiones</div></div>
+          <div class="f"><label>CTR (%)</label><input id="t_ctr" type="number" step="0.01" min="0" value="1.5"><div class="hint">Clics / impresiones</div></div>
+          <div class="f"><label>CVR (%)</label><input id="t_cvr" type="number" step="0.01" min="0" value="2.0"><div class="hint">Compras / clics</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ganador" id="ganador">
+    <div class="l">VEREDICTO</div>
+    <div class="v" id="g_nombre">—</div>
+    <div class="diff" id="g_diff"></div>
+  </div>
+
+  <div class="card">
+    <h2>Proyección</h2>
+    <div class="plat">
+      <div class="pcol meta"><h3 style="color:var(--fb)">Meta</h3><div class="res2" id="r_meta"></div></div>
+      <div class="pcol tiktok"><h3>TikTok</h3><div class="res2" id="r_tiktok"></div></div>
+    </div>
+    <div class="note">Fórmulas: impresiones = inversión ÷ CPM × 1000 · clics = impresiones × CTR · pedidos = clics × CVR · CPP = inversión ÷ pedidos · ROAS = ingresos ÷ inversión · ganancia = pedidos × ticket × margen − inversión. <b>Ojo:</b> el margen neto debe ser el real después de costo + flete + comisiones (sácalo del simulador de precio). Estos valores por defecto son puntos de partida editables, no datos reales de tu cuenta.</div>
+  </div>
+</main>
+
+<script>
+(function(){
+  'use strict';
+  var LS='vortex_cmp_v1';
+  var ids=['c_bud','c_dias','c_ticket','c_margen','m_cpm','m_ctr','m_cvr','t_cpm','t_ctr','t_cvr'];
+  function $(id){return document.getElementById(id);}
+  function money(n){return '$'+Math.round(n).toLocaleString('es-CO');}
+  function pct(n){return (Math.round(n*10)/10)+'%';}
+  function n(id){var v=parseFloat($(id).value);return isNaN(v)?0:v;}
+  function guardar(){var o={};ids.forEach(function(i){o[i]=$(i).value;});try{localStorage.setItem(LS,JSON.stringify(o));}catch(e){}}
+  function cargar(){try{var o=JSON.parse(localStorage.getItem(LS)||'{}');ids.forEach(function(i){if(o[i]!==undefined)$(i).value=o[i];});}catch(e){}}
+  function calcPlat(pre,bud,dias,ticket,margen,cpm,ctr,cvr){
+    var inv=bud*dias;
+    var imp=inv/(cpm||1)*1000;
+    var clics=imp*(ctr/100);
+    var pedidos=clics*(cvr/100);
+    var cpp=pedidos>0?inv/pedidos:0;
+    var ingresos=pedidos*ticket;
+    var roas=ingresos/inv;
+    var ganancia=pedidos*ticket*(margen/100)-inv;
+    return {inv:inv,imp:imp,clics:clics,pedidos:pedidos,cpp:cpp,ingresos:ingresos,roas:roas,ganancia:ganancia};
+  }
+  function kpi(v,l,cls){return '<div class="kpi'+(cls?' '+cls:'')+'"><div class="v">'+v+'</div><div class="l">'+l+'</div></div>';}
+  function render(){
+    var bud=n('c_bud'),dias=Math.max(1,n('c_dias')),ticket=n('c_ticket'),margen=n('c_margen');
+    var m=calcPlat('m',bud,dias,ticket,margen,n('m_cpm'),n('m_ctr'),n('m_cvr'));
+    var t=calcPlat('t',bud,dias,ticket,margen,n('t_cpm'),n('t_ctr'),n('t_cvr'));
+    var best=m.ganancia>=t.ganancia?'Meta':(t.ganancia>m.ganancia?'TikTok':'Empate');
+    $('g_nombre').textContent=best;
+    var diff=Math.abs(m.ganancia-t.ganancia);
+    $('g_diff').innerHTML=diff>0?('<b>'+(best==='Empate'?'':best)+' gana '+money(diff)+' más</b> en el periodo'):'Ambas dan el mismo resultado con estos datos';
+    if(m.ganancia<0&&t.ganancia<0&&best!=='Empate'){$('g_diff').textContent='Las dos pierden con estos números — revisa CVR/margen o prueba otra plataforma';}
+    var mk=''+kpi(money(m.imp),'Impresiones')+kpi(Math.round(m.clics),'Clics')+kpi(Math.round(m.pedidos),'Pedidos estimados')+kpi(money(m.cpp),'Costo por pedido')+kpi('ROAS '+pct(m.roas),'Retorno publicitario')+kpi(money(m.inv),'Inversión total')+kpi(money(m.ganancia),'GANANCIA/PÉRDIDA',m.ganancia>=0?'gan':'')+kpi(pct(m.ganancia/m.inv*100),'Rentabilidad sobre inversión');
+    $('r_meta').innerHTML=mk;
+    var tk=''+kpi(money(t.imp),'Impresiones')+kpi(Math.round(t.clics),'Clics')+kpi(Math.round(t.pedidos),'Pedidos estimados')+kpi(money(t.cpp),'Costo por pedido')+kpi('ROAS '+pct(t.roas),'Retorno publicitario')+kpi(money(t.inv),'Inversión total')+kpi(money(t.ganancia),'GANANCIA/PÉRDIDA',t.ganancia>=0?'gan':'')+kpi(pct(t.ganancia/t.inv*100),'Rentabilidad sobre inversión');
+    $('r_tiktok').innerHTML=tk;
+    guardar();
+  }
+  ids.forEach(function(i){$(i).addEventListener('input',render);});
+  cargar();render();
+})();
+</script>
+</body>
+</html>

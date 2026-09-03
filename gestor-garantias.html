@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gestor de Garantías · VÓRTEX Gadgets</title>
+<style>
+  :root{
+    --bg:#f1f5f9;--card:#fff;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;
+    --teal:#00A6A6;--teal-d:#0b7e7e;--green:#15803d;--green-bg:#dcfce7;
+    --blue:#1d4ed8;--blue-bg:#dbeafe;--amber:#b45309;--amber-bg:#fef3c7;
+    --red:#b91c1c;--red-bg:#fee2e2;--slate:#475569;--slate-bg:#e2e8f0;--purple:#6d28d9;--purple-bg:#ede9fe;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:60px}
+  .top{background:linear-gradient(135deg,#062a2a,#0b4a4a 55%,#0e6363);color:#fff;padding:16px 18px;position:sticky;top:0;z-index:50;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+  .top h1{font-size:18px}.top h1 span{color:#4CE0D6}
+  .top .sub{font-size:12px;opacity:.85;margin-top:2px}
+  .top-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .btn{border:0;border-radius:10px;padding:9px 14px;font-size:14px;font-weight:600;cursor:pointer;background:#e2e8f0;color:#0f172a}
+  .btn:active{transform:scale(.97)}
+  .btn.teal{background:var(--teal);color:#fff}.btn.teal:hover{background:var(--teal-d)}
+  .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}
+  .btn.sm{padding:5px 9px;font-size:12px;border-radius:8px}
+  .btn.danger{background:var(--red);color:#fff}
+  .btn.ok{background:var(--green);color:#fff}
+  .wrap{max-width:1020px;margin:0 auto;padding:14px 14px 0}
+  .stats{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none}
+  .stats::-webkit-scrollbar{display:none}
+  .stat{flex:0 0 auto;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:7px 12px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:7px}
+  .stat b{font-size:16px}
+  .stat.on{border-color:var(--teal);box-shadow:0 0 0 2px rgba(0,166,166,.25)}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .toolbar{display:flex;gap:8px;align-items:center;margin:6px 0 14px;flex-wrap:wrap}
+  .search{flex:1;min-width:200px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:#fff}
+  .list{display:grid;grid-template-columns:1fr;gap:12px}
+  @media(min-width:760px){.list{grid-template-columns:1fr 1fr}}
+  .g{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+  .g-h{display:flex;gap:10px;align-items:flex-start}
+  .ava{width:40px;height:40px;border-radius:50%;background:var(--purple);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;flex:0 0 40px;font-size:15px}
+  .g-h .who{flex:1;min-width:0}
+  .who .nm{font-weight:700;font-size:15px}
+  .who .meta{font-size:12.5px;color:var(--mut)}
+  .motivo{margin-top:6px;font-size:13px;background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:7px 9px;color:var(--ink)}
+  .badges{margin-top:6px;display:flex;flex-wrap:wrap;gap:5px}
+  .bdg{font-size:11px;font-weight:700;border-radius:999px;padding:2px 9px}
+  .bdg.recibido{background:var(--red-bg);color:var(--red)}
+  .bdg.revision{background:var(--amber-bg);color:var(--amber)}
+  .bdg.resuelto{background:var(--green-bg);color:var(--green)}
+  .bdg.rechazado{background:var(--slate-bg);color:var(--slate)}
+  .bdg.urgente{background:#dc2626;color:#fff}
+  .hist{margin-top:8px;font-size:11.5px;color:var(--mut);border-top:1px dashed var(--line);padding-top:6px}
+  .acciones{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px;border-top:1px dashed var(--line);padding-top:8px}
+  .empty{background:var(--card);border:1.5px dashed var(--line);border-radius:14px;padding:34px 18px;text-align:center;color:var(--mut)}
+  .empty b{display:block;font-size:16px;color:var(--ink);margin-bottom:6px}
+  .ov{position:fixed;inset:0;background:rgba(8,25,25,.55);display:none;align-items:flex-start;justify-content:center;overflow:auto;z-index:100;padding:18px 12px}
+  .ov.open{display:flex}
+  .modal{background:#fff;border-radius:16px;width:100%;max-width:560px;padding:18px;margin:auto 0;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+  .modal h2{font-size:17px;margin-bottom:14px;color:#062a2a}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .f{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+  .f label{font-size:12px;font-weight:600;color:var(--slate)}
+  .f input,.f select,.f textarea{border:1px solid var(--line);border-radius:9px;padding:9px 10px;font-size:14px;background:#fff}
+  .f input:focus,.f select:focus,.f textarea:focus{outline:2px solid rgba(0,166,166,.4);border-color:var(--teal)}
+  .f textarea{resize:vertical;min-height:48px}
+  .full{grid-column:1/-1}
+  .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}
+  #toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(80px);background:#062a2a;color:#fff;padding:10px 18px;border-radius:999px;font-size:13.5px;transition:.25s;z-index:200;opacity:0;pointer-events:none;max-width:92vw;text-align:center}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .file-in{display:none}
+  @media(max-width:520px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-row">
+    <div>
+      <h1>VÓRTEX <span>Gadgets</span> · Garantías y Postventa</h1>
+      <div class="sub">Reclamos, garantía 30 días, reembolsos y repuestos</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn teal" id="btnNuevo">+ Nuevo reclamo</button>
+      <button class="btn ghost sm" id="btnExportar">Exportar</button>
+      <button class="btn ghost sm" id="btnImportar">Importar</button>
+      <input type="file" id="fileImp" class="file-in" accept=".json,application/json">
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="stats" id="stats"></div>
+  <div class="toolbar">
+    <input class="search" id="buscar" placeholder="Buscar por cliente, teléfono o producto…">
+    <button class="btn" id="btnLimpiar" style="display:none">Limpiar</button>
+  </div>
+  <div id="lista" class="list"></div>
+  <div class="empty" id="vacio" style="display:none">
+    <b>No hay reclamos registrados</b>
+    Registra cada garantía: motivo, estado y resolución. Así nunca pierdes el rastro de un cliente.
+  </div>
+</main>
+
+<div class="ov" id="ov">
+  <div class="modal">
+    <h2 id="modalTitulo">Nuevo reclamo</h2>
+    <div class="grid2">
+      <div class="f"><label>Cliente *</label><input id="f_nombre" placeholder="Nombre y apellido"></div>
+      <div class="f"><label>Teléfono / WhatsApp *</label><input id="f_telefono" inputmode="tel" placeholder="3001234567"></div>
+      <div class="f"><label>Producto *</label><input id="f_producto" placeholder="Ej: Audífonos M10"></div>
+      <div class="f"><label>Valor (COP)</label><input id="f_valor" type="number" min="0" placeholder="69930"></div>
+      <div class="f"><label>Motivo</label>
+        <select id="f_motivo">
+          <option>No funciona / falla</option>
+          <option>Llegó dañado</option>
+          <option>Le falta una pieza</option>
+          <option>Diferente al anunciado</option>
+          <option>Cambio de opinión</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="f"><label>Estado</label>
+        <select id="f_estado">
+          <option value="recibido">Recibido (abierto)</option>
+          <option value="revision">En revisión con proveedor</option>
+          <option value="resuelto">Resuelto</option>
+          <option value="rechazado">Rechazado / fuera de garantía</option>
+        </select>
+      </div>
+      <div class="f"><label>Resolución (si aplica)</label>
+        <select id="f_resol">
+          <option value="">— Elegir —</option>
+          <option>Reembolso total</option>
+          <option>Envío de repuesto</option>
+          <option>Envío de producto nuevo</option>
+          <option>Reparación</option>
+          <option>Crédito / cupón</option>
+        </select>
+      </div>
+      <div class="f"><label>N.º pedido / guía (opcional)</label><input id="f_ref" placeholder="P-XXX o guía"></div>
+      <div class="f full"><label>Descripción del problema *</label><textarea id="f_desc" placeholder="Qué le pasa al producto, desde cuándo, qué probó el cliente…"></textarea></div>
+      <div class="f full"><label>Solución aplicada / notas internas</label><textarea id="f_nota" placeholder="Qué respondió Dropi, costo del repuesto, acuerdos…"></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="btnCancelar">Cancelar</button>
+      <button class="btn teal" id="btnGuardar">Guardar reclamo</button>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+(function(){
+  'use strict';
+  var LS='vortex_garantias_v1';
+  var items=[],filtro='todos',termino='',editId=null;
+  function $(id){return document.getElementById(id);}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}
+  function money(n){n=Number(n)||0;return '$'+n.toLocaleString('es-CO');}
+  function hoyISO(){return new Date().toISOString();}
+  function fmt(iso){var d=new Date(iso);if(isNaN(d))return'';return d.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'2-digit'})+' '+d.toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});}
+  function hDiff(iso){return Math.floor((Date.now()-new Date(iso).getTime())/3600000);}
+  function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove('show');},2400);}
+  function guardar(){localStorage.setItem(LS,JSON.stringify(items));render();}
+  function cargar(){try{var r=localStorage.getItem(LS);items=r?JSON.parse(r):[];if(!Array.isArray(items))items=[];}catch(e){items=[];}}
+  function nuevoId(){return'G'+Date.now().toString(36).toUpperCase();}
+  function nuevo(){return{id:nuevoId(),creado:hoyISO(),updated:hoyISO(),nombre:'',telefono:'',producto:'',valor:0,motivo:'No funciona / falla',estado:'recibido',resol:'',ref:'',desc:'',nota:'',hist:[{fecha:hoyISO(),tipo:'Reclamo registrado'}]};}
+  function estadoAlerta(g){
+    if(g.estado==='recibido'||g.estado==='revision'){
+      var h=hDiff(g.updated);
+      if(g.estado==='recibido'&&h>=48)return'urgente';
+      if(g.estado==='revision'&&h>=72)return'urgente';
+    }
+    return g.estado;
+  }
+  function catG(g){
+    var e=estadoAlerta(g);
+    if(e==='urgente')return'urgentes';
+    if(g.estado==='resuelto')return'resueltos';
+    if(g.estado==='rechazado')return'rechazados';
+    return g.estado==='revision'?'revision':'recibidos';
+  }
+  function enFiltro(g){
+    var c=catG(g);
+    if(filtro!=='todos'&&c!==filtro)return false;
+    if(termino){var q=termino.toLowerCase();var hay=(g.nombre+' '+g.telefono+' '+g.producto+' '+g.desc+' '+g.ref).toLowerCase();if(hay.indexOf(q)===-1)return false;}
+    return true;
+  }
+  var CATS=[['todos','Todos'],['urgentes','¡Urgentes!'],['recibidos','Recibidos'],['revision','En revisión'],['resueltos','Resueltos'],['rechazados','Rechazados']];
+  var DOT={todos:'#0f172a',urgentes:'#dc2626',recibidos:'#ef4444',revision:'#f59e0b',resueltos:'#22c55e',rechazados:'#94a3b8'};
+  var ETIQ={recibido:'Recibido',revision:'En revisión',resuelto:'Resuelto',rechazado:'Rechazado'};
+  function renderStats(){
+    var c={};CATS.forEach(function(x){c[x[0]]=0;});
+    items.forEach(function(g){c[catG(g)]++;c.todos++;});
+    var h='';
+    CATS.forEach(function(x){h+='<div class="stat'+(filtro===x[0]?' on':'')+'" data-f="'+x[0]+'"><span class="dot" style="background:'+DOT[x[0]]+'"></span><b>'+c[x[0]]+'</b> '+x[1]+'</div>';});
+    $('stats').innerHTML=h;
+  }
+  function msjRespuesta(g){
+    var m='Hola '+(g.nombre||'')+', gracias por escribirnos 🙌\n\n';
+    if(g.estado==='recibido')m+='Recibimos tu caso de garantía por '+(g.producto||'tu producto')+'. Lo estamos revisando con nuestro equipo y te respondemos a la brevedad (máx. 48 h).';
+    else if(g.estado==='revision')m+='Te confirmamos que tu caso por '+(g.producto||'tu producto')+' está en revisión con el proveedor. Te avisamos en cuanto tengamos respuesta.';
+    else if(g.estado==='resuelto')m+='¡Tu caso quedó resuelto! '+(g.resol?('Resolución: '+g.resol+'.'):'')+' Gracias por tu paciencia. Si necesitas algo más, aquí estamos.';
+    else m+='Lamentamos informarte que tu caso quedó rechazado por estar fuera de los términos de garantía. ¿Te podemos ayudar con otra cosa?';
+    m+='\n\n— VÓRTEX Gadgets · soportevortexgadgets@gmail.com';
+    return m;
+  }
+  function cardG(g){
+    var e=estadoAlerta(g);
+    var ini=esc(((g.nombre||'?').charAt(0)+(g.nombre||' ').split(' ')[1]||'').charAt(0).toUpperCase());
+    var wa='https://wa.me/'+String(g.telefono||'').replace(/\D/g,'');
+    var bdg='<span class="bdg '+(e==='urgente'?'urgente':g.estado)+'">'+(e==='urgente'?'¡SIN AVANCE!':ETIQ[g.estado])+'</span>';
+    if(g.resol)bdg+='<span class="bdg revision" style="background:#e0f2fe;color:#075985">'+esc(g.resol)+'</span>';
+    var hist=(g.hist||[]).slice(-5).map(function(h){return'<div>• '+fmt(h.fecha)+' — '+esc(h.tipo)+'</div>';}).join('');
+    return '<article class="g" data-id="'+esc(g.id)+'">'+
+      '<div class="g-h"><div class="ava">'+ini+'</div><div class="who">'+
+        '<div class="nm">'+esc(g.nombre||'(sin nombre)')+'</div>'+
+        '<div class="meta">📱 '+(g.telefono?'<a href="'+wa+'" target="_blank" rel="noopener" style="color:var(--teal-d)">'+esc(g.telefono)+'</a>':'—')+'</div>'+
+        '<div class="meta">🛍 '+esc(g.producto||'—')+(g.valor?' · '+money(g.valor):'')+(g.ref?' · ref '+esc(g.ref):'')+'</div>'+
+        '<div class="badges">'+bdg+'</div>'+
+      '</div></div>'+
+      '<div class="motivo"><b>'+esc(g.motivo)+':</b> '+esc(g.desc||'')+'</div>'+
+      (g.nota?'<div style="margin-top:6px;font-size:12.5px;color:var(--mut);background:#f8fafc;border-left:3px solid var(--line);padding:5px 8px;border-radius:0 6px 6px 0">🗒 '+esc(g.nota)+'</div>':'')+
+      '<div class="acciones">'+
+        '<button class="btn sm teal" data-a="wa">Respuesta WhatsApp</button>'+
+        '<button class="btn sm" data-a="revision" style="background:var(--amber-bg);color:var(--amber)">En revisión</button>'+
+        '<button class="btn sm" data-a="resuelto">Resolver</button>'+
+        '<button class="btn sm" data-a="rechazado">Rechazar</button>'+
+        '<button class="btn sm" data-a="editar">Editar</button>'+
+        '<button class="btn sm danger" data-a="borrar">✕</button>'+
+      '</div>'+
+      (hist?'<div class="hist">'+hist+'</div>':'')+
+    '</article>';
+  }
+  function render(){
+    renderStats();
+    var vis=items.filter(enFiltro).sort(function(a,b){return(b.updated||'').localeCompare(a.updated||'');});
+    $('lista').innerHTML=vis.map(cardG).join('');
+    $('vacio').style.display=items.length?'none':'block';
+    $('btnLimpiar').style.display=(filtro!=='todos'||termino)?'inline-block':'none';
+  }
+  function abrirModal(g){
+    editId=g?g.id:null;
+    $('modalTitulo').textContent=g?'Editar reclamo':'Nuevo reclamo';
+    $('f_nombre').value=g?g.nombre:'';$('f_telefono').value=g?g.telefono:'';
+    $('f_producto').value=g?g.producto:'';$('f_valor').value=g?(g.valor||''):'';
+    $('f_motivo').value=g?(g.motivo||'No funciona / falla'):'No funciona / falla';
+    $('f_estado').value=g?(g.estado||'recibido'):'recibido';
+    $('f_resol').value=g?(g.resol||''):'';
+    $('f_ref').value=g?(g.ref||''):'';
+    $('f_desc').value=g?g.desc:'';$('f_nota').value=g?g.nota:'';
+    $('ov').classList.add('open');
+    setTimeout(function(){$('f_nombre').focus();},60);
+  }
+  function cerrar(){$('ov').classList.remove('open');editId=null;}
+  function leer(){
+    var d={nombre:$('f_nombre').value.trim(),telefono:$('f_telefono').value.trim(),producto:$('f_producto').value.trim(),valor:Math.max(0,parseInt($('f_valor').value,10)||0),motivo:$('f_motivo').value,estado:$('f_estado').value,resol:$('f_resol').value,ref:$('f_ref').value.trim(),desc:$('f_desc').value.trim(),nota:$('f_nota').value.trim()};
+    if(!d.nombre||!d.telefono||!d.producto){toast('Cliente, teléfono y producto son obligatorios');return null;}
+    if(!d.desc){toast('Describe el problema');return null;}
+    return d;
+  }
+  function guardarForm(){
+    var d=leer();if(!d)return;
+    if(editId){
+      var g=items.find(function(x){return x.id===editId;});
+      if(g){for(var k in d)g[k]=d[k];g.updated=hoyISO();g.hist=g.hist||[];g.hist.push({fecha:hoyISO(),tipo:'Reclamo actualizado'});toast('Reclamo actualizado');}
+    }else{var n=nuevo();for(var k2 in d)n[k2]=d[k2];items.push(n);toast('Reclamo registrado');}
+    cerrar();guardar();
+  }
+  function cambiarEstado(g,estado,tipo){
+    g.estado=estado;g.updated=hoyISO();
+    g.hist=g.hist||[];g.hist.push({fecha:hoyISO(),tipo:tipo});
+    guardar();
+  }
+  function resolver(g){
+    var r=prompt('Tipo de resolución:\n1 = Reembolso total\n2 = Envío de repuesto\n3 = Producto nuevo\n4 = Reparación\n5 = Crédito/cupón\n\nEscribe el número o el texto:',g.resol||'');
+    if(r===null)return;
+    var map={'1':'Reembolso total','2':'Envío de repuesto','3':'Envío de producto nuevo','4':'Reparación','5':'Crédito / cupón'};
+    g.resol=map[r.trim()]||r.trim();
+    g.estado='resuelto';g.updated=hoyISO();g.hist=g.hist||[];g.hist.push({fecha:hoyISO(),tipo:'Resuelto: '+g.resol});
+    guardar();toast('Reclamo resuelto: '+g.resol);
+  }
+  function exportJSON(){
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([JSON.stringify({app:'gestor-garantias-vortex',version:1,exportado:new Date().toISOString(),reclamos:items},null,2)],{type:'application/json'}));
+    a.download='garantias-vortex-'+new Date().toISOString().slice(0,10)+'.json';
+    document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);document.body.removeChild(a);},400);
+    toast('Exportados '+items.length+' reclamos');
+  }
+  function importJSON(f){
+    var r=new FileReader();
+    r.onload=function(){
+      try{var d=JSON.parse(r.result);var arr=Array.isArray(d)?d:(d&&Array.isArray(d.reclamos)?d.reclamos:null);
+        if(!arr){toast('Archivo no válido');return;}
+        if(arr.length&&confirm('¿Reemplazar los '+items.length+' reclamos actuales por '+arr.length+'?')){
+          items=arr.map(function(g){g.id=g.id||nuevoId();g.creado=g.creado||hoyISO();g.updated=g.updated||g.creado;g.hist=g.hist||[];return g;});
+          guardar();toast('Importados '+arr.length+' reclamos');
+        }
+      }catch(e){toast('Error al leer archivo');}
+    };
+    r.readAsText(f);
+  }
+  $('btnNuevo').onclick=function(){abrirModal(null);};
+  $('btnCancelar').onclick=cerrar;
+  $('btnGuardar').onclick=guardarForm;
+  $('btnExportar').onclick=exportJSON;
+  $('btnImportar').onclick=function(){$('fileImp').click();};
+  $('fileImp').onchange=function(){if(this.files[0])importJSON(this.files[0]);this.value='';};
+  $('btnLimpiar').onclick=function(){filtro='todos';termino='';$('buscar').value='';render();};
+  $('buscar').oninput=function(){termino=this.value.trim();render();};
+  $('stats').onclick=function(e){var el=e.target.closest('.stat');if(!el)return;filtro=el.dataset.f;render();};
+  $('lista').onclick=function(e){
+    var card=e.target.closest('.g');if(!card)return;
+    var g=items.find(function(x){return x.id===card.dataset.id;});if(!g)return;
+    var b=e.target.closest('[data-a]');if(!b)return;
+    var a=b.dataset.a;
+    if(a==='editar')abrirModal(g);
+    else if(a==='borrar'){if(confirm('¿Borrar el reclamo de '+(g.nombre||g.id)+'?')){items=items.filter(function(x){return x.id!==g.id;});guardar();toast('Reclamo borrado');}}
+    else if(a==='wa'){if(!g.telefono){toast('Sin teléfono');return;}window.open('https://wa.me/'+String(g.telefono).replace(/\D/g,'')+'?text='+encodeURIComponent(msjRespuesta(g)),'_blank');}
+    else if(a==='revision')cambiarEstado(g,'revision','Pasó a revisión con proveedor');
+    else if(a==='rechazado')cambiarEstado(g,'rechazado','Rechazado (fuera de garantía)');
+    else if(a==='resuelto')resolver(g);
+  };
+  $('ov').onclick=function(e){if(e.target===$('ov'))cerrar();};
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')cerrar();});
+  cargar();render();
+})();
+</script>
+</body>
+</html>
