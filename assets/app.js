@@ -13,6 +13,7 @@
     storefrontToken: 'd93566827739f74089b5b9933113035c', // token público (catálogo)
     apiVersion: '2026-01',
     currency: 'COP',
+    pixelId: '',                           // ID del píxel de Meta (15 dígitos) — pégalo aquí
     couponCode: 'VORTEX10',                // cupón 10% OFF
     couponPct: 10,
     flashMinutes: 15                       // duración del contador flash
@@ -209,7 +210,26 @@
     t += '\nMi nombre: __\nCiudad: __';
     return t;
   }
-  function openWa(text) { window.open(waLink(text), '_blank'); }
+  function openWa(text) { window.open(waLink(text), '_blank'); trackPixel('Contact'); }
+
+  /* ---------- Píxel de Meta ---------- */
+  function initPixel() {
+    if (!CONFIG.pixelId) return;
+    (function (f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+      n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+      if (!f._fbq) f._fbq = n;
+      n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = [];
+      t = b.createElement(e); t.async = !0; t.src = v;
+      s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+    })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    window.fbq('init', CONFIG.pixelId);
+    window.fbq('track', 'PageView');
+  }
+  function trackPixel(ev, data) {
+    if (!CONFIG.pixelId || typeof window.fbq === 'undefined') return;
+    try { window.fbq('track', ev, data || {}); } catch (e) {}
+  }
 
   /* ---------- Plantillas de producto ---------- */
   function prodCard(p) {
@@ -459,7 +479,11 @@
     if (state.loading && !state.products.length) { v.innerHTML = spinner(); }
     else if (seg.length === 0 || seg[0] === 'inicio') v.innerHTML = vHome();
     else if (seg[0] === 'catalogo') v.innerHTML = vCatalog();
-    else if (seg[0] === 'producto') v.innerHTML = vProduct(decodeURIComponent(seg[1] || ''));
+    else if (seg[0] === 'producto') {
+      v.innerHTML = vProduct(decodeURIComponent(seg[1] || ''));
+      var pv = productByHandle(decodeURIComponent(seg[1] || ''));
+      if (pv) trackPixel('ViewContent', { content_ids: [pv.handle], content_name: pv.title, content_type: 'product', value: Math.round(pv.price), currency: 'COP' });
+    }
     else if (seg[0] === 'carrito') v.innerHTML = vCart();
     else if (seg[0] === 'como-comprar') v.innerHTML = vComo();
     else if (seg[0] === 'contacto') v.innerHTML = vContacto();
@@ -502,6 +526,7 @@
     });
     if (!found) c.push({ handle: p.handle, title: p.title, price: p.price, image: p.image, qty: qty });
     saveCart(c);
+    trackPixel('AddToCart', { content_ids: [p.handle], content_name: p.title, content_type: 'product', value: Math.round(p.price * qty), currency: 'COP' });
     toast('✓ Añadido al carrito');
   }
   document.addEventListener('click', function (e) {
@@ -559,6 +584,10 @@
       if ((parseHash().seg[0] || '') !== 'catalogo') { location.hash = '#/catalogo'; }
       else renderRoute();
     }
+  });
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href*="wa.me"]');
+    if (a) trackPixel('Contact');
   });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Enter' && document.activeElement && document.activeElement.id === 'couponInput') {
@@ -702,6 +731,7 @@
 
   /* ---------- Init ---------- */
   renderBadge();
+  initPixel();
   setInterval(tickFlash, 1000);
   loadData();
   if ('serviceWorker' in navigator) {

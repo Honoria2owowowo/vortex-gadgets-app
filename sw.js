@@ -1,5 +1,5 @@
-/* Service Worker — VÓRTEX Gadgets PWA */
-const VERSION = 'vortex-app-v5';
+﻿/* Service Worker â€” VÃ“RTEX Gadgets PWA */
+const VERSION = 'vortex-app-v6';
 const PRECACHE = [
   './',
   'index.html',
@@ -31,7 +31,7 @@ self.addEventListener('fetch', (event) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
 
-  // Navegación: red primero, caché si estás sin conexión
+  // NavegaciÃ³n: red primero, cachÃ© si estÃ¡s sin conexiÃ³n
   if (req.mode === 'navigate') {
     event.respondWith(
       fetch(req)
@@ -45,7 +45,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Mismo origen (shell, datos, imágenes de assets): caché primero + actualización en segundo plano
+  // Mismo origen (shell, datos, imÃ¡genes de assets): cachÃ© primero + actualizaciÃ³n en segundo plano
   if (url.origin === self.location.origin) {
     event.respondWith(
       caches.match(req).then((cached) => {
@@ -64,7 +64,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Imágenes del catálogo (cdn.shopify.com): runtime cache simple
+  // ImÃ¡genes del catÃ¡logo (cdn.shopify.com): runtime cache simple
   if (/^https?:\/\/(cdn|images)\./.test(url.origin) || url.origin.indexOf('alicdn') > -1 || url.origin.indexOf('shopify') > -1) {
     event.respondWith(
       caches.match(req).then((cached) => {
