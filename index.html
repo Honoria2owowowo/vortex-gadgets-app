@@ -87,6 +87,18 @@
     </div>
   </aside>
 
+  <div class="modal-scrim" id="installModal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-label="Instalar la app">
+      <button class="iconbtn modal-x" data-close-install aria-label="Cerrar">✕</button>
+      <div class="modal-icon">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 5-5m-5 5-5-5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+      </div>
+      <h3>Instala la app VÓRTEX</h3>
+      <p class="install-steps" id="installInfo"></p>
+      <button class="btn btn-accent btn-block" data-close-install>Entendido</button>
+    </div>
+  </div>
+
   <div class="toast" id="toast" hidden></div>
   <script src="assets/app.js" defer></script>
 </body>

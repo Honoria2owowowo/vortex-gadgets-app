@@ -466,11 +466,28 @@
 
   /* ---------- Instalación (Android / iOS / escritorio) ---------- */
   function isIOS() { return /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream; }
-  function installSteps() {
-    return isIOS()
-      ? 'En iPhone: botón Compartir → “Añadir a pantalla de inicio”.'
-      : 'En Chrome: menú ⋮ → “Instalar app” o “Añadir a pantalla de inicio”.';
+  function isAndroid() { return /android/i.test(navigator.userAgent); }
+  function isMobile() { return isIOS() || isAndroid(); }
+  function installInstructions() {
+    if (isIOS()) {
+      return '1. Pulsa el botón Compartir (cuadrado con flecha hacia arriba) en Safari.\n2. Desliza las opciones y toca “Añadir a pantalla de inicio”.\n3. Toca “Añadir” (arriba a la derecha).\n\nLa app quedará en tu pantalla de inicio y se abrirá a pantalla completa.';
+    }
+    if (isAndroid()) {
+      return '1. Toca el menú ⋮ (arriba a la derecha de Chrome).\n2. Toca “Instalar app” o “Añadir a pantalla de inicio”.\n3. Confirma tocando “Instalar”.\n\nSi la opción no aparece aún, vuelve a entrar a la app, úsala unos segundos y repite — Chrome la muestra después de un rato.';
+    }
+    return '1. Mira la barra de direcciones de Chrome/Edge: debe aparecer un icono de monitor con flecha (Instalar).\n2. Tócalo y confirma, o ve al menú ⋮ → “Instalar como aplicación”.\n3. La app se abre en su propia ventana.';
   }
+  function openInstallModal() {
+    var info = $('#installInfo');
+    if (info) info.textContent = installInstructions();
+    var m = $('#installModal');
+    if (m) { m.hidden = false; requestAnimationFrame(function () { m.classList.add('open'); }); }
+  }
+  function closeInstallModal() {
+    var m = $('#installModal');
+    if (m) { m.classList.remove('open'); setTimeout(function () { m.hidden = true; }, 200); }
+  }
+  $$('[data-close-install]').forEach(function (el) { el.addEventListener('click', closeInstallModal); });
   var deferredPrompt = null;
   window.addEventListener('beforeinstallprompt', function (e) {
     e.preventDefault();
@@ -482,16 +499,16 @@
   });
   var btnInstall = $('#btnInstall');
   btnInstall.addEventListener('click', function () {
-    if (deferredPrompt) {
+    if (deferredPrompt && !isIOS()) {
       try {
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then(function (res) {
           if (res && res.outcome === 'accepted') { toast('Instalando…'); }
           deferredPrompt = null;
         });
-      } catch (e) { toast(installSteps()); }
+      } catch (e) { openInstallModal(); }
     } else {
-      toast(installSteps());
+      openInstallModal(); // iOS o Chrome sin permiso aún: guía manual
     }
   });
   if (isIOS() && !window.navigator.standalone) $('#iosHint').hidden = false;
