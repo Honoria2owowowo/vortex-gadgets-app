@@ -96,6 +96,21 @@
   <div class="stats" id="stats"></div>
   <div class="toolbar">
     <input class="search" id="buscar" placeholder="Buscar por nombre, teléfono o producto…">
+    <select id="fTemp" style="padding:10px 8px;border:1px solid #e2e8f0;border-radius:10px;font-size:13.5px;background:#fff">
+      <option value="">Temperatura: todas</option>
+      <option value="frio">Fríos</option>
+      <option value="tibio">Tibios</option>
+      <option value="caliente">Calientes</option>
+    </select>
+    <select id="fDrv" style="padding:10px 8px;border:1px solid #e2e8f0;border-radius:10px;font-size:13.5px;background:#fff">
+      <option value="">Driver emocional: todos</option>
+      <option value="miedo">Miedos</option>
+      <option value="deseo">Deseos</option>
+      <option value="meta">Metas</option>
+      <option value="sentimiento">Sentimientos</option>
+      <option value="logro">Logros</option>
+      <option value="seguridad">Seguridad</option>
+    </select>
     <button class="btn" id="btnLimpiar" style="display:none">Limpiar</button>
   </div>
   <div id="lista" class="list"></div>
@@ -128,6 +143,25 @@
           <option value="descartado">Descartado (no contesta)</option>
         </select>
       </div>
+      <div class="f"><label>Temperatura</label>
+        <select id="f_temp">
+          <option value="">— Sin clasificar —</option>
+          <option value="frio">Frío (apenas conoce)</option>
+          <option value="tibio">Tibio (interesado)</option>
+          <option value="caliente">Caliente (a punto de comprar)</option>
+        </select>
+      </div>
+      <div class="f"><label>Driver emocional (qué lo mueve)</label>
+        <select id="f_driver">
+          <option value="">— Sin clasificar —</option>
+          <option value="miedo">Miedo (no perder la oportunidad)</option>
+          <option value="deseo">Deseo (querer tenerlo)</option>
+          <option value="meta">Meta (objetivo que persigue)</option>
+          <option value="sentimiento">Sentimiento (sentirse bien)</option>
+          <option value="logro">Logro (premiarse)</option>
+          <option value="seguridad">Seguridad (confianza total)</option>
+        </select>
+      </div>
       <div class="f full"><label>Notas / motivo (si no compró)</label><textarea id="f_nota" placeholder="Ej: dice que es caro, quiere pensarlo, no le llegó el mensaje…"></textarea></div>
     </div>
     <div class="modal-actions">
@@ -142,7 +176,7 @@
 (function(){
   'use strict';
   var LS='vortex_leads_v1';
-  var leads=[], filtro='todos', termino='', editId=null;
+  var leads=[], filtro='todos', termino='', editId=null, filtroT='', filtroD='';
   function $(id){return document.getElementById(id);}
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}
   function money(n){n=Number(n)||0;return '$'+n.toLocaleString('es-CO');}
@@ -153,7 +187,7 @@
   function guardar(){localStorage.setItem(LS,JSON.stringify(leads));render();}
   function cargar(){try{var r=localStorage.getItem(LS);leads=r?JSON.parse(r):[];if(!Array.isArray(leads))leads=[];}catch(e){leads=[];}}
   function nuevoId(){return'L'+Date.now().toString(36).toUpperCase();}
-  function nuevoLead(){return{id:nuevoId(),creado:hoyISO(),nombre:'',telefono:'',producto:'',valor:0,fuente:'WhatsApp',estado:'nuevo',nota:'',hist:[]};}
+  function nuevoLead(){return{id:nuevoId(),creado:hoyISO(),nombre:'',telefono:'',producto:'',valor:0,fuente:'WhatsApp',estado:'nuevo',temperatura:'',driver:'',nota:'',hist:[]};}
 
   function estadoLead(l){
     if(l.estado==='confirmado')return'confirmado';
@@ -174,12 +208,20 @@
   function enFiltro(l){
     var c=catLead(l);
     if(filtro!=='todos'&&c!==filtro)return false;
+    if(filtroT&&l.temperatura!==filtroT)return false;
+    if(filtroD&&l.driver!==filtroD)return false;
     if(termino){var q=termino.toLowerCase();var hay=(l.nombre+' '+l.telefono+' '+l.producto+' '+l.nota).toLowerCase();if(hay.indexOf(q)===-1)return false;}
     return true;
   }
   var CATS=[['todos','Todos'],['activos','Activos (responder)'],['recordar','¡Por recordar!'],['confirmados','Confirmaron'],['nocompraron','No compraron'],['descartados','Descartados']];
   var DOT={todos:'#0f172a',activos:'#3b82f6',recordar:'#dc2626',confirmados:'#22c55e',nocompraron:'#f59e0b',descartados:'#94a3b8'};
   var ETIQ={nuevo:'Nuevo',recordado:'Recordado',confirmado:'Confirmó',nocompro:'No compró',descartado:'Descartado'};
+  var TEMPS=[['frio','Frío'],['tibio','Tibio'],['caliente','Caliente']];
+  var TMPSTYLE={frio:['#e2e8f0','#475569'],tibio:['#fef3c7','#b45309'],caliente:['#dcfce7','#15803d']};
+  function tempNombre(t){var r=TEMPS.find(function(x){return x[0]===t;});return r?r[1]:'';}
+  var DRIVERS=[['miedo','Miedo','#ef4444'],['deseo','Deseo','#f59e0b'],['meta','Meta','#3b82f6'],['sentimiento','Sentimiento','#ec4899'],['logro','Logro','#16a34a'],['seguridad','Seguridad','#00A6A6']];
+  var DRVSTYLE={miedo:['#fee2e2','#b91c1c'],deseo:['#fef3c7','#b45309'],meta:['#dbeafe','#1d4ed8'],sentimiento:['#fce7f3','#be185d'],logro:['#dcfce7','#15803d'],seguridad:['#ccf3f3','#0b7e7e']};
+  function drvNombre(d){var r=DRIVERS.find(function(x){return x[0]===d;});return r?r[1]:'';}
   function renderStats(){
     var c={};CATS.forEach(function(x){c[x[0]]=0;});
     leads.forEach(function(l){c[catLead(l)]++;c.todos++;});
@@ -210,6 +252,30 @@
     return m;
     function nomSafe(x){return x.nombre||'';}
   }
+  function msjImpulso(l,d){
+    var n=l.nombre||'',p=l.producto||'el producto que te llamó la atención',val=l.valor?money(l.valor):'';
+    var base='Hola '+n+' 👋 soy de VÓRTEX Gadgets. ';
+    var fin=' Pagas contra entrega, sin tarjeta y envío gratis. ¿Te lo aparto?';
+    var msgs={
+      miedo:'Te soy honesto: '+p+' '+(val?'('+val+') ':'')+'tiene pocas unidades y a este precio no duran. No te quedes con el "y si lo hubiera pedido…".'+fin,
+      deseo:'Cierra los ojos un segundo: imagina '+p+' ya en tus manos, funcionando para ti. Eso que deseas está a un pedido de distancia.'+fin,
+      meta:'Las personas que logran sus metas se dan buenas herramientas. '+p+' es de esas: te ahorra tiempo y te facilita el día.'+fin,
+      sentimiento:'Después del día a día uno merece sus gustos. '+p+' es de esos pequeños placeres que se sienten cada día.'+fin,
+      logro:'Lo que haces cada día vale, y quienes logran cosas saben premiarse. '+p+' es tu premio, y hoy con 10% OFF extra (VORTEX10).'+fin,
+      seguridad:'Entiendo que comprar online genera desconfianza. Por eso: pagas solo cuando el pedido está en tu mano, lo revisas antes de pagar y tienes 30 días de garantía. '+p+' te espera sin riesgo.'
+    };
+    return base+msgs[d];
+  }
+  function enviarImpulso(l,d){
+    if(!l.telefono){toast('Sin teléfono');return;}
+    window.open('https://wa.me/'+String(l.telefono).replace(/\D/g,'')+'?text='+encodeURIComponent(msjImpulso(l,d)),'_blank');
+    l.hist=l.hist||[];
+    l.hist.push({fecha:hoyISO(),tipo:'Mensaje impulso: '+drvNombre(d)});
+    if(l.estado==='nuevo')l.estado='recordado';
+    l.updated=hoyISO();
+    guardar();
+    toast('Mensaje de '+drvNombre(d).toLowerCase()+' enviado');
+  }
   function cardLead(l){
     var e=estadoLead(l);
     var ini=esc(((l.nombre||'?').charAt(0)).toUpperCase());
@@ -219,6 +285,8 @@
     if(e==='porrecordar')bdg='<span class="bdg alerta">¡Sin respuesta hace '+(hDiff(l.creado)>=48?'+48 h':'24 h+')+'!</span>';
     bdg+='<span class="bdg '+bdgCls[l.estado]+'">'+ETIQ[l.estado]+'</span>';
     if(l.fuente)bdg+='<span class="bdg descartado" style="background:#e2e8f0;color:#475569">'+esc(l.fuente)+'</span>';
+    if(l.temperatura&&TMPSTYLE[l.temperatura])bdg+='<span class="bdg" style="background:'+TMPSTYLE[l.temperatura][0]+';color:'+TMPSTYLE[l.temperatura][1]+'">'+tempNombre(l.temperatura)+'</span>';
+    if(l.driver&&DRVSTYLE[l.driver])bdg+='<span class="bdg" style="background:'+DRVSTYLE[l.driver][0]+';color:'+DRVSTYLE[l.driver][1]+'">'+drvNombre(l.driver)+'</span>';
     var hist=(l.hist||[]).slice(-4).map(function(h){return'<div>• '+fmt(h.fecha)+' — '+esc(h.tipo)+'</div>';}).join('');
     var ult=hDiff(l.creado);
     var ant=ult<1?'hace <1 h':(ult<24?'hace '+ult+' h':'hace '+Math.floor(ult/24)+' d');
@@ -230,6 +298,9 @@
         '<div class="badges">'+bdg+'</div>'+
       '</div></div>'+
       (l.nota?'<div style="margin-top:6px;font-size:12.5px;color:var(--mut);background:#f8fafc;border-left:3px solid var(--line);padding:5px 8px;border-radius:0 6px 6px 0">📝 '+esc(l.nota)+'</div>':'')+
+      '<div class="badges" style="margin-top:8px;border-top:1px dashed #e2e8f0;padding-top:7px"><span class="bdg" style="background:#062a2a;color:#fff">Impulso de compra:</span>'+
+        DRIVERS.map(function(dv){return '<span class="bdg" style="background:'+DRVSTYLE[dv[0]][0]+';color:'+DRVSTYLE[dv[0]][1]+';cursor:pointer" data-i="'+dv[0]+'" title="Enviar mensaje de '+dv[1].toLowerCase()+'">'+dv[1]+'</span>';}).join('')+
+      '</div>'+
       '<div class="acciones">'+
         '<button class="btn sm teal" data-a="rec1">1er recordatorio</button>'+
         '<button class="btn sm" data-a="rec2">2º recordatorio</button>'+
@@ -247,7 +318,7 @@
     var vis=leads.filter(enFiltro).sort(function(a,b){return(b.creado||'').localeCompare(a.creado||'');});
     $('lista').innerHTML=vis.map(cardLead).join('');
     $('vacio').style.display=leads.length?'none':'block';
-    $('btnLimpiar').style.display=(filtro!=='todos'||termino)?'inline-block':'none';
+    $('btnLimpiar').style.display=(filtro!=='todos'||termino||filtroT||filtroD)?'inline-block':'none';
   }
   function copiar(texto,msg){
     function fb(){var t=document.createElement('textarea');t.value=texto;document.body.appendChild(t);t.select();try{document.execCommand('copy');toast(msg);}catch(e){toast('No se pudo copiar');}document.body.removeChild(t);}
@@ -271,13 +342,15 @@
     $('f_valor').value=l?(l.valor||''):'';
     $('f_fuente').value=l?(l.fuente||'WhatsApp'):'WhatsApp';
     $('f_estado').value=l?(l.estado||'nuevo'):'nuevo';
+    $('f_temp').value=l?(l.temperatura||''):'';
+    $('f_driver').value=l?(l.driver||''):'';
     $('f_nota').value=l?l.nota:'';
     $('ov').classList.add('open');
     setTimeout(function(){$('f_nombre').focus();},60);
   }
   function cerrar(){ $('ov').classList.remove('open'); editId=null; }
   function leer(){
-    var d={nombre:$('f_nombre').value.trim(),telefono:$('f_telefono').value.trim(),producto:$('f_producto').value.trim(),valor:Math.max(0,parseInt($('f_valor').value,10)||0),fuente:$('f_fuente').value,estado:$('f_estado').value,nota:$('f_nota').value.trim()};
+    var d={nombre:$('f_nombre').value.trim(),telefono:$('f_telefono').value.trim(),producto:$('f_producto').value.trim(),valor:Math.max(0,parseInt($('f_valor').value,10)||0),fuente:$('f_fuente').value,estado:$('f_estado').value,temperatura:$('f_temp').value,driver:$('f_driver').value,nota:$('f_nota').value.trim()};
     if(!d.nombre||!d.telefono){toast('Nombre y teléfono son obligatorios');return null;}
     return d;
   }
@@ -317,12 +390,15 @@
   $('btnExportar').onclick=exportJSON;
   $('btnImportar').onclick=function(){$('fileImp').click();};
   $('fileImp').onchange=function(){if(this.files[0])importJSON(this.files[0]);this.value='';};
-  $('btnLimpiar').onclick=function(){filtro='todos';termino='';$('buscar').value='';render();};
+  $('btnLimpiar').onclick=function(){filtro='todos';filtroT='';filtroD='';termino='';$('buscar').value='';$('fTemp').value='';$('fDrv').value='';render();};
   $('buscar').oninput=function(){termino=this.value.trim();render();};
+  $('fTemp').onchange=function(){filtroT=this.value;render();};
+  $('fDrv').onchange=function(){filtroD=this.value;render();};
   $('stats').onclick=function(e){var el=e.target.closest('.stat');if(!el)return;filtro=el.dataset.f;render();};
   $('lista').onclick=function(e){
     var card=e.target.closest('.ld');if(!card)return;
     var l=leads.find(function(x){return x.id===card.dataset.id;});if(!l)return;
+    var imp=e.target.closest('[data-i]');if(imp){enviarImpulso(l,imp.dataset.i);return;}
     var b=e.target.closest('[data-a]');if(!b)return;
     var a=b.dataset.a;
     if(a==='editar')abrirModal(l);
