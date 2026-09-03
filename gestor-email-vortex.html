@@ -122,6 +122,7 @@
   <!-- ===================== CONTACTOS ===================== -->
   <section class="seccion on" id="sec-c">
     <div class="stats" id="stats"></div>
+    <div class="stats" id="statsD" style="margin-top:-2px"></div>
     <div class="toolbar">
       <input class="search" id="buscar" placeholder="Buscar por nombre, email, teléfono o producto…">
       <button class="btn" id="btnLimpiar" style="display:none">Limpiar</button>
@@ -208,6 +209,17 @@
           <option value="objeciones">Objeciones</option>
         </select>
       </div>
+      <div class="f"><label>Driver emocional (opcional)</label>
+        <select id="c_driver">
+          <option value="">— Sin clasificar —</option>
+          <option value="miedo">Miedo (no perder la oportunidad)</option>
+          <option value="deseo">Deseo (querer tenerlo)</option>
+          <option value="meta">Meta (objetivo que persigue)</option>
+          <option value="sentimiento">Sentimiento (sentirse bien)</option>
+          <option value="logro">Logro (premiarse)</option>
+          <option value="seguridad">Seguridad (confianza total)</option>
+        </select>
+      </div>
       <div class="f"><label>Fuente</label><input id="c_fuente" placeholder="Meta / TikTok / página…"></div>
       <div class="f full"><label>Notas</label><textarea id="c_nota" style="min-height:40px"></textarea></div>
     </div>
@@ -238,8 +250,8 @@
   'use strict';
   var LS='vortex_email_v1', LSF='vortex_email_flyers';
   var contactos=[], flyersPropios=[];
-  var filtro='todos', termino='', editId=null;
-  var campSeg='todos', campTpl=null, campFlyer='f-vortex10', cta='https://app.vortexgadgets.com.co';
+  var filtro='todos', filtroD='td', termino='', editId=null;
+  var campSeg='todos', campD='td', campTpl=null, campFlyer='f-vortex10', cta='https://app.vortexgadgets.com.co';
   var BASE='https://app.vortexgadgets.com.co';
   var FLYERS=[
     {id:'f-vortex10', nombre:'Cupón 10% + envío', url:BASE+'/flyers/flyer-vortex10.png'},
@@ -248,6 +260,9 @@
   ];
   var SEGS=[['todos','Todos','#0f172a'],['frios','Fríos','#94a3b8'],['tibios','Tibios','#f59e0b'],['calientes','Calientes','#22c55e'],['carrito','Carrito','#3b82f6'],['objeciones','Objeciones','#7c3aed']];
   var SEGCLS={frios:'seg-frios',tibios:'seg-tibios',calientes:'seg-calientes',carrito:'seg-carrito',objeciones:'seg-objeciones'};
+  var DRIVERS=[['td','Todos','#0f172a'],['miedo','Miedos','#ef4444'],['deseo','Deseos','#f59e0b'],['meta','Metas','#3b82f6'],['sentimiento','Sentimientos','#ec4899'],['logro','Logros','#16a34a'],['seguridad','Seguridad','#00A6A6']];
+  var DRVSTYLE={miedo:['#fee2e2','#b91c1c'],deseo:['#fef3c7','#b45309'],meta:['#dbeafe','#1d4ed8'],sentimiento:['#fce7f3','#be185d'],logro:['#dcfce7','#15803d'],seguridad:['#ccf3f3','#0b7e7e']};
+  function drvNombre(d){var r=DRIVERS.find(function(x){return x[0]===d;});return r?r[1]:'';}
   var TEMPLATES=[
     {id:'hook', nombre:'Hook / novedad', tipo:'Curiosidad', asunto:'Novedad en VÓRTEX Gadgets — algo que te va a gustar, {{nombre}}',
      texto:'Hola {{nombre}},\n\nEn VÓRTEX Gadgets acabamos de recibir productos que vuelan en Colombia y queríamos que los conocieras primero tú.\n\nSin tarjeta, sin anticipo: pides, revisas y pagas cuando te llega.\n\nMira el catálogo aquí: {{tienda}}\n\nCualquier duda, respóndeme este correo.\n\n— VÓRTEX Gadgets',
@@ -266,7 +281,26 @@
      h1:'Tu pedido te está esperando', p1:'Completa tu pedido hoy: envío gratis, pagas al recibir y con 10% extra con VORTEX10.'},
     {id:'recompra', nombre:'Gracias / recompra', tipo:'Fidelización', asunto:'Gracias {{nombre}} — un beneficio solo para ti',
      texto:'Hola {{nombre}},\n\nGracias por confiar en VÓRTEX Gadgets. Queremos que tu próxima compra sea aún mejor:\n\n• Cupón VORTEX10: 10% OFF en tu próximo pedido\n• Envío gratis a toda Colombia\n• Nuevos productos cada semana\n\nVer novedades: {{tienda}}\n\n¿Cómo te fue con tu pedido? Cuéntanos, nos ayuda a mejorar.\n\n— VÓRTEX Gadgets',
-     h1:'Gracias por comprar con nosotros', p1:'Tu próximo pedido con 10% OFF (VORTEX10) y envío gratis. Te esperamos.'}
+     h1:'Gracias por comprar con nosotros', p1:'Tu próximo pedido con 10% OFF (VORTEX10) y envío gratis. Te esperamos.'},
+    /* --- psicológicas: impulso de compra profundo --- */
+    {id:'ps-miedo', nombre:'Psico: miedo a perder', tipo:'FOMO / urgencia emocional', asunto:'{{nombre}}, no dejes que se te escape (quedan pocas)',
+     texto:'Hola {{nombre}},\n\nTe soy honesto: no escribo esto a todo el mundo. Te escribo a ti porque sé que {{producto}} te llamó la atención y los buenos productos se acaban rápido.\n\nImagina que en dos semanas lo ves agotado y te quedas con el "y si lo hubiera pedido…".\n\nNo es presión, es realidad: hoy está disponible, con envío gratis y pagas cuando lo recibes.\n\nMíralo aquí: {{tienda}}\n\n— VÓRTEX Gadgets',
+     h1:'Hay cosas que no esperan', p1:'Lo que te gustó está disponible hoy. Cuando se acabe, no habrá segunda oportunidad con estas condiciones.'},
+    {id:'ps-deseo', nombre:'Psico: deseo', tipo:'Imaginar el resultado', asunto:'{{nombre}}, imagínalo: ya está en tus manos',
+     texto:'Hola {{nombre}},\n\nCierra los ojos un segundo. Imagina {{producto}} llegando a tu puerta, abriendo la caja, probándolo por primera vez y sintiendo que fue una decisión correcta.\n\nEso que deseas no está lejos: está a un pedido de distancia, con envío gratis y pago contra entrega.\n\nNo tienes que decidir con miedo — decides con la tranquilidad de pagar cuando lo tengas en tus manos.\n\nVer {{producto}}: {{tienda}}\n\n— VÓRTEX Gadgets',
+     h1:'Lo que deseas está más cerca de lo que crees', p1:'Cualquiera de nuestros 23 productos está pensado para darte lo que buscas: comodidad, calidad y esa sensación de haber elegido bien.'},
+    {id:'ps-meta', nombre:'Psico: meta', tipo:'Objetivo concreto', asunto:'{{nombre}}, un paso menos hacia tu meta',
+     texto:'Hola {{nombre}},\n\n¿Sabes qué tienen en común las personas que logran sus metas? Que se dan herramientas para llegar.\n\n{{producto}} no es un gasto: es una herramienta que te acerca a esa meta — ahorrar tiempo, sonar mejor, cuidar tu casa, sentirte más cómodo.\n\nY hoy te lo pongo fácil: envío gratis, pago contra entrega y cupón VORTEX10 (10% OFF).\n\nDa el paso: {{tienda}}\n\n— VÓRTEX Gadgets',
+     h1:'Tu meta merece buenas herramientas', p1:'Cada producto de nuestro catálogo existe para resolverte algo real. Elige el tuyo y avanza un paso hoy.'},
+    {id:'ps-sentimiento', nombre:'Psico: sentimiento', tipo:'Bienestar emocional', asunto:'{{nombre}}, hoy mereces sentirte bien',
+     texto:'Hola {{nombre}},\n\nDespués de días largos, del trabajo, del ruido, uno necesita sus momentos. Un buen audífono, una luz que cambia tu espacio, un gadget que te facilita la vida.\n\n{{producto}} es de esos pequeños gustos que se sienten todos los días.\n\nTe lo digo de corazón: date ese gusto. Pagas cuando lo recibas, sin riesgo.\n\nVer catálogo: {{tienda}}\n\n— VÓRTEX Gadgets',
+     h1:'Los pequeños gustos también importan', p1:'Escoge entre 23 productos pensados para tu día a día. Te lo mereces, y pagas al recibir.'},
+    {id:'ps-logro', nombre:'Psico: logro', tipo:'Premio al esfuerzo', asunto:'{{nombre}}, te ganaste esto — un premio a tu esfuerzo',
+     texto:'Hola {{nombre}},\n\nNo sé si alguien te lo ha dicho hoy, pero lo que haces cada día vale. Y quienes logran cosas también saben premiarse.\n\n{{producto}} es ese premio: algo que te recuerda, cada vez que lo usas, que te lo has ganado.\n\nHoy con 10% OFF (cupón VORTEX10), envío gratis y pago contra entrega.\n\nReclámalo: {{tienda}}\n\n— VÓRTEX Gadgets',
+     h1:'Premia tu propio esfuerzo', p1:'Elegiste trabajar duro; hoy eliges disfrutarlo. 23 productos para celebrarte.'},
+    {id:'ps-seguridad', nombre:'Psico: seguridad', tipo:'Confianza total', asunto:'{{nombre}}, cero riesgos: tú pagas solo cuando lo recibes',
+     texto:'Hola {{nombre}},\n\nSabemos que comprar online da miedo a veces: ¿llegará? ¿será igual a la foto? ¿y si me estafan?\n\nPor eso nuestro modelo es el más seguro que existe:\n\n• Pagas solo cuando el pedido está en tu mano\n• Lo revisas antes de pagar\n• Garantía de 30 días\n• WhatsApp y correo reales para ayudarte\n\nElige con calma entre nuestros 23 productos: {{tienda}}\n\n— VÓRTEX Gadgets · +57 318 173 8642',
+     h1:'Comprar sin miedo se puede', p1:'Pago contra entrega + garantía 30 días + soporte real. Tu tranquilidad es primero.'}
   ];
   function $(id){return document.getElementById(id);}
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}
@@ -279,7 +313,7 @@
     try{flyersPropios=JSON.parse(localStorage.getItem(LSF)||'[]');}catch(e){flyersPropios=[];}
   }
   function nuevoId(){return'E'+Date.now().toString(36).toUpperCase();}
-  function nuevoC(){return{id:nuevoId(),creado:hoyISO(),nombre:'',email:'',tel:'',producto:'',segmento:'frios',fuente:'',nota:'',enviados:0,ultimo:''};}
+  function nuevoC(){return{id:nuevoId(),creado:hoyISO(),nombre:'',email:'',tel:'',producto:'',segmento:'frios',driver:'',fuente:'',nota:'',enviados:0,ultimo:''};}
 
   /* ---------- plantillas ---------- */
   function reemplazar(txt,c){
@@ -318,22 +352,30 @@
   /* ---------- contactos render ---------- */
   function catC(c){
     if(filtro!=='todos'&&c.segmento!==filtro)return false;
+    if(filtroD!=='td'&&c.driver!==filtroD)return false;
     if(termino){var q=termino.toLowerCase();var hay=(c.nombre+' '+c.email+' '+c.tel+' '+c.producto+' '+c.nota).toLowerCase();if(hay.indexOf(q)===-1)return false;}
     return true;
   }
   function renderStats(){
     var c={};SEGS.forEach(function(s){c[s[0]]=0;});
-    contactos.forEach(function(x){c[x.segmento]++;c.todos++;});
+    var cd={};DRIVERS.forEach(function(s){cd[s[0]]=0;});
+    contactos.forEach(function(x){
+      c[x.segmento]++;c.todos++;
+      cd[x.driver||'td']++;cd.td++;
+    });
     var h='';
     SEGS.forEach(function(s){h+='<div class="stat'+(filtro===s[0]?' on':'')+'" data-f="'+s[0]+'"><span class="dot" style="background:'+s[2]+'"></span><b>'+c[s[0]]+'</b> '+s[1]+'</div>';});
     $('stats').innerHTML=h;
+    var hd='';
+    DRIVERS.forEach(function(s){hd+='<div class="stat'+(filtroD===s[0]?' on':'')+'" data-d="'+s[0]+'" style="border-style:dashed"><span class="dot" style="background:'+s[2]+'"></span><b>'+cd[s[0]]+'</b> '+s[1]+'</div>';});
+    $('statsD').innerHTML=hd;
   }
   function cardC(c){
     var ini=esc(((c.nombre||'?').charAt(0)).toUpperCase());
     var enviado=c.enviados>0?'<span style="color:var(--green);font-weight:700">· enviado '+c.enviados+'x'+(c.ultimo?' ('+fmt(c.ultimo)+')':'')+'</span>':'';
     return '<div class="ct" data-id="'+esc(c.id)+'">'+
       '<div class="ct-h"><div class="ava">'+ini+'</div><div class="who">'+
-        '<div class="nm">'+esc(c.nombre||'(sin nombre)')+'<span class="bdg '+SEGCLS[c.segmento]+'">'+segNombre(c.segmento)+'</span></div>'+
+        '<div class="nm">'+esc(c.nombre||'(sin nombre)')+'<span class="bdg '+SEGCLS[c.segmento]+'">'+segNombre(c.segmento)+'</span>'+(c.driver&&DRVSTYLE[c.driver]?'<span class="bdg" style="background:'+DRVSTYLE[c.driver][0]+';color:'+DRVSTYLE[c.driver][1]+'">'+drvNombre(c.driver)+'</span>':'')+'</div>'+
         '<div class="em">✉ '+esc(c.email||'—')+'</div>'+
         '<div class="em">'+(c.tel?'📱 '+esc(c.tel)+' · ':'')+(c.producto?'🛍 '+esc(c.producto):'')+' '+(c.fuente?'· '+esc(c.fuente):'')+' '+enviado+'</div>'+
         (c.nota?'<div class="em" style="color:#94a3b8">📝 '+esc(c.nota)+'</div>':'')+
@@ -359,9 +401,14 @@
   function segCounts(){var c={};contactos.forEach(function(x){c[x.segmento]=(c[x.segmento]||0)+1;});return c;}
   function renderCamp(){
     var c=segCounts();
-    var hs='';
+    var cd={};contactos.forEach(function(x){cd[x.driver||'td']=(cd[x.driver||'td']||0)+1;});
+    var hs='<div style="font-size:11px;font-weight:700;color:var(--mut);width:100%">POR LISTA (temperatura)</div>';
     SEGS.forEach(function(s){var n=s[0]==='todos'?contactos.length:(c[s[0]]||0);hs+='<div class="opt'+(campSeg===s[0]?' on':'')+'" data-opt="seg" data-v="'+s[0]+'"><b><span class="dot" style="background:'+s[2]+';display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px"></span>'+s[1]+' ('+n+')</b></div>';});
+    hs+='<div style="font-size:11px;font-weight:700;color:var(--mut);width:100%;margin-top:4px">POR DRIVER EMOCIONAL (opcional — se cruza con la lista)</div>';
+    DRIVERS.forEach(function(s){if(s[0]==='td')return;var n=cd[s[0]]||0;hs+='<div class="opt'+(campD===s[0]?' on':'')+'" data-opt="drv" data-v="'+s[0]+'"><b><span class="dot" style="background:'+s[2]+';display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px"></span>'+s[1]+' ('+n+')</b></div>';});
+    if(campD!=='td'){hs+='<button class="btn sm" id="drvClear" style="align-self:center">Quitar driver</button>';}
     $('segOpts').innerHTML=hs;
+    var btn=$('drvClear');if(btn)btn.onclick=function(){campD='td';renderCamp();};
     if(!campTpl){campTpl=TEMPLATES[0].id;cargarTpl();}
     var ht='';
     TEMPLATES.forEach(function(t){ht+='<div class="opt'+(campTpl===t.id?' on':'')+'" data-opt="tpl" data-v="'+t.id+'"><b>'+esc(t.nombre)+'</b><small>'+esc(t.tipo)+' · '+esc(t.asunto)+'</small></div>';});
@@ -379,14 +426,19 @@
     if(t){$('asuntoTxt').value=t.asunto;$('cuerpoTxt').value=t.texto;}
   }
   function destinatarios(){
-    var list=contactos.filter(function(x){return x.email&&(campSeg==='todos'||x.segmento===campSeg);});
+    var list=contactos.filter(function(x){
+      if(!x.email)return false;
+      if(campSeg!=='todos'&&x.segmento!==campSeg)return false;
+      if(campD!=='td'&&x.driver!==campD)return false;
+      return true;
+    });
     return list;
   }
   function asuntoFinal(c){return reemplazar($('asuntoTxt').value||'',c);}
   function cuerpoFinal(c){return reemplazar($('cuerpoTxt').value||'',c);}
   function renderRecips(){
     var list=destinatarios();
-    var h='<h4>'+list.length+' destinatario(s) — segmento "'+segNombre(campSeg)+'"</h4>';
+    var h='<h4>'+list.length+' destinatario(s) — "'+(campSeg==='todos'?'Todos':segNombre(campSeg))+(campD!=='td'?' · '+drvNombre(campD):'')+'"</h4>';
     if(!list.length){h+='<div class="empty">No hay contactos con email en este segmento. Agrega contactos en la pestaña Contactos.</div>';}
     list.forEach(function(c){
       h+='<div class="rec'+(c.enviados>0?' enviado':'')+'" data-id="'+esc(c.id)+'">'+
@@ -402,9 +454,9 @@
     var list=destinatarios();
     if(!list.length){toast('No hay destinatarios');return;}
     var f=flyerSel();
-    var filas=[['email','nombre','segmento','asunto','cuerpo_texto','flyer_url'].join(';')];
+    var filas=[['email','nombre','segmento','driver','asunto','cuerpo_texto','flyer_url'].join(';')];
     list.forEach(function(c){
-      filas.push([c.email,('"'+c.nombre.replace(/"/g,'""')+'"'),c.segmento,('"'+asuntoFinal(c).replace(/"/g,'""')+'"'),('"'+cuerpoFinal(c).replace(/\n/g,'\\n').replace(/"/g,'""')+'"'),f||''].join(';'));
+      filas.push([c.email,('"'+c.nombre.replace(/"/g,'""')+'"'),c.segmento,c.driver||'',('"'+asuntoFinal(c).replace(/"/g,'""')+'"'),('"'+cuerpoFinal(c).replace(/\n/g,'\\n').replace(/"/g,'""')+'"'),f||''].join(';'));
     });
     var blob='\uFEFF'+filas.join('\r\n');
     var a=document.createElement('a');
@@ -421,13 +473,14 @@
     $('c_nombre').value=c?c.nombre:'';$('c_email').value=c?c.email:'';
     $('c_tel').value=c?c.tel:'';$('c_prod').value=c?c.producto:'';
     $('c_seg').value=c?(c.segmento||'frios'):(filtro!=='todos'?filtro:'frios');
+    $('c_driver').value=c?(c.driver||''):'';
     $('c_fuente').value=c?(c.fuente||''):'';$('c_nota').value=c?c.nota:'';
     $('ovContacto').classList.add('open');
     setTimeout(function(){$('c_nombre').focus();},60);
   }
   function cerrarC(){$('ovContacto').classList.remove('open');editId=null;}
   function leerC(){
-    var d={nombre:$('c_nombre').value.trim(),email:$('c_email').value.trim().toLowerCase(),tel:$('c_tel').value.trim(),producto:$('c_prod').value.trim(),segmento:$('c_seg').value,fuente:$('c_fuente').value.trim(),nota:$('c_nota').value.trim()};
+    var d={nombre:$('c_nombre').value.trim(),email:$('c_email').value.trim().toLowerCase(),tel:$('c_tel').value.trim(),producto:$('c_prod').value.trim(),segmento:$('c_seg').value,driver:$('c_driver').value,fuente:$('c_fuente').value.trim(),nota:$('c_nota').value.trim()};
     if(!d.nombre||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)){toast('Nombre y un email válido son obligatorios');return null;}
     return d;
   }
@@ -491,9 +544,10 @@
   $('btnExportar').onclick=exportAll;
   $('btnImportar').onclick=function(){$('fileImp').click();};
   $('fileImp').onchange=function(){if(this.files[0])importar(this.files[0]);this.value='';};
-  $('btnLimpiar').onclick=function(){filtro='todos';termino='';$('buscar').value='';renderAll();};
+  $('btnLimpiar').onclick=function(){filtro='todos';filtroD='td';termino='';$('buscar').value='';renderAll();};
   $('buscar').oninput=function(){termino=this.value.trim();renderLista();};
   $('stats').onclick=function(e){var el=e.target.closest('.stat');if(!el)return;filtro=el.dataset.f;renderAll();};
+  $('statsD').onclick=function(e){var el=e.target.closest('.stat');if(!el)return;filtroD=el.dataset.d;renderAll();};
   $('lista').onclick=function(e){
     var card=e.target.closest('.ct');if(!card)return;
     var c=contactos.find(function(x){return x.id===card.dataset.id;});if(!c)return;
@@ -505,7 +559,10 @@
   $('ovContacto').onclick=function(e){if(e.target===$('ovContacto'))cerrarC();};
 
   /* campaña eventos */
-  $('segOpts').onclick=function(e){var el=e.target.closest('[data-opt="seg"]');if(!el)return;campSeg=el.dataset.v;renderCamp();};
+  $('segOpts').onclick=function(e){
+    var el=e.target.closest('[data-opt="seg"]');if(el){campSeg=el.dataset.v;renderCamp();return;}
+    var dl=e.target.closest('[data-opt="drv"]');if(dl){campD=dl.dataset.v;renderCamp();}
+  };
   $('tplOpts').onclick=function(e){var el=e.target.closest('[data-opt="tpl"]');if(!el)return;campTpl=el.dataset.v;cargarTpl();renderCamp();};
   $('flyerOpts').onclick=function(e){var el=e.target.closest('[data-opt="flyer"]');if(!el)return;campFlyer=el.dataset.v;renderCamp();};
   $('asuntoTxt').oninput=function(){renderRecips();};
