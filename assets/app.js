@@ -14,6 +14,7 @@
     apiVersion: '2026-01',
     currency: 'COP',
     pixelId: '1724390862126477',           // Píxel de Meta "Vórtex Gadgets's pixel"
+    ttPixelId: 'DACQKEJC77U4RNF8JLTG',     // Píxel de TikTok "Vortex Gadgets App"
     couponCode: 'VORTEX10',                // cupón 10% OFF
     couponPct: 10,
     flashMinutes: 15                       // duración del contador flash
@@ -212,27 +213,58 @@
   }
   function openWa(text) { window.open(waLink(text), '_blank'); trackPixel('Contact'); }
 
-  /* ---------- Píxel de Meta ---------- */
+  /* ---------- Píxeles: Meta + TikTok ---------- */
   function initPixel() {
-    if (!CONFIG.pixelId) return;
-    (function (f, b, e, v, n, t, s) {
-      if (f.fbq) return;
-      n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
-      if (!f._fbq) f._fbq = n;
-      n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = [];
-      t = b.createElement(e); t.async = !0; t.src = v;
-      s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
-    })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-    window.fbq('init', CONFIG.pixelId);
-    window.fbq('track', 'PageView');
+    if (CONFIG.pixelId) {
+      (function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+        if (!f._fbq) f._fbq = n;
+        n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = [];
+        t = b.createElement(e); t.async = !0; t.src = v;
+        s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+      })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+      window.fbq('init', CONFIG.pixelId);
+      window.fbq('track', 'PageView');
+    }
+    if (CONFIG.ttPixelId) {
+      // Cargador oficial de TikTok (ttq): load + PageView
+      (function (w, d, t) {
+        w.TiktokAnalyticsObject = t;
+        var ttq = w[t] = w[t] || [];
+        ttq.methods = ['page', 'track', 'identify', 'instances', 'debug', 'on', 'off', 'once', 'ready', 'alias', 'group', 'enableCookie', 'disableCookie', 'holdConsent', 'revokeConsent', 'grantConsent'];
+        ttq.setAndDefer = function (x, e) { x[e] = function () { x.push([e].concat(Array.prototype.slice.call(arguments, 0))); }; };
+        for (var i = 0; i < ttq.methods.length; i++) ttq.setAndDefer(ttq, ttq.methods[i]);
+        ttq.load = function (e) {
+          var o = 'https://analytics.tiktok.com/i18n/pixel/events.js';
+          var s = d.createElement('script'); s.async = !0; s.src = o + '?sdkid=' + e + '&lib=' + t;
+          var p = d.getElementsByTagName('script')[0]; p.parentNode.insertBefore(s, p);
+        };
+        ttq.load(CONFIG.ttPixelId);
+        ttq.page();
+      })(window, document, 'ttq');
+    }
   }
   function trackPixel(ev, data) {
-    if (!CONFIG.pixelId || typeof window.fbq === 'undefined') return;
-    try {
-      var d = data || {};
-      d.source = 'app_pwa'; // etiqueta para saber que el evento vino de la app
-      window.fbq('track', ev, d);
-    } catch (e) {}
+    var d = data || {};
+    d.source = 'app_pwa'; // etiqueta para saber que el evento vino de la app
+    if (CONFIG.pixelId && typeof window.fbq !== 'undefined') {
+      try { window.fbq('track', ev, d); } catch (e) {}
+    }
+    if (CONFIG.ttPixelId && typeof window.ttq !== 'undefined' && window.ttq.track) {
+      try {
+        var t = { source: 'app_pwa' };
+        if (d.content_ids && d.content_ids.length) {
+          t.content_id = d.content_ids[0];
+          t.contents = d.content_ids.map(function (id) { return { content_id: id }; });
+        }
+        if (d.content_name) t.content_name = d.content_name;
+        if (d.content_type) t.content_type = d.content_type;
+        if (d.value != null) t.value = d.value;
+        if (d.currency) t.currency = d.currency;
+        if (ev === 'PageView') { window.ttq.page(); } else { window.ttq.track(ev, t); }
+      } catch (e2) {}
+    }
   }
 
   /* ---------- Plantillas de producto ---------- */
