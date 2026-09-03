@@ -464,19 +464,37 @@
     if (!sb.hidden) $('#q').focus();
   });
 
+  /* ---------- Instalación (Android / iOS / escritorio) ---------- */
+  function isIOS() { return /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream; }
+  function installSteps() {
+    return isIOS()
+      ? 'En iPhone: botón Compartir → “Añadir a pantalla de inicio”.'
+      : 'En Chrome: menú ⋮ → “Instalar app” o “Añadir a pantalla de inicio”.';
+  }
   var deferredPrompt = null;
   window.addEventListener('beforeinstallprompt', function (e) {
     e.preventDefault();
-    deferredPrompt = e;
-    var b = $('#btnInstall');
-    b.hidden = false;
-    b.addEventListener('click', function () {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then(function () { deferredPrompt = null; b.hidden = true; });
-    });
+    deferredPrompt = e; // Chrome/Edge mostrarán el diálogo al tocar el botón
   });
-  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
-  if (isIOS && !window.navigator.standalone) $('#iosHint').hidden = false;
+  window.addEventListener('appinstalled', function () {
+    toast('App instalada: búscala en tu pantalla de inicio.');
+    deferredPrompt = null;
+  });
+  var btnInstall = $('#btnInstall');
+  btnInstall.addEventListener('click', function () {
+    if (deferredPrompt) {
+      try {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function (res) {
+          if (res && res.outcome === 'accepted') { toast('Instalando…'); }
+          deferredPrompt = null;
+        });
+      } catch (e) { toast(installSteps()); }
+    } else {
+      toast(installSteps());
+    }
+  });
+  if (isIOS() && !window.navigator.standalone) $('#iosHint').hidden = false;
 
   window.addEventListener('hashchange', renderRoute);
 

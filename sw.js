@@ -3,7 +3,7 @@ const VERSION = 'vortex-app-v1';
 const PRECACHE = [
   './',
   'index.html',
-  'manifest.webmanifest',
+  'manifest.json',
   'assets/app.css',
   'assets/app.js',
   'datos-tienda.json',
