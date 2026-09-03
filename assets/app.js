@@ -575,6 +575,7 @@
     lbEl = document.createElement('div');
     lbEl.className = 'lb';
     lbEl.id = 'lb';
+    lbEl.hidden = true;
     lbEl.innerHTML =
       '<div class="lb-back" data-action="lb-close"></div>' +
       '<button class="lb-x" data-action="lb-close" aria-label="Cerrar">✕</button>' +
