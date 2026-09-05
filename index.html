@@ -18,12 +18,12 @@
     /* Splash pago contra entrega (aparece al entrar y desaparece) */
     .splash{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;
       background:radial-gradient(circle at 50% 35%,#0d5c5c,#052020 75%);transition:opacity .55s ease;padding:22px}
-    .splash-card{background:#fff;border-radius:22px;padding:26px 22px;text-align:center;max-width:320px;width:100%;
-      box-shadow:0 18px 50px rgba(0,0,0,.45);animation:fadeCard .5s ease both}
-    .splash-img{width:min(58vw,210px);aspect-ratio:1/1;object-fit:contain;margin:0 auto 10px;display:block;
-      animation:spin360 3.2s cubic-bezier(.35,.65,.3,1) 1 both;filter:drop-shadow(0 10px 18px rgba(0,166,166,.25))}
-    .splash-txt{font-size:19px;font-weight:800;color:#0b4a4a;letter-spacing:.4px}
-    .splash-sub{font-size:13px;color:#64748b;margin-top:4px}
+    .splash-card{background:transparent;border-radius:22px;padding:18px 22px;text-align:center;max-width:330px;width:100%;
+      animation:fadeCard .5s ease both}
+    .splash-img{width:min(60vw,240px);aspect-ratio:1/1;object-fit:contain;margin:0 auto 8px;display:block;
+      animation:spin360 3.2s cubic-bezier(.35,.65,.3,1) 1 both;filter:drop-shadow(0 16px 26px rgba(0,0,0,.45))}
+    .splash-txt{font-size:20px;font-weight:800;color:#ffffff;letter-spacing:.4px;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+    .splash-sub{font-size:13.5px;color:#cdecec;margin-top:5px;text-shadow:0 1px 6px rgba(0,0,0,.3)}
     .splash-btn{margin-top:14px;width:100%;border:0;border-radius:12px;background:#00A6A6;color:#fff;
       font-weight:700;font-size:14.5px;padding:12px;cursor:pointer}
     .splash-hide{opacity:0;pointer-events:none}
@@ -34,7 +34,7 @@
 <body>
   <div class="splash" id="splash">
     <div class="splash-card">
-      <img class="splash-img" src="assets/cod-splash.jpg" alt="Paga contra entrega">
+      <img class="splash-img" src="assets/cod-splash.png" alt="Paga contra entrega">
       <p class="splash-txt">PAGA CONTRA ENTREGA</p>
       <p class="splash-sub">Recibe tu pedido y paga cuando lo tengas en tus manos</p>
       <button class="splash-btn" id="splashClose">Ver catálogo</button>
