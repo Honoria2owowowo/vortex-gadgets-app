@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulador TikTok Ads · VÓRTEX Gadgets</title>
+<style>
+  :root{--bg:#f1f5f9;--card:#fff;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--teal:#00A6A6;--teal-d:#0b7e7e;--green:#15803d;--green-bg:#dcfce7;--red:#b91c1c;--red-bg:#fee2e2;--amber:#b45309;--amber-bg:#fef3c7;--blue:#1d4ed8;--blue-bg:#dbeafe}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);padding:14px}
+  .wrap{max-width:1000px;margin:0 auto}
+  .h{background:linear-gradient(135deg,#062a2a,#0b4a4a 55%,#0e6363);color:#fff;border-radius:16px;padding:18px 20px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+  .h h1{font-size:19px;letter-spacing:.3px}
+  .h .sub{font-size:12.5px;opacity:.85}
+  .h .saldo{background:rgba(0,230,230,.14);border:1px solid rgba(0,230,230,.5);padding:8px 14px;border-radius:12px;font-weight:700;font-size:14px}
+  .grid{display:grid;gap:12px;margin-top:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+  .card h2{font-size:14px;margin-bottom:10px;color:var(--teal-d);text-transform:uppercase;letter-spacing:.4px}
+  .card h3{font-size:13px;margin:8px 0 4px}
+  .card p.hint{font-size:12px;color:var(--mut);margin-bottom:6px}
+  .row{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0}
+  .f{flex:1;min-width:150px}
+  .f label{display:block;font-size:12px;font-weight:600;color:var(--mut);margin-bottom:3px}
+  .f input,.f select{width:100%;padding:9px 10px;border:1px solid #cbd5e1;border-radius:10px;font-size:14px}
+  input[type=range]{width:100%;accent-color:var(--teal)}
+  .opt{flex:1;min-width:130px;background:#f8fafc;border:1.5px solid var(--line);border-radius:12px;padding:9px 11px;font-size:13px;cursor:pointer}
+  .opt.on{border-color:var(--teal);background:rgba(0,166,166,.09);font-weight:600}
+  .btn{background:var(--teal);color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:14px;font-weight:700;cursor:pointer}
+  .btn.green{background:#16a34a}.btn.amber{background:#d97706}.btn.red{background:#dc2626}.btn.gray{background:#64748b}
+  .btn.sm{padding:7px 12px;font-size:12.5px;border-radius:8px}
+  .btn:hover{opacity:.9}
+  .res{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:10px}
+  .kpi{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+  .kpi b{font-size:18px;display:block}
+  .kpi span{font-size:11px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+  .kpi.good{background:var(--green-bg);border-color:#86efac}.kpi.bad{background:var(--red-bg);border-color:#fca5a5}.kpi.warn{background:var(--amber-bg);border-color:#fcd34d}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
+  th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right}
+  th{color:var(--mut);font-size:11px;text-transform:uppercase}
+  td:first-child,th:first-child{text-align:left}
+  .verdict{border-radius:12px;padding:12px 14px;font-size:13.5px;margin-top:10px;font-weight:600}
+  .v-ok{background:var(--green-bg);color:#14532d}.v-warn{background:var(--amber-bg);color:#7c2d12}.v-bad{background:var(--red-bg);color:#7f1d1d}
+  .nota{font-size:11.5px;color:var(--mut);margin-top:8px}
+  .bar{height:10px;background:#e2e8f0;border-radius:6px;overflow:hidden;margin:4px 0}
+  .bar i{display:block;height:100%;background:var(--teal)}
+  .switch{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:600}
+  .switch input{width:18px;height:18px;accent-color:var(--teal)}
+  .hist{max-height:220px;overflow:auto}
+  .hist .hrow{font-size:12px;border-bottom:1px dashed var(--line);padding:5px 2px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+  footer{font-size:11px;color:var(--mut);text-align:center;margin:18px 0 8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="h">
+    <div>
+      <h1>Simulador TikTok Ads — Business Manager</h1>
+      <div class="sub">Entrena con dinero virtual · usa tus productos reales · aprende a escalar sin quemar tu semilla</div>
+    </div>
+    <div class="saldo">Dinero virtual: $5.000.000 COP</div>
+  </div>
+
+  <div class="grid">
+    <!-- Config -->
+    <div class="card">
+      <h2>1 · Tu campaña (como en el Business Manager)</h2>
+      <div class="row">
+        <div class="f"><label>Producto a vender</label>
+          <select id="prod"></select>
+        </div>
+        <div class="f"><label>Objetivo de campaña</label>
+          <select id="obj"><option>Conversiones (píxel/TikTok)</option><option>Tráfico (clics a WhatsApp)</option><option>Alcance</option></select>
+        </div>
+        <div class="f"><label>Presupuesto diario (COP)</label>
+          <input type="number" id="bud" min="10000" step="5000" value="50000">
+        </div>
+        <div class="f"><label>Duración (días)</label>
+          <input type="number" id="days" min="1" max="30" value="7">
+        </div>
+      </div>
+      <div class="row">
+        <div class="f"><label>Ticket / precio de venta (COP)</label><input type="number" id="ticket"></div>
+        <div class="f"><label>Margen neto antes de publicidad (%)</label><input type="number" id="marg" min="0" max="90"></div>
+      </div>
+      <h3>Audiencia</h3>
+      <div class="row">
+        <div class="opt" data-o="aud" data-v="ancha">Ancha (Colombia)</div>
+        <div class="opt on" data-o="aud" data-v="interes">Interés: gadgets/smart home</div>
+        <div class="opt" data-o="aud" data-v="retoque">Retargeting (visitaron la web)</div>
+      </div>
+      <h3>Creativo</h3>
+      <div class="row">
+        <div class="opt on" data-o="cre" data-v="video">Vídeo vertical normal</div>
+        <div class="opt" data-o="cre" data-v="spark">Spark Ads (orgánico)</div>
+      </div>
+      <div class="row" style="align-items:center">
+        <div class="f"><label>CPM estimado (COP)</label><input type="number" id="cpm" value="7500" step="500"></div>
+        <div class="f"><label>CTR esperado (%)</label><input type="number" id="ctr" value="1.4" step="0.1"></div>
+        <div class="f"><label>CVR esperado (%)</label><input type="number" id="cvr" value="2.5" step="0.1"></div>
+      </div>
+      <div class="row">
+        <label class="switch"><input type="checkbox" id="potencia"> <span><b>Modo potencia</b> (creativo que conecta: CTR ×1.6 y CVR ×1.5 — el caso optimista de un buen vídeo)</span></label>
+      </div>
+      <div class="row">
+        <button class="btn" id="simular">Simular campaña</button>
+        <button class="btn gray sm" id="guardar">Guardar en historial</button>
+        <button class="btn red sm" id="limpiarH">Vaciar historial</button>
+      </div>
+      <p class="nota">Los CPM/CTR/CVR son estimaciones de mercado editables. En Colombia el CPM de TikTok ronda $4.000-$12.000 y el CTR de vídeo 1-3 %; la CVR depende de tu página y seguimiento (píxel activo).</p>
+    </div>
+
+    <!-- Resultado -->
+    <div class="card" id="rescard" style="display:none">
+      <h2>2 · Resultado simulado de la campaña</h2>
+      <div class="res" id="kpis"></div>
+      <table id="tabla"></table>
+      <div class="verdict" id="verdict"></div>
+      <div id="be"></div>
+    </div>
+
+    <!-- Decisiones -->
+    <div class="card" id="decCard" style="display:none">
+      <h2>3 · Tu decisión (entrena como en el Business Manager)</h2>
+      <div class="row">
+        <button class="btn green sm" id="escalar">Escalar +20 %</button>
+        <button class="btn amber sm" id="mantener">Mantener</button>
+        <button class="btn red sm" id="pausar">Pausar</button>
+        <button class="btn sm gray" id="cambio">Cambiar creativo y retestear</button>
+      </div>
+      <div class="verdict" id="decfb"></div>
+    </div>
+
+    <!-- Aprendizaje -->
+    <div class="card">
+      <h2>Reglas de oro TikTok Ads (lo que el simulador te enseña)</h2>
+      <p class="hint">1) El <b>píxel de TikTok</b> debe medir antes de escalar (el tuyo ya está en tu app). 2) Usa <b>Spark Ads</b>: los anuncios de cuentas orgánicas con engagement convierten mejor y más baratos. 3) Prueba <b>3 creativos</b> por campaña y duplica solo al ganador. 4) Deja pasar la <b>fase de aprendizaje</b> (2-3 días) antes de juzgar. 5) El ROAS que necesitas depende de TU margen: si tu margen es 30 %, necesitas ROAS ≥ 3,3 para no perder con anuncios.</p>
+    </div>
+
+    <!-- Historial -->
+    <div class="card">
+      <h2>Historial de simulaciones (tu práctica)</h2>
+      <div class="hist" id="hist"></div>
+    </div>
+  </div>
+  <footer>Simulador educativo con dinero virtual · los resultados no son garantía real — úsalos para entrenar decisiones antes de gastar tu semilla.</footer>
+</div>
+
+<script>
+var PRODS=[
+  {n:'Audífonos M10', ticket:77700, marg:19},
+  {n:'Mini Proyector HY320', ticket:259900, marg:33},
+  {n:'Interruptor Inteligente Doble', ticket:89900, marg:28},
+  {n:'Escurridor 65 cm', ticket:139900, marg:30},
+  {n:'Bombilla Inteligente RGB', ticket:89900, marg:45}
+];
+var last=null;
+function $(id){return document.getElementById(id);}
+function money(x){return '$'+Math.round(x).toLocaleString('es-CO');}
+function selOpts(){var h='';PRODS.forEach(function(p,i){h+='<option value="'+i+'">'+p.n+' — $'+p.ticket.toLocaleString('es-CO')+'</option>';});$('prod').innerHTML=h;}
+function fillProd(){var p=PRODS[+$('prod').value];$('ticket').value=p.ticket;$('marg').value=p.marg;}
+function optHandlers(){
+  ['aud','cre'].forEach(function(cls){
+    document.querySelectorAll('[data-o="'+cls+'"]').forEach(function(el){
+      el.onclick=function(){
+        document.querySelectorAll('[data-o="'+cls+'"]').forEach(function(x){x.classList.remove('on');});
+        el.classList.add('on'); last=null;
+      };
+    });
+  });
+}
+function calc(){
+  var bud=Math.max(10000,parseInt($('bud').value,10)||0),days=Math.max(1,parseInt($('days').value,10)||1);
+  var ticket=Math.max(1,parseInt($('ticket').value,10)||1),marg=Math.max(0,parseFloat($('marg').value)||0);
+  var cpm=Math.max(1000,parseInt($('cpm').value,10)||7500),ctr=Math.max(.1,parseFloat($('ctr').value)||1.4),cvr=Math.max(.1,parseFloat($('cvr').value)||2.5);
+  var aud=document.querySelector('[data-o="aud"].on').dataset.v;
+  var cre=document.querySelector('[data-o="cre"].on').dataset.v;
+  var potencia=$('potencia').checked;
+  if(potencia){ctr*=1.6;cvr*=1.5;}
+  var multA=aud==='ancha'?1:aud==='interes'?1.35:2.2;
+  var multC=cre==='spark'?1.25:1;
+  ctr=Math.min(8,ctr*multA*multC);cvr=Math.min(15,cvr*multA);
+  // fase de aprendizaje: días 1-2 ruido (entrega 60-100%)
+  var filas=[],tot={imp:0,cl:0,ped:0,inv:0,ing:0};
+  for(var d=1;d<=days;d++){
+    var entrega=d<=2?(0.65+Math.random()*0.35):(0.9+Math.random()*0.1);
+    var inv=bud*entrega;
+    var imp=inv/cpm*1000, cl=imp*ctr/100, ped=cl*cvr/100;
+    tot.imp+=imp;tot.cl+=cl;tot.ped+=ped;tot.inv+=inv;tot.ing+=ped*ticket;
+    filas.push({d:d,inv:inv,imp:imp,cl:cl,ped:ped,ing:ped*ticket});
+  }
+  var cpa=tot.ped>0?tot.inv/tot.ped:0, roas=tot.ing/tot.inv, be=(marg>0)?(100/marg):99;
+  var gan=tot.ing*marg/100-tot.inv;
+  return {filas:filas,tot:tot,cpa:cpa,roas:roas,be:be,gan:gan,marg:marg,ticket:ticket,bud:bud,days:days,potencia:potencia,aud:aud,cre:cre};
+}
+function render(r){
+  last=r;
+  var t=r.tot;
+  $('rescard').style.display='block';$('decCard').style.display='block';
+  var k='';
+  k+='<div class="kpi"><span>Inversión total</span><b>'+money(t.inv)+'</b></div>';
+  k+='<div class="kpi"><span>Impresiones</span><b>'+Math.round(t.imp).toLocaleString('es-CO')+'</b></div>';
+  k+='<div class="kpi"><span>Pedidos (aprox.)</span><b>'+t.ped.toFixed(1)+'</b></div>';
+  k+='<div class="kpi"><span>Ingresos</span><b>'+money(t.ing)+'</b></div>';
+  var okC=r.roas>=r.be? 'good':(r.roas>=r.be*.7?'warn':'bad');
+  k+='<div class="kpi '+okC+'"><span>ROAS</span><b>'+r.roas.toFixed(2)+'</b></div>';
+  k+='<div class="kpi '+(r.gan>=0?'good':'bad')+'"><span>Ganancia neta</span><b>'+money(r.gan)+'</b></div>';
+  k+='<div class="kpi"><span>Costo por pedido</span><b>'+money(r.cpa)+'</b></div>';
+  $('kpis').innerHTML=k;
+  var tb='<tr><th>Día</th><th>Inversión</th><th>Impresiones</th><th>Clics</th><th>Pedidos</th><th>Ingresos</th></tr>';
+  r.filas.forEach(function(f){tb+='<tr><td>'+f.d+'</td><td>'+money(f.inv)+'</td><td>'+Math.round(f.imp).toLocaleString('es-CO')+'</td><td>'+f.cl.toFixed(0)+'</td><td>'+f.ped.toFixed(2)+'</td><td>'+money(f.ing)+'</td></tr>';});
+  $('tabla').innerHTML=tb;
+  var v=$('verdict');
+  if(r.roas>=r.be*1.5){v.className='verdict v-ok';v.innerHTML='🚀 RESULTADO FUERTE: ROAS '+r.roas.toFixed(2)+' (tu punto de equilibrio es '+r.be.toFixed(1)+'). Ganas dinero: +'+money(r.gan)+'. En el Business Manager real: escala +20 % cada 2 días y duplica el creativo ganador.';}
+  else if(r.roas>=r.be){v.className='verdict v-warn';v.innerHTML='OK, ganas un poco: +'+money(r.gan)+' (ROAS '+r.roas.toFixed(2)+' vs equilibrio '+r.be.toFixed(1)+'). Optimiza: prueba 2 creativos más o sube tu margen (precio sin cupón). Escala solo si el ROAS mejora.';}
+  else{v.className='verdict v-bad';v.innerHTML='ESTÁS PERDIENDO: ROAS '+r.roas.toFixed(2)+' < equilibrio '+r.be.toFixed(1)+' (ganancia '+money(r.gan)+'). No escales. Cambia creativo, oferta o producto con más margen.';}
+  $('be').innerHTML='<p class="nota">Tu punto de equilibrio con margen '+r.marg+' %: ROAS ≥ '+r.be.toFixed(1)+' (formula: 100 ÷ margen). '+(r.potencia?'<b>Modo potencia activado</b> (caso optimista con buen creativo).':'Sin modo potencia.')+' Audiencia: '+r.aud+' · Creativo: '+r.cre+'</p>';
+  $('decfb').innerHTML='';
+}
+function guardarH(){
+  if(!last){alert('Primero simula una campaña.');return;}
+  var h=JSON.parse(localStorage.getItem('ttk_hist')||'[]');
+  h.unshift({f:new Date().toLocaleString('es-CO'),prod:PRODS[+$('prod').value].n,inv:last.tot.inv,ing:last.tot.ing,roas:last.roas.toFixed(2),ped:last.tot.ped.toFixed(1),gan:last.gan});
+  h=h.slice(0,30);localStorage.setItem('ttk_hist',JSON.stringify(h));pintarH();
+}
+function pintarH(){
+  var h=JSON.parse(localStorage.getItem('ttk_hist')||'[]');
+  if(!h.length){$('hist').innerHTML='<p class="hint">Aún sin simulaciones guardadas. Practica sin miedo: es dinero virtual.</p>';return;}
+  $('hist').innerHTML=h.map(function(x){return '<div class="hrow"><span>'+x.f+' · '+x.prod+'</span><span>Inv '+money(x.inv)+' · Ing '+money(x.ing)+' · Ped '+x.ped+' · ROAS '+x.roas+' · Gan '+money(x.gan)+'</span></div>';}).join('');
+}
+$('simular').onclick=function(){render(calc());};
+$('guardar').onclick=guardarH;
+$('limpiarH').onclick=function(){if(confirm('¿Borrar historial de práctica?')){localStorage.removeItem('ttk_hist');pintarH();}};
+$('prod').onchange=fillProd;
+$('escalar').onclick=function(){if(!last){alert('Simula primero');return;}var b=parseInt($('bud').value,10);$('bud').value=Math.round(b*1.2/5000)*5000;$('decfb').innerHTML='<div class="verdict v-ok">Escalaste +20 % → nuevo presupuesto '+money(parseInt($('bud').value,10))+'/día. Regla: solo escala si el ROAS de los últimos 3 días ≥ '+last.be.toFixed(1)+' y ya pasó la fase de aprendizaje.</div>';};
+$('mantener').onclick=function(){$('decfb').innerHTML='<div class="verdict v-warn">Mantener es correcto mientras recoges datos (mínimo 3-5 días). No toques una campaña que está aprendiendo.</div>';};
+$('pausar').onclick=function(){$('decfb').innerHTML='<div class="verdict v-bad">Pausaste. Correcto si el ROAS está bajo el equilibrio o quemaste >30 % del presupuesto sin resultados. Revisa: píxel activo, creativo, oferta y precio antes de relanzar.</div>';};
+$('cambio').onclick=function(){$('decfb').innerHTML='<div class="verdict v-warn">Cambiaste el creativo y reiniciaste la prueba con 3 variantes nuevas (recuerda: mismo presupuesto, compara resultados, duplica el ganador).</div>';};
+selOpts();fillProd();optHandlers();pintarH();
+</script>
+</body>
+</html>
