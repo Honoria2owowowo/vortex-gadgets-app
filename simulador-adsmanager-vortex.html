@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0866ff">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230866ff'/%3E%3Cpath d='M14 20h36v8H14zm0 14h36v8H14z' fill='%23fff'/%3E%3C/svg%3E">
+<title>Simulador Ads Manager — VÓRTEX Gadgets (dinero virtual)</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #fff; --border: #d8dbe0; --text: #1c1e21; --muted: #65676b;
+    --blue: #0866ff; --blue-dark: #0a4fd6; --green: #31a24c; --green-bg: #e7f6ee;
+    --red: #e11d48; --red-bg: #fdecef; --amber: #b57400; --amber-bg: #fff4e0; --teal: #00a6a6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { font-family: -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif; background: var(--bg); color: var(--text); }
+  /* ===== Cabecera estilo Meta ===== */
+  .topbar { background: #fff; border-bottom: 1px solid var(--border); padding: 10px 18px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; position: sticky; top: 0; z-index: 40; }
+  .brand { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 15px; }
+  .brand-logo { width: 30px; height: 30px; border-radius: 8px; background: var(--blue); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 15px; }
+  .brand small { display: block; font-size: 10.5px; color: var(--muted); font-weight: 500; }
+  .nav-tabs { display: flex; gap: 4px; }
+  .nav-tab { padding: 8px 14px; border-radius: 8px; border: none; background: transparent; font-size: 13.5px; font-weight: 600; color: var(--muted); cursor: pointer; }
+  .nav-tab.active { background: #e7f0ff; color: var(--blue); }
+  .saldo { margin-left: auto; background: var(--green-bg); color: #157a37; border: 1px solid #bfe6cf; border-radius: 999px; padding: 7px 14px; font-weight: 700; font-size: 13.5px; white-space: nowrap; }
+  .saldo.warn { background: var(--red-bg); color: var(--red); border-color: #f3c0c9; }
+  main { max-width: 1240px; margin: 0 auto; padding: 16px 14px 70px; }
+  .view { display: none; } .view.active { display: block; }
+  /* ===== Barra de herramientas (vista campañas) ===== */
+  .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+  .toolbar .btn-create { background: var(--green); color: #fff; font-weight: 700; border-radius: 8px; padding: 10px 20px; font-size: 14px; border: none; cursor: pointer; }
+  .toolbar .btn-ghost { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 9px 14px; font-size: 13px; color: var(--text); cursor: pointer; }
+  .toolbar .btn-ghost:hover { background: #f0f2f5; }
+  .filters { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pill { border: 1px solid var(--border); background: #fff; border-radius: 999px; padding: 6px 13px; font-size: 12.5px; color: var(--muted); cursor: pointer; }
+  .pill.on { background: #e7f0ff; border-color: var(--blue); color: var(--blue); font-weight: 600; }
+  .daterange { margin-left: auto; font-size: 12.5px; color: var(--muted); background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; }
+  /* ===== Tabla estilo Ads Manager ===== */
+  .table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 880px; }
+  thead th { background: #f0f2f5; text-align: left; padding: 10px 10px; font-size: 11.5px; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  tbody td { padding: 10px; border-bottom: 1px solid #eceef1; white-space: nowrap; }
+  tbody tr:hover { background: #f7f9fc; }
+  .camp-name { font-weight: 600; }
+  .camp-name small { display: block; color: var(--muted); font-weight: 400; font-size: 11px; }
+  .toggle { width: 34px; height: 18px; border-radius: 999px; border: none; cursor: pointer; position: relative; background: #c8ccd2; }
+  .toggle.on { background: var(--green); }
+  .toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; transition: left .15s; }
+  .toggle.on::after { left: 18px; }
+  .tag { display: inline-block; border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 600; }
+  .tag.active { background: var(--green-bg); color: #157a37; }
+  .tag.paused { background: #eef0f2; color: var(--muted); }
+  .tag.error { background: var(--red-bg); color: var(--red); }
+  .row-actions { color: var(--blue); font-weight: 600; cursor: pointer; }
+  .empty { padding: 40px; text-align: center; color: var(--muted); font-size: 14px; }
+  /* ===== Botones generales ===== */
+  .btn { border-radius: 8px; padding: 10px 18px; font-size: 13.5px; font-weight: 700; border: none; cursor: pointer; }
+  .btn-blue { background: var(--blue); color: #fff; } .btn-blue:hover { background: var(--blue-dark); }
+  .btn-green { background: var(--green); color: #fff; }
+  .btn-outline { background: #fff; border: 1.5px solid var(--blue); color: var(--blue); }
+  .btn-gray { background: #e4e6eb; color: var(--text); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  /* ===== Modal de creación (4 pasos, estilo asistente) ===== */
+  .modal { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 100; display: none; align-items: center; justify-content: center; padding: 12px; }
+  .modal.open { display: flex; }
+  .modal-card { background: #fff; border-radius: 14px; width: min(960px, 100%); max-height: 92vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 24px 70px rgba(0,0,0,.3); }
+  .modal-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); }
+  .modal-head h3 { font-size: 16px; }
+  .modal-x { border: none; background: none; font-size: 22px; cursor: pointer; color: var(--muted); padding: 0 6px; }
+  .modal-body { flex: 1; overflow-y: auto; padding: 20px; }
+  .modal-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 14px 20px; border-top: 1px solid var(--border); background: #fafbfc; }
+  .step-ind { display: flex; gap: 6px; align-items: center; font-size: 12px; color: var(--muted); }
+  .step-dot { width: 8px; height: 8px; border-radius: 50%; background: #d8dbe0; }
+  .step-dot.on { background: var(--blue); }
+  .step-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .step-sub { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+  .opt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .opt { border: 1.5px solid var(--border); border-radius: 12px; padding: 14px; cursor: pointer; display: flex; gap: 12px; align-items: flex-start; background: #fff; }
+  .opt.on { border-color: var(--blue); background: #eef4ff; }
+  .opt .ico { width: 34px; height: 34px; border-radius: 8px; background: #e7f0ff; display: flex; align-items: center; justify-content: center; font-size: 17px; flex: 0 0 34px; }
+  .opt b { font-size: 13.5px; display: block; }
+  .opt small { color: var(--muted); font-size: 12px; line-height: 1.35; display: block; margin-top: 2px; }
+  label.f { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin: 12px 0 5px; }
+  input[type=text], input[type=number], select { width: 100%; padding: 9px 11px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: #fff; }
+  textarea { width: 100%; padding: 9px 11px; border: 1px solid var(--border); border-radius: 8px; font-size: 13.5px; min-height: 72px; resize: vertical; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; }
+  @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { border: 1px solid var(--border); background: #fff; border-radius: 999px; padding: 6px 12px; font-size: 12.5px; cursor: pointer; }
+  .chip.on { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .score-box { background: #f0f2f5; border-radius: 10px; padding: 12px 14px; font-size: 13px; display: flex; align-items: center; gap: 12px; }
+  .score-ring { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; color: #fff; flex: 0 0 44px; }
+  /* ===== Subida de contenido (composer) ===== */
+  .upload-box { border: 2px dashed var(--border); border-radius: 12px; padding: 26px; text-align: center; cursor: pointer; color: var(--muted); background: #fafbfc; }
+  .upload-box:hover { border-color: var(--blue); color: var(--blue); }
+  .upload-box b { color: var(--blue); }
+  .media-preview { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin-top: 12px; }
+  .media-item { position: relative; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); aspect-ratio: 1/1; background: #000; }
+  .media-item img, .media-item video { width: 100%; height: 100%; object-fit: cover; }
+  .media-item .del { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,.65); color: #fff; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px; line-height: 1; }
+  .media-item .vid-badge { position: absolute; bottom: 4px; left: 4px; background: rgba(0,0,0,.65); color: #fff; font-size: 10.5px; padding: 2px 6px; border-radius: 5px; }
+  /* ===== Vista previa feed (estilo Facebook) ===== */
+  .feed-preview { border: 1px solid var(--border); border-radius: 12px; background: #fff; max-width: 400px; margin: 0 auto; overflow: hidden; }
+  .feed-head { display: flex; align-items: center; gap: 8px; padding: 10px 12px; }
+  .feed-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--teal); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; }
+  .feed-name { font-size: 13px; font-weight: 700; line-height: 1.15; }
+  .feed-name small { display: block; font-weight: 400; color: var(--muted); font-size: 11px; }
+  .feed-media { position: relative; background: #000; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .feed-media img, .feed-media video { width: 100%; height: 100%; object-fit: contain; }
+  .feed-media .dots { position: absolute; bottom: 8px; left: 0; right: 0; display: flex; justify-content: center; gap: 5px; }
+  .feed-media .dots span { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.55); }
+  .feed-media .dots span.on { background: #fff; }
+  .feed-text { padding: 10px 12px; font-size: 13px; line-height: 1.4; }
+  .feed-cta { display: flex; align-items: center; gap: 10px; padding: 4px 12px 12px; }
+  .feed-cta .title { font-size: 13px; font-weight: 700; line-height: 1.2; }
+  .feed-cta .title small { display: block; font-weight: 400; color: var(--muted); font-size: 11px; }
+  .feed-cta .btn-cta { margin-left: auto; background: #e7f0ff; color: var(--blue); font-weight: 700; border-radius: 7px; padding: 8px 14px; font-size: 12.5px; white-space: nowrap; }
+  /* ===== KPI + consejos ===== */
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); gap: 9px; margin-bottom: 14px; }
+  .kpi { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+  .kpi .lbl { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+  .kpi .val { font-size: 16px; font-weight: 800; margin-top: 2px; }
+  .kpi .val.pos { color: #157a37; } .kpi .val.neg { color: var(--red); }
+  .advice { border-radius: 10px; padding: 11px 14px; font-size: 13px; margin-bottom: 12px; border: 1px solid; }
+  .advice.info { background: #eef4ff; border-color: #c8dcff; color: #0a3f9e; }
+  .advice.warn { background: var(--amber-bg); border-color: #f0d9ae; color: var(--amber); }
+  .advice.good { background: var(--green-bg); border-color: #bfe6cf; color: #157a37; }
+  .advice.bad { background: var(--red-bg); border-color: #f3c0c9; color: var(--red); }
+  .dash-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+  .day-label { font-size: 15px; font-weight: 800; }
+  .seg { margin-top: 16px; }
+  .seg h3 { font-size: 14px; margin-bottom: 8px; }
+  canvas { width: 100%; height: 185px; display: block; }
+  .table-dias { overflow-x: auto; background: var(--card); border: 1px solid var(--border); border-radius: 10px; }
+  .table-dias table { min-width: 860px; }
+  .footer-note { margin-top: 22px; font-size: 12px; color: var(--muted); text-align: center; line-height: 1.6; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 760px) { .grid-2 { grid-template-columns: 1fr; } }
+  .install-note { background: #eef4ff; border: 1px solid #c8dcff; border-radius: 10px; padding: 10px 14px; font-size: 12.5px; color: #0a3f9e; margin-bottom: 14px; }
+  /* ===== Pestaña Estrategia experta (aditiva) ===== */
+  .ex-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .ex-ico { width: 30px; height: 30px; border-radius: 8px; background: #e7f0ff; color: var(--blue); display: inline-flex; align-items: center; justify-content: center; font-weight: 800; margin-right: 8px; }
+  .ex-num { font-size: 24px; font-weight: 800; color: var(--blue); }
+  .ex-small { font-size: 11px; color: var(--muted); }
+  .be-big { font-size: 26px; font-weight: 800; color: var(--blue); }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand">
+    <span class="brand-logo">f</span>
+    <div>Ads Manager <small>Simulador educativo · VÓRTEX Gadgets</small></div>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-view="camp">Campañas</button>
+    <button class="nav-tab" data-view="sim">Simulación</button>
+    <button class="nav-tab" data-view="ayuda">Cómo se usa</button>
+    <button class="nav-tab" data-view="estrat">Estrategia experta</button>
+  </div>
+  <div class="saldo" id="saldo-box">Dinero virtual: $1.000.000</div>
+</div>
+<main>
+
+<!-- ============ VISTA CAMPAÑAS ============ -->
+<div class="view active" id="view-camp">
+  <div class="install-note" id="install-note">📲 <b>¿Quieres usarlo como app en tu celular?</b> Android: Chrome → ⋮ → "Añadir a pantalla de inicio". iPhone: Safari → Compartir → "Añadir a pantalla de inicio". Se abre como app, sin internet.</div>
+  <div class="toolbar">
+    <button class="btn-create" id="btn-crear">+ Crear</button>
+    <button class="btn-ghost" id="btn-duplicar" disabled>Duplicar</button>
+    <button class="btn-ghost" id="btn-editar" disabled>Editar</button>
+    <span class="btn-ghost" id="btn-columnas">Columnas</span>
+    <span class="btn-ghost" id="btn-desglose">Desglose</span>
+    <span class="daterange">Últimos 30 días: 2 ago. – 31 ago.</span>
+  </div>
+  <div class="filters" style="margin-bottom:12px;">
+    <span class="pill on" data-f="todos">Todos los anuncios</span>
+    <span class="pill" data-f="activos">Anuncios activos</span>
+    <span class="pill" data-f="entrega">Con entrega</span>
+    <span class="pill" data-f="pausadas">Pausadas</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>Activa</th><th>Campaña</th><th>Entrega</th><th>Acciones</th><th>Resultados</th>
+        <th>Coste por resultado</th><th>Presupuesto</th><th>Importe gastado</th>
+        <th>Impresiones</th><th>Alcance</th><th>Fin</th><th>Estrategia de puja</th>
+      </tr></thead>
+      <tbody id="tabla-camp"></tbody>
+    </table>
+    <div class="empty" id="tabla-vacia">Todavía no tienes campañas. Pulsa <b>+ Crear</b> para configurar tu primera campaña con dinero virtual.</div>
+  </div>
+  <div id="recom-box" style="margin-top:14px;"></div>
+</div>
+
+<!-- ============ VISTA ESTRATEGIA EXPERTO (aditiva) ============ -->
+<div class="view" id="view-estrat">
+  <div class="install-note">🎓 <b>Estrategia experta:</b> lo que aplican los media buyers que facturan con Ads Manager y casi nadie publica. Úsala ANTES de lanzar tu campaña real y en las Decisiones del simulador. No sustituye a tus datos reales: tu píxel y tu caja mandan.</div>
+
+  <div class="card" style="margin-bottom:14px;">
+    <h3 style="margin-bottom:6px;"><span class="ex-ico">1</span>Tu ROAS de equilibrio: la regla que casi nadie usa (100 ÷ margen)</h3>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:10px;">El ROAS "bonito" (3, 5, 10) no significa nada si no lo comparas con TU margen. Si tu margen neto es 20 %, con ROAS 4 pierdes dinero. Calcula tu número:</p>
+    <div class="chips" id="eq-chips" style="margin-bottom:8px;">
+      <span class="chip on" data-m="19">M10 (19 %)</span>
+      <span class="chip" data-m="33">Proyector (33 %)</span>
+      <span class="chip" data-m="28">Interruptor (28 %)</span>
+      <span class="chip" data-m="30">Escurridor (30 %)</span>
+      <span class="chip" data-m="45">Bombilla (45 %)</span>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+      <div style="flex:1;min-width:200px;"><label style="font-size:12px;color:var(--muted);font-weight:600;">O escribe tu margen neto real (%)</label>
+        <input type="number" id="eq-marg" value="33" min="1" max="90" style="max-width:180px;"></div>
+      <div class="kpi"><div class="lbl">Tu ROAS de equilibrio</div><div class="val" id="eq-be" style="color:var(--blue);">3,0</div></div>
+      <div class="kpi"><div class="lbl">ROAS meta (ganar de verdad)</div><div class="val" id="eq-meta">4,5</div></div>
+      <div class="kpi"><div class="lbl">CPA máximo por venta</div><div class="val" id="eq-cpa">—</div></div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px;">CPA máximo = margen % × ticket. Ej.: proyector 33 % × $259.900 ≈ $85.767 por venta: si tu costo por compra supera eso, mejor ni gastes en escala.</p>
+  </div>
+
+  <div class="ex-grid">
+    <div class="card">
+      <h3 style="margin-bottom:6px;"><span class="ex-ico">2</span>Antes de lanzar (checklist real)</h3>
+      <ul style="font-size:13px;line-height:1.75;padding-left:18px;">
+        <li>✅ <b>Píxel Meta activo en tienda</b> (el tuyo: 1724390862126477, Navegador + Servidor).</li>
+        <li>✅ Dominio verificado en Events Manager.</li>
+        <li>✅ Decide el evento que optimiza: si vendes por <b>checkout online</b> → Purchase; si cierras por <b>WhatsApp</b> → optimiza Contact/InitiateCheckout con valor, no esperes Purchase del píxel.</li>
+        <li>✅ Oferta definida (cupón, regalo o envío gratis) — no compitas solo por precio.</li>
+        <li>✅ Ficha con 6 fotos, specs claros y garantía visible (Ley 1480).</li>
+        <li>✅ Presupuesto de test mínimo: $30-50 mil/día × 5 días (por debajo, el algoritmo no aprende).</li>
+        <li>✅ Enlace con UTM para saber qué campaña trae cada venta.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:6px;"><span class="ex-ico">3</span>Dónde aterrizar tu tráfico (tu caso)</h3>
+      <ul style="font-size:13px;line-height:1.75;padding-left:18px;">
+        <li>🎯 <b>Tienda (producto):</b> mejor para fríos — la ficha vende y el píxel Meta mide todo el embudo.</li>
+        <li>📱 <b>App (app.vortexgadgets.com.co):</b> genial para TikTok Ads (tu píxel de TikTok vive ahí) y retargeting.</li>
+        <li>💬 <b>WhatsApp directo:</b> solo si tu anuncio dice claramente "escríbenos" (ej. ofertas); el píxel medirá menos, pero la conversación convierte más en COD.</li>
+        <li>⚡ Regla: <b>no dividas el presupuesto entre 3 destinos</b> — un solo destino por campaña, mide, y el ganador escala.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <h3 style="margin-bottom:6px;"><span class="ex-ico">4</span>El método 3-2-2 de los expertos (test → escala)</h3>
+    <div class="ex-grid">
+      <div class="kpi"><div class="lbl">Paso 1 · 3</div><div class="val" style="font-size:14px;">3 campañas/creativos con ángulos distintos (problema, prueba social, oferta)</div></div>
+      <div class="kpi"><div class="lbl">Paso 2 · 2</div><div class="val" style="font-size:14px;">2-3 días SIN tocarlas (deja aprender; presupuesto igual en todas)</div></div>
+      <div class="kpi"><div class="lbl">Paso 3 · 2</div><div class="val" style="font-size:14px;">Día 5: duplica el ganador, mata el que pasó 2× su CPA objetivo</div></div>
+      <div class="kpi"><div class="lbl">Escala</div><div class="val" style="font-size:14px;">+20 % cada 48 h si ROAS ≥ tu equilibrio × 1,5; nada de +300 % de golpe</div></div>
+    </div>
+    <p style="font-size:12.5px;color:var(--muted);margin-top:8px;">CBO vs ABO: en prueba usa ABO (mismo dinero por conjunto). En escala, CBO deja que el algoritmo fluya al ganador. Advantage+ sirve para audiencias amplias cuando ya tienes datos; no lo uses en el test inicial.</p>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <h3 style="margin-bottom:6px;"><span class="ex-ico">5</span>Lee los datos como experto (umbrales de referencia Colombia)</h3>
+    <div class="table-wrap" style="margin-bottom:8px;">
+      <table style="min-width:0;">
+        <thead><tr><th>Métrica</th><th>Frío</th><th>Tibio/retargeting</th><th>Qué hacer si no llega</th></tr></thead>
+        <tbody>
+          <tr><td>CTR (vídeo)</td><td>≥ 1,2 %</td><td>≥ 2 %</td><td>Cambia el gancho (primeros 2 s) y el creativo</td></tr>
+          <tr><td>CVR (pedido/visita)</td><td>1-2,5 %</td><td>3-6 %</td><td>Revisa ficha, precio, oferta, velocidad de la página</td></tr>
+          <tr><td>Frecuencia</td><td colspan="2">≤ 3</td><td>&gt; 3 sin resultados → creativo fatigado, cambia</td></tr>
+          <tr><td>CPA</td><td colspan="2">≤ margen $ por venta</td><td>Sobre tu CPA → no escales; arregla oferta o producto</td></tr>
+          <tr><td>ROAS</td><td colspan="2">≥ equilibrio × 1,5</td><td>Bajo el equilibrio → estás perdiendo, pausa y corrige</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12px;color:var(--muted);">Rangos de referencia del mercado colombiano para tráfico frío. Tus números reales (los del píxel) mandan sobre cualquier referencia.</p>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <h3 style="margin-bottom:6px;"><span class="ex-ico">6</span>La parte que nadie cuenta</h3>
+    <p style="font-size:13.5px;line-height:1.7;">La publicidad NO vende: <b>vende la promesa + la prueba + la ausencia de riesgo</b>. Los expertos ganan porque: (1) prueban más creativos que los demás (el creativo ES el targeting hoy), (2) cortan rápido lo que pierde (2× CPA, sin apego), (3) escalan con reglas, no con corazonadas, (4) respetan el presupuesto mínimo de aprendizaje, y (5) usan la caja (semilla) como freno: <b>nunca más del 70 % de tu semilla en pedidos en tránsito</b>. Con tu margen de 19-33 %, vender "mucho" con cupones y ROAS 2 es arruinarse despacio: primero margen sano, después volumen.</p>
+  </div>
+</div>
+
+<!-- ============ MODAL CREAR (4 pasos) ============ -->
+<div class="modal" id="modal-crear">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3>Crear campaña</h3>
+      <button class="modal-x" id="modal-x">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-foot">
+      <div class="step-ind" id="step-ind"></div>
+      <div class="btn-row">
+        <button class="btn btn-gray" id="paso-atras" style="display:none;">← Atrás</button>
+        <button class="btn btn-blue" id="paso-sig">Continuar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VISTA SIMULACIÓN ============ -->
+<div class="view" id="view-sim">
+  <div class="dash-top">
+    <div>
+      <div class="day-label" id="sim-dia">—</div>
+      <div class="sub" id="sim-camp" style="color:var(--muted);font-size:12.5px;"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-blue" id="btn-dia">Avanzar 1 día →</button>
+      <button class="btn btn-outline" id="btn-auto">Simular todo</button>
+      <button class="btn btn-green" id="btn-recargar">+ $250.000 virtuales</button>
+      <button class="btn btn-gray" id="btn-reiniciar">Reiniciar</button>
+    </div>
+  </div>
+  <div id="advice-box"></div>
+  <div class="kpis" id="kpi-row"></div>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Gasto vs. Ingresos por día</h3>
+      <canvas id="chart" height="185"></canvas>
+    </div>
+    <div class="card">
+      <h3>Decisiones (practica como en Ads Manager)</h3>
+      <p style="color:var(--muted);font-size:12.5px;margin-bottom:10px;">Cada cambio puede reiniciar el aprendizaje del algoritmo. Decisión el día 5, no antes.</p>
+      <div class="btn-row">
+        <button class="btn btn-outline" id="dec-up">Subir presupuesto +25%</button>
+        <button class="btn btn-outline" id="dec-down">Bajar presupuesto -25%</button>
+      </div>
+      <div class="btn-row" style="margin-top:8px;">
+        <button class="btn btn-outline" id="dec-retar">Retargeting: ON/OFF</button>
+        <button class="btn btn-outline" id="dec-est">CBO ↔ ABO</button>
+        <button class="btn btn-outline" id="dec-adv">Advantage+ ON/OFF</button>
+        <button class="btn btn-outline" id="dec-pausa">Pausar / Reanudar</button>
+      </div>
+      <p id="retar-status" style="color:var(--muted);font-size:12.5px;margin-top:10px;"></p>
+    </div>
+  </div>
+  <div class="seg">
+    <h3>Detalle día a día</h3>
+    <div class="table-dias">
+      <table>
+        <thead><tr><th>Día</th><th>Entrega</th><th>Gasto</th><th>Impresiones</th><th>Alcance</th><th>Clics</th><th>CTR</th><th>CPC</th><th>Resultados (ventas)</th><th>Coste/resultado</th><th>Ingresos</th><th>Ganancia</th><th>ROAS</th></tr></thead>
+        <tbody id="tabla-dias"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VISTA AYUDA ============ -->
+<div class="view" id="view-ayuda">
+  <h2 style="font-size:19px;margin-bottom:6px;">Cómo se usa este simulador</h2>
+  <p style="color:var(--muted);font-size:13.5px;margin-bottom:16px;">Replica el Ads Manager real de Facebook (flujo Advantage+). Todo el dinero es virtual.</p>
+  <div class="grid-2">
+    <div class="card">
+      <h3 style="font-size:14px;margin-bottom:8px;">1 · Crea tu campaña</h3>
+      <p style="font-size:13px;line-height:1.6;color:#444;">Pulsa <b>+ Crear</b> y sigue los 4 pasos reales: <b>Objetivo</b> (Ventas, Tráfico…) → <b>Campaña</b> (nombre + presupuesto diario) → <b>Conjunto de anuncios</b> (audiencia, ciudades, intereses) → <b>Anuncio</b> (sube tu vídeo, imagen o carrusel real y escribe el texto).</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:14px;margin-bottom:8px;">2 · Simula día a día</h3>
+      <p style="font-size:13px;line-height:1.6;color:#444;">Avanza de a 1 día y observa: impresiones, alcance, CTR, CPC, ventas, CPA, ROAS. El simulador te aconseja igual que lo haría un buen media buyer: CTR bajo → cambia el creativo; ROAS ≥ 2 → escala +25%.</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:14px;margin-bottom:8px;">3 · Aprende con decisiones (nivel Ads Manager)</h3>
+      <p style="font-size:13px;line-height:1.6;color:#444;">Sube/baja presupuesto, activa retargeting, pausa, cambia <b>CBO ↔ ABO</b> (presupuesto optimizado vs. por conjunto) y enciende/apaga <b>Advantage+</b>. Verás el impacto real: CBO fluye el dinero al conjunto ganador, Advantage+ amplía la audiencia y mejora el rendimiento, el presupuesto bajo el mínimo no deja aprender al algoritmo, y la fatiga creativa (frecuencia alta) mata el CTR.</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:14px;margin-bottom:8px;">4 · En tu celular</h3>
+      <p style="font-size:13px;line-height:1.6;color:#444;"><b>Android:</b> Chrome → menú ⋮ → "Añadir a pantalla de inicio". <b>iPhone:</b> Safari → Compartir → "Añadir a pantalla de inicio". Funciona sin internet. También puedes enviarte el archivo por WhatsApp/Drive y abrirlo en el celular.</p>
+    </div>
+  </div>
+  <div class="card seg">
+    <h3 style="font-size:14px;margin-bottom:8px;">Lo que replica de tu Ads Manager real</h3>
+    <p style="font-size:13px;line-height:1.6;color:#444;">Las columnas exactas de la tabla de campañas (Entrega, Resultados, Coste por resultado, Presupuesto, Importe gastado, Impresiones, Alcance…), el flujo Advantage+ en 3 niveles (Campaña → Conjunto → Anuncio), los 6 objetivos con sus íconos, la puntuación de campaña, el badge Advantage+ y el formato "Un solo vídeo o imagen" / "Secuencia" (carrusel).</p>
+  </div>
+</div>
+
+<div class="footer-note">Simulador educativo con rangos de referencia de la industria colombiana. No predice resultados reales. Los números son aproximados: en la vida real tu creativo, tu tienda y tu oferta mandan.<br>VÓRTEX Gadgets · Practica todo lo que quieras — aquí el dinero es virtual.</div>
+</main>
+
+<script>
+/* ============================================================
+   SIMULADOR ADS MANAGER — VÓRTEX (educativo, dinero virtual)
+   Replica el flujo Advantage+ real de Meta Ads.
+   Rangos de referencia de la industria (Colombia, e-commerce).
+   ============================================================ */
+var R = Math.random, RI = function(a, b) { return a + (b - a) * R(); };
+
+/* ---------- Datos base ---------- */
+var OBJETIVOS = [
+  { id: 'reconocimiento', label: 'Reconocimiento', ico: '📣', desc: 'Hacer que más personas vean y recuerden la marca' },
+  { id: 'trafico', label: 'Tráfico', ico: '🖱️', desc: 'Llevar personas al sitio web o app' },
+  { id: 'interaccion', label: 'Interacción', ico: '💬', desc: 'Conseguir interacciones: me gusta, comentarios, compartidos' },
+  { id: 'leads', label: 'Clientes potenciales', ico: '🧲', desc: 'Conseguir registros, llamadas y otros leads' },
+  { id: 'app', label: 'Promoción de aplicación', ico: '📲', desc: 'Instalaciones y uso de la app' },
+  { id: 'ventas', label: 'Ventas', ico: '🛍️', desc: 'Conseguir ventas (ecommerce)' }
+];
+var INTERESES = [
+  { id: 'tecnologia', label: 'Tecnología', cpm: 6200 }, { id: 'audio', label: 'Audio y música', cpm: 5600 },
+  { id: 'hogar', label: 'Hogar', cpm: 4800 }, { id: 'fitness', label: 'Fitness', cpm: 5200 },
+  { id: 'regalos', label: 'Regalos', cpm: 5000 }
+];
+var CIUDADES = [
+  { id: 'bogota', label: 'Bogotá', cpm: 5800 }, { id: 'medellin', label: 'Medellín', cpm: 5400 },
+  { id: 'cali', label: 'Cali', cpm: 5100 }, { id: 'barranquilla', label: 'Barranquilla', cpm: 4700 },
+  { id: 'bucaramanga', label: 'Bucaramanga', cpm: 4600 }, { id: 'otras', label: 'Otras ciudades', cpm: 4200 }
+];
+var EDAD_FACTOR = { '18-24': 1.05, '25-34': 1.0, '35-44': 1.05, '45+': 1.15 };
+var PALABRAS_FUERTES = ['hoy','oferta','descuento','última','último','gratis','garantía','devolvemos','riesgo','más de','reseñas','colombia','ahora','compra','envío','solo','lote','flash','limita','%','cuotas'];
+var PRODUCTOS = [
+  { nombre: 'Audífonos M10', precio: 77700, margen: 35115 },
+  { nombre: 'Mini Aire Portátil', precio: 149900, margen: 76780 },
+  { nombre: 'Cámara WiFi A9', precio: 106900, margen: 48000 },
+  { nombre: 'Bombillo RGB', precio: 55600, margen: 22000 },
+  { nombre: 'Power Bank Solar', precio: 157900, margen: 65000 }
+];
+
+/* ---------- Estado global ---------- */
+var app = {
+  saldo: 1000000,
+  campanas: [],      // campañas creadas
+  activa: null,      // campaña en simulación
+  filtro: 'todos'
+};
+
+/* ---------- Utilidades ---------- */
+function $(id) { return document.getElementById(id); }
+function fmtCOP(n) { return '$' + Math.round(n).toLocaleString('es-CO'); }
+function pct(n) { return (n * 100).toFixed(1) + '%'; }
+function fmt2(n) { return (Math.round(n * 100) / 100).toLocaleString('es-CO'); }
+function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+/* ---------- Calidad del creativo (0-100) ---------- */
+function copyScore(texto, hook) {
+  var s = 30, t = (texto || '').toLowerCase(), h = (hook || '').toLowerCase();
+  var palabras = t.split(/\s+/).filter(Boolean);
+  if (palabras.length >= 8 && palabras.length <= 45) s += 20; else if (palabras.length > 0) s += 8;
+  var fuertes = 0;
+  PALABRAS_FUERTES.forEach(function(w) { if (t.indexOf(w) >= 0) fuertes++; });
+  s += Math.min(25, fuertes * 5);
+  if (h.length >= 8 && h.length <= 40) s += 15; else s += 4;
+  if (t.indexOf('?') >= 0 || h.indexOf('?') >= 0) s += 5;
+  if (t.indexOf('!') >= 0 || h.indexOf('!') >= 0) s += 5;
+  if (/[0-9]/.test(t)) s += 5;
+  return Math.max(5, Math.min(100, s));
+}
+function creativeScore(cfg) {
+  var base = copyScore(cfg.texto, cfg.hook);
+  var formato = cfg.formato === 'video' ? 1.0 : cfg.formato === 'carrusel' ? 0.85 : 0.62;
+  var s = base * formato;
+  if (!cfg.media || !cfg.media.length) s *= 0.35; // sin contenido subido: muy débil
+  return Math.max(5, Math.min(100, s));
+}
+
+/* ---------- CPM por conjunto de anuncios ---------- */
+function cpmConjunto(cfg, cj) {
+  var cids = cj.ciudades || cfg.ciudades || ['bogota'];
+  var iids = cj.intereses || cfg.intereses || ['tecnologia'];
+  var cpm = 0;
+  cids.forEach(function(c) { CIUDADES.forEach(function(x) { if (x.id === c) cpm += x.cpm; }); });
+  cpm = cpm / Math.max(1, cids.length);
+  var cInt = 0;
+  iids.forEach(function(i) { INTERESES.forEach(function(x) { if (x.id === i) cInt += x.cpm; }); });
+  cInt = cInt / Math.max(1, iids.length);
+  cpm = cpm * 0.65 + cInt * 0.35;
+  cpm *= EDAD_FACTOR[cfg.edad] || 1;
+  return cpm;
+}
+
+/* ---------- Distribución de presupuesto: CBO vs ABO ---------- */
+function distribucionConjuntos(cfg) {
+  var n = cfg.conjuntos.length;
+  if (n === 1) return [1];
+  if (cfg.estrategia === 'abo') return [0.5, 0.5]; // ABO: reparto fijo
+  /* CBO: el algoritmo fluye el presupuesto al conjunto con mejor rendimiento */
+  if (cfg.simDia === 0) return [0.5, 0.5];
+  var r0 = cfg.cjROAS[0] || 0, r1 = cfg.cjROAS[1] || 0;
+  if (r1 > r0) return [0.35, 0.65];
+  return [0.65, 0.35];
+}
+
+/* ---------- Simular un conjunto de anuncios ---------- */
+function simularConjunto(cfg, cj, pres, score, learning) {
+  /* Relevancia del anuncio (1-10): los anuncios relevantes pagan menos CPM */
+  var rel = Math.max(1, Math.min(10, Math.round(score / 10)));
+  var cpm = cpmConjunto(cfg, cj) * RI(0.9, 1.12) * (1.15 - rel * 0.015);
+  if (learning) cpm *= RI(1.12, 1.3);
+  if (pres < 20000) cpm *= 1.18; // presupuesto bajo del conjunto: aprendizaje lento
+  if (cfg.advantagePlus) cpm *= 0.95; // Advantage+: alcance ampliado = CPM ligeramente mejor
+
+  var ctrBase = 0.004 + (score / 100) * 0.014;
+  if (cfg.advantagePlus) ctrBase *= 1.08; // el sistema encuentra a los que responden mejor
+  var estab = Math.min(0.006, cfg.mismoCreativo * 0.0012);
+  var ctr = Math.max(0.001, (ctrBase + estab) * RI(0.85, 1.15));
+
+  /* Fatiga creativa: si la gente ya vio el anuncio muchas veces, el CTR cae */
+  if (cfg.frecuenciaMedia && cfg.frecuenciaMedia > 3.2 && cfg.mismoCreativo >= 4) ctr *= 0.82;
+
+  var gasto = Math.min(pres, app.saldo > 0 ? pres : 0);
+  if (app.saldo < pres) gasto = Math.max(0, app.saldo);
+  app.saldo = Math.max(0, app.saldo - gasto);
+
+  var impresiones = gasto / cpm * 1000;
+  var alcance = Math.round(impresiones / RI(1.3, 2.4));
+  var clics = Math.round(impresiones * ctr);
+  var cpc = clics > 0 ? gasto / clics : 0;
+  var visitas = Math.round(clics * (cfg.objetivo === 'ventas' ? 0.85 : cfg.objetivo === 'trafico' ? 0.9 : 0.4));
+
+  cj.acumVisitantes = (cj.acumVisitantes || 0) * 0.55; // decay de visitantes
+  var ventas = 0;
+  if (cfg.objetivo === 'ventas') {
+    var tasa = 0.004 + (score / 100) * 0.010;
+    if (learning) tasa *= 0.85;
+    ventas = Math.round(visitas * tasa * RI(0.7, 1.3));
+    if (cfg.retargeting && cj.acumVisitantes > 0) {
+      cj.retAcum = (cj.retAcum || 0) + cj.acumVisitantes * 0.012 * RI(0.7, 1.3);
+      var ventasRet = Math.floor(cj.retAcum);
+      cj.retAcum -= ventasRet;
+      ventas += ventasRet;
+    }
+    cj.acumVisitantes += Math.round(visitas * 0.45);
+  } else if (cfg.objetivo === 'trafico') {
+    ventas = Math.round(visitas * 0.004 * RI(0.6, 1.4));
+    cj.acumVisitantes += Math.round(visitas * 0.3);
+  } else {
+    cj.acumVisitantes += Math.round(visitas * 0.2);
+  }
+
+  var ingresos = ventas * cfg.precio;
+  var ganancia = ventas * cfg.margen - gasto;
+  var roas = gasto > 0 ? ingresos / gasto : 0;
+  var cpa = ventas > 0 ? gasto / ventas : 0;
+  return { gasto: gasto, impresiones: impresiones, alcance: alcance, clics: clics, ctr: ctr,
+    cpc: cpc, visitas: visitas, ventas: ventas, cpa: cpa, ingresos: ingresos, ganancia: ganancia, roas: roas };
+}
+
+/* ---------- Simular un día (todos los conjuntos, CBO o ABO) ---------- */
+function simularDia(cfg) {
+  var score = creativeScore(cfg);
+  var learning = cfg.simDia < 3;
+  var pesos = distribucionConjuntos(cfg);
+  var A = { gasto: 0, impresiones: 0, alcance: 0, clics: 0, visitas: 0, ventas: 0, ingresos: 0, ganancia: 0 };
+  cfg.conjuntos.forEach(function(cj, i) {
+    var pres = cfg.presupuesto * pesos[i];
+    var r = simularConjunto(cfg, cj, pres, score, learning);
+    A.gasto += r.gasto; A.impresiones += r.impresiones; A.alcance += r.alcance; A.clics += r.clics;
+    A.visitas += r.visitas; A.ventas += r.ventas; A.ingresos += r.ingresos; A.ganancia += r.ganancia;
+    cfg.cjGasto[i] = (cfg.cjGasto[i] || 0) + r.gasto;
+    cfg.cjIngresos[i] = (cfg.cjIngresos[i] || 0) + r.ingresos;
+    cfg.cjROAS[i] = cfg.cjGasto[i] > 0 ? cfg.cjIngresos[i] / cfg.cjGasto[i] : 0;
+  });
+  cfg.acumImp = (cfg.acumImp || 0) + A.impresiones;
+  cfg.acumAlc = (cfg.acumAlc || 0) + A.alcance;
+  cfg.frecuenciaMedia = cfg.acumAlc > 0 ? cfg.acumImp / cfg.acumAlc : 1;
+  var ctr = A.impresiones > 0 ? A.clics / A.impresiones : 0;
+  var cpc = A.clics > 0 ? A.gasto / A.clics : 0;
+  var cpa = A.ventas > 0 ? A.gasto / A.ventas : 0;
+  var roas = A.gasto > 0 ? A.ingresos / A.gasto : 0;
+  var cpmEff = A.impresiones > 0 ? A.gasto / (A.impresiones / 1000) : 0;
+  return { gasto: A.gasto, impresiones: Math.round(A.impresiones), alcance: Math.round(A.alcance), clics: A.clics,
+    ctr: ctr, cpc: cpc, visitas: A.visitas, ventas: A.ventas, cpa: cpa, ingresos: A.ingresos,
+    ganancia: A.ganancia, roas: roas, score: score, cpm: cpmEff, learning: learning };
+}
+
+/* ---------- Consejos ---------- */
+function consejos(cfg, r) {
+  var out = [];
+  if (r.learning) out.push({ t: 'info', txt: '<b>Fase de aprendizaje:</b> el algoritmo explora y el CPM es más alto los primeros días. No juzgues el día 1: deja correr al menos 5 días.' });
+  if (cfg.presupuesto < 40000 && cfg.objetivo === 'ventas') out.push({ t: 'warn', txt: '<b>Presupuesto bajo el mínimo recomendado (~$40.000/día):</b> el algoritmo no logra las ~50 conversiones semanales que necesita. Gastas lento y aprendes poco.' });
+  if (!cfg.media || !cfg.media.length) out.push({ t: 'bad', txt: '<b>No subiste contenido multimedia:</b> un anuncio sin vídeo ni imagen apenas genera clics. Vuelve a la campaña y sube un creativo.' });
+  else if (cfg.formato === 'imagen' && cfg.objetivo === 'ventas') out.push({ t: 'warn', txt: 'El formato <b>imagen</b> convierte menos que vídeo. En ventas, el vídeo UGC suele duplicar el CTR.' });
+  if (r.ctr < 0.01) out.push({ t: 'bad', txt: '<b>CTR bajo (' + pct(r.ctr) + '):</b> tu creativo no conecta. Cambia el hook, sube un vídeo o prueba otro ángulo.' });
+  else if (r.ctr > 0.02 && r.ventas === 0) out.push({ t: 'warn', txt: '<b>Atraes clics (' + pct(r.ctr) + ') pero no compran:</b> el problema es la ficha, el precio o la oferta, no el anuncio.' });
+  if (r.ventas > 0 && r.roas >= 2) out.push({ t: 'good', txt: '<b>ROAS ' + fmt2(r.roas) + ' — rentable.</b> Escala +25% cada 2-3 días, nunca de golpe.' });
+  if (r.ventas > 0 && r.roas >= 1 && r.roas < 2) out.push({ t: 'info', txt: '<b>ROAS ' + fmt2(r.roas) + ' — casi.</b> Refuerza retargeting, añade cuotas o garantía.' });
+  if (r.roas < 1 && cfg.simDia >= 3) out.push({ t: 'bad', txt: '<b>ROAS ' + fmt2(r.roas) + ' — pierdes dinero.</b> Si en el día 5 sigue así: pausa, cambia creativos y oferta.' });
+  if (app.saldo <= 0 && cfg.simDia < cfg.dias) out.push({ t: 'bad', txt: '<b>Te quedaste sin presupuesto.</b> La campaña se pausa. Define un tope total antes de empezar.' });
+  if (cfg.retargeting && cfg.simDia >= 2) out.push({ t: 'info', txt: '<b>Retargeting activo:</b> parte de estas ventas vienen de personas que ya te vieron. Es una gran parte de las ventas reales.' });
+  if (cfg.frecuenciaMedia > 3.2 && cfg.mismoCreativo >= 4) out.push({ t: 'warn', txt: '<b>Fatiga creativa</b> (frecuencia ' + cfg.frecuenciaMedia.toFixed(1) + '): la misma persona ya vio tu anuncio varias veces y el CTR cae. Renueva el creativo o añade una variante.' });
+  if (cfg.conjuntos.length === 2) {
+    if (cfg.estrategia === 'cbo') out.push({ t: 'info', txt: '<b>CBO activo:</b> Meta reparte el presupuesto al conjunto que mejor rinde. Recomendado para presupuestos pequeños.' });
+    else out.push({ t: 'info', txt: '<b>ABO activo:</b> presupuesto fijo 50/50 entre conjuntos. Si uno rinde mal, quema presupuesto igual — con ABO tú controlas, con CBO controla el algoritmo.' });
+  }
+  if (!cfg.advantagePlus) out.push({ t: 'warn', txt: '<b>Advantage+ desactivado:</b> audiencia manual. Más control, pero si tu segmentación es pobre pagas más. Para empezar, Meta recomienda Advantage+ activado.' });
+  return out;
+}
+
+/* ---------- Navegación vistas ---------- */
+function switchView(v) {
+  document.querySelectorAll('.view').forEach(function(x) { x.classList.remove('active'); });
+  $('view-' + v).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.toggle('active', t.getAttribute('data-view') === v); });
+  if (v === 'camp') renderCampanas();
+  if (v === 'sim') renderSim();
+}
+
+/* ---------- RENDER TABLA DE CAMPAÑAS (columnas reales de Ads Manager) ---------- */
+function objetivoLabel(c) {
+  var o = null;
+  OBJETIVOS.forEach(function(x) { if (x.id === c.objetivo) o = x.label; });
+  return o || c.objetivo;
+}
+function resultadoDia(c, r) {
+  if (c.objetivo === 'ventas') return r.ventas;
+  if (c.objetivo === 'trafico') return r.clics;
+  if (c.objetivo === 'reconocimiento') return r.alcance;
+  if (c.objetivo === 'interaccion') return Math.round(r.clics * 0.35);
+  if (c.objetivo === 'leads') return Math.round(r.visitas * 0.06);
+  if (c.objetivo === 'app') return Math.round(r.clics * 0.12);
+  return 0;
+}
+function resumenCamp(c) {
+  var s = { res: 0, gasto: 0, imp: 0, alc: 0 };
+  (c.diasSim || []).forEach(function(x) { s.res += x.res; s.gasto += x.gasto; s.imp += x.impresiones; s.alc += x.alcance; });
+  return s;
+}
+function estadoCamp(c) {
+  if (c.pausada) return { txt: 'Pausada', cls: 'paused' };
+  if (!c.simDia) return { txt: 'Borrador', cls: 'paused' };
+  if (c.simDia >= c.dias) return { txt: 'Finalizada', cls: 'paused' };
+  if (app.saldo <= 0) return { txt: 'Sin fondos', cls: 'error' };
+  return { txt: 'Activa', cls: 'active' };
+}
+function renderCampanas() {
+  var tb = $('tabla-camp'), vacia = $('tabla-vacia');
+  var list = app.campanas.filter(function(c) {
+    if (app.filtro === 'activos') return !c.pausada && c.simDia > 0 && c.simDia < c.dias;
+    if (app.filtro === 'entrega') return !c.pausada && c.simDia > 0 && c.simDia < c.dias;
+    if (app.filtro === 'pausadas') return c.pausada || c.simDia >= c.dias;
+    return true;
+  });
+  tb.innerHTML = list.map(function(c) {
+    var idx = app.campanas.indexOf(c);
+    var s = resumenCamp(c);
+    var e = estadoCamp(c);
+    var cpr = s.res > 0 ? fmtCOP(s.gasto / s.res) : '—';
+    var resTxt = s.res.toLocaleString('es-CO') + (c.objetivo === 'ventas' ? '' : ' ' + (c.objetivo === 'trafico' ? '(clics)' : c.objetivo === 'reconocimiento' ? '(alcance)' : c.objetivo === 'interaccion' ? '(inter.)' : c.objetivo === 'leads' ? '(leads)' : '(inst.)'));
+    return '<tr>' +
+      '<td><button class="toggle' + (c.pausada ? '' : ' on') + '" data-idx="' + idx + '" title="Activar/Pausar"></button></td>' +
+      '<td><span class="camp-name">' + esc(c.nombre) + '<small>' + esc(objetivoLabel(c)) + ' · ' + fmtCOP(c.presupuesto) + '/día · ' + (c.media.length + ' archivo(s)') + ' · ' + (c.estrategia === 'cbo' ? 'CBO' : 'ABO') + ' · ' + (c.advantagePlus ? 'Advantage+' : 'Manual') + '</small></span></td>' +
+      '<td><span class="tag ' + e.cls + '">' + e.txt + '</span></td>' +
+      '<td><span class="row-actions" data-sim="' + idx + '">Simular</span></td>' +
+      '<td>' + resTxt + '</td>' +
+      '<td>' + cpr + '</td>' +
+      '<td>' + fmtCOP(c.presupuesto) + '/día</td>' +
+      '<td>' + fmtCOP(s.gasto) + '</td>' +
+      '<td>' + s.imp.toLocaleString('es-CO') + '</td>' +
+      '<td>' + s.alc.toLocaleString('es-CO') + '</td>' +
+      '<td>' + c.dias + ' días</td>' +
+      '<td>Ventaja+ (automatizada)</td>' +
+      '</tr>';
+  }).join('');
+  vacia.style.display = list.length ? 'none' : 'block';
+  renderRecomendaciones();
+  $('btn-editar').disabled = !app.campanas.length;
+  $('btn-duplicar').disabled = !app.campanas.length;
+}
+function renderRecomendaciones() {
+  var box = $('recom-box');
+  if (!box) return;
+  var recs = [];
+  app.campanas.forEach(function(c) {
+    if (!c.media.length) recs.push('«' + esc(c.nombre) + '» no tiene contenido multimedia: sube un vídeo o imagen en Editar.');
+    if (c.objetivo === 'ventas' && c.presupuesto < 40000 && c.simDia >= 3) recs.push('«' + esc(c.nombre) + '» gasta ' + fmtCOP(c.presupuesto) + '/día: está bajo el mínimo de aprendizaje (~$40.000).');
+    if (c.frecuenciaMedia > 3.2 && c.mismoCreativo >= 4) recs.push('«' + esc(c.nombre) + '» sufre fatiga creativa (frecuencia ' + c.frecuenciaMedia.toFixed(1) + '): renueva el anuncio.');
+    if (c.retargeting === false) recs.push('«' + esc(c.nombre) + '» tiene el retargeting apagado: perderás gran parte de las ventas de calor.');
+    if (c.advantagePlus === false) recs.push('«' + esc(c.nombre) + '» usa audiencia manual: revisa tu segmentación, pagas más si segmentas mal.');
+    var ult = c.diasSim[c.diasSim.length - 1];
+    if (!c.pausada && c.simDia >= 3 && ult && ult.roas < 1) recs.push('«' + esc(c.nombre) + '» pierde dinero (ROAS ' + fmt2(ult.roas) + '): pausa o cambia el creativo.');
+  });
+  if (recs.length) {
+    box.innerHTML = '<div class="card"><h3 style="font-size:13.5px;margin-bottom:8px;">Recomendaciones (como las de Ads Manager)</h3><ul style="font-size:12.5px;line-height:1.75;color:#444;margin-left:18px;">' + recs.map(function(r) { return '<li>' + r + '</li>'; }).join('') + '</ul></div>';
+  } else if (app.campanas.length) {
+    box.innerHTML = '<div class="card"><h3 style="font-size:13.5px;margin-bottom:4px;">Recomendaciones</h3><p style="font-size:12.5px;color:var(--muted);">Sin problemas detectados. Cuando el ROAS pase de 2, escala +25% cada 2-3 días.</p></div>';
+  } else {
+    box.innerHTML = '';
+  }
+}
+
+/* ---------- FLUJO DE CREACIÓN (asistente Advantage+) ---------- */
+var draft = null, paso = 1;
+var fileInput = document.createElement('input');
+fileInput.type = 'file'; fileInput.accept = 'image/*,video/*'; fileInput.multiple = true; fileInput.style.display = 'none';
+document.body.appendChild(fileInput);
+
+function abrirCrear() {
+  draft = { objetivo: null, nombre: 'Nueva campaña de Ventas', presupuesto: 50000, dias: 7, edad: '25-34',
+    intereses: ['tecnologia'], ciudades: ['bogota', 'medellin'], media: [], hook: '', texto: '',
+    titulo: 'VÓRTEX Gadgets', descripcion: '', cta: 'Comprar ahora', url: 'https://vortexgadgets.com.co',
+    pagina: 'Vórtex Gadgets', conjunto: 'Nuevo conjunto de anuncios de Ventas',
+    estrategia: 'cbo', advantagePlus: true, ubicaciones: ['automaticas'],
+    conjuntos: [{ nombre: 'Conjunto A — Audiencia principal', intereses: ['tecnologia'] }],
+    esEdicion: -1 };
+  paso = 1; renderPaso(); $('modal-crear').classList.add('open');
+}
+function abrirEditar(idx) {
+  var c = app.campanas[idx];
+  if (!c) return;
+  draft = { objetivo: c.objetivo, nombre: c.nombre, presupuesto: c.presupuesto, dias: c.dias, edad: c.edad,
+    intereses: c.intereses.slice(), ciudades: c.ciudades.slice(), media: c.media.slice(), hook: c.hook, texto: c.texto,
+    titulo: c.titulo, descripcion: c.descripcion || '', cta: c.cta, url: c.url, pagina: c.pagina,
+    conjunto: c.conjunto, estrategia: c.estrategia, advantagePlus: c.advantagePlus, ubicaciones: c.ubicaciones.slice(),
+    conjuntos: c.conjuntos.map(function(cj) { return { nombre: cj.nombre, intereses: cj.intereses.slice() }; }),
+    esEdicion: idx };
+  paso = 2; renderPaso(); $('modal-crear').classList.add('open');
+}
+function cerrarCrear() { $('modal-crear').classList.remove('open'); }
+function chipHTML(items, sel, key, cj) {
+  return '<div class="chips">' + items.map(function(it) {
+    return '<span class="chip' + (sel.indexOf(it.id) >= 0 ? ' on' : '') + '" data-k="' + key + '" data-v="' + it.id + '"' + (cj != null ? ' data-cj="' + cj + '"' : '') + '>' + esc(it.label) + '</span>';
+  }).join('') + '</div>';
+}
+function renderPaso() {
+  $('step-ind').innerHTML = 'Paso ' + paso + ' de 4 · ' + (['Objetivo', 'Campaña', 'Conjunto de anuncios', 'Anuncio'][paso - 1]);
+  $('paso-atras').style.display = paso > 1 ? '' : 'none';
+  $('paso-sig').textContent = paso < 4 ? 'Continuar' : (draft.esEdicion >= 0 ? 'Guardar cambios' : 'Publicar');
+  $('paso-sig').disabled = (paso === 1 && !draft.objetivo) || (paso === 4 && (!draft.media.length || !draft.url));
+  var body = $('modal-body');
+  if (paso === 1) {
+    body.innerHTML = '<div class="step-title">Elige un objetivo de campaña</div><div class="step-sub">El objetivo es el resultado empresarial que quieres conseguir con tus anuncios.</div>' +
+      '<div class="opt-grid">' + OBJETIVOS.map(function(o) {
+        return '<div class="opt' + (draft.objetivo === o.id ? ' on' : '') + '" data-obj="' + o.id + '"><span class="ico">' + o.ico + '</span><div><b>' + esc(o.label) + '</b><small>' + esc(o.desc) + '</small></div></div>';
+      }).join('') + '</div>';
+    body.querySelectorAll('.opt').forEach(function(el) {
+      el.onclick = function() { draft.objetivo = el.getAttribute('data-obj'); renderPaso(); };
+    });
+  } else if (paso === 2) {
+    body.innerHTML =
+      '<div class="step-title">Detalles de la campaña</div><div class="step-sub">Tipo de compra: Subasta · Estrategia de presupuesto: Ventaja+ (distribución automática)</div>' +
+      '<div class="form-grid"><div><label class="f">Nombre de la campaña</label><input type="text" id="d-nombre" value="' + esc(draft.nombre) + '"></div>' +
+      '<div><label class="f">Presupuesto diario ($ COP)</label><input type="number" id="d-pres" value="' + draft.presupuesto + '" min="5000" step="5000"></div></div>' +
+      '<div class="score-box" style="margin-top:14px;"><div class="score-ring" style="background:#31a24c;">100</div><div><b>Estás usando nuestra configuración recomendada</b><br><span style="color:var(--muted);font-size:12px;">Puntuación de la campaña</span></div></div>';
+    $('d-nombre').oninput = function() { draft.nombre = this.value; };
+    $('d-pres').oninput = function() { draft.presupuesto = Math.max(5000, parseInt(this.value, 10) || 5000); };
+  } else if (paso === 3) {
+    body.innerHTML =
+      '<div class="step-title">Conjunto de anuncios</div><div class="step-sub">Presupuesto, audiencia y segmentación — igual que en Ads Manager</div>' +
+
+      '<div class="card" style="margin-bottom:14px;"><h3 style="font-size:13px;margin-bottom:6px;">Estrategia de presupuesto</h3>' +
+      '<div class="chips">' +
+      '<span class="chip' + (draft.estrategia === 'cbo' ? ' on' : '') + '" data-est="cbo">CBO — Presupuesto de campaña optimizado</span>' +
+      '<span class="chip' + (draft.estrategia === 'abo' ? ' on' : '') + '" data-est="abo">ABO — Presupuesto por conjunto</span>' +
+      '</div>' +
+      '<p style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5;">' +
+      '<b>CBO</b>: Meta reparte el dinero solo al conjunto que rinde mejor (ideal para empezar). <b>ABO</b>: tú das un presupuesto fijo a cada conjunto (más control, más riesgo).</p></div>' +
+
+      '<div class="card" style="margin-bottom:14px;"><h3 style="font-size:13px;margin-bottom:6px;">Audiencia Advantage+</h3>' +
+      '<div class="chips"><span class="chip' + (draft.advantagePlus ? ' on' : '') + '" id="d-adv">' + (draft.advantagePlus ? 'Advantage+ activado (recomendado)' : 'Advantage+ desactivado — control manual') + '</span></div>' +
+      (draft.advantagePlus
+        ? '<p style="font-size:12px;color:var(--muted);margin-top:8px;">El sistema amplía la audiencia automáticamente para encontrar a quien responde mejor. Clic en la etiqueta para desactivarlo.</p>'
+        : '<label class="f">Ubicaciones manuales</label>' + chipHTML([
+            { id: 'facebook', label: 'Facebook Feed' }, { id: 'instagram', label: 'Instagram Feed' },
+            { id: 'reels', label: 'Reels' }, { id: 'messenger', label: 'Messenger' }
+          ], draft.ubicaciones, 'ubicaciones') +
+          '<p style="font-size:12px;color:var(--muted);margin-top:6px;">Sin Advantage+, tú eliges dónde aparece el anuncio. Menos alcance, pero más control.</p>') +
+      '</div>' +
+
+      '<div class="card" style="margin-bottom:14px;"><h3 style="font-size:13px;margin-bottom:6px;">Conjunto 1 · ' + esc(draft.conjuntos[0].nombre) + '</h3>' +
+      '<div class="form-grid"><div><label class="f">Nombre</label><input type="text" id="d-conj" value="' + esc(draft.conjuntos[0].nombre) + '"></div>' +
+      '<div><label class="f">Duración (días)</label><input type="number" id="d-dias" value="' + draft.dias + '" min="3" max="30"></div></div>' +
+      '<label class="f">Ciudades (elige varias)</label>' + chipHTML(CIUDADES, draft.ciudades, 'ciudades') +
+      '<label class="f">Edades</label><select id="d-edad">' + ['18-24','25-34','35-44','45+'].map(function(e) { return '<option' + (draft.edad === e ? ' selected' : '') + '>' + e + '</option>'; }).join('') + '</select>' +
+      '<label class="f">Intereses del conjunto 1</label>' + chipHTML(INTERESES, draft.conjuntos[0].intereses, 'intereses-cj', 0) + '</div>' +
+
+      (draft.conjuntos.length === 2
+        ? '<div class="card" style="margin-bottom:14px;"><h3 style="font-size:13px;margin-bottom:6px;">Conjunto 2 · ' + esc(draft.conjuntos[1].nombre) + '</h3>' +
+          '<div class="form-grid"><div><label class="f">Nombre</label><input type="text" id="d-conj2" value="' + esc(draft.conjuntos[1].nombre) + '"></div></div>' +
+          '<label class="f">Intereses del conjunto 2</label>' + chipHTML(INTERESES, draft.conjuntos[1].intereses, 'intereses-cj', 1) +
+          '<div class="btn-row" style="margin-top:10px;"><button class="btn btn-gray btn-sm" id="d-quitar2">Quitar conjunto 2</button></div></div>'
+        : '<div class="btn-row" style="margin-bottom:14px;"><button class="btn btn-outline btn-sm" id="d-agregar2">+ Añadir segundo conjunto de anuncios</button></div>') +
+
+      '<div class="score-box"><span style="background:var(--green-bg);color:#157a37;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;">' + (draft.advantagePlus ? 'Advantage+ ON' : 'Control manual') + '</span>' +
+      '<span style="font-size:12.5px;color:var(--muted);">' + (draft.conjuntos.length + ' conjunto(s) · ' + (draft.estrategia === 'cbo' ? 'CBO: el algoritmo decide el reparto' : 'ABO: 50/50 fijo') + ' · ' + fmtCOP(draft.presupuesto)) + '/día total</span></div>';
+
+    $('d-conj').oninput = function() { draft.conjuntos[0].nombre = this.value; };
+    $('d-dias').oninput = function() { draft.dias = Math.max(3, Math.min(30, parseInt(this.value, 10) || 7)); };
+    $('d-edad').onchange = function() { draft.edad = this.value; };
+    $('d-adv').onclick = function() { draft.advantagePlus = !draft.advantagePlus; renderPaso(); };
+    var q2 = $('d-conj2'); if (q2) q2.oninput = function() { draft.conjuntos[1].nombre = this.value; };
+    var quitar2 = $('d-quitar2'); if (quitar2) quitar2.onclick = function() { draft.conjuntos.pop(); renderPaso(); };
+    var ag2 = $('d-agregar2'); if (ag2) ag2.onclick = function() { draft.conjuntos.push({ nombre: 'Conjunto B — Audiencia 2', intereses: ['audio'] }); renderPaso(); };
+    body.querySelectorAll('.chip[data-est]').forEach(function(el) {
+      el.onclick = function() { draft.estrategia = el.getAttribute('data-est'); renderPaso(); };
+    });
+    body.querySelectorAll('.chip[data-k]').forEach(function(el) {
+      el.onclick = function() {
+        var k = el.getAttribute('data-k'), v = el.getAttribute('data-v'), cj = el.getAttribute('data-cj');
+        var arr;
+        if (k === 'ciudades') arr = draft.ciudades;
+        else if (k === 'ubicaciones') arr = draft.ubicaciones;
+        else arr = draft.conjuntos[parseInt(cj, 10)].intereses;
+        var i = arr.indexOf(v);
+        if (i >= 0) arr.splice(i, 1); else arr.push(v);
+        renderPaso();
+      };
+    });
+  } else if (paso === 4) {
+    var formatoAuto = draft.media.some(function(m) { return m.type === 'video'; }) ? 'video' :
+      draft.media.length > 1 ? 'carrusel' : draft.media.length === 1 ? 'imagen' : 'ninguno';
+    body.innerHTML =
+      '<div class="step-title">Anuncio (creativo)</div><div class="step-sub">Identidad, formato, contenido y vista previa</div>' +
+      '<div class="form-grid">' +
+      '<div><label class="f">Página de Facebook</label><select id="d-pag"><option>Vórtex Gadgets</option><option>El Error del Pago Mínimo</option></select>' +
+      '<label class="f">Formato</label><div class="chips"><span class="chip on" style="cursor:default;">' + (formatoAuto === 'video' ? 'Vídeo (un solo vídeo)' : formatoAuto === 'carrusel' ? 'Secuencia (carrusel)' : formatoAuto === 'imagen' ? 'Imagen' : 'Sin contenido') + '</span></div>' +
+      '<label class="f">URL del sitio web</label><input type="text" id="d-url" value="' + esc(draft.url) + '"></div>' +
+      '<div><label class="f">Contenido multimedia (sube vídeo o imágenes)</label>' +
+      '<div class="upload-box" id="d-upload">📁 <b>Subir contenido</b><br><span style="font-size:12px;">Vídeo (recomendado) · Imagen · Carrusel (2+ imágenes)</span></div>' +
+      '<div class="media-preview" id="d-media"></div></div></div>' +
+      '<label class="f">Texto principal (hook + oferta)</label><textarea id="d-texto" placeholder="OFERTA HOY: -25% + envío GRATIS a toda Colombia. Garantía de 5 días: si no te encanta, te devolvemos tu dinero.">' + esc(draft.texto) + '</textarea>' +
+      '<div class="form-grid"><div><label class="f">Titular</label><input type="text" id="d-titulo" value="' + esc(draft.titulo) + '"></div>' +
+      '<div><label class="f">Botón</label><select id="d-cta"><option>Comprar ahora</option><option>Más información</option><option>Reservar</option><option>Registrarse</option></select></div></div>' +
+      '<label class="f" style="margin-top:14px;">Vista previa del anuncio (como lo verá la gente)</label>' +
+      '<div class="feed-preview" id="d-feed"></div>';
+    $('d-pag').onchange = function() { draft.pagina = this.value; };
+    $('d-url').oninput = function() { draft.url = this.value; };
+    $('d-texto').oninput = function() { draft.texto = this.value; };
+    $('d-titulo').oninput = function() { draft.titulo = this.value; };
+    $('d-cta').onchange = function() { draft.cta = this.value; };
+    $('d-upload').onclick = abrirUpload;
+    renderMediaPreview();
+    renderFeedPreview(formatoAuto);
+  }
+}
+function abrirUpload() {
+  fileInput.onchange = function() {
+    Array.prototype.forEach.call(fileInput.files, function(f) {
+      var tipo = f.type.indexOf('video') >= 0 ? 'video' : 'image';
+      draft.media.push({ url: URL.createObjectURL(f), type: tipo, name: f.name });
+    });
+    fileInput.value = '';
+    renderPaso();
+  };
+  fileInput.click();
+}
+function quitarMedia(i) { draft.media.splice(i, 1); renderPaso(); }
+function renderMediaPreview() {
+  var box = $('d-media');
+  if (!box) return;
+  box.innerHTML = draft.media.map(function(m, i) {
+    var inner = m.type === 'video' ? '<video src="' + m.url + '" muted playsinline></video><span class="vid-badge">Vídeo</span>' : '<img src="' + m.url + '" alt="">';
+    return '<div class="media-item">' + inner + '<button class="del" data-i="' + i + '">×</button></div>';
+  }).join('');
+  box.querySelectorAll('.del').forEach(function(b) { b.onclick = function() { quitarMedia(parseInt(b.getAttribute('data-i'), 10)); }; });
+}
+function renderFeedPreview(formato) {
+  var feed = $('d-feed');
+  if (!feed) return;
+  var primero = draft.media[0];
+  var medio = '';
+  if (primero) {
+    if (primero.type === 'video') {
+      medio = '<div class="feed-media"><video src="' + primero.url + '" controls playsinline style="object-fit:contain;"></video></div>';
+    } else if (formato === 'carrusel') {
+      var idx = 0;
+      medio = '<div class="feed-media"><img src="' + draft.media[0].url + '" alt=""><div class="dots">' + draft.media.map(function(_, i) { return '<span class="' + (i === idx ? 'on' : '') + '"></span>'; }).join('') + '</div><span style="position:absolute;right:8px;top:8px;background:rgba(0,0,0,.6);color:#fff;font-size:11px;border-radius:6px;padding:3px 7px;">1/' + draft.media.length + '</span></div>';
+    } else {
+      medio = '<div class="feed-media"><img src="' + primero.url + '" alt=""></div>';
+    }
+  } else {
+    medio = '<div class="feed-media" style="color:#fff;font-size:13px;">Sube tu vídeo o imagen ↑</div>';
+  }
+  feed.innerHTML =
+    '<div class="feed-head"><div class="feed-avatar">V</div><div class="feed-name">' + esc(draft.pagina) + '<small>Patrocinado</small></div></div>' +
+    medio +
+    '<div class="feed-text">' + esc(draft.texto || 'Escribe el texto principal de tu anuncio…') + '</div>' +
+    '<div class="feed-cta"><div class="title">' + esc(draft.titulo) + '<small>' + esc(draft.url.replace('https://', '')) + '</small></div><span class="btn-cta">' + esc(draft.cta) + '</span></div>';
+}
+
+/* ---------- Publicar campaña ---------- */
+function publicarCampana() {
+  var formato = draft.media.some(function(m) { return m.type === 'video'; }) ? 'video' :
+    draft.media.length > 1 ? 'carrusel' : 'imagen';
+  var precio = 77700, margen = 35115;
+  PRODUCTOS.forEach(function(p) {
+    if (draft.texto && draft.texto.toLowerCase().indexOf(p.nombre.toLowerCase().split(' ')[0]) >= 0) { precio = p.precio; margen = p.margen; }
+  });
+  var camp = {
+    nombre: draft.nombre || ('Campaña de ' + objetivoLabel(draft)), objetivo: draft.objetivo,
+    presupuesto: draft.presupuesto, dias: draft.dias, edad: draft.edad,
+    intereses: draft.intereses.slice(), ciudades: draft.ciudades.slice(),
+    formato: formato, media: draft.media.slice(), hook: draft.hook, texto: draft.texto,
+    titulo: draft.titulo, cta: draft.cta, url: draft.url, pagina: draft.pagina,
+    conjunto: draft.conjunto, precio: precio, margen: margen,
+    estrategia: draft.estrategia, advantagePlus: draft.advantagePlus, ubicaciones: draft.ubicaciones.slice(),
+    conjuntos: draft.conjuntos.map(function(cj) { return { nombre: cj.nombre, intereses: cj.intereses.slice(), acumVisitantes: 0, retAcum: 0 }; }),
+    cjGasto: [0, 0], cjIngresos: [0, 0], cjROAS: [0, 0], acumImp: 0, acumAlc: 0, frecuenciaMedia: 1,
+    simDia: 0, diasSim: [], mismoCreativo: 0, acumVisitantes: 0, retAcum: 0,
+    retargeting: true, pausada: false, terminada: false
+  };
+  if (draft.esEdicion >= 0) {
+    var vieja = app.campanas[draft.esEdicion];
+    ['nombre','objetivo','presupuesto','dias','edad','intereses','ciudades','formato','media','hook','texto','titulo','cta','url','pagina','conjunto','precio','margen','estrategia','advantagePlus','ubicaciones','conjuntos'].forEach(function(k) { vieja[k] = camp[k]; });
+    vieja.mismoCreativo = 0; vieja.frecuenciaMedia = 1; vieja.acumImp = 0; vieja.acumAlc = 0;
+    vieja.cjGasto = [0, 0]; vieja.cjIngresos = [0, 0]; vieja.cjROAS = [0, 0];
+    cerrarCrear();
+    iniciarSim(draft.esEdicion);
+  } else {
+    app.campanas.push(camp);
+    cerrarCrear();
+    iniciarSim(app.campanas.length - 1);
+  }
+}
+
+/* ---------- SIMULACIÓN ---------- */
+function iniciarSim(idx) {
+  app.activa = app.campanas[idx];
+  switchView('sim');
+  renderSim();
+}
+function avanzarDia() {
+  var c = app.activa;
+  if (!c || c.pausada || c.simDia >= c.dias || app.saldo <= 0) return;
+  c.simDia++;
+  c.mismoCreativo = Math.min(c.mismoCreativo + 1, 6);
+  var r = simularDia(c);
+  r.res = resultadoDia(c, r);
+  c.diasSim.push({ dia: c.simDia, res: r.res, gasto: r.gasto, impresiones: r.impresiones, alcance: r.alcance,
+    clics: r.clics, ctr: r.ctr, cpc: r.cpc, visitas: r.visitas, ventas: r.ventas, cpa: r.cpa,
+    ingresos: r.ingresos, ganancia: r.ganancia, roas: r.roas, score: r.score, cpm: r.cpm, learning: r.learning });
+  if (c.simDia >= c.dias || app.saldo <= 0) c.terminada = true;
+  renderSim();
+}
+function autoSimular() {
+  var c = app.activa;
+  var guard = 0;
+  while (c && !c.pausada && c.simDia < c.dias && app.saldo > 0 && guard < 60) { avanzarDia(); guard++; }
+}
+function renderSim() {
+  var c = app.activa;
+  var s = $('saldo-box');
+  s.textContent = 'Dinero virtual: ' + fmtCOP(app.saldo);
+  s.className = 'saldo' + (app.saldo < 100000 ? ' warn' : '');
+  if (!c) {
+    $('sim-dia').textContent = 'No hay campaña seleccionada';
+    $('sim-camp').textContent = 'Crea una campaña en la pestaña Campañas y pulsa "Simular".';
+    $('kpi-row').innerHTML = ''; $('advice-box').innerHTML = '';
+    $('tabla-dias').innerHTML = '';
+    $('btn-dia').disabled = true; $('btn-auto').disabled = true;
+    var cv = $('chart'), ctx2 = cv.getContext('2d'); ctx2.clearRect(0, 0, cv.width, cv.height);
+    return;
+  }
+  $('sim-dia').textContent = c.terminada ? 'Campaña finalizada' : ('Día ' + c.simDia + ' de ' + c.dias);
+  $('sim-camp').textContent = esc(c.nombre) + ' · ' + fmtCOP(c.presupuesto) + '/día · ' + esc(objetivoLabel(c)) +
+    ' · ' + (c.formato === 'video' ? 'Vídeo' : c.formato === 'carrusel' ? 'Carrusel' : 'Imagen') + ' · ' + c.media.length + ' archivo(s)' +
+    ' · ' + (c.estrategia === 'cbo' ? 'CBO' : 'ABO') + ' · ' + (c.advantagePlus ? 'Advantage+ ON' : 'Manual') + ' · Retargeting ' + (c.retargeting ? 'ON' : 'OFF') +
+    (c.conjuntos.length === 2 ? ' · 2 conjuntos' : '');
+  $('retar-status').innerHTML = 'Retargeting: <b>' + (c.retargeting ? 'activado' : 'desactivado') + '</b> · Pausada: <b>' + (c.pausada ? 'sí' : 'no') + '</b>';
+  $('btn-dia').disabled = c.pausada || c.terminada || c.simDia >= c.dias || app.saldo <= 0;
+  $('btn-auto').disabled = $('btn-dia').disabled;
+  var ult = c.diasSim[c.diasSim.length - 1];
+  if (ult) {
+    renderKpis(c, ult);
+    $('advice-box').innerHTML = consejos(c, ult).map(function(a) { return '<div class="advice ' + a.t + '">' + a.txt + '</div>'; }).join('');
+  } else {
+    $('kpi-row').innerHTML = '';
+    $('advice-box').innerHTML = '<div class="advice info">Campaña publicada (borrador simulado). Pulsa <b>Avanzar 1 día</b> para empezar. Consejo: no toques nada hasta el día 5 — deja aprender al algoritmo.</div>';
+  }
+  renderTablaDias(c);
+  renderChart(c);
+}
+function renderKpis(c, r) {
+  var items = [
+    ['Importe gastado', fmtCOP(r.gasto), ''], ['Impresiones', r.impresiones.toLocaleString('es-CO'), ''],
+    ['Alcance', r.alcance.toLocaleString('es-CO'), ''], ['Clics', r.clics, ''],
+    ['CTR', pct(r.ctr), r.ctr < 0.01 ? 'neg' : ''], ['CPC', r.cpc ? fmtCOP(r.cpc) : '—', ''],
+    ['Resultados', r.res, r.res > 0 ? 'pos' : ''],
+    ['Coste/resultado', r.res > 0 ? fmtCOP(r.gasto / r.res) : '—', ''],
+    ['Ingresos', fmtCOP(r.ingresos), r.ingresos > 0 ? 'pos' : ''],
+    ['Ganancia', fmtCOP(r.ganancia), r.ganancia >= 0 ? 'pos' : 'neg'],
+    ['ROAS', fmt2(r.roas), r.roas >= 1.5 ? 'pos' : (r.roas < 1 ? 'neg' : '')],
+    ['Saldo', fmtCOP(app.saldo), app.saldo < 100000 ? 'neg' : '']
+  ];
+  $('kpi-row').innerHTML = items.map(function(it) {
+    return '<div class="kpi"><div class="lbl">' + it[0] + '</div><div class="val ' + it[2] + '">' + it[1] + '</div></div>';
+  }).join('');
+}
+function renderTablaDias(c) {
+  $('tabla-dias').innerHTML = c.diasSim.map(function(d) {
+    var entrega = 'Activa';
+    return '<tr><td>' + d.dia + '</td><td>' + entrega + '</td><td>' + fmtCOP(d.gasto) + '</td><td>' + d.impresiones.toLocaleString('es-CO') +
+      '</td><td>' + d.alcance.toLocaleString('es-CO') + '</td><td>' + d.clics + '</td><td>' + pct(d.ctr) + '</td><td>' + (d.cpc ? fmtCOP(d.cpc) : '—') +
+      '</td><td>' + d.res + '</td><td>' + (d.res > 0 ? fmtCOP(d.gasto / d.res) : '—') + '</td><td>' + fmtCOP(d.ingresos) + '</td><td>' + fmtCOP(d.ganancia) + '</td><td>' + fmt2(d.roas) + '</td></tr>';
+  }).join('');
+}
+function renderChart(c) {
+  var cv = $('chart'), ctx = cv.getContext('2d');
+  var W = cv.width = cv.offsetWidth * 2, H = cv.height = 185 * 2;
+  ctx.clearRect(0, 0, W, H);
+  var dias = c.diasSim, max = 1;
+  dias.forEach(function(d) { max = Math.max(max, d.gasto, d.ingresos); });
+  max *= 1.15;
+  var n = Math.max(1, dias.length), bw = (W - 60) / n;
+  ctx.font = '12px system-ui';
+  dias.forEach(function(d, i) {
+    var x = 40 + i * bw, w = bw * 0.32;
+    var hg = d.gasto / max * (H - 40), hi = d.ingresos / max * (H - 40);
+    ctx.fillStyle = '#0866ff'; ctx.fillRect(x, H - 24 - hg, w, hg);
+    ctx.fillStyle = '#31a24c'; ctx.fillRect(x + w + 4, H - 24 - hi, w, hi);
+    ctx.fillStyle = '#65676b'; ctx.textAlign = 'center'; ctx.fillText(d.dia, x + w, H - 10);
+  });
+  ctx.fillStyle = '#0866ff'; ctx.fillRect(30, H - 66, 8, 8); ctx.fillStyle = '#65676b'; ctx.textAlign = 'left'; ctx.fillText('Gasto', 44, H - 58);
+  ctx.fillStyle = '#31a24c'; ctx.fillRect(110, H - 66, 8, 8); ctx.fillStyle = '#65676b'; ctx.fillText('Ingresos', 124, H - 58);
+}
+
+/* ---------- Decisiones ---------- */
+function alertaDec(m) {
+  var d = document.createElement('div'); d.className = 'advice info'; d.innerHTML = m;
+  $('advice-box').insertBefore(d, $('advice-box').firstChild);
+}
+function decUp() { var c = app.activa; if (!c) return; c.presupuesto = Math.round(c.presupuesto * 1.25); c.mismoCreativo = Math.max(0, c.mismoCreativo - 2); renderSim(); alertaDec('Presupuesto subido a <b>' + fmtCOP(c.presupuesto) + '/día</b>. Subir de golpe puede reiniciar el aprendizaje: escala +25% cada 2-3 días.'); }
+function decDown() { var c = app.activa; if (!c) return; c.presupuesto = Math.round(c.presupuesto * 0.75); renderSim(); alertaDec('Presupuesto bajado a <b>' + fmtCOP(c.presupuesto) + '/día</b>.'); }
+function decRetar() { var c = app.activa; if (!c) return; c.retargeting = !c.retargeting; renderSim(); alertaDec('Retargeting ' + (c.retargeting ? 'activado' : 'desactivado') + '. Sin retargeting pierdes gran parte de las ventas de calor.'); }
+function decEst() { var c = app.activa; if (!c) return; c.estrategia = c.estrategia === 'cbo' ? 'abo' : 'cbo'; c.cjGasto = [0, 0]; c.cjIngresos = [0, 0]; c.cjROAS = [0, 0]; renderSim(); alertaDec('Cambiaste a <b>' + (c.estrategia === 'cbo' ? 'CBO' : 'ABO') + '</b>. ' + (c.estrategia === 'cbo' ? 'Meta fluirá el presupuesto al conjunto que mejor rinda.' : 'Reparto fijo 50/50 entre conjuntos.')); }
+function decAdv() { var c = app.activa; if (!c) return; c.advantagePlus = !c.advantagePlus; renderSim(); alertaDec('Advantage+ ' + (c.advantagePlus ? 'activado' : 'desactivado (audiencia manual)') + '.'); }
+function decPausa() { var c = app.activa; if (!c) return; c.pausada = !c.pausada; renderSim(); alertaDec('Campaña ' + (c.pausada ? 'pausada' : 'reanudada') + '. En Ads Manager puedes pausar en cualquier momento.'); }
+
+/* ---------- Eventos globales ---------- */
+$('btn-crear').onclick = abrirCrear;
+$('modal-x').onclick = cerrarCrear;
+$('modal-crear').onclick = function(e) { if (e.target === this) cerrarCrear(); };
+$('paso-atras').onclick = function() { if (paso > 1) { paso--; renderPaso(); } };
+$('paso-sig').onclick = function() {
+  if (paso < 4) { paso++; renderPaso(); }
+  else publicarCampana();
+};
+document.querySelectorAll('.pill').forEach(function(p) {
+  p.onclick = function() {
+    document.querySelectorAll('.pill').forEach(function(x) { x.classList.remove('on'); });
+    p.classList.add('on');
+    app.filtro = p.getAttribute('data-f');
+    renderCampanas();
+  };
+});
+document.addEventListener('click', function(e) {
+  var t = e.target;
+  var simBtn = t.closest && t.closest('[data-sim]');
+  if (simBtn) { iniciarSim(parseInt(simBtn.getAttribute('data-sim'), 10)); return; }
+  var tog = t.closest && t.closest('.toggle[data-idx]');
+  if (tog) {
+    var c = app.campanas[parseInt(tog.getAttribute('data-idx'), 10)];
+    if (c) { c.pausada = !c.pausada; renderCampanas(); }
+  }
+});
+$('btn-dia').onclick = avanzarDia;
+$('btn-auto').onclick = autoSimular;
+$('btn-recargar').onclick = function() { app.saldo += 250000; renderSim(); alertaDec('Recargaste <b>$250.000 virtuales</b>. En la vida real no hay recargas infinitas: define tu tope antes.'); };
+$('btn-reiniciar').onclick = function() {
+  if (confirm('¿Reiniciar todo con $1.000.000 virtuales? Se borran campañas y resultados.')) {
+    app.saldo = 1000000; app.campanas = []; app.activa = null;
+    switchView('camp');
+  }
+};
+$('dec-up').onclick = decUp;
+$('dec-down').onclick = decDown;
+$('dec-retar').onclick = decRetar;
+$('dec-est').onclick = decEst;
+$('dec-adv').onclick = decAdv;
+$('dec-pausa').onclick = decPausa;
+document.querySelectorAll('.nav-tab').forEach(function(t) {
+  t.onclick = function() { switchView(t.getAttribute('data-view')); };
+});
+$('btn-columnas').onclick = function() { alert('Puedes cambiar las columnas en el Ads Manager real (botón "Columnas"). Aquí mostramos las 12 principales: Entrega, Resultados, Coste por resultado, Presupuesto, Importe gastado, Impresiones, Alcance, Fin y estrategia de puja.'); };
+$('btn-desglose').onclick = function() { alert('Desglose en el Ads Manager real: por edad, sexo, ciudad, dispositivo, hora. En la simulación, el desglose clave es el retargeting (quién ya te vio) — actívalo o desactívalo en Decisiones.'); };
+$('btn-duplicar').onclick = function() {
+  if (!app.campanas.length) return;
+  var c = app.campanas[app.campanas.length - 1];
+  var copia = JSON.parse(JSON.stringify(c));
+  copia.nombre = 'A/B · ' + c.nombre;
+  copia.formato = c.formato === 'video' ? 'imagen' : 'video';
+  copia.simDia = 0; copia.diasSim = []; copia.mismoCreativo = 0; copia.acumVisitantes = 0; copia.retAcum = 0;
+  copia.cjGasto = [0, 0]; copia.cjIngresos = [0, 0]; copia.cjROAS = [0, 0]; copia.acumImp = 0; copia.acumAlc = 0; copia.frecuenciaMedia = 1;
+  copia.pausada = true;
+  app.campanas.push(copia);
+  renderCampanas();
+  alert('Test A/B creado (pausado): «' + copia.nombre + '» prueba el formato ' + (copia.formato === 'video' ? 'Vídeo' : 'Imagen') + ' contra la original. Simúlala y compara.');
+};
+$('btn-editar').onclick = function() {
+  if (app.activa) abrirEditar(app.campanas.indexOf(app.activa));
+  else if (app.campanas.length) abrirEditar(0);
+};
+
+/* ---------- Estrategia experta: calculadora ROAS de equilibrio ---------- */
+function eqCalc() {
+  var m = Math.max(1, parseFloat($('eq-marg').value) || 1);
+  var be = 100 / m;
+  $('eq-be').textContent = be.toFixed(1);
+  $('eq-meta').textContent = (be * 1.5).toFixed(1);
+  var ticks = { 19: 77700, 33: 259900, 28: 89900, 30: 139900, 45: 89900 };
+  var t = ticks[m] || 0;
+  $('eq-cpa').textContent = t ? '$' + Math.round(t * m / 100).toLocaleString('es-CO') : '—';
+}
+document.querySelectorAll('#eq-chips .chip').forEach(function (ch) {
+  ch.onclick = function () {
+    document.querySelectorAll('#eq-chips .chip').forEach(function (x) { x.classList.remove('on'); });
+    ch.classList.add('on');
+    $('eq-marg').value = ch.dataset.m;
+    eqCalc();
+  };
+});
+$('eq-marg').addEventListener('input', eqCalc);
+eqCalc();
+
+/* ---------- Init ---------- */
+renderCampanas();
+renderSim();
+</script>
+</body>
+</html>
