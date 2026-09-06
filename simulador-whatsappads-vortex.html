@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VORTEX Gadgets - Simulador Click-to-WhatsApp (Facebook/Instagram Ads)</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#fff; --border:#d8dbe0; --text:#1c1e21; --muted:#65676b;
+    --blue:#0866ff; --blue-dark:#0a4fd6; --green:#25d366; --green-dark:#128c7e; --green-bg:#e7f6ee;
+    --red:#e11d48; --red-bg:#fdecef; --amber:#b57400; --amber-bg:#fff4e0; --teal:#00a6a6; --teal-dark:#007a7a;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Inter,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.55;}
+  .wrap{max-width:1180px; margin:0 auto; padding:18px 16px 60px;}
+  header{background:linear-gradient(135deg,#0d1b2a 0%,#0a2e33 55%,#006d6d 100%); color:#fff; border-radius:16px; padding:22px 24px; margin-bottom:18px; position:relative; overflow:hidden;}
+  header::after{content:""; position:absolute; right:-40px; top:-40px; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle,rgba(0,166,166,.45),transparent 70%);}
+  header .brand{font-size:13px; letter-spacing:3px; color:#5eead4; font-weight:700; text-transform:uppercase;}
+  header h1{font-size:26px; margin:6px 0 4px; font-weight:800;}
+  header p{font-size:14px; color:#c8d6dc; max-width:840px;}
+  .meta{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;}
+  .chip{background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); padding:4px 12px; border-radius:999px; font-size:12px; color:#e2f3f0;}
+  nav{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:18px;}
+  nav button{background:var(--card); border:1px solid var(--border); color:var(--text); padding:9px 14px; border-radius:10px; font-size:13.5px; font-weight:600; cursor:pointer; transition:.15s;}
+  nav button:hover{border-color:var(--teal);}
+  nav button.act{background:var(--teal); color:#fff; border-color:var(--teal);}
+  .tab{display:none;}
+  .tab.act{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;}}
+  .card{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; margin-bottom:16px;}
+  .card h2{font-size:19px; margin-bottom:4px; display:flex; align-items:center; gap:8px;}
+  .card h3{font-size:15.5px; margin:16px 0 6px; color:#0d1b2a;}
+  .card h3:first-of-type{margin-top:8px;}
+  .sub{color:var(--muted); font-size:13px; margin-bottom:10px;}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  @media(max-width:860px){.grid2,.grid3{grid-template-columns:1fr;}}
+  ul,ol{padding-left:20px; margin:6px 0;}
+  li{margin:5px 0;}
+  .tag{display:inline-block; padding:2px 10px; border-radius:999px; font-size:11.5px; font-weight:700; margin-right:6px;}
+  .t-blue{background:#e7f0ff; color:var(--blue);} .t-green{background:var(--green-bg); color:var(--green-dark);} .t-teal{background:#e0f5f5; color:var(--teal-dark);}
+  .t-amber{background:var(--amber-bg); color:var(--amber);} .t-red{background:var(--red-bg); color:var(--red);}
+  .callout{border-left:4px solid var(--teal); background:#f0fafa; padding:12px 14px; border-radius:0 10px 10px 0; margin:12px 0; font-size:14px;}
+  .callout.red{border-color:var(--red); background:var(--red-bg);}
+  .callout.amber{border-color:var(--amber); background:var(--amber-bg);}
+  .callout.blue{border-color:var(--blue); background:#eef4ff;}
+  .callout.green{border-color:var(--green); background:var(--green-bg);}
+  .callout b{color:#0d1b2a;}
+  table{width:100%; border-collapse:collapse; font-size:13px; margin:10px 0;}
+  th,td{border:1px solid var(--border); padding:7px 9px; text-align:left; vertical-align:top;}
+  th{background:#f0f2f5; font-weight:700;}
+  tr:nth-child(even) td{background:#fafbfc;}
+  .steps{counter-reset:st; list-style:none; padding-left:0;}
+  .steps>li{counter-increment:st; position:relative; padding:0 0 14px 42px;}
+  .steps>li::before{content:counter(st); position:absolute; left:0; top:0; width:28px; height:28px; border-radius:50%; background:var(--teal); color:#fff; font-weight:800; font-size:14px; display:flex; align-items:center; justify-content:center;}
+  .kpi{display:flex; gap:10px; flex-wrap:wrap; margin:8px 0;}
+  .kpi .box{flex:1; min-width:130px; background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:10px 12px; text-align:center;}
+  .kpi .box .v{font-size:19px; font-weight:800; color:var(--teal-dark);}
+  .kpi .box .l{font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; font-weight:700;}
+  .funnel{display:flex; flex-direction:column; gap:6px; margin:14px 0;}
+  .fstep{border-radius:8px; padding:8px 14px; color:#fff; font-size:13px; font-weight:600; display:flex; justify-content:space-between; align-items:center;}
+  .fstep small{font-weight:400; opacity:.9;}
+  input[type=range]{width:100%; accent-color:var(--teal);}
+  .fld{margin:10px 0;}
+  .fld label{font-size:12.5px; font-weight:700; color:#3a3f45; display:flex; justify-content:space-between;}
+  .fld output{color:var(--teal-dark); font-weight:800;}
+  .res{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-top:14px;}
+  .res .box{background:linear-gradient(160deg,#0d1b2a,#006d6d); color:#fff; border-radius:12px; padding:12px 14px; text-align:center;}
+  .res .box .v{font-size:20px; font-weight:800; color:#5eead4;}
+  .res .box .l{font-size:11px; color:#c8d6dc; text-transform:uppercase; letter-spacing:.6px; font-weight:700; margin-top:2px;}
+  .verdict{margin-top:14px; border-radius:12px; padding:14px 16px; font-size:14.5px; font-weight:600;}
+  .v-ok{background:var(--green-bg); color:#0a5c3d; border:1px solid #a7e3c1;}
+  .v-warn{background:var(--amber-bg); color:#7a4d00; border:1px solid #ecd9a8;}
+  .v-bad{background:var(--red-bg); color:#8f1230; border:1px solid #f3c1cd;}
+  .msg{background:#f8fafc; border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin:10px 0; font-size:14px;}
+  .msg .who{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;}
+  .msg .w-you{color:var(--green-dark);} .msg .w-client{color:var(--blue);} .msg .w-tip{color:var(--teal-dark);}
+  .msg p{margin:4px 0;}
+  .msg .why{font-size:12.5px; color:var(--muted); border-top:1px dashed var(--border); margin-top:8px; padding-top:6px;}
+  .script{white-space:pre-wrap; font-size:13.5px; background:#0d1b2a; color:#d6f5ef; border-radius:10px; padding:12px 14px; margin:8px 0;}
+  .check{list-style:none; padding-left:0;}
+  .check li{padding:7px 0 7px 30px; position:relative; border-bottom:1px solid #eef0f2; font-size:14px;}
+  .check li::before{content:"\2610"; position:absolute; left:4px; font-size:18px; color:var(--teal);}
+  .small{font-size:12px; color:var(--muted);}
+  footer{text-align:center; color:var(--muted); font-size:12px; margin-top:24px;}
+  @media print{nav,.no-print{display:none;} .tab{display:block!important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">VORTEX Gadgets</div>
+    <h1>Simulador Click-to-WhatsApp <span style="color:#5eead4;">Facebook / Instagram Ads</span></h1>
+    <p>El manual de batalla del traffic manager profesional para convertir anuncios en conversaciones de WhatsApp y conversaciones en pedidos pagados (COD). Sin teoría genérica: estructura real de cuenta, secretos de optimizacion, simulador financiero y guiones de cierre listos para copiar y pegar.</p>
+    <div class="meta">
+      <span class="chip">Objetivo: conversaciones iniciadas</span>
+      <span class="chip">Canal: WhatsApp (+57 318 173 8642)</span>
+      <span class="chip">Mercado: Colombia</span>
+      <span class="chip">Modelo: COD / Nequi / Daviplata</span>
+    </div>
+  </header>
+
+  <nav id="nav">
+    <button data-t="t1" class="act">1. Mapa maestro</button>
+    <button data-t="t2">2. Estructura de campana</button>
+    <button data-t="t3">3. Secretos de trafficker</button>
+    <button data-t="t4">4. Simulador financiero</button>
+    <button data-t="t5">5. Guiones WhatsApp</button>
+    <button data-t="t6">6. Checklist de lanzamiento</button>
+  </nav>
+
+  <!-- ============ TAB 1: MAPA MAESTRO ============ -->
+  <section class="tab act" id="t1">
+    <div class="card">
+      <h2>El mapa maestro: de clic a billete cobrado</h2>
+      <p class="sub">Click-to-WhatsApp no vende el producto en el anuncio: vende la <b>conversacion</b>. El anuncio solo debe lograr UNA cosa: que el cliente escriba. La venta se cierra en el chat con un guion. Esta es la cadena completa y donde se pierde cada peso.</p>
+      <div class="funnel">
+        <div class="fstep" style="background:#0866ff;">1. IMPRESION <small>El algoritmo muestra tu anuncio a quien tiene alta probabilidad de escribir</small></div>
+        <div class="fstep" style="background:#00a6a6;">2. CLIC AL BOTON WHATSAPP <small>Aqui se paga: costo por conversacion iniciada (no por clic suelto)</small></div>
+        <div class="fstep" style="background:#128c7e;">3. MENSAJE DE APERTURA <small>Primer mensaje en &lt;1 min. Define si el lead se calienta o se enfría</small></div>
+        <div class="fstep" style="background:#31a24c;">4. CONVERSACION CALIFICADA <small>Pidio precio, envio, garantia o ya confirmo que quiere el producto</small></div>
+        <div class="fstep" style="background:#0a5c3d;">5. PEDIDO CONFIRMADO <small>Datos: nombre, direccion, telefono, metodo de pago. Se registra en tu gestor de pedidos</small></div>
+        <div class="fstep" style="background:#b57400;">6. ENTREGADO Y PAGADO (COD) <small>El transportador cobra. Aqui nace tu utilidad real</small></div>
+      </div>
+      <div class="callout blue"><b>La regla de oro del trafficker:</b> optimiza la campana para <b>conversaciones iniciadas</b>, no para clics ni alcance. Meta cobra por el evento que le ordenas optimizar: si optimizas clics, te dara clics baratos de curiosos. Si optimizas conversaciones, te dara personas que escriben. Nunca pagues por lo que no te acerca al chat.</div>
+      <div class="callout red"><b>El error que mata el 80% de las cuentas nuevas:</b> montar el anuncio y no tener a nadie (o ningun bot) respondiendo. Meta mide tu velocidad de respuesta: si el lead escribe y no le respondes en minutos, la conversacion muere, el lead se va con la competencia y el algoritmo aprende que tus anuncios traen gente que nadie atiende... y deja de traerte gente.</div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h2>Los 5 numeros que mandan</h2>
+        <p class="sub">Memorizalos: todo el simulador gira alrededor de ellos.</p>
+        <table>
+          <tr><th>Metrica</th><th>Que significa</th><th>Referencia Colombia*</th></tr>
+          <tr><td><b>CPM</b></td><td>Costo por 1000 impresiones</td><td>COP 6.000 - 14.000</td></tr>
+          <tr><td><b>CPC (clic al link/boton)</b></td><td>Costo por clic</td><td>COP 700 - 2.200</td></tr>
+          <tr><td><b>Costo por conversacion</b></td><td>Lo que pagas por cada persona que abre el chat</td><td>COP 2.000 - 7.000</td></tr>
+          <tr><td><b>Costo por pedido</b></td><td>Inversion / pedidos confirmados</td><td>Objetivo: &lt; 30% del ticket</td></tr>
+          <tr><td><b>% de entregado</b></td><td>Pedidos pagados / pedidos enviados (COD)</td><td>55% - 75% (con buen call center)</td></tr>
+        </table>
+        <p class="small">*Rangos referenciales de mercado para Colombia en campanas de mensajeria. Tus datos reales de los primeros 3-4 dias los reemplazan. Nunca tomes una decision con menos de 50 conversaciones.</p>
+      </div>
+      <div class="card">
+        <h2>Tu embudo realista (ejemplo con datos)</h2>
+        <p class="sub">Asi se comporta una cuenta sana de click-to-WhatsApp en gadget/impulso:</p>
+        <table>
+          <tr><th>Etapa</th><th>Conversion</th><th>Ejemplo / 100 chats</th></tr>
+          <tr><td>Chats iniciados</td><td>100%</td><td>100</td></tr>
+          <tr><td>Responden y piden info</td><td>45-60%</td><td>~55</td></tr>
+          <tr><td>Calificados (quieren comprar)</td><td>50-65% de los que responden</td><td>~30</td></tr>
+          <tr><td>Confirman pedido</td><td>55-70% de calificados</td><td>~18</td></tr>
+          <tr><td>Entregados y pagados (COD)</td><td>55-75%</td><td>~11</td></tr>
+        </table>
+        <p class="small">Si tus numeros son mejores, felicidades, escala. Si son peores, el problema casi nunca es el anuncio: es el guion de chat o la velocidad de respuesta (los arreglas en la pestana 5).</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Las 10 leyes del traffic manager de WhatsApp</h2>
+      <ol>
+        <li><b>El anuncio es el filtro, no el vendedor.</b> Si vendes en el anuncio, espantas. Si conversas en el anuncio, atraes.</li>
+        <li><b>Optimiza a conversaciones, no a clics.</b> "Costo por conversacion iniciada" es tu moneda.</li>
+        <li><b>Velocidad de respuesta = costo por pedido.</b> Responder en &lt;1 minuto duplica tu conversion vs responder en 30 min.</li>
+        <li><b>Un solo producto, un solo angulo, un solo mensaje.</b> La campana nueva no se diversifica: se enfoca.</li>
+        <li><b>La creatividad gana a la audiencia.</b> 80% del resultado es el creativo + oferta; 20% es a quien se lo muestras.</li>
+        <li><b>El mensaje de bienvenida lo decide todo.</b> Debe preguntar, no saludar: "Hola! Este modelo lo quieres para hoy o para la semana?"</li>
+        <li><b>COD se combate con confianza.</b> Video del producto real, garantia clara, envio con追踪 (rastreo) y tono humano en el chat.</li>
+        <li><b>El seguimiento vende mas que el anuncio.</b> El 60% de tus ventas llegan de leads que NO compraron el primer dia: recien escribeles a las 24h, 72h y 7 dias.</li>
+        <li><b>Escala con cabeza:</b> sube presupuesto maximo +20-30% cada 2-3 dias cuando el costo por conversacion este estable y por debajo de tu objetivo.</li>
+        <li><b>Los datos mandan, no el ego.</b> Si un creativo no funciona, lo cambias. Si la oferta no funciona, cambias la oferta. Nunca "insistas" con plata perdida.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ TAB 2: ESTRUCTURA ============ -->
+  <section class="tab" id="t2">
+    <div class="card">
+      <h2>Paso a paso: montar la campana en Meta Ads Manager</h2>
+      <p class="sub">Esta es la configuracion exacta que usa un trafficker para click-to-WhatsApp. Sigue el orden, no saltes pasos.</p>
+      <ol class="steps">
+        <li><b>Objetivo de campana:</b> elige <span class="tag t-blue">Mensajes / Interaccion</span> (Messages). En Ads Manager actualizado: <i>Crear campana → objetivo "Mensajes"</i> (si tu cuenta no lo muestra, usa "Interaccion" → tipo de resultado "Mensajes"). El destino de mensajeria debe ser <b>WhatsApp</b>.</li>
+        <li><b>Nombre con codigo interno:</b> <span class="script" style="font-size:12px;">VORTEX_WA_PROSP_VIDEOA_HY320_40K</span> Asi sabes que es: marca_canal_funcion_creativo_producto_presupuesto. Nunca "Campana 1".</li>
+        <li><b>Conjunto de anuncios - conversion:</b> deja <b>"Conversaciones iniciadas"</b> como optimizacion de entrega (si aparece "Respuestas", esa es la alternativa para cuentas con bot). Paga por conversacion iniciada.</li>
+        <li><b>Presupuesto:</b> empieza con presupuesto diario fijo (ABO) de <b>COP 30.000 - 50.000</b> por conjunto. Sin semilla no hay aprendizaje: necesitas minimo 50 conversaciones para que el algoritmo entienda a tu cliente.</li>
+        <li><b>Audiencia:</b> <b>amplia (sin segmentar)</b> o 1-2 intereses anchos (ej: "tecnologia", "gadgets"). Edad 22-55. Todo Colombia si tu envio es nacional. Deja que el algoritmo explore: el interes fino se lo ensenas tu con los datos, no con suposiciones.</li>
+        <li><b>Ubicaciones:</b> empieza <b>solo WhatsApp</b> en Facebook e Instagram (desmarca Messenger). Quieres datos limpios de un solo canal. Mas adelante pruebas Messenger si el costo baja.</li>
+        <li><b>El anuncio:</b> formato <b>video vertical 9:16</b> (Reels/Stories) o imagen. Boton de llamada a la accion: <b>"Enviar mensaje de WhatsApp"</b>. En el texto del anuncio NUNCA pidas "clic al link": pide <i>"Escribenos 'INFO' y te pasamos precio con envio gratis"</i>.</li>
+        <li><b>Sin pagina intermedia:</b> el clic abre el chat directo con <b>wa.me/573181738642</b> (tu numero). El mensaje prellenado del anuncio debe ser la oferta: <i>"Hola! Vi el anuncio de [producto]. Me interesa, quiero precio con envio"</i>.</li>
+        <li><b>Eventos:</b> ten el <b>Pixel de Meta + API de Conversion (CAPI)</b> instalados en la tienda. Aunque optimices a mensajeria, el pixel alimenta al algoritmo con senales de compra y te permite hacer retargeting despues.</li>
+        <li><b>Publica y NO TOQUES nada en 72h.</b> El aprendizaje necesita datos. Cambiar creativos o presupuesto cada dia reinicia el aprendizaje y quema tu semilla.</li>
+      </ol>
+      <div class="callout green"><b>La regla del presupuesto minimo:</b> Meta necesita ~50 eventos de optimizacion por semana para aprender bien. Si tu costo por conversacion ronda COP 4.000, necesitas ~COP 200.000/semana (COP 30.000/dia) solo para alimentar el aprendizaje. Por eso la semilla de 100-150K alcanza para UN producto bien ejecutado, no para tres campañas a la vez.</div>
+    </div>
+
+    <div class="card">
+      <h2>Arquitectura de cuenta profesional (3 campanas)</h2>
+      <p class="sub">Asi estructura un traffic manager una cuenta que vende por WhatsApp de forma sostenida. No montes las 3 el dia 1: monta la 1, valida, y agrega las demas.</p>
+      <table>
+        <tr><th>#</th><th>Campana</th><th>Objetivo</th><th>Audiencia</th><th>Cuando activarla</th></tr>
+        <tr><td>1</td><td><b>PROSPECCION</b> (fria)</td><td>Conversaciones iniciadas</td><td>Amplia / intereses anchos, 22-55, nacional</td><td>Dia 1. Es tu motor de leads nuevos.</td></tr>
+        <tr><td>2</td><td><b>REACTIVACION</b> (tibia)</td><td>Conversaciones iniciadas</td><td>Personas que iniciaron chat y no compraron (lista de WhatsApp/audiencia de 180 dias)</td><td>Semana 2, cuando tengas +100 chats.</td></tr>
+        <tr><td>3</td><td><b>CLIENTES</b> (caliente)</td><td>Ventas / Trafico a catalogo</td><td>Clientes que ya compraron (lista + pixel)</td><td>Semana 3-4: ventas repetidas, lanzamientos, ofertas.</td></tr>
+      </table>
+      <div class="callout"><b>Por que la campana 2 es la joya oculta:</b> el 60-70% de tus conversaciones no compran el primer dia, pero el trafico que ya abrio tu chat es 5-10x mas barato de reactivar que conseguir uno nuevo. Una lista de WhatsApp crecida organicamente (clientes + interesados) vale mas que cualquier audiencia pagada.</div>
+    </div>
+
+    <div class="card">
+      <h2>Plan de semilla: 100.000 - 150.000 COP</h2>
+      <p class="sub">Con semilla corta no se escala: se <b>valida</b>. El objetivo de esta primera fase NO es vender mucho: es descubrir tu creativo ganador y tu costo real por conversacion y por pedido.</p>
+      <table>
+        <tr><th>Fase</th><th>Inversion</th><th>Que haces</th><th>Que decides</th></tr>
+        <tr><td><b>Dias 1-3: Test de creativos</b></td><td>3 creativos x COP 15.000/dia = 45.000/dia x 3 = 135.000</td><td>3 videos/imagenes distintos (mismo producto, mismo angulo de oferta) en un solo conjunto amplio. No toques nada.</td><td>Ganador = el de menor costo por conversacion con +10 chats. Mata los otros 2.</td></tr>
+        <tr><td><b>Dias 4-7: Consolidacion</b></td><td>COP 30.000-40.000/dia solo al creativo ganador</td><td>Deja solo el ganador. Observa costo por conversacion y % que pide comprar.</td><td>Si costo por pedido &lt; 30% del ticket y entregado &gt; 55%: listo para reinvertir. Si no: ajusta guion u oferta ANTES de meter mas plata.</td></tr>
+        <tr><td><b>Semana 2+: Escalado</b></td><td>Sube +20-30% cada 2-3 dias</td><td>Escala el ganador; activa campana de reactivacion con la lista de chats que no compraron.</td><td>Cuando el costo por conversacion suba +30%, congela presupuesto y refresca creativo (nuevo video, misma formula).</td></tr>
+      </table>
+      <div class="callout red"><b>Error fatal con semilla corta:</b> dividir 150K en 5 productos x 30K. Ningun producto recibe los 50 eventos minimos, el algoritmo no aprende, todo se ve "malo", y concluyes que "los ads no funcionan". Un solo producto, bien ejecutado, con guion de cierre probado: esa es la jugada.</div>
+    </div>
+  </section>
+
+  <!-- ============ TAB 3: SECRETOS ============ -->
+  <section class="tab" id="t3">
+    <div class="card">
+      <h2>Secretos de trafficker: el creativo que hace escribir</h2>
+      <p class="sub">El 80% del exito de click-to-WhatsApp esta en el creativo. Esto es lo que los traffickers que venden todos los dias hacen (y lo que la mayoria ignora):</p>
+      <div class="grid2">
+        <div>
+          <h3>Formato ganador: el "chat fingido"</h3>
+          <p>El creativo #1 para WhatsApp no es un anuncio de producto: es una <b>captura de conversacion</b> (real o simulada) donde alguien pregunta y le responden con precio y "envio gratis". El cerebro del espectador piensa: <i>"eso es lo que yo haria"</i> y replica la accion.</p>
+          <ul>
+            <li>Pantalla de WhatsApp con 2-3 mensajes: pregunta del cliente + respuesta con precio + "te lo envio hoy".</li>
+            <li>Resalta el <b>boton verde "Enviar mensaje"</b> de la captura con una flecha animada.</li>
+            <li>Acompanalo con el producto real abajo (foto/video en mano).</li>
+            <li>Subtitulo corto: <i>"Precio + envio gratis por WhatsApp"</i>.</li>
+          </ul>
+          <h3>El gancho de los primeros 1.5 segundos</h3>
+          <ul>
+            <li>Si es video: el primer frame debe tener TEXTO grande que detenga el scroll: "PARA DE BUSCAR: este existe" o "Lo que Amazon no te cuenta".</li>
+            <li>Muestra el producto en USO (mano, mesa, habitacion) en los primeros 2s. Nunca logo ni intro de marca al inicio.</li>
+            <li>Nadie lee: el 85% ve sin sonido: subtitulos SIEMPRE.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>La formula del texto (primary text)</h3>
+          <p>Patron que convierte (copialo y adaptalo):</p>
+          <div class="msg"><div class="who w-you">ESTRUCTURA DEL ANUNCIO</div>
+            <p><b>Linea 1 - Dolor/beneficio:</b> "Cansado de [problema]?"</p>
+            <p><b>Linea 2 - Solucion:</b> "[Producto] lo resuelve en segundos."</p>
+            <p><b>Linea 3 - Oferta:</b> "HOY: envio gratis + paga contra entrega."</p>
+            <p><b>Linea 4 - CTA conversacional:</b> "Escribenos 'INFO' y te enviamos precio y video real."</p>
+            <div class="why">La CTA conversacional ("escribeme INFO") funciona mejor que "compra aqui" porque el prospecto hace una micro-accion de bajo compromiso que activa el chat.</div>
+          </div>
+          <h3>Regla de 3 creativos (prueba A/B/C)</h3>
+          <ul>
+            <li><b>A:</b> Video UGC (persona usando el producto, estilo celular).</li>
+            <li><b>B:</b> Chat fingido / captura de conversacion.</li>
+            <li><b>C:</b> Foto producto + texto de oferta directa.</li>
+          </ul>
+          <p>Mismo producto, mismo precio, misma oferta. El que de el menor costo por conversacion gana. Despues haces 3 variaciones del ganador (angulo distinto: precio, urgencia, prueba social).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Secretos de trafficker: oferta y mensajeria</h2>
+      <div class="grid2">
+        <div>
+          <h3>La oferta que hace escribir HOY (no manana)</h3>
+          <ul>
+            <li><b>Envio gratis HOY</b> (el estandar de tu marca: simplifica la mente del comprador).</li>
+            <li><b>Paga contra entrega</b>: elimina el riesgo de estafa percibido (revisa el producto antes de pagar).</li>
+            <li><b>Garantia humana:</b> "Si no es lo que esperabas, lo devuelves y listo" (genera confianza, sube el % de entregado).</li>
+            <li><b>Escasez real o percibida:</b> "Quedan 4 unidades del lote de esta semana" (solo si es cierto o lo controlas tu).</li>
+            <li><b>Bonus de cierre:</b> un segundo producto pequeno gratis o descuento por pedido de 2 unidades (sube ticket).</li>
+          </ul>
+        </div>
+        <div>
+          <h3>La maquina de respuesta: velocidad + automatizacion</h3>
+          <ul>
+            <li><b>Meta premia la velocidad:</b> tu tiempo de respuesta aparece en la pagina y afecta la entrega. Responde en &lt; 1 minuto en horario de campana.</li>
+            <li><b>Horario de anuncios:</b> activa los anuncios SOLO en tus horas de atencion real (ej: Lun-Sab 8am-9pm). Un lead que escribe a las 2am y no recibe respuesta hasta las 8am se enfrio (o se fue a otro).</li>
+            <li><b>Automatiza el primer mensaje</b> con ManyChat/Chatfuel/respond.io o el mensaje de bienvenida de WhatsApp Business. El bot responde al instante, pregunta el interes y TE AVISA a ti para continuar.</li>
+            <li><b>Respuesta inmediata manual:</b> si estas solo, activa notificaciones de WhatsApp en el PC y responde con plantillas (pestana 5) copiadas, no escribiendo cada vez.</li>
+            <li><b>WhatsApp Business bien configurado:</b> nombre = VORTEX Gadgets, logo, descripcion con lo que vendes, catalogo de productos cargado, etiquetas para leads, respuesta rapida y mensaje de ausencia con horario.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout green"><b>El secreto del bot de bienvenida:</b> el bot NO vende. Su unica mision es responder en 0 segundos, calificar ("lo quieres para ciudad X?"), y pasar el lead caliente a tu celular con un aviso. La venta la haces TU en conversacion humana. Asi combinas velocidad de maquina con conversion humana.</div>
+    </div>
+
+    <div class="card">
+      <h2>Secretos de trafficker: optimizacion y escalado</h2>
+      <div class="grid2">
+        <div>
+          <h3>Que mirar cada manana (5 minutos)</h3>
+          <table>
+            <tr><th>Metrica</th><th>Accion</th></tr>
+            <tr><td>Costo por conversacion</td><td>Si sube +30% en 2 dias: refresca creativo o congela presupuesto.</td></tr>
+            <tr><td>% que pide info vs chatea</td><td>Si muchos escriben pero no preguntan por producto: el anuncio prometio algo que el chat no entrega. Revisa el guion.</td></tr>
+            <tr><td>% calificados -> pedido</td><td>Si piden precio y se van: objeción de precio o de confianza. Aplica guiones de objecion (pestana 5).</td></tr>
+            <tr><td>Frecuencia</td><td>Si pasa de 2.5-3 en el conjunto, el publico se satura: refresca creativo o amplia audiencia.</td></tr>
+          </table>
+          <h3>Escalado disciplinado</h3>
+          <ul>
+            <li>Sube +20-30% cada 2-3 dias (nunca duplicar de golpe: el algoritmo se desestabiliza y el costo explota).</li>
+            <li>Escala el CONJUNTO ganador, no crees copias (las copias reinician aprendizaje).</li>
+            <li>Cuando el costo por conversacion suba y la frecuencia pase de 3: nuevo creativo con la misma formula ganadora.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Errores que queman presupuesto</h3>
+          <ul>
+            <li>Optimizar a "clics" o "alcance" en campana de mensajes.</li>
+            <li>Pausar una campana a las 24h "porque no vendio": con menos de 50 conversaciones no hay dato valido.</li>
+            <li>Cambiar creativo, texto y audiencia TODO a la vez: nunca sabras que funciono.</li>
+            <li>No tener quien responda el chat (el asesino #1).</li>
+            <li>Mezclar productos en un mismo conjunto: el algoritmo no sabe a quien mostrar que.</li>
+            <li>Mandar al lead a la tienda "para que vea" en vez de cerrar en el chat: cada salto de pagina enfría.</li>
+            <li>No registrar los pedidos: sin datos de entregado real no puedes calcular tu costo por pedido real (tu gestor de pedidos COD es tu fuente de verdad).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAB 4: SIMULADOR ============ -->
+  <section class="tab" id="t4">
+    <div class="card">
+      <h2>Simulador financiero de campana WhatsApp</h2>
+      <p class="sub">Mueve los controles con tus datos reales o con las referencias y mira si la campana da plata. Todo en COP. El simulador calcula: alcance, conversaciones, pedidos, inversion, costo por pedido, utilidad y ROAS.</p>
+      <div class="grid2">
+        <div>
+          <div class="fld"><label>Presupuesto diario <output id="o_bud">COP 40.000</output></label><input type="range" id="i_bud" min="10000" max="300000" step="5000" value="40000"></div>
+          <div class="fld"><label>Dias de campana <output id="o_days">5</output></label><input type="range" id="i_days" min="1" max="21" step="1" value="5"></div>
+          <div class="fld"><label>CPM (costo x 1000 impresiones) <output id="o_cpm">COP 10.000</output></label><input type="range" id="i_cpm" min="3000" max="25000" step="500" value="10000"></div>
+          <div class="fld"><label>CTR a boton WhatsApp <output id="o_ctr">2.5%</output></label><input type="range" id="i_ctr" min="0.5" max="8" step="0.1" value="2.5"></div>
+          <div class="fld"><label>Costo por conversacion iniciada <output id="o_cpc">COP 4.500</output></label><input type="range" id="i_cpc" min="1000" max="15000" step="100" value="4500"></div>
+          <div class="fld"><label>% chats que piden info (calificados) <output id="o_cal">55%</output></label><input type="range" id="i_cal" min="20" max="90" step="5" value="55"></div>
+          <div class="fld"><label>% calificados que confirman pedido <output id="o_ped">60%</output></label><input type="range" id="i_ped" min="20" max="90" step="5" value="60"></div>
+          <div class="fld"><label>% pedidos entregados y pagados (COD) <output id="o_ent">65%</output></label><input type="range" id="i_ent" min="30" max="90" step="5" value="65"></div>
+        </div>
+        <div>
+          <div class="fld"><label>Ticket promedio (precio de venta) <output id="o_ticket">COP 129.900</output></label><input type="range" id="i_ticket" min="30000" max="400000" step="1000" value="129900"></div>
+          <div class="fld"><label>Margen bruto sobre el precio (despues de producto+envio) <output id="o_marg">45%</output></label><input type="range" id="i_marg" min="10" max="75" step="5" value="45"></div>
+          <div class="fld"><label>Costo del producto + envio (para calculo fino, opcional) <output id="o_cprod">COP 71.000</output></label><input type="range" id="i_cprod" min="10000" max="250000" step="1000" value="71000"></div>
+          <div class="fld"><label>Precio de venta sugerido si usas costo real (auto) <output id="o_precio_auto">-</output></label><input type="range" id="i_markup" min="1.5" max="4" step="0.1" value="2.2" disabled></div>
+          <div class="callout" style="margin-top:8px;"><b>Como leer:</b> el costo por conversacion real lo ves en Ads Manager (columna "costo por conversacion iniciada"). El % de entregado lo ves en tu gestor de pedidos COD (entregados/enviados). Con esos 2 numeros reales este simulador te dice tu verdad.</div>
+          <div class="callout amber"><b>Regla de oro:</b> tu costo por pedido (inversion total / pedidos confirmados) debe ser menor al 30% del ticket para que el negocio respire. Si pasa del 40%, el margen se lo come la publicidad y solo trabajas para Meta.</div>
+        </div>
+      </div>
+      <h3>Resultados</h3>
+      <div class="res" id="res">
+        <div class="box"><div class="v" id="r_inv">-</div><div class="l">Inversion total</div></div>
+        <div class="box"><div class="v" id="r_imp">-</div><div class="l">Impresiones</div></div>
+        <div class="box"><div class="v" id="r_clic">-</div><div class="l">Clics al boton</div></div>
+        <div class="box"><div class="v" id="r_chat">-</div><div class="l">Chats iniciados</div></div>
+        <div class="box"><div class="v" id="r_cal2">-</div><div class="l">Calificados</div></div>
+        <div class="box"><div class="v" id="r_ped2">-</div><div class="l">Pedidos confirmados</div></div>
+        <div class="box"><div class="v" id="r_pag">-</div><div class="l">Pagados (entregados)</div></div>
+        <div class="box"><div class="v" id="r_ing">-</div><div class="l">Ingresos</div></div>
+        <div class="box"><div class="v" id="r_cpp">-</div><div class="l">Costo por pedido</div></div>
+        <div class="box"><div class="v" id="r_util">-</div><div class="l">Utilidad bruta ads</div></div>
+        <div class="box"><div class="v" id="r_roas">-</div><div class="l">ROAS</div></div>
+      </div>
+      <div class="verdict" id="verdict">-</div>
+    </div>
+  </section>
+
+  <!-- ============ TAB 5: GUIONES ============ -->
+  <section class="tab" id="t5">
+    <div class="card">
+      <h2>Guiones de WhatsApp: de "hola" a pedido confirmado</h2>
+      <p class="sub">Copia, pega y adapta. Cada guion tiene el porque (el driver psicologico que lo activa). Tu numero: wa.me/573181738642. Registra cada lead en tu gestor de leads y cada pedido en tu gestor de pedidos COD.</p>
+      <div class="msg"><div class="who w-you">MENSAJE DE APERTURA (responde en &lt;1 min)</div>
+        <p>Hola [nombre]! Bienvenido a VORTEX Gadgets. El [producto] que viste en el anuncio esta disponible con ENVIO GRATIS a toda Colombia y PAGO CONTRA ENTREGA (lo pagas cuando lo recibes y lo revisas).</p>
+        <p>Para confirmarte precio y disponibilidad de hoy: para que ciudad lo necesitas?</p>
+        <div class="why">Driver: seguridad (COD) + reciprocidad (te doy envio gratis) + pregunta concreta que exige respuesta. Nunca preguntes "en que te puedo ayudar": te responden "nada, gracias".</div>
+      </div>
+      <div class="msg"><div class="who w-client">OBJECION: "esta muy caro"</div>
+        <p>Te entiendo. Comparamos: en tiendas fisicas este [producto] esta en [precio mayor] y sin envio. Aca estas pagando [precio] con envio gratis, pago contra entrega y garantia de devolucion si no te gusta.</p>
+        <p>Ademas HOY esta con [descuento/bonus]. Si te lo aseguro para hoy, te lo despacho manana mismo.</p>
+        <div class="why">Driver: anclaje de precio (comparas con el precio alto) + aversión a la perdida ("HOY") + prueba de valor. Nunca discutas: reconoce, reencuadra, ofrece.</div>
+      </div>
+      <div class="msg"><div class="who w-client">OBJECION: "y si no me llega? / como se que no es estafa?"</div>
+        <p>Excelente pregunta, y tienes razon en desconfiar. Por eso: 1) Pagas SOLO cuando el producto esta en tus manos (contra entrega). 2) Te envio el numero de guia para que sigas el paquete paso a paso. 3) Somos VORTEX Gadgets, con tienda online y atencion por este mismo WhatsApp.</p>
+        <p>Te envio foto/video real del producto que te van a entregar?</p>
+        <div class="why">Driver: seguridad + prueba social (marca visible) + control (guia de rastreo). Enviar video real del producto en mano es el arma #1 contra la desconfianza COD.</div>
+      </div>
+      <div class="msg"><div class="who w-client">OBJECION: "lo pienso" (el clasico)</div>
+        <p>Claro, es una decision. Solo te cuento que el envio gratis + [bonus] es valido por los pedidos de esta semana y el lote se esta agotando.</p>
+        <p>Te lo aparto sin compromiso hasta manana? Si no, te escribo el [dia] para confirmar si sigues interesado.</p>
+        <div class="why">Driver: escasez + compromiso pequeno ("te lo aparto") + permiso para hacer seguimiento. Nunca presiones: aparta y agenda el follow-up.</div>
+      </div>
+      <div class="msg"><div class="who w-you">CIERRE (cuando dice que si)</div>
+        <p>Perfecto [nombre]! Confirmo tu pedido:</p>
+        <p>- Producto: [nombre]<br>- Valor: [precio] (pago contra entrega)<br>- Envio: GRATIS<br>- Ciudad y direccion: [pedir]<br>- Barrio/indicaciones: [pedir]<br>- Nombre completo: [pedir]<br>- Telefono de contacto: [confirmar]</p>
+        <p>Te llega en [2-4 dias habiles] segun tu ciudad. Te envio la guia de seguimiento en cuanto el transportador la genere. Algo mas en lo que te ayude?</p>
+        <div class="why">Driver: claridad + confirmacion por escrito. Un pedido mal capturado = paquete perdido = plata perdida. Repite siempre los datos en el chat (queda evidencia).</div>
+      </div>
+      <div class="msg"><div class="who w-tip">SEGUIMIENTO POST-VENTA (24h despues de la entrega)</div>
+        <p>Hola [nombre]! Soy de VORTEX Gadgets. Te llego bien tu [producto]? Todo funcionando?</p>
+        <p>Si tienes cualquier duda con el uso, me escribes y te ayudo. Y si conoces a alguien que le sirva, te damos [beneficio por referido].</p>
+        <div class="why">Driver: cuidado genuino + reduccion de devoluciones (un cliente que se siente acompanado no devuelve) + semilla de recompra y referidos. Los que compran COD y quedan felices son tu mejor canal gratis.</div>
+      </div>
+      <div class="msg"><div class="who w-tip">REACTIVACION (leads que no compraron: 24h / 72h / 7 dias)</div>
+        <p>Hola [nombre], soy de VORTEX Gadgets (te escribi por el [producto]). Te cuento que hoy esta con [nueva oferta/bonus] y quedan [X] unidades del lote.</p>
+        <p>Si ya no te interesa me dices y no te escribo mas. Si te interesa, te lo aseguro hoy y te llega esta semana. Que prefieres?</p>
+        <div class="why">Driver: permiso de salida (reduce el "molesto") + escasez + oferta renovada. El 60% de tus ventas sale de estos follow-ups, no del primer contacto.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAB 6: CHECKLIST ============ -->
+  <section class="tab" id="t6">
+    <div class="grid2">
+      <div class="card">
+        <h2>Checklist antes de publicar (no saltes ninguno)</h2>
+        <ul class="check">
+          <li>WhatsApp Business con nombre VORTEX Gadgets, logo, catalogo cargado y mensaje de bienvenida.</li>
+          <li>Numero verificado en Meta (Configuracion &gt; WhatsApp) y conectado al Business Manager.</li>
+          <li>Pixel de Meta + API de Conversion instalados en la tienda y verificados (evento de compra funcionando).</li>
+          <li>Dominio verificado en Business Manager (vortexgadgets.com.co).</li>
+          <li>Cuenta publicitaria con metodo de pago activo y presupuesto cargado.</li>
+          <li>Creativos listos: 3 variantes (video UGC, chat fingido, foto oferta) en 9:16 con subtitulos.</li>
+          <li>Texto del anuncio con CTA conversacional ("Escribenos INFO").</li>
+          <li>Mensaje prellenado del boton apunta a wa.me/573181738642 con texto de oferta.</li>
+          <li>Horario de anuncios = tus horas de atencion reales (ej: Lun-Sab 8am-9pm).</li>
+          <li>Guion de apertura + objeciones + cierre copiados en un bloc/listo para pegar (pestana 5).</li>
+          <li>Notificaciones de WhatsApp activadas en PC y celular para responder en &lt;1 min.</li>
+          <li>Gestor de pedidos COD listo para capturar pedidos (nombre, direccion, ciudad, telefono).</li>
+          <li>Precio final definido con margen bruto &gt;= 40% (usa tu hoja VORTEX_Control).</li>
+          <li>Presupuesto de prueba definido: min COP 30.000/dia x 3 dias al creativo ganador.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Ritual diario del traffic manager (10 min)</h2>
+        <ul class="check">
+          <li>Manana: revisar costo por conversacion y costo por pedido de ayer en Ads Manager.</li>
+          <li>Responder TODOS los chats pendientes (ninguno pasa de 30 min sin respuesta).</li>
+          <li>Registrar pedidos nuevos en el gestor y pasar datos al proveedor/transportador.</li>
+          <li>Hacer seguimiento a leads de ayer que no compraron (24h).</li>
+          <li>Revisar frecuencia: si &gt; 2.5, preparar creativo nuevo.</li>
+          <li>Noche: etiquetar leads en WhatsApp (Interesado / No responde / Comprado / Devuelto).</li>
+          <li>Semanal: calcular % entregado real y costo por pedido real; actualizar el simulador con datos reales.</li>
+        </ul>
+        <div class="callout green"><b>Tu meta con este sistema:</b> cuando el costo por conversacion real sea estable y el costo por pedido &lt; 30% del ticket, la campana se paga sola y cada peso extra que metas con la regla del +20-30% es escala limpia hacia tus metas de 1K / 2K / 5K USD mensuales. No necesitas mas herramientas: necesitas ejecutar este checklist con disciplina.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+// Navegacion de pestanas
+document.querySelectorAll('#nav button').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('#nav button').forEach(function(x){x.classList.remove('act');});
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('act');});
+    b.classList.add('act');
+    document.getElementById(b.dataset.t).classList.add('act');
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+});
+
+// Formateo COP
+function cop(n){
+  return 'COP ' + Math.round(n).toLocaleString('es-CO');
+}
+function pct(n){ return n + '%'; }
+
+var $ = function(id){ return document.getElementById(id); };
+function bind(id, outId, fmt){
+  var el = $(id), out = $(outId);
+  function paint(){ out.textContent = fmt(parseFloat(el.value)); calc(); }
+  el.addEventListener('input', paint);
+  paint();
+}
+
+// Calculo principal
+function calc(){
+  var bud = parseFloat($('i_bud').value);
+  var days = parseInt($('i_days').value);
+  var cpm = parseFloat($('i_cpm').value);
+  var ctr = parseFloat($('i_ctr').value) / 100;
+  var cpc = parseFloat($('i_cpc').value);
+  var cal = parseFloat($('i_cal').value) / 100;
+  var ped = parseFloat($('i_ped').value) / 100;
+  var ent = parseFloat($('i_ent').value) / 100;
+  var ticket = parseFloat($('i_ticket').value);
+  var marg = parseFloat($('i_marg').value) / 100;
+  var inv = bud * days;
+  var imp = inv / cpm * 1000;
+  var clics = imp * ctr;
+  // chats estimados desde costo por conversacion (el mas confiable) y capping por clics
+  var chatsPorCosto = inv / cpc;
+  var chats = Math.min(chatsPorCosto, clics);
+  var calificados = chats * cal;
+  var pedidos = calificados * ped;
+  var pagados = pedidos * ent;
+  var ingresos = pagados * ticket;
+  var utilBruta = ingresos * marg;
+  var utilAds = utilBruta - inv; // utilidad bruta despues de ads (sin costos fijos)
+  var roas = inv > 0 ? ingresos / inv : 0;
+  var cpp = pedidos > 0 ? inv / pedidos : 0;
+  $('r_inv').textContent = cop(inv);
+  $('r_imp').textContent = Math.round(imp).toLocaleString('es-CO');
+  $('r_clic').textContent = Math.round(clics).toLocaleString('es-CO');
+  $('r_chat').textContent = Math.round(chats).toLocaleString('es-CO');
+  $('r_cal2').textContent = Math.round(calificados);
+  $('r_ped2').textContent = Math.round(pedidos);
+  $('r_pag').textContent = Math.round(pagados);
+  $('r_ing').textContent = cop(ingresos);
+  $('r_cpp').textContent = cpp > 0 ? cop(cpp) : '-';
+  $('r_util').textContent = cop(utilAds);
+  $('r_roas').textContent = roas.toFixed(2);
+  var v = $('verdict');
+  var roasEq = marg > 0 ? 1 / marg : 999; // punto de equilibrio
+  if(pedidos < 1){
+    v.className = 'verdict v-bad';
+    v.innerHTML = 'Con estos numeros no alcanzas ni 1 pedido. Revisa: sube presupuesto/dias, baja tu costo por conversacion (mejor creativo) o revisa el guion de cierre.';
+  } else if(cpp < ticket * 0.30 && roas > roasEq){
+    v.className = 'verdict v-ok';
+    v.innerHTML = 'Campana RENTABLE: costo por pedido ' + cop(cpp) + ' = ' + Math.round(cpp/ticket*100) + '% del ticket (meta &lt;30%) y ROAS ' + roas.toFixed(2) + ' por encima del equilibrio (' + roasEq.toFixed(2) + '). Mantenla 72h sin tocarla y luego escala +20-30% cada 2-3 dias.';
+  } else if(cpp < ticket * 0.40){
+    v.className = 'verdict v-warn';
+    v.innerHTML = 'Zona de ajuste: costo por pedido ' + cop(cpp) + ' = ' + Math.round(cpp/ticket*100) + '% del ticket. Estas cerca: mejora el % de entregado (seguimiento post-venta) o el guion de objeciones antes de escalar.';
+  } else {
+    v.className = 'verdict v-bad';
+    v.innerHTML = 'Quemas plata: costo por pedido ' + cop(cpp) + ' = ' + Math.round(cpp/ticket*100) + '% del ticket. PAUSA, cambia creativo y oferta, y valida con tu guion antes de reintentar. No "insistas" con la misma formula.';
+  }
+}
+
+bind('i_bud','o_bud',function(n){return cop(n);});
+bind('i_days','o_days',function(n){return n;});
+bind('i_cpm','o_cpm',function(n){return cop(n);});
+bind('i_ctr','o_ctr',function(n){return n.toFixed(1) + '%';});
+bind('i_cpc','o_cpc',function(n){return cop(n);});
+bind('i_cal','o_cal',function(n){return n + '%';});
+bind('i_ped','o_ped',function(n){return n + '%';});
+bind('i_ent','o_ent',function(n){return n + '%';});
+bind('i_ticket','o_ticket',function(n){return cop(n);});
+bind('i_marg','o_marg',function(n){return n + '%';});
+bind('i_cprod','o_cprod',function(n){return cop(n);});
+</script>
+</body>
+</html>
