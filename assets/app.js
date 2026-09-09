@@ -13,7 +13,7 @@
     storefrontToken: 'd93566827739f74089b5b9933113035c', // token público (catálogo)
     apiVersion: '2026-01',
     currency: 'COP',
-    pixelId: '1724390862126477',           // Píxel de Meta "Vórtex Gadgets's pixel"
+    pixelId: '1544591750238444',           // Píxel de Meta oficial "Píxel de vortexgadgets" (corregido 09/09/2026: apuntaba al ajeno 1724390862126477)
     ttPixelId: 'DACQKEJC77U4RNF8JLTG',     // Píxel de TikTok "Vortex Gadgets App"
     couponCode: 'VORTEX10',                // cupón 10% OFF
     couponPct: 10,
