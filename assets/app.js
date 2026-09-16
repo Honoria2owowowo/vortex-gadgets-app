@@ -109,6 +109,7 @@
       price: Number(p.price) || 0, compare: Number(p.compare_at) || 0,
       image: p.image || (p.images && p.images[0]) || '', images: p.images || [],
       desc: p.body ? stripHtml(p.body) : '', available: p.available !== false,
+      type: p.type || '', tags: p.tags || '',
       url: CONFIG.storeUrl + p.url
     };
   }
@@ -122,12 +123,12 @@
   function tryCache() {
     try {
       var c = JSON.parse(localStorage.getItem('vx_cache'));
-      if (c && c.products && c.products.length) { state.products = c.products; state.collections = c.collections || []; return true; }
+      if (c && c.products && c.products.length && c.products[0].type !== undefined) { state.products = c.products; state.collections = c.collections || []; return true; }
     } catch (e) {}
     return false;
   }
   function loadStorefront() {
-    var q = '{ products(first: 60) { edges { node { id title handle description availableForSale priceRange { minVariantPrice { amount } } compareAtPriceRange { minVariantPrice { amount } } images(first: 6) { edges { node { url } } } } } } collections(first: 25) { edges { node { handle title } } } }';
+    var q = '{ products(first: 60) { edges { node { id title handle productType description availableForSale priceRange { minVariantPrice { amount } } compareAtPriceRange { minVariantPrice { amount } } images(first: 6) { edges { node { url } } } } } } collections(first: 25) { edges { node { handle title } } } }';
     return fetch('https://' + CONFIG.shopDomain + '/api/' + CONFIG.apiVersion + '/graphql.json', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': CONFIG.storefrontToken },
@@ -147,6 +148,7 @@
           compare: Number(cmp) || 0,
           image: img, images: images,
           desc: n.description || '', available: !!n.availableForSale,
+          type: n.productType || '',
           url: CONFIG.storeUrl + '/products/' + n.handle
         };
       });
