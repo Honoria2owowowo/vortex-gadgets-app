@@ -288,7 +288,6 @@
       (p.available
         ? '<button class="btn btn-accent btn-sm" data-action="add-cart" data-handle="' + esc(p.handle) + '">Añadir</button>'
         : '<button class="btn btn-ghost btn-sm" disabled>Agotado</button>') +
-      '<button class="btn btn-wa btn-sm" data-action="wa-product" data-handle="' + esc(p.handle) + '">WhatsApp</button>' +
       '</div></div></article>';
   }
   function gridHtml(list) {

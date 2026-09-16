@@ -541,3 +541,7 @@ img{max-width:100%}
 .cat-chips::-webkit-scrollbar{height:0}
 .chip-btn{flex:0 0 auto;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:13px;color:#C7D0DA;white-space:nowrap;background:var(--panel)}
 .chip-btn.on{background:var(--accent);border-color:var(--accent);color:#04231F;font-weight:800}
+
+/* La tarjeta de producto se queda con un solo boton ("Añadir" o "Agotado"):
+   que ocupe todo el ancho en vez de quedar pegado a la izquierda. */
+.pcard .pbtns .btn{flex:1}
