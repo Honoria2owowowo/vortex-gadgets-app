@@ -302,12 +302,12 @@
       vHeroSlider() +
       vHeroBar() +
       '<h2 class="section-title">Destacados de la semana</h2>' +
-      '<p class="section-sub">Elige, pide por WhatsApp y paga al recibir</p>' + gridHtml(dest) +
+      '<p class="section-sub">Elige, completa tus datos y paga al recibir</p>' + gridHtml(dest) +
       '<h2 class="section-title">Así de fácil compras</h2>' +
       '<div class="steps">' +
       stepHtml('1', 'Elige tu producto', 'Explora el catálogo y añade al carrito.') +
       stepHtml('2', 'Aplica tu cupón', 'Usa VORTEX10 y obtén 10% OFF.') +
-      stepHtml('3', 'Pide por WhatsApp', 'Te enviamos el resumen con guía de envío.') +
+      stepHtml('3', 'Completa tus datos', 'Nombre, cédula, celular y dirección de entrega.') +
       stepHtml('4', 'Pagas al recibir', 'Revisas tu pedido y pagas en efectivo.') +
       '</div>' +
       '<div class="wa-float-big">' +
@@ -463,10 +463,11 @@
     return '<h1 style="font-size:22px;font-weight:900">Cómo comprar (contra entrega)</h1>' +
       '<p class="muted" style="margin:4px 0 14px">Sin tarjeta, sin riesgo: pagas cuando recibes.</p>' +
       '<div class="steps" style="grid-template-columns:1fr">' +
-      stepHtml('1', 'Elige y pide', 'Añade al carrito o pide directo por WhatsApp el producto que quieras.') +
+      stepHtml('1', 'Elige tu producto', 'Explora el catálogo y añádelo al carrito.') +
       stepHtml('2', 'Aplica tu cupón', 'En el carrito usa VORTEX10 y obtén 10% OFF.') +
-      stepHtml('3', 'Recibe con guía', 'Te enviamos tu número de guía: llega a tu ciudad en 3-7 días hábiles.') +
-      stepHtml('4', 'Paga al recibir', 'Revisa tu pedido con el transportador y paga en efectivo. Así de simple.') +
+      stepHtml('3', 'Completa tus datos', 'Nombre, documento, celular, ciudad y dirección de entrega.') +
+      stepHtml('4', 'Recibe con guía', 'Te enviamos tu número de guía: llega a tu ciudad en 3-7 días hábiles.') +
+      stepHtml('5', 'Paga al recibir', 'Revisa tu pedido con el transportador y paga en efectivo. Así de simple.') +
       '</div>' +
       '<div class="trust-row">' +
       '<span class="chip"><span class="ck">✓</span> Envío <b>GRATIS</b> a toda Colombia</span>' +
