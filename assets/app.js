@@ -870,6 +870,7 @@
       location.hash = '#/contraentrega?p=' + encodeURIComponent(hcod) + '&n=' + qcod;
       return;
     }
+    if (act === 'toast-close') { toastIdx = SOCIAL_TOASTS.length; pararToasts(); return; }
     if (act === 'exit-coupon') {
       closeExitPopup();
       applyCoupon(CONFIG.couponCode);
@@ -1047,6 +1048,75 @@
 
   window.addEventListener('hashchange', renderRoute);
 
+  /* ---------- Aviso flotante de actividad ----------
+     El contenido es el REAL de la seccion social-proof de la tienda
+     (vortexgadgets.com.co). No se inventa ningun dato ni ningun numero. */
+  var SOCIAL_TOASTS = [
+    { badge: 'Destacado en TikTok', prod: 'Audífonos M10', txt: 'sonido premium, batería de larga duración y envío gratis a tu ciudad.', cta: 'Ver audífonos', href: '#/producto/auda-fonos-bluetooth-inala-mbricos-m10-a-sonido-premium-con-estuche-de-carga' },
+    { badge: 'Cientos de reseñas 5 estrellas', prod: 'Bombillo RGB y cámara A9', txt: 'controla tu casa desde el celular, sin cables complejos.', cta: 'Ver smart home', href: '#/catalogo' },
+    { badge: 'Envío gratis y rápido', prod: 'Esterilla EMS de pies', txt: 'alivio y relajación después de un día largo.', cta: 'Ver bienestar', href: '#/catalogo' },
+    { badge: 'Hogar más fácil', prod: 'Hidrolavadora, aspiradora y cepillo giratorio', txt: 'tu hogar impecable sin esfuerzo.', cta: 'Ver hogar', href: '#/catalogo' }
+  ];
+
+  var toastTimer = null, toastIdx = 0, toastOn = false;
+
+  function pararToasts() {
+    toastOn = false;
+    if (toastTimer) { clearTimeout(toastTimer); toastTimer = null; }
+    var el = document.getElementById('socialToast');
+    if (el) el.classList.remove('is-on');
+  }
+
+  function toastBox() {
+    var el = document.getElementById('socialToast');
+    if (el) return el;
+    el = document.createElement('div');
+    el.id = 'socialToast';
+    el.className = 'social-toast';
+    el.setAttribute('role', 'status');
+    el.setAttribute('aria-live', 'polite');
+    el.addEventListener('mouseenter', function () { if (toastTimer) { clearTimeout(toastTimer); toastTimer = null; } });
+    el.addEventListener('mouseleave', function () { if (toastOn) { if (toastTimer) clearTimeout(toastTimer); toastTimer = setTimeout(ocultarToast, 2400); } });
+    el.addEventListener('click', function (e) {
+      var t = e.target;
+      while (t && t !== el) { if (t.className && String(t.className).indexOf('st-cta') >= 0) { toastIdx = SOCIAL_TOASTS.length; pararToasts(); break; } t = t.parentNode; }
+    });
+    document.body.appendChild(el);
+    return el;
+  }
+
+  function ocultarToast() {
+    toastOn = false;
+    if (toastTimer) { clearTimeout(toastTimer); toastTimer = null; }
+    var el = document.getElementById('socialToast');
+    if (el) el.classList.remove('is-on');
+    if (toastIdx < SOCIAL_TOASTS.length) toastTimer = setTimeout(mostrarToast, 6000);
+  }
+
+  function mostrarToast() {
+    if (toastIdx >= SOCIAL_TOASTS.length) return;
+    /* No tapar el boton de pedir en el formulario contra entrega */
+    if ((location.hash || '').indexOf('#/contraentrega') === 0) { toastTimer = setTimeout(mostrarToast, 6000); return; }
+    var d = SOCIAL_TOASTS[toastIdx++];
+    var el = toastBox();
+    el.innerHTML = '<span class="st-dot"></span><div class="st-body">' +
+      '<span class="st-badge">' + esc(d.badge) + '</span>' +
+      '<p class="st-txt"><b>' + esc(d.prod) + '</b>: ' + esc(d.txt) + '</p>' +
+      '<a class="st-cta" href="' + esc(d.href) + '">' + esc(d.cta) + ' &rsaquo;</a>' +
+      '</div>' +
+      '<button class="st-x" data-action="toast-close" type="button" aria-label="Cerrar aviso">&times;</button>';
+    toastOn = true;
+    el.classList.add('is-on');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(ocultarToast, 7000);
+  }
+
+  function initSocialToast() {
+    if (!SOCIAL_TOASTS.length || toastIdx > 0) return;
+    if (document.getElementById('socialToast')) return;
+    toastTimer = setTimeout(mostrarToast, 7000);
+  }
+
   /* ---------- Popup de intención de salida (migrado de la tienda) ---------- */
   function closeExitPopup() {
     var pop = document.querySelector('[data-exit-popup]');
@@ -1110,6 +1180,7 @@
   renderBadge();
   initPixel();
   initExitPopup();
+  initSocialToast();
   setInterval(tickFlash, 1000);
   loadData();
   if ('serviceWorker' in navigator) {

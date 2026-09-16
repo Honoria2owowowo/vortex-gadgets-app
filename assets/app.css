@@ -485,3 +485,17 @@ img{max-width:100%}
 .exit-popup-card p{font-size:14px;color:#5b6470;margin-bottom:16px}
 .exit-popup-card .btn{background:#ff6b2b;border-color:#ff6b2b;color:#fff;font-size:15px}
 .exit-popup-note{font-size:12px;color:#8a929c;margin:12px 0 0!important}
+
+/* ============================================================
+   Aviso flotante de actividad (abajo, aparece y desaparece solo)
+   ============================================================ */
+.social-toast{position:fixed;left:14px;right:14px;bottom:calc(var(--nav-h,62px) + var(--safe,0px) + 14px);z-index:900;display:flex;gap:10px;align-items:flex-start;background:#FFF7D6;border:1px solid #EBDCA0;color:#5A4A12;border-radius:14px;padding:13px 34px 13px 13px;box-shadow:0 10px 26px #00000047;opacity:0;visibility:hidden;transform:translateY(14px);transition:opacity .28s ease,transform .28s ease,visibility .28s;pointer-events:none}
+.social-toast.is-on{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
+.st-dot{flex:0 0 auto;width:9px;height:9px;border-radius:50%;background:#2FBF71;margin-top:5px;animation:stPulse 1.8s infinite}
+@keyframes stPulse{0%{box-shadow:0 0 0 0 #2FBF718C}70%{box-shadow:0 0 0 9px #2FBF7100}100%{box-shadow:0 0 0 0 #2FBF7100}}
+.st-body{min-width:0}
+.st-badge{display:block;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#9A7B18;margin-bottom:3px}
+.st-txt{margin:0;font-size:13.5px;line-height:1.38;color:#4A3D0F}
+.st-cta{display:inline-block;margin-top:6px;font-size:12.5px;font-weight:800;color:#8A6A00;text-decoration:underline}
+.st-x{position:absolute;top:6px;right:8px;border:0;background:none;font-size:19px;line-height:1;color:#9A7B18;cursor:pointer;padding:2px 5px}
+@media(min-width:620px){.social-toast{right:auto;width:362px}}
