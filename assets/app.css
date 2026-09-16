@@ -548,16 +548,19 @@ img{max-width:100%}
 /* ============================================================
    Barra deslizante de beneficios (movimiento tomado del video)
    Zonas de los extremos fijas; el centro sube cada 5 s.
-   IMPORTANTE: .hb-mid necesita altura FIJA igual a la de un item. Sin ella el
+   IMPORTANTE 1: .hb-mid necesita altura FIJA igual a la de un item. Sin ella el
    contenedor crece hasta la altura del track completo (4 items), el
    overflow:hidden no recorta nada y se ven varios mensajes apilados a la vez.
+   IMPORTANTE 2: .hb-mid va con align-items:flex-start, NO center. Centrando el
+   track de 184 px dentro de la ventana de 46 px, su origen queda 69 px por encima
+   y el translateY(-idx*46px) del JS cae siempre a caballo entre dos mensajes.
    ============================================================ */
 .herobar{--hb-h:46px;display:flex;align-items:stretch;background:#11161C;border:1px solid var(--line);border-radius:14px;margin:12px 0;overflow:hidden}
 .hb-zone{display:flex;align-items:center;gap:8px;height:var(--hb-h);padding:0 13px;min-width:0;color:var(--accent)}
 a.hb-zone{text-decoration:none}
 .hb-left{flex:0 0 auto}
 .hb-right{flex:0 0 auto;margin-left:auto}
-.hb-mid{flex:1 1 auto;display:flex;align-items:center;height:var(--hb-h);overflow:hidden;padding:0 14px}
+.hb-mid{flex:1 1 auto;display:flex;align-items:flex-start;height:var(--hb-h);overflow:hidden;padding:0 14px}
 .hb-sep{width:1px;flex:0 0 auto;background:var(--line);margin:9px 0}
 .hb-txt{display:flex;flex-direction:column;line-height:1.22;min-width:0}
 .hb-txt b{font-size:12.5px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
