@@ -297,16 +297,7 @@
   function vHome() {
     var dest = state.products.filter(function (p) { return p.available; }).slice(0, 8);
     return '' +
-      '<section class="hero-card">' +
-      '<span class="hero-chip">● PAGA CONTRA ENTREGA · ENVÍO GRATIS</span>' +
-      '<h1>Tecnología y gadgets, <span style="color:#4CE0D6">pagas al recibir</span></h1>' +
-      '<p>Catálogo oficial de VÓRTEX Gadgets. Revisas tu pedido y pagas en efectivo cuando llega. Sin tarjeta ni anticipo.</p>' +
-      '<div class="hero-cta">' +
-      '<a class="btn btn-accent" href="#/catalogo">Ver catálogo</a>' +
-      '<a class="btn btn-wa" href="' + waLink('Hola VÓRTEX Gadgets, quiero información de sus productos') + '" target="_blank" rel="noopener">Pedir por WhatsApp</a>' +
-      '</div>' +
-      '<div class="hero-cupon">Cupón <b>VORTEX10</b> = 10% OFF en tu primer pedido</div>' +
-      '</section>' +
+      vHeroSlider() +
       '<div class="trust-row">' +
       '<span class="chip"><span class="ck">✓</span> Envío <b>GRATIS</b></span>' +
       '<span class="chip"><span class="ck">✓</span> Paga <b>contra entrega</b></span>' +
@@ -696,6 +687,84 @@
     catch (e) { location.hash = '#/contraentrega/enviado'; }
   }
 
+  /* ---------- Carrusel del hero (migrado de la tienda vortexgadgets.com.co) ---------- */
+  var HERO_SLIDES = [
+    { mod: "", style: "",
+      content: "<div class=\"hero-slide-media\">\n        <picture>\n          <source media=\"(max-width: 900px)\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-mobile.png?v=66774973670783115911788232281\">\n          <img src=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=153843495892108215391788232279\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=153843495892108215391788232279&width=640 640w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=153843495892108215391788232279&width=960 960w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=153843495892108215391788232279&width=1280 1280w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=153843495892108215391788232279&width=1920 1920w\" sizes=\"100vw\" alt=\"Audífonos M10\" loading=\"eager\" fetchpriority=\"high\">\n        </picture>\n      </div>\n      <div class=\"hero-slide-overlay\"></div>\n      <div class=\"hero-slide-content\">\n        <p class=\"hero-eyebrow\">OFERTA DE LANZAMIENTO · M10 -25%</p>\n        <h1 class=\"hero-heading\">Sonido premium a precio inteligente. Olvídate de pagar $300.000 por lo mismo.</h1>\n        <p class=\"hero-text\">Bluetooth 10 m · 24 h de batería con estuche · controles táctiles. Envío GRATIS a toda Colombia y 5 días de retracto: si no te encantan, te devolvemos tu dinero.</p>\n        <div class=\"hero-actions\">\n          <a class=\"btn-hero btn-hero--orange\" href=\"#/producto/auda-fonos-bluetooth-inala-mbricos-m10-a-sonido-premium-con-estuche-de-carga\">COMPRAR AHORA CON ENVÍO GRATIS — $77.700</a>\n          <a class=\"btn-hero btn-hero--outline-white\" href=\"#/catalogo\">Ver todo</a>\n        </div>\n        <p class=\"hero-fineprint hero-fineprint--urg\">OFERTA DE LANZAMIENTO -25% termina esta noche a las 23:59 · Precio válido hasta agotar el lote · +10% extra con código VORTEX10</p>\n      </div>" },
+    { mod: "", style: "",
+      content: "<div class=\"hero-slide-media\">\n        <picture>\n          <source media=\"(max-width: 900px)\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold-mobile.png?v=76911661388189351661788233787\">\n          <img src=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold.png?v=180299142012676739271788230321\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold.png?v=180299142012676739271788230321&width=640 640w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold.png?v=180299142012676739271788230321&width=960 960w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold.png?v=180299142012676739271788230321&width=1280 1280w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold.png?v=180299142012676739271788230321&width=1920 1920w\" sizes=\"100vw\" alt=\"VÓRTEX: tu energía diaria\" loading=\"lazy\">\n        </picture>\n      </div>\n      <div class=\"hero-slide-overlay\"></div>\n      <div class=\"hero-slide-content\">\n        <p class=\"hero-brand\">VÓRTEX GADGETS</p>\n        <h1 class=\"hero-heading\">El sonido <span class=\"accent\">anti-pereza</span> que despierta tu energía</h1>\n        <p class=\"hero-text\">Diseñado para darte foco, energía y motivación en cada nota. Tu mejor versión empieza con un play.</p>\n        <div class=\"hero-stars\"><span class=\"stars\">★★★★★</span> <strong>4.9</strong> — Basado en 1.060 reseñas</div>\n        <div class=\"hero-guarantee\">\n          <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3z\"/><path d=\"m9 12 2 2 4-4\"/></svg>\n          100 % de satisfacción o te devolvemos tu dinero\n        </div>\n        <div class=\"hero-actions\">\n          <a class=\"btn-hero btn-hero--yellow\" href=\"#/catalogo\">Quiero el mío</a>\n          <a class=\"btn-hero btn-hero--outline-white\" href=\"#/como-comprar\">Ver garantía</a>\n        </div>\n      </div>" },
+    { mod: "", style: "",
+      content: "<div class=\"hero-slide-media\">\n        <picture>\n          <source media=\"(max-width: 900px)\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box-mobile.png?v=145853460823946795501788233790\">\n          <img src=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box.png?v=126154574519817888841788230324\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box.png?v=126154574519817888841788230324&width=640 640w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box.png?v=126154574519817888841788230324&width=960 960w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box.png?v=126154574519817888841788230324&width=1280 1280w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box.png?v=126154574519817888841788230324&width=1920 1920w\" sizes=\"100vw\" alt=\"Ofertas exclusivas VÓRTEX\" loading=\"lazy\" style=\"filter: contrast(1.14) saturate(1.1);\">\n        </picture>\n      </div>\n      <div class=\"hero-slide-overlay\"></div>\n      <div class=\"hero-slide-content\">\n        <p class=\"hero-eyebrow\" style=\"border-color: rgba(0,0,0,.5); color: #111; background: rgba(255,255,255,.85);\">Exclusivo para ti</p>\n        <h1 class=\"hero-heading\" style=\"color: #0b0e13; text-shadow: 0 1px 3px rgba(255,255,255,.65);\">Tu primera compra con <span class=\"accent\">ofertas únicas</span></h1>\n        <p class=\"hero-text\" style=\"color: #111; font-weight: 500; text-shadow: 0 1px 2px rgba(255,255,255,.7);\">Gadgets seleccionados para empezar con todo. Aprovecha tu cupón de bienvenida.</p>\n        <div class=\"hero-actions\">\n          <a class=\"btn-hero btn-hero--yellow\" href=\"#/catalogo\">ENVÍO GRATIS</a>\n          <a class=\"btn-hero btn-hero--white\" href=\"#/catalogo\">HASTA 10 % OFF</a>\n        </div>\n      </div>" },
+    { mod: "", style: "background:#ffe600;",
+      content: "<div class=\"hero-slide-overlay\" style=\"background:linear-gradient(100deg, #ffe600 40%, #ffd21f 75%, #ffce2e 100%);\"></div>\n      <div class=\"hero-slide-content\" style=\"color:#111;\">\n        <div class=\"hero-badge-dark\">SOLO POR HOY<span>OFERTA FLASH</span></div>\n        <h1 class=\"hero-heading\">Cupón exclusivo para tu <span class=\"accent\" style=\"color:#111; text-decoration:underline; text-decoration-color:#ff6b2b; text-underline-offset:6px;\">primera compra</span></h1>\n        <div class=\"hero-pills\">\n          <span class=\"hero-pill\">HASTA 35 % OFF</span>\n          <span class=\"hero-pill-plus\">+</span>\n          <span class=\"hero-pill hero-pill--ticket\"><b>10 % OFF ADICIONAL</b><i>CÓDIGO: VORTEX10</i></span>\n        </div>\n        <div class=\"hero-min\">Sin compra mínima · Válido en toda la tienda · La oferta termina en <b data-flash>00:00:00</b></div>\n        <div class=\"hero-actions\">\n          <button type=\"button\" class=\"btn-hero btn-hero--dark\" data-action=\"hero-coupon\">Aplicar cupón VORTEX10</button>\n        </div>\n      </div>" },
+    { mod: "", style: "background:#EAF7EF;",
+      content: "<div class=\"hero-slide-media\">\n        <picture>\n          <source media=\"(max-width: 900px)\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-van-mobile.png?v=72521963569034057271788233794\">\n          <img src=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-van.png?v=123366742103092711511788231801\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-van.png?v=123366742103092711511788231801&width=640 640w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-van.png?v=123366742103092711511788231801&width=960 960w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-van.png?v=123366742103092711511788231801&width=1280 1280w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-van.png?v=123366742103092711511788231801&width=1920 1920w\" sizes=\"100vw\" alt=\"Envío GRATIS en tu primera compra\" loading=\"lazy\">\n        </picture>\n      </div>\n      <div class=\"hero-slide-overlay\" style=\"background:linear-gradient(90deg, rgba(234,247,239,.94) 0%, rgba(234,247,239,.7) 45%, rgba(234,247,239,0) 72%);\"></div>\n      <div class=\"hero-slide-content\" style=\"color:#111;\">\n        <p class=\"hero-eyebrow\" style=\"border-color:#111; color:#333; background:rgba(255,255,255,.75);\">Exclusivo para ti</p>\n        <h1 class=\"hero-heading\">ENVÍO <span class=\"accent\" style=\"color:#ff6b2b;\">GRATIS</span></h1>\n        <p class=\"hero-text\" style=\"font-weight:800; letter-spacing:.04em; text-transform:uppercase; color:#111;\">En todas tus compras</p>\n        <div class=\"hero-actions\">\n          <a class=\"btn-hero btn-hero--dark\" href=\"#/catalogo\">Aprovechar oferta</a>\n        </div>\n        <p class=\"hero-fineprint\">*Consulta los Términos y Condiciones.</p>\n      </div>\n    </div>\n  </div>\n\n  <button class=\"hero-arrow hero-arrow--prev\" data-hero-prev aria-label=\"Anterior\">&lsaquo;</button>\n  <button class=\"hero-arrow hero-arrow--next\" data-hero-next aria-label=\"Siguiente\">&rsaquo;</button>\n  <div class=\"hero-dots\" data-hero-dots></div>\n\n  <script>\n    (function () {\n      var slider = document.querySelector('[data-hero-slider]');\n      if (!slider) return;\n      var track = slider.querySelector('[data-hero-track]');\n      var slides = track.children;\n      var dotsWrap = slider.querySelector('[data-hero-dots]');\n      var prev = slider.querySelector('[data-hero-prev]');\n      var next = slider.querySelector('[data-hero-next]');\n      var index = 0, timer = null, total = slides.length;\n\n      for (var i = 0; i < total; i++) {\n        var d = document.createElement('button');\n        d.className = 'hero-dot' + (i === 0 ? ' is-active' : '');\n        d.setAttribute('aria-label', 'Ir al slide ' + (i + 1));\n        (function (n) { d.addEventListener('click', function () { go(n); restart(); }); })(i);\n        dotsWrap.appendChild(d);\n      }\n      var dots = dotsWrap.children;\n\n      function go(n) {\n        index = (n + total) % total;\n        track.style.transform = 'translateX(-' + (index * 100) + '%)';\n        for (var i = 0; i < total; i++) dots[i].classList.toggle('is-active', i === index);\n      }\n      function restart() {\n        if (timer) clearInterval(timer);\n        timer = setInterval(function () { go(index + 1); }, 6000);\n      }\n      prev.addEventListener('click', function () { go(index - 1); restart(); });\n      next.addEventListener('click', function () { go(index + 1); restart(); });\n      slider.addEventListener('mouseenter', function () { if (timer) clearInterval(timer); });\n      slider.addEventListener('mouseleave', restart);\n\n      var x0 = null;\n      slider.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });\n      slider.addEventListener('touchend', function (e) {\n        if (x0 === null) return;\n        var dx = e.changedTouches[0].clientX - x0;\n        if (Math.abs(dx) > 50) { go(index + (dx < 0 ? 1 : -1)); restart(); }\n        x0 = null;\n      }, { passive: true });\n\n      restart();\n    })();\n  </script>\n</div>" }
+  ];
+
+  function vHeroSlider() {
+    if (!HERO_SLIDES.length) return '';
+    var fe = flashEnd();
+    var reloj = fmtClock(fe - Date.now());
+    var inner = HERO_SLIDES.map(function (s) {
+      return '<div class="hero-slide ' + s.mod + '"' + (s.style ? ' style="' + s.style + '"' : '') + '>' + s.content + '</div>';
+    }).join('');
+    inner = inner.split('data-flash>00:00:00<').join('data-flash>' + reloj + '<');
+    return '<section class="hero-slider" data-hero-slider>' +
+      '<div class="hero-slider-track" data-hero-track>' + inner + '</div>' +
+      '<button type="button" class="hero-arrow hero-arrow--prev" data-hero-prev aria-label="Banner anterior">&#8249;</button>' +
+      '<button type="button" class="hero-arrow hero-arrow--next" data-hero-next aria-label="Banner siguiente">&#8250;</button>' +
+      '<div class="hero-dots" data-hero-dots></div>' +
+      '</section>';
+  }
+
+  var heroTimer = null;
+  function initHeroSlider() {
+    if (heroTimer) { clearInterval(heroTimer); heroTimer = null; }
+    var slider = document.querySelector('[data-hero-slider]');
+    if (!slider) return;
+    var track = slider.querySelector('[data-hero-track]');
+    var dotsWrap = slider.querySelector('[data-hero-dots]');
+    var prev = slider.querySelector('[data-hero-prev]');
+    var next = slider.querySelector('[data-hero-next]');
+    if (!track || !dotsWrap) return;
+    var total = track.children.length;
+    var index = 0;
+    dotsWrap.innerHTML = '';
+    if (total < 2) return;
+    function go(n) {
+      index = (n + total) % total;
+      track.style.transform = 'translateX(-' + (index * 100) + '%)';
+      for (var i = 0; i < total; i++) dotsWrap.children[i].classList.toggle('is-active', i === index);
+    }
+    function restart() {
+      if (heroTimer) clearInterval(heroTimer);
+      heroTimer = setInterval(function () { go(index + 1); }, 6000);
+    }
+    for (var i = 0; i < total; i++) {
+      (function (n) {
+        var d = document.createElement('button');
+        d.type = 'button';
+        d.className = 'hero-dot' + (n === 0 ? ' is-active' : '');
+        d.setAttribute('aria-label', 'Ir al banner ' + (n + 1));
+        d.addEventListener('click', function () { go(n); restart(); });
+        dotsWrap.appendChild(d);
+      })(i);
+    }
+    if (prev) prev.addEventListener('click', function () { go(index - 1); restart(); });
+    if (next) next.addEventListener('click', function () { go(index + 1); restart(); });
+    slider.addEventListener('mouseenter', function () { if (heroTimer) clearInterval(heroTimer); });
+    slider.addEventListener('mouseleave', restart);
+    var x0 = null;
+    slider.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    slider.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 50) { go(index + (dx < 0 ? 1 : -1)); restart(); }
+      x0 = null;
+    }, { passive: true });
+    restart();
+  }
+
   /* ---------- Router ---------- */
   function parseHash() {
     var h = (location.hash || '').replace(/^#\/?/, '');
@@ -723,6 +792,7 @@
     else v.innerHTML = '<div class="empty-state"><p>Página no encontrada.</p><p style="margin-top:10px"><a class="btn btn-accent" href="#/inicio">Ir al inicio</a></p></div>';
     closeLb();
     renderNav();
+    initHeroSlider();
     window.scrollTo({ top: 0 });
   }
   function renderNav() {
@@ -800,6 +870,7 @@
       location.hash = '#/contraentrega?p=' + encodeURIComponent(hcod) + '&n=' + qcod;
       return;
     }
+    if (act === 'hero-coupon') { applyCoupon(CONFIG.couponCode); location.hash = '#/carrito'; return; }
     if (act === 'apply-coupon') { var ci = $('#couponInput'); applyCoupon(ci ? ci.value : ''); return; }
     if (act === 'remove-coupon') { saveCoupon(null); toast('Cupón eliminado'); return; }
     if (act === 'open-gallery') {
