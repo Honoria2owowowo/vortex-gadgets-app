@@ -1,5 +1,5 @@
 ﻿/* Service Worker â€” VÃ“RTEX Gadgets PWA */
-const VERSION = 'vortex-app-v18';
+const VERSION = 'vortex-app-v19';
 const PRECACHE = [
   './',
   'index.html',
@@ -15,7 +15,8 @@ const PRECACHE = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(VERSION).then((cache) => cache.addAll(PRECACHE)).then(() => self.skipWaiting())
+    // cache:'reload' evita que el precache herede copias viejas de la cache HTTP
+    caches.open(VERSION).then((cache) => cache.addAll(PRECACHE.map((u) => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting())
   );
 });
 
@@ -51,7 +52,7 @@ self.addEventListener('fetch', (event) => {
   // Antes iba cache-first, que es la razon por la que al desplegar seguia sirviendo el archivo viejo.
   if (url.origin === self.location.origin && /\.(js|css)$/i.test(url.pathname)) {
     event.respondWith(
-      fetch(req)
+      fetch(req, { cache: 'reload' })
         .then((res) => {
           if (res && res.status === 200) {
             const copy = res.clone();
