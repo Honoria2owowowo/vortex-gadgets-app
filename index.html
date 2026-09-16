@@ -15,7 +15,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <!-- AL DESPLEGAR: sube el ?v= de app.css y app.js aqui y la VERSION de sw.js.
        Asi ninguna cache vieja puede servir el codigo anterior. -->
-  <link rel="stylesheet" href="assets/app.css?v=21">
+  <link rel="stylesheet" href="assets/app.css?v=22">
   <style>
     /* Splash pago contra entrega (aparece al entrar y desaparece) */
     .splash{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;
@@ -70,9 +70,60 @@
   <main id="view" class="view"></main>
 
   <footer class="app-footer">
-    <div class="footer-in">
-      <p class="muted">© 2026 VÓRTEX Gadgets · Colombia</p>
-      <p class="muted">Envío gratis a toda Colombia · Pago contra entrega · <a href="https://vortexgadgets.com.co" target="_blank" rel="noopener">vortexgadgets.com.co</a></p>
+    <!-- Footer migrado de la tienda vortexgadgets.com.co.
+         Cambios respecto a la tienda: "Carrito" y "Todos los productos" apuntan a la app
+         (la app tiene su propio carrito y su propio catalogo), y la linea de medios de pago
+         se sustituyo por contra entrega, porque en la app el pago es contra entrega. -->
+    <div class="ft-wrap">
+      <div class="ft-grid">
+        <div class="ft-brand">
+          <p class="ft-logo">VÓRTEX</p>
+          <p class="ft-tagline">Gadgets inteligentes que resuelven problemas del día a día. Envío gratis a toda Colombia.</p>
+          <a class="ft-btn ft-wa" href="https://wa.me/573181738642" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+        </div>
+        <nav class="ft-col" aria-label="Ayuda">
+          <h4>Ayuda</h4>
+          <a href="https://vortexgadgets.com.co/pages/faq" target="_blank" rel="noopener">Preguntas frecuentes</a>
+          <a href="https://vortexgadgets.com.co/pages/politica-de-envios" target="_blank" rel="noopener">Política de envíos</a>
+          <a href="https://vortexgadgets.com.co/pages/devoluciones-y-garantia" target="_blank" rel="noopener">Devoluciones y garantía</a>
+          <a href="https://vortexgadgets.com.co/pages/politicas" target="_blank" rel="noopener">Todas las políticas</a>
+          <a href="https://vortexgadgets.com.co/pages/contacto" target="_blank" rel="noopener">Contáctanos</a>
+        </nav>
+        <nav class="ft-col" aria-label="Compra">
+          <h4>Compra</h4>
+          <a href="https://vortexgadgets.com.co/collections/audio" target="_blank" rel="noopener">Audio</a>
+          <a href="https://vortexgadgets.com.co/collections/smart-home" target="_blank" rel="noopener">Smart home</a>
+          <a href="https://vortexgadgets.com.co/collections/bienestar" target="_blank" rel="noopener">Bienestar</a>
+          <a href="https://vortexgadgets.com.co/collections/hogar" target="_blank" rel="noopener">Hogar</a>
+          <a href="#/catalogo">Todos los productos</a>
+          <a href="#/carrito">Carrito</a>
+        </nav>
+        <nav class="ft-col" aria-label="Legal">
+          <h4>Legal</h4>
+          <a href="https://vortexgadgets.com.co/pages/politica-de-privacidad" target="_blank" rel="noopener">Política de privacidad</a>
+          <a href="https://vortexgadgets.com.co/pages/terminos-y-condiciones" target="_blank" rel="noopener">Términos y condiciones</a>
+          <a href="https://vortexgadgets.com.co/pages/devoluciones-y-garantia" target="_blank" rel="noopener">Derecho de retracto</a>
+          <a href="https://vortexgadgets.com.co/pages/politica-de-envios" target="_blank" rel="noopener">Política de reembolsos</a>
+        </nav>
+        <div class="ft-news">
+          <h4>Únete y recibe 10 % en tu primera compra</h4>
+          <form method="post" action="https://vortexgadgets.com.co/contact#contact_form" accept-charset="UTF-8" class="ft-form" target="_blank">
+            <input type="hidden" name="form_type" value="customer">
+            <input type="utf8" value="✓" hidden>
+            <input type="hidden" name="utf8" value="✓">
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div class="ft-row">
+              <input type="email" name="contact[email]" placeholder="Tu correo electrónico" required>
+              <button type="submit" class="ft-btn">Suscribirme</button>
+            </div>
+          </form>
+          <p class="ft-note">Al suscribirte aceptas nuestra política de privacidad (Ley 1581 de 2012).</p>
+        </div>
+      </div>
+      <div class="ft-bottom">
+        <p>© 2026 VÓRTEX Gadgets · Hecho en Colombia para Colombia</p>
+      </div>
+      <p class="ft-pay">Pago contra entrega en toda Colombia</p>
     </div>
   </footer>
 
@@ -127,7 +178,7 @@
   </div>
 
   <div class="toast" id="toast" hidden></div>
-  <script src="assets/app.js?v=21" defer></script>
+  <script src="assets/app.js?v=22" defer></script>
   <script>
     /* Splash COD: aparece al entrar, rota 360° y desaparece solo */
     (function () {
