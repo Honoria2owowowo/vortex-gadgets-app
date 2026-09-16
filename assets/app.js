@@ -393,8 +393,6 @@
           '<button data-action="qty-inc" aria-label="Más">+</button></div></div>' +
           '<div class="d-btns">' +
           '<button class="btn btn-accent btn-block" data-action="cod-start" data-handle="' + esc(p.handle) + '">Pedir contra entrega</button>' +
-          '<button class="btn btn-wa btn-block" data-action="wa-product" data-handle="' + esc(p.handle) + '">Pedir por WhatsApp</button>' +
-          '<button class="btn btn-accent btn-block" data-action="add-cart" data-handle="' + esc(p.handle) + '">Añadir al carrito</button>' +
           '</div>' +
           '<a class="d-store" href="' + esc(p.url) + '" target="_blank" rel="noopener">También disponible en la tienda online (pago con PSE / tarjeta)</a>' +
           '</div>'
@@ -419,8 +417,7 @@
         ? '<div class="buybar">' +
           '<div class="bb-price"><span class="bb-now">' + money(p.price) + '</span>' +
           (off > 0 ? '<span class="bb-old">' + money(p.compare) + '</span>' : '') + '</div>' +
-          '<button class="btn btn-wa" data-action="wa-product" data-handle="' + esc(p.handle) + '">WhatsApp</button>' +
-          '<button class="btn btn-accent" data-action="add-cart" data-handle="' + esc(p.handle) + '">Carrito</button>' +
+          '<button class="btn btn-accent" data-action="cod-start" data-handle="' + esc(p.handle) + '">Pedir contra entrega</button>' +
           '</div>' : '') +
       '</div>';
   }
