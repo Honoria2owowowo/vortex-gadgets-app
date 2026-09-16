@@ -126,6 +126,8 @@
       <div class="f"><label>Apellido</label><input id="f_apellido" placeholder="Apellido"></div>
       <div class="f"><label>Teléfono / WhatsApp *</label><input id="f_telefono" inputmode="tel" placeholder="3001234567"></div>
       <div class="f"><label>Correo (opcional)</label><input id="f_correo" type="email" placeholder="cliente@correo.com"></div>
+      <div class="f"><label>Tipo de documento</label><select id="f_tipoDoc"><option value="CC">CC — Cédula</option><option value="CE">CE — Cédula extranjería</option><option value="NIT">NIT</option><option value="TI">TI — Tarjeta identidad</option><option value="PAS">PAS — Pasaporte</option></select></div>
+      <div class="f"><label>Número de documento</label><input id="f_numDoc" inputmode="numeric" placeholder="1126705132"></div>
       <div class="f full"><label>Dirección de entrega *</label><input id="f_direccion" placeholder="Calle, carrera, número, apartamento"></div>
       <div class="f"><label>Ciudad *</label><input id="f_ciudad" value="Cali"></div>
       <div class="f"><label>Departamento</label><input id="f_depto" value="Valle del Cauca"></div>
@@ -195,6 +197,7 @@
     return {
       id:idNuevo(), creado:hoyISO(), updated:hoyISO(),
       nombre:'', apellido:'', telefono:'', correo:'', direccion:'', ciudad:'Cali', departamento:'Valle del Cauca',
+      tipoDoc:'CC', numDoc:'',
       producto:'', cantidad:1, valor:0, nota:'',
       compro:'',      /* '' = sin definir | 'si' | 'no' */
       pagado:false, salio:false, camino:false, entregado:false, guia:''
@@ -228,7 +231,7 @@
     if(filtro!=='todos' && cat!==filtro) return false;
     if(termino){
       var q = termino.toLowerCase();
-      var hay = (p.nombre+' '+p.apellido+' '+p.telefono+' '+p.producto+' '+p.ciudad+' '+p.direccion+' '+p.guia).toLowerCase();
+      var hay = (p.nombre+' '+p.apellido+' '+p.telefono+' '+p.producto+' '+p.ciudad+' '+p.direccion+' '+p.guia+' '+(p.numDoc||'')).toLowerCase();
       if(hay.indexOf(q)===-1) return false;
     }
     return true;
@@ -269,6 +272,7 @@
         '<div class="who">'+
           '<div class="nm">'+esc(p.nombre||'(sin nombre)')+' '+esc(p.apellido||'')+'</div>'+
           '<div class="ph">📱 '+tel+(p.correo?' · ✉ '+esc(p.correo):'')+'</div>'+
+          (p.numDoc?'<div class="ph">🪪 '+esc(p.tipoDoc||'CC')+' '+esc(p.numDoc)+'</div>':'')+
           '<div class="prod"><b>'+prod+'</b> ×'+Number(p.cantidad||1)+' · '+money(p.valor)+'</div>'+
           '<div class="prod" style="color:var(--mut)">📍 '+esc(p.direccion||'')+' · '+esc(p.ciudad||'')+(p.departamento?', '+esc(p.departamento):'')+'</div>'+
           '<div class="fecha">Registrado: '+(p.creado?fmtFecha(p.creado):'')+'</div>'+
@@ -307,6 +311,7 @@
     $('f_nombre').value=p?p.nombre:''; $('f_apellido').value=p?p.apellido:'';
     $('f_telefono').value=p?p.telefono:''; $('f_correo').value=p?p.correo:'';
     $('f_direccion').value=p?p.direccion:''; $('f_ciudad').value=p?(p.ciudad||'Cali'):'Cali';
+    $('f_tipoDoc').value=(p&&p.tipoDoc)?p.tipoDoc:'CC'; $('f_numDoc').value=p?(p.numDoc||''):'';
     $('f_depto').value=p?(p.departamento||'Valle del Cauca'):'Valle del Cauca';
     $('f_producto').value=p?p.producto:''; $('f_cantidad').value=p?(p.cantidad||1):1;
     $('f_valor').value=p?(p.valor||''):''; $('f_nota').value=p?p.nota:'';
@@ -320,6 +325,7 @@
       telefono:$('f_telefono').value.trim(), correo:$('f_correo').value.trim(),
       direccion:$('f_direccion').value.trim(), ciudad:$('f_ciudad').value.trim()||'Cali',
       departamento:$('f_depto').value.trim()||'Valle del Cauca',
+      tipoDoc:$('f_tipoDoc').value, numDoc:$('f_numDoc').value.trim(),
       producto:$('f_producto').value.trim(), cantidad:Math.max(1,parseInt($('f_cantidad').value,10)||1),
       valor:Math.max(0,parseInt($('f_valor').value,10)||0), nota:$('f_nota').value.trim()
     };
@@ -376,6 +382,7 @@
     t+='Valor: '+money(p.valor)+'\n';
     t+='Cliente: '+(p.nombre||'')+' '+(p.apellido||'')+'\n';
     t+='Teléfono: '+p.telefono+'\n';
+    if(p.numDoc) t+='Documento: '+(p.tipoDoc||'CC')+' '+p.numDoc+'\n';
     if(p.correo) t+='Correo: '+p.correo+'\n';
     t+='Dirección: '+(p.direccion||'')+'\n';
     t+='Ciudad: '+p.ciudad+(p.departamento?', '+p.departamento:'')+'\n';
@@ -412,11 +419,11 @@
     toast('Respaldo JSON exportado ('+pedidos.length+' pedidos)');
   }
   function exportCSV(){
-    var cols=['ID','Fecha registro','Nombre','Apellido','Teléfono','Correo','Dirección','Ciudad','Departamento','Producto','Cantidad','Valor COP','Notas','¿Compró?','Pagó','Salió proveedor','Guía','En camino','Entregado'];
+    var cols=['ID','Fecha registro','Nombre','Apellido','Teléfono','Correo','Tipo doc','N° documento','Dirección','Ciudad','Departamento','Producto','Cantidad','Valor COP','Notas','¿Compró?','Pagó','Salió proveedor','Guía','En camino','Entregado'];
     function c(s){ s=String(s==null?'':s); return '"'+s.replace(/"/g,'""')+'"'; }
     var rows=[cols.map(c).join(';')];
     pedidos.forEach(function(p){
-      rows.push([p.id,p.creado,p.nombre,p.apellido,p.telefono,p.correo,p.direccion,p.ciudad,p.departamento,
+      rows.push([p.id,p.creado,p.nombre,p.apellido,p.telefono,p.correo,p.tipoDoc,p.numDoc,p.direccion,p.ciudad,p.departamento,
         p.producto,p.cantidad,p.valor,p.nota,
         p.compro==='si'?'SÍ':(p.compro==='no'?'NO':''), p.pagado?'SÍ':'', p.salio?'SÍ':'', p.guia,
         p.camino?'SÍ':'', p.entregado?'SÍ':''].map(c).join(';'));

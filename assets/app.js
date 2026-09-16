@@ -392,6 +392,7 @@
           '<input data-qty-input value="1" inputmode="numeric">' +
           '<button data-action="qty-inc" aria-label="Más">+</button></div></div>' +
           '<div class="d-btns">' +
+          '<button class="btn btn-accent btn-block" data-action="cod-start" data-handle="' + esc(p.handle) + '">Pedir contra entrega</button>' +
           '<button class="btn btn-wa btn-block" data-action="wa-product" data-handle="' + esc(p.handle) + '">Pedir por WhatsApp</button>' +
           '<button class="btn btn-accent btn-block" data-action="add-cart" data-handle="' + esc(p.handle) + '">Añadir al carrito</button>' +
           '</div>' +
@@ -459,6 +460,7 @@
       '<div class="trow total"><span>Total a pagar</span><span>' + money(total) + '</span></div>' +
       '<p class="muted" style="font-size:12px;margin-top:8px">Pago contra entrega: pagas en efectivo al recibir y revisas tu pedido antes.</p>' +
       '<div style="display:grid;gap:9px;margin-top:12px">' +
+      '<a class="btn btn-accent btn-block" href="#/contraentrega">Completar mis datos de envío</a>' +
       '<button class="btn btn-wa btn-block" data-action="wa-cart">Pedir todo por WhatsApp</button>' +
       '<a class="btn btn-ghost btn-block" href="' + esc(CONFIG.storeUrl) + '/collections/all" target="_blank" rel="noopener">Pagar en línea en la tienda</a>' +
       '</div></div>';
@@ -500,6 +502,203 @@
       '</div>';
   }
 
+  /* ---------- Formulario contra entrega (datos de envío) ---------- */
+  var DEPARTAMENTOS = ['Amazonas', 'Antioquia', 'Arauca', 'Atlántico', 'Bogotá D.C.', 'Bolívar', 'Boyacá', 'Caldas', 'Caquetá', 'Casanare', 'Cauca', 'Cesar', 'Chocó', 'Córdoba', 'Cundinamarca', 'Guainía', 'Guaviare', 'Huila', 'La Guajira', 'Magdalena', 'Meta', 'Nariño', 'Norte de Santander', 'Putumayo', 'Quindío', 'Risaralda', 'San Andrés y Providencia', 'Santander', 'Sucre', 'Tolima', 'Valle del Cauca', 'Vaupés', 'Vichada'];
+  var TIPOS_DOC = [['CC', 'Cédula de ciudadanía'], ['CE', 'Cédula de extranjería'], ['NIT', 'NIT'], ['TI', 'Tarjeta de identidad'], ['PAS', 'Pasaporte']];
+  var MISDATOS_KEY = 'vx_misdatos';
+  var PEDIDOS_KEY = 'vortex_cod_pedidos_v1';
+
+  function loadMisDatos() {
+    try { return JSON.parse(localStorage.getItem(MISDATOS_KEY)) || {}; } catch (e) { return {}; }
+  }
+  function saveMisDatos(d) {
+    try {
+      localStorage.setItem(MISDATOS_KEY, JSON.stringify({
+        nombre: d.nombre, apellido: d.apellido, tipoDoc: d.tipoDoc, numDoc: d.numDoc,
+        telefono: d.telefono, correo: d.correo, departamento: d.departamento,
+        ciudad: d.ciudad, direccion: d.direccion
+      }));
+    } catch (e) {}
+  }
+  function codItems(q) {
+    var params = new URLSearchParams(q || '');
+    var ph = params.get('p');
+    var pq = Math.max(1, parseInt(params.get('n'), 10) || 1);
+    if (ph) {
+      var p = productByHandle(ph);
+      if (p) return [{ handle: p.handle, title: p.title, price: p.price, image: p.image, qty: pq }];
+    }
+    return state.cart.slice();
+  }
+  function codTotals(items) {
+    var sub = items.reduce(function (a, l) { return a + (l.price || 0) * l.qty; }, 0);
+    var disc = couponPct() > 0 ? Math.round(sub * couponPct() / 100) : 0;
+    return { sub: sub, disc: disc, total: sub - disc };
+  }
+  function codVal(id) { var el = document.getElementById(id); return el ? String(el.value || '').trim() : ''; }
+
+  function vCod(q) {
+    var items = codItems(q);
+    if (!items.length) {
+      return '<div class="empty-state">' +
+        '<svg viewBox="0 0 24 24" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 7h16l-1.5 12h-13L4 7Z"/><path d="M8 7a4 4 0 0 1 8 0"/></svg>' +
+        '<p>Todavía no tienes productos</p><p style="margin-top:10px"><a class="btn btn-accent" href="#/catalogo">Ir al catálogo</a></p></div>';
+    }
+    var t = codTotals(items);
+    var d = loadMisDatos();
+    var resumen = items.map(function (l) {
+      return '<div class="trow"><span>' + l.qty + '× ' + esc(l.title) + '</span><span>' + money(l.price * l.qty) + '</span></div>';
+    }).join('');
+    var optsDep = DEPARTAMENTOS.map(function (x) {
+      return '<option value="' + esc(x) + '"' + (d.departamento === x ? ' selected' : '') + '>' + esc(x) + '</option>';
+    }).join('');
+    var optsDoc = TIPOS_DOC.map(function (x) {
+      return '<option value="' + x[0] + '"' + ((d.tipoDoc || 'CC') === x[0] ? ' selected' : '') + '>' + x[0] + ' — ' + x[1] + '</option>';
+    }).join('');
+    return '<h1 style="font-size:22px;font-weight:900">Datos de envío</h1>' +
+      '<p class="muted" style="margin:4px 0 12px">Pago <b>contra entrega</b>: pagas en efectivo cuando recibas y revisas tu pedido antes.</p>' +
+      '<div class="totals" style="margin-top:0">' + resumen +
+        (t.disc > 0 ? '<div class="trow" style="color:#4CE0D6"><span>Cupón ' + esc(couponCode()) + ' (-' + couponPct() + '%)</span><span>-' + money(t.disc) + '</span></div>' : '') +
+        '<div class="trow"><span>Envío</span><span style="color:#4CE0D6;font-weight:800">GRATIS</span></div>' +
+        '<div class="trow total"><span>Total a pagar</span><span>' + money(t.total) + '</span></div>' +
+      '</div>' +
+      '<form class="codform" id="codForm" novalidate autocomplete="on">' +
+        '<div class="fld-row">' +
+          '<div class="fld"><label for="cod_nombre">Nombre *</label><input id="cod_nombre" name="given-name" autocomplete="given-name" value="' + esc(d.nombre || '') + '" placeholder="Ej: María"></div>' +
+          '<div class="fld"><label for="cod_apellido">Apellido *</label><input id="cod_apellido" name="family-name" autocomplete="family-name" value="' + esc(d.apellido || '') + '" placeholder="Ej: Gómez"></div>' +
+        '</div>' +
+        '<div class="fld-row">' +
+          '<div class="fld"><label for="cod_tipoDoc">Tipo de documento *</label><select id="cod_tipoDoc">' + optsDoc + '</select></div>' +
+          '<div class="fld"><label for="cod_numDoc">Número de documento *</label><input id="cod_numDoc" inputmode="numeric" autocomplete="off" value="' + esc(d.numDoc || '') + '" placeholder="Ej: 1126705132"></div>' +
+        '</div>' +
+        '<div class="fld"><label for="cod_telefono">Teléfono / WhatsApp *</label><input id="cod_telefono" type="tel" inputmode="tel" autocomplete="tel" value="' + esc(d.telefono || '') + '" placeholder="Ej: 3001234567 (10 dígitos)"></div>' +
+        '<div class="fld"><label for="cod_correo">Correo (opcional)</label><input id="cod_correo" type="email" inputmode="email" autocomplete="email" value="' + esc(d.correo || '') + '" placeholder="tucorreo@ejemplo.com"></div>' +
+        '<div class="fld-row">' +
+          '<div class="fld"><label for="cod_departamento">Departamento *</label><select id="cod_departamento"><option value="">Selecciona…</option>' + optsDep + '</select></div>' +
+          '<div class="fld"><label for="cod_ciudad">Ciudad o municipio *</label><input id="cod_ciudad" autocomplete="address-level2" value="' + esc(d.ciudad || '') + '" placeholder="Ej: Cali"></div>' +
+        '</div>' +
+        '<div class="fld"><label for="cod_direccion">Dirección de entrega *</label><input id="cod_direccion" autocomplete="street-address" value="' + esc(d.direccion || '') + '" placeholder="Calle 1 #2-3, torre 4, apto 501, barrio…"></div>' +
+        '<div class="fld"><label for="cod_notas">Notas para la entrega</label><textarea id="cod_notas" rows="3" placeholder="Punto de referencia, horario en que estás, nombre del conjunto, color o talla…"></textarea></div>' +
+        '<p class="cod-legal">Al enviar aceptas que usemos estos datos <b>únicamente</b> para la entrega de tu pedido (Ley 1581 de 2012).</p>' +
+        '<button class="btn btn-accent btn-block" type="button" data-action="cod-submit">Confirmar pedido contra entrega</button>' +
+      '</form>';
+  }
+
+  function vCodOk() {
+    var txt = 'Hola VÓRTEX Gadgets, quiero confirmar mi pedido contra entrega.';
+    try { txt = sessionStorage.getItem('vx_last_wa') || txt; } catch (e) {}
+    return '<div class="codok">' +
+      '<div class="codok-ico">✓</div>' +
+      '<h1 style="font-size:22px;font-weight:900">Pedido registrado</h1>' +
+      '<p class="muted" style="margin:6px 0 14px">Guardamos tus datos de envío. Si WhatsApp no se abrió solo, toca el botón verde y envíanos el mensaje que ya está escrito.</p>' +
+      '<a class="btn btn-wa btn-block" href="' + esc(waLink(txt)) + '" target="_blank" rel="noopener">Abrir WhatsApp y enviar el pedido</a>' +
+      '<a class="btn btn-ghost btn-block" href="#/catalogo" style="margin-top:9px">Seguir comprando</a>' +
+      '<p class="muted" style="font-size:12px;margin-top:12px">Te escribimos al WhatsApp que dejaste para confirmar el envío.</p>' +
+      '</div>';
+  }
+
+  function leerCod() {
+    var d = {
+      nombre: codVal('cod_nombre'),
+      apellido: codVal('cod_apellido'),
+      tipoDoc: codVal('cod_tipoDoc') || 'CC',
+      numDoc: codVal('cod_numDoc').replace(/[^0-9A-Za-z]/g, ''),
+      telefono: codVal('cod_telefono').replace(/[^0-9]/g, ''),
+      correo: codVal('cod_correo'),
+      departamento: codVal('cod_departamento'),
+      ciudad: codVal('cod_ciudad'),
+      direccion: codVal('cod_direccion'),
+      notas: codVal('cod_notas')
+    };
+    if (d.telefono.length === 12 && d.telefono.slice(0, 2) === '57') d.telefono = d.telefono.slice(2);
+    var e = [];
+    if (d.nombre.length < 2) e.push('Nombre');
+    if (d.apellido.length < 2) e.push('Apellido');
+    if (d.tipoDoc === 'PAS') {
+      if (!/^[A-Za-z0-9]{5,20}$/.test(d.numDoc)) e.push('Pasaporte (5 a 20 letras o números)');
+    } else if (!/^\d{5,15}$/.test(d.numDoc)) {
+      e.push('Número de documento (solo números)');
+    }
+    if (!/^\d{10}$/.test(d.telefono)) e.push('Teléfono (10 dígitos)');
+    if (d.correo && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.correo)) e.push('Correo (revisa el formato)');
+    if (!d.departamento) e.push('Departamento');
+    if (d.ciudad.length < 3) e.push('Ciudad');
+    if (d.direccion.length < 8) e.push('Dirección (calle, número y barrio)');
+    return { datos: d, errores: e };
+  }
+
+  function codMsg(d, items) {
+    var t = codTotals(items);
+    var m = 'PEDIDO CONTRA ENTREGA — VÓRTEX Gadgets\n\n';
+    m += 'PRODUCTO(S)\n';
+    items.forEach(function (l) { m += '- ' + l.qty + 'x ' + l.title + ' (' + money(l.price * l.qty) + ')\n'; });
+    if (t.disc > 0) m += 'Cupón ' + couponCode() + ' (-' + couponPct() + '%): -' + money(t.disc) + '\n';
+    m += 'Envío: GRATIS\n';
+    m += 'TOTAL A PAGAR: ' + money(t.total) + '\n\n';
+    m += 'DATOS DE ENVÍO\n';
+    m += 'Nombre: ' + d.nombre + ' ' + d.apellido + '\n';
+    m += 'Documento: ' + d.tipoDoc + ' ' + d.numDoc + '\n';
+    m += 'Celular: ' + d.telefono + '\n';
+    if (d.correo) m += 'Correo: ' + d.correo + '\n';
+    m += 'Departamento: ' + d.departamento + '\n';
+    m += 'Ciudad: ' + d.ciudad + '\n';
+    m += 'Dirección: ' + d.direccion + '\n';
+    if (d.notas) m += 'Notas: ' + d.notas + '\n';
+    m += '\nPago: contra entrega (efectivo al recibir)';
+    return m;
+  }
+
+  function codGuardarPedido(d, items) {
+    var arr = [];
+    try {
+      var raw = localStorage.getItem(PEDIDOS_KEY);
+      arr = raw ? JSON.parse(raw) : [];
+    } catch (e) { arr = []; }
+    if (!Array.isArray(arr)) arr = [];
+    var t = codTotals(items);
+    var qty = items.reduce(function (a, l) { return a + l.qty; }, 0);
+    var prod = items.map(function (l) { return l.qty + 'x ' + l.title; }).join(' + ');
+    var now = new Date().toISOString();
+    var nota = d.notas || '';
+    if (couponCode() && t.disc > 0) nota += (nota ? ' · ' : '') + 'Cupón ' + couponCode() + ' -' + money(t.disc);
+    arr.unshift({
+      id: 'P' + Date.now().toString(36).toUpperCase(),
+      creado: now, updated: now,
+      nombre: d.nombre, apellido: d.apellido,
+      telefono: d.telefono, correo: d.correo,
+      direccion: d.direccion, ciudad: d.ciudad, departamento: d.departamento,
+      tipoDoc: d.tipoDoc, numDoc: d.numDoc,
+      producto: prod, cantidad: qty, valor: t.total, nota: nota,
+      compro: '', pagado: false, salio: false, camino: false, entregado: false, guia: '',
+      origen: 'app_pwa'
+    });
+    try { localStorage.setItem(PEDIDOS_KEY, JSON.stringify(arr)); return true; } catch (e) { return false; }
+  }
+
+  var codEnviando = false;
+  function codSubmit() {
+    if (codEnviando) return;
+    var items = codItems(parseHash().q);
+    if (!items.length) { toast('Todavía no tienes productos', true); return; }
+    var r = leerCod();
+    if (r.errores.length) { toast('Revisa: ' + r.errores.join(', '), true); return; }
+    var d = r.datos;
+    var total = codTotals(items).total;
+    var piezas = items.reduce(function (a, l) { return a + l.qty; }, 0);
+    codEnviando = true;
+    saveMisDatos(d);
+    var msg = codMsg(d, items);
+    var guardado = codGuardarPedido(d, items);
+    try { sessionStorage.setItem('vx_last_wa', msg); } catch (e) {}
+    trackPixel('InitiateCheckout', { value: Math.round(total), currency: 'COP', num_items: piezas });
+    openWa(msg);
+    saveCart([]);
+    if (!guardado) toast('No pudimos guardar la copia local, pero el pedido va por WhatsApp', true);
+    codEnviando = false;
+    try { history.replaceState(null, '', '#/contraentrega/enviado'); renderRoute(); }
+    catch (e) { location.hash = '#/contraentrega/enviado'; }
+  }
+
   /* ---------- Router ---------- */
   function parseHash() {
     var h = (location.hash || '').replace(/^#\/?/, '');
@@ -510,7 +709,7 @@
   function renderRoute() {
     var r = parseHash();
     var seg = r.seg;
-    if (r.q) { var params = new URLSearchParams(r.q); if (params.get('q')) state.searchTerm = params.get('q'); }
+    if (r.q && seg[0] === 'catalogo') { var params = new URLSearchParams(r.q); if (params.get('q')) state.searchTerm = params.get('q'); }
     var v = $('#view');
     if (state.loading && !state.products.length) { v.innerHTML = spinner(); }
     else if (seg.length === 0 || seg[0] === 'inicio') v.innerHTML = vHome();
@@ -521,6 +720,7 @@
       if (pv) trackPixel('ViewContent', { content_ids: [pv.handle], content_name: pv.title, content_type: 'product', value: Math.round(pv.price), currency: 'COP' });
     }
     else if (seg[0] === 'carrito') v.innerHTML = vCart();
+    else if (seg[0] === 'contraentrega') v.innerHTML = (seg[1] === 'enviado') ? vCodOk() : vCod(r.q);
     else if (seg[0] === 'como-comprar') v.innerHTML = vComo();
     else if (seg[0] === 'contacto') v.innerHTML = vContacto();
     else v.innerHTML = '<div class="empty-state"><p>Página no encontrada.</p><p style="margin-top:10px"><a class="btn btn-accent" href="#/inicio">Ir al inicio</a></p></div>';
@@ -595,6 +795,14 @@
       return;
     }
     if (act === 'wa-cart') { if (state.cart.length) openWa(cartWaText()); return; }
+    if (act === 'cod-submit') { codSubmit(); return; }
+    if (act === 'cod-start') {
+      var hcod = findHandle(t);
+      var qcod = qtyOf(document);
+      if (!hcod) { location.hash = '#/contraentrega'; return; }
+      location.hash = '#/contraentrega?p=' + encodeURIComponent(hcod) + '&n=' + qcod;
+      return;
+    }
     if (act === 'apply-coupon') { var ci = $('#couponInput'); applyCoupon(ci ? ci.value : ''); return; }
     if (act === 'remove-coupon') { saveCoupon(null); toast('Cupón eliminado'); return; }
     if (act === 'open-gallery') {
