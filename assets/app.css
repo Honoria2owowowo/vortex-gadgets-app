@@ -472,3 +472,16 @@ img{max-width:100%}
    (48 px por debajo de 900 px de ancho) y el texto arrancaba dentro del circulo. */
 @media (min-width:521px) and (max-width:900px){.hero-slide-content{padding-left:62px}}
 @media (min-width:901px){.hero-slide-content{padding-left:76px}}
+
+/* ============================================================
+   Popup de intención de salida — CSS tomado tal cual del tema de la tienda
+   ============================================================ */
+.exit-popup{position:fixed;top:0;right:0;bottom:0;left:0;z-index:10000;display:none;align-items:center;justify-content:center;background:#0e11168c;padding:20px}
+.exit-popup.is-open{display:flex}
+.exit-popup-card{background:#fff;color:#0e1116;max-width:430px;width:100%;border-radius:16px;padding:30px 26px;text-align:center;position:relative;box-shadow:0 24px 60px #00000059}
+.exit-popup-close{position:absolute;top:10px;right:14px;border:none;background:none;font-size:26px;line-height:1;cursor:pointer;color:#5b6470}
+.exit-popup-eyebrow{color:var(--sale);font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:12.5px;margin-bottom:10px}
+.exit-popup-card h3{font-size:22px;margin:0 0 10px}
+.exit-popup-card p{font-size:14px;color:#5b6470;margin-bottom:16px}
+.exit-popup-card .btn{background:#ff6b2b;border-color:#ff6b2b;color:#fff;font-size:15px}
+.exit-popup-note{font-size:12px;color:#8a929c;margin:12px 0 0!important}

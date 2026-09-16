@@ -141,5 +141,18 @@
       s.addEventListener('click', function (e) { if (e.target === s) { clearTimeout(t); hide(); } });
     })();
   </script>
+<!-- Popup de salida: cupón VORTEX10 (migrado de la tienda).
+       Único cambio respecto a la tienda: la línea de forma de pago, que ahora dice contra entrega. -->
+  <div class="exit-popup" data-exit-popup aria-hidden="true">
+    <div class="exit-popup-card" role="dialog" aria-modal="true" aria-label="Cupón de bienvenida">
+      <button class="exit-popup-close" data-exit-close type="button" aria-label="Cerrar">&times;</button>
+      <p class="exit-popup-eyebrow">Espera — tu 10% extra está a punto de expirar</p>
+      <h3>No te vayas sin tu cupón</h3>
+      <p>Usa el código <b>VORTEX10</b> en tu primera compra: 10% adicional sobre la oferta flash (hasta 45% de descuento total). Sin compra mínima.</p>
+      <button class="btn btn-block" data-action="exit-coupon" type="button">Aplicar cupón VORTEX10</button>
+      <p class="exit-popup-note">Válido hoy · Envío GRATIS a toda Colombia · Pago contra entrega</p>
+    </div>
+  </div>
 </body>
+
 </html>

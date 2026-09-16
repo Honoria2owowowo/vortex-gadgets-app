@@ -870,6 +870,12 @@
       location.hash = '#/contraentrega?p=' + encodeURIComponent(hcod) + '&n=' + qcod;
       return;
     }
+    if (act === 'exit-coupon') {
+      closeExitPopup();
+      applyCoupon(CONFIG.couponCode);
+      location.hash = state.cart.length ? '#/carrito' : '#/catalogo';
+      return;
+    }
     if (act === 'hero-coupon') { applyCoupon(CONFIG.couponCode); location.hash = '#/carrito'; return; }
     if (act === 'apply-coupon') { var ci = $('#couponInput'); applyCoupon(ci ? ci.value : ''); return; }
     if (act === 'remove-coupon') { saveCoupon(null); toast('Cupón eliminado'); return; }
@@ -1041,9 +1047,69 @@
 
   window.addEventListener('hashchange', renderRoute);
 
+  /* ---------- Popup de intención de salida (migrado de la tienda) ---------- */
+  function closeExitPopup() {
+    var pop = document.querySelector('[data-exit-popup]');
+    if (!pop) return;
+    pop.classList.remove('is-open');
+    pop.setAttribute('aria-hidden', 'true');
+  }
+
+  function initExitPopup() {
+    var pop = document.querySelector('[data-exit-popup]');
+    if (!pop) return;
+    var yaVisto = '';
+    try { yaVisto = sessionStorage.getItem('vortex_exit_shown') || ''; } catch (e) {}
+    if (yaVisto) return;
+    var shown = false;
+    function isTouch() {
+      try { return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0); } catch (e) { return false; }
+    }
+    function show() {
+      if (shown) return;
+      shown = true;
+      try { sessionStorage.setItem('vortex_exit_shown', '1'); } catch (e) {}
+      pop.classList.add('is-open');
+      pop.setAttribute('aria-hidden', 'false');
+    }
+    /* Escritorio: el mouse sale por el borde superior */
+    document.addEventListener('mouseout', function (e) {
+      if (isTouch()) return;
+      if (!e.relatedTarget && !e.toElement && e.clientY <= 40) show();
+    });
+    if (isTouch()) {
+      /* Movil/tablet: tras bajar, subir de golpe = intención de salir */
+      var lastY = window.pageYOffset || document.documentElement.scrollTop;
+      var engaged = false;
+      var raf = false;
+      window.addEventListener('scroll', function () {
+        if (raf) return;
+        raf = true;
+        requestAnimationFrame(function () {
+          raf = false;
+          var y = window.pageYOffset || document.documentElement.scrollTop;
+          if (y > 140) engaged = true;
+          if (engaged && y <= 60 && y < lastY) show();
+          lastY = y;
+        });
+      }, { passive: true });
+      /* Respaldo: si ya navego la pagina, recordarle el cupon una vez */
+      setTimeout(function () {
+        if (!shown && engaged && document.visibilityState !== 'hidden') show();
+      }, 16000);
+    }
+    var closeBtn = pop.querySelector('[data-exit-close]');
+    if (closeBtn) closeBtn.addEventListener('click', closeExitPopup);
+    pop.addEventListener('click', function (e) { if (e.target === pop) closeExitPopup(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && pop.classList.contains('is-open')) closeExitPopup();
+    });
+  }
+
   /* ---------- Init ---------- */
   renderBadge();
   initPixel();
+  initExitPopup();
   setInterval(tickFlash, 1000);
   loadData();
   if ('serviceWorker' in navigator) {
