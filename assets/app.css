@@ -430,20 +430,39 @@ img{max-width:100%}
 
 /* ============================================================
    Ajustes del carrusel para la PWA
-   El tema de la tienda no contaba con la barra inferior fija de la app:
-   el CTA del banner 4 quedaba tapado y los puntos por debajo del pliegue.
+   El tema de la tienda no contaba con la barra inferior fija de la app: el
+   carrusel medía hasta 660 px y sus botones y puntos quedaban tapados.
+   Regla: el carrusel ocupa el alto libre (viewport - cabecera - barra) y el
+   contenido se compacta cuando no hay altura. --hero-h = alto disponible.
    ============================================================ */
-.hero-slide{min-height:max(380px,min(clamp(360px,52vw,620px),calc(100vh - var(--nav-h,58px) - var(--safe,0px) - 120px)))}
-@media (max-width:900px){
-  .hero-slide-content{padding:28px 24px 54px}
-  .hero-heading{font-size:clamp(23px,5.2vw,36px);max-width:400px;margin-bottom:12px}
-  .hero-text{font-size:15px;margin-bottom:16px}
+.hero-slider{--hero-h:calc(100vh - var(--nav-h,58px) - var(--safe,0px) - 110px)}
+.hero-slide{min-height:max(360px,min(clamp(360px,52vw,620px),var(--hero-h)))}
+@media (max-height:880px){
+  .hero-slider{height:max(360px,var(--hero-h));overflow:hidden}
+  .hero-slider-track{height:100%}
+  .hero-slide{min-height:0;height:100%}
+  .hero-slide-content{padding:26px 40px}
+  .hero-heading{font-size:clamp(21px,3.1vw,34px);margin-bottom:10px;max-width:560px}
+  .hero-text{font-size:15px;margin-bottom:12px;max-width:480px}
+  .hero-eyebrow{margin-bottom:12px;padding:4px 14px;font-size:11px}
+  .hero-brand{margin-bottom:10px}
+  .hero-stars{margin-bottom:12px;font-size:13.5px}
+  .hero-guarantee{margin-bottom:14px;font-size:13.5px}
   .hero-actions{gap:10px}
-  .btn-hero{padding:12px 22px;font-size:14px}
+  .btn-hero{padding:11px 22px;font-size:14px}
+  .hero-min{margin-bottom:14px;padding:7px 16px;font-size:12.5px}
+  .hero-pills{margin-bottom:14px}
+  .hero-pill{padding:8px 18px;font-size:14.5px}
+  .hero-fineprint{margin-top:8px;font-size:11px}
+  .hero-dots{bottom:12px}
+}
+@media (max-width:900px){
+  .hero-slide-content{padding:26px 24px 56px}
+  .hero-heading{max-width:400px}
 }
 @media (max-width:520px){
-  .hero-slide{min-height:max(400px,calc(100vh - var(--nav-h,58px) - var(--safe,0px) - 150px))}
-  .hero-slide-content{padding:24px 18px 50px}
-  .hero-heading{font-size:22px}
-  .hero-dots{bottom:10px}
+  .hero-slider{--hero-h:calc(100vh - var(--nav-h,58px) - var(--safe,0px) - 130px)}
+  .hero-slide-content{padding:22px 18px 52px}
+  .hero-heading{font-size:21px}
+  .hero-arrow{display:none}
 }
