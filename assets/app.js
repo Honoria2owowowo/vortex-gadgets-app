@@ -300,12 +300,7 @@
     var dest = state.products.filter(function (p) { return p.available; }).slice(0, 8);
     return '' +
       vHeroSlider() +
-      '<div class="trust-row">' +
-      '<span class="chip"><span class="ck">✓</span> Envío <b>GRATIS</b></span>' +
-      '<span class="chip"><span class="ck">✓</span> Paga <b>contra entrega</b></span>' +
-      '<span class="chip"><span class="ck">✓</span> Revisa antes de pagar</span>' +
-      '<span class="chip"><span class="ck">✓</span> Garantía</span>' +
-      '</div>' +
+      vHeroBar() +
       '<h2 class="section-title">Destacados de la semana</h2>' +
       '<p class="section-sub">Elige, pide por WhatsApp y paga al recibir</p>' + gridHtml(dest) +
       '<h2 class="section-title">Así de fácil compras</h2>' +
@@ -498,6 +493,68 @@
       '<span class="chip">Pago en línea: PSE y tarjetas</span>' +
       '<span class="chip">Pago contra entrega: efectivo</span>' +
       '</div>';
+  }
+
+  /* ---------- Barra deslizante de beneficios ----------
+     Movimiento medido del video de referencia: el mensaje central se desliza
+     hacia ARRIBA cada 5,00 s (transiciones en 4,5 / 9,5 / 14,5 / 19,5 s), con una
+     copia del primer mensaje al final para que el bucle suba siempre. Las zonas
+     de los extremos quedan fijas. */
+  var BAR_ITEMS = [
+    { i: 'cash', t: 'Paga <em>contra entrega</em>', s: 'En efectivo cuando recibes' },
+    { i: 'eye', t: '<em>Revisa</em> antes de pagar', s: 'Abres y revisas tu pedido' },
+    { i: 'shield', t: '<em>5 días</em> de retracto', s: 'Garantía Ley 1480' }
+  ];
+  var BAR_ICONS = {
+    truck: '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v8H3z"/><path d="M14 10h4l3 3v2h-7z"/><circle cx="7" cy="17" r="1.7"/><circle cx="17" cy="17" r="1.7"/></svg>',
+    cash: '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/></svg>',
+    eye: '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.6"/></svg>',
+    shield: '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.4-3 8.2-7 9.5-4-1.3-7-5.1-7-9.5V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>',
+    box: '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-4 9 4v9l-9 4-9-4z"/><path d="M3 8l9 4 9-4M12 12v9"/></svg>'
+  };
+  function hbItem(o) {
+    return '<div class="hb-item">' + BAR_ICONS[o.i] +
+      '<span class="hb-txt"><b>' + o.t + '</b><i>' + o.s + '</i></span></div>';
+  }
+  function vHeroBar() {
+    return '<div class="herobar" data-hero-bar>' +
+      '<div class="hb-zone hb-left">' + BAR_ICONS.truck +
+        '<span class="hb-txt"><b>Envío <em>GRATIS</em></b><i>a toda Colombia</i></span>' +
+        '<span class="hb-chev">&rsaquo;</span>' +
+      '</div>' +
+      '<span class="hb-sep"></span>' +
+      '<div class="hb-zone hb-mid"><div class="hb-track" data-hb-track>' +
+        BAR_ITEMS.map(hbItem).join('') + hbItem(BAR_ITEMS[0]) +
+      '</div></div>' +
+      '<span class="hb-sep"></span>' +
+      '<a class="hb-zone hb-right" href="#/catalogo">' + BAR_ICONS.box +
+        '<span class="hb-txt"><b>Todos los gadgets</b><i>Ver catálogo</i></span>' +
+      '</a>' +
+    '</div>';
+  }
+  var hbTimer = null;
+  function initHeroBar() {
+    if (hbTimer) { clearInterval(hbTimer); hbTimer = null; }
+    var track = document.querySelector('[data-hb-track]');
+    if (!track) return;
+    var items = track.children;
+    if (items.length < 2) return;
+    try { if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; } catch (e) {}
+    var idx = 0, copia = items.length - 1;
+    function subir() {
+      var h = items[0].offsetHeight || 46;
+      idx++;
+      track.style.transition = 'transform .42s cubic-bezier(.4,0,.2,1)';
+      track.style.transform = 'translateY(' + (-idx * h) + 'px)';
+      if (idx >= copia) {
+        setTimeout(function () {
+          track.style.transition = 'none';
+          idx = 0;
+          track.style.transform = 'translateY(0)';
+        }, 470);
+      }
+    }
+    hbTimer = setInterval(subir, 5000);
   }
 
   /* ---------- Formulario contra entrega (datos de envío) ---------- */
@@ -831,6 +888,7 @@
     closeLb();
     renderNav();
     initHeroSlider();
+  initHeroBar();
     window.scrollTo({ top: 0 });
   }
   function renderNav() {
