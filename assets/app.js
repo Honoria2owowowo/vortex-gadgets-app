@@ -526,7 +526,7 @@
       '<div class="hb-zone hb-mid"><div class="hb-track" data-hb-track>' +
         BAR_ITEMS.map(hbItem).join('') + hbItem(BAR_ITEMS[0]) +
       '</div></div>' +
-      '<span class="hb-sep"></span>' +
+      '<span class="hb-sep hb-sep-end"></span>' +
       '<a class="hb-zone hb-right" href="#/catalogo">' + BAR_ICONS.box +
         '<span class="hb-txt"><b>Todos los gadgets</b><i>Ver catálogo</i></span>' +
       '</a>' +
