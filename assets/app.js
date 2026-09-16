@@ -57,6 +57,7 @@
 
   /* ---------- Estado ---------- */
   var state = {
+    cat: '',
     products: [], collections: [], loading: true, searchTerm: ''
   };
   function loadCart() {
@@ -327,13 +328,21 @@
   }
   function vCatalog() {
     var q = normTxt(state.searchTerm);
+    var cat = state.cat || '';
+    var tipos = tiposDeCat(cat);
     var list = state.products.filter(function (p) {
+      if (tipos && tipos.indexOf(p.type) < 0) return false;
       if (!q) return true;
       return normTxt(p.title + ' ' + (p.vendor || '') + ' ' + p.desc).indexOf(q) > -1;
     });
-    return '<h1 style="font-size:22px;font-weight:900">Catálogo</h1>' +
-      '<p class="muted" style="font-size:13px;margin:2px 0 14px">' + list.length + ' productos · Envío gratis · Contra entrega · Cupón VORTEX10 (-10%)</p>' +
-      (list.length ? '' : '<div class="empty-state"><p>Sin resultados para “' + esc(state.searchTerm) + '”.</p></div>') +
+    var nombreCat = (CATEGORIAS.filter(function (c) { return c.slug === cat; })[0] || {}).nombre || '';
+    return '<h1 style="font-size:22px;font-weight:900">' + (nombreCat ? esc(nombreCat) : 'Catálogo') + '</h1>' +
+      '<p class="muted" style="font-size:13px;margin:2px 0 12px">' + list.length + ' productos · Envío gratis · Contra entrega · Cupón VORTEX10 (-10%)</p>' +
+      '<div class="cat-chips">' +
+      '<a class="chip-btn' + (!cat ? ' on' : '') + '" href="#/catalogo">Todos</a>' +
+      CATEGORIAS.map(function (c) { return '<a class="chip-btn' + (cat === c.slug ? ' on' : '') + '" href="#/catalogo?cat=' + c.slug + '">' + esc(c.nombre) + '</a>'; }).join('') +
+      '</div>' +
+      (list.length ? '' : '<div class="empty-state"><p>Sin resultados' + (q ? ' para “' + esc(state.searchTerm) + '”' : ' en esta categoría') + '.</p></div>') +
       gridHtml(list);
   }
 
@@ -765,6 +774,33 @@
     restart();
   }
 
+  /* ---------- Información interna (texto real migrado de la tienda) ---------- */
+  var INFO_PAGES = {"faq":{"t":"Preguntas frecuentes","h":"<h1 class=\"info-h1\">Preguntas frecuentes</h1><h3 class=\"faq-q\">¿Qué medios de pago aceptan?</h3><p>En la app el pago es CONTRA ENTREGA: pagas en efectivo al mensajero cuando recibes y revisas tu pedido. No necesitas tarjeta ni anticipo.</p><h3 class=\"faq-q\">¿Cuánto tarda el envío y cómo lo rastreo?</h3><p>Enviamos a todo Colombia. Los tiempos estimados son de 8 a 20 días hábiles según tu ciudad. Te enviamos el número de guía por correo y WhatsApp para rastrear tu pedido.</p><h3 class=\"faq-q\">¿El envío es gratis?</h3><p>Sí. El envío a toda Colombia es GRATIS en todos tus pedidos, sin montos mínimos. Tiempo estimado: 8 a 20 días hábiles según tu ciudad.</p><h3 class=\"faq-q\">¿Puedo devolver un producto?</h3><p>Sí. Tienes derecho de retracto de 5 días hábiles desde la entrega (Ley 1480 de 2011) y la garantía legal de calidad. El producto debe estar sin uso y con su empaque. Escríbenos a soportevortexgadgets@gmail.com para gestionarlo.</p><h3 class=\"faq-q\">¿Cuándo me llega la factura?</h3><p>Emitimos factura electrónica. La recibes en tu correo al confirmarse el pedido, indícalo en la nota del pedido.</p><h3 class=\"faq-q\">¿Los precios incluyen IVA?</h3><p>Sí, los precios mostrados incluyen el IVA (19 %) cuando aplica.</p><h3 class=\"faq-q\">¿Qué pasa si mi producto llega dañado o defectuoso?</h3><p>Lamentamos el inconveniente. Escríbenos en menos de 48 horas con fotos o video del producto y gestionamos la garantía o reposición sin costo.</p>"},"politica-de-envios":{"t":"Política de envíos","h":"<h1 class=\"info-h1\">Política de Envíos</h1><p>Cobertura y costo. El envío es GRATIS a toda Colombia, sin monto mínimo de compra.</p><p>Tiempos de entrega. Los pedidos se procesan en 1-2 días hábiles. El tiempo de entrega estimado es de 8 a 20 días hábiles según la ciudad (las principales ciudades suelen recibir en la parte baja del rango).</p><p>Seguimiento. Una vez despachado el pedido, se envía el número de guía al correo del comprador para rastrear el paquete en tiempo real.</p><p>Dirección incorrecta. Es responsabilidad del comprador ingresar una dirección válida. Si el paquete es devuelto por dirección incorrecta, el costo de reenvío corre por cuenta del comprador.</p><p>Paquete perdido o dañado. Si el paquete se pierde en tránsito, se realiza reemplazo o reembolso total. Si llega dañado, el comprador debe reportarlo con fotos dentro de los 2 días hábiles siguientes a la entrega para gestionar la reposición.</p><p>Retrasos. Fuerza mayor (condiciones climáticas, paros de transporte) puede generar demoras; se informará al comprador con el nuevo estado.</p>"},"devoluciones-y-garantia":{"t":"Devoluciones y garantía","h":"<h1 class=\"info-h1\">Devoluciones y Garantía</h1><p>1. Derecho de retracto (Ley 1480, Art. 47). Para compras a distancia, el comprador tiene derecho a retractarse dentro de los 5 días hábiles siguientes a la entrega, sin necesidad de justificar la decisión. Para ejercerlo, debe notificarlo por escrito a soportevortexgadgets@gmail.com y devolver el producto en su empaque original, sin uso y con todos sus accesorios. El reembolso se realiza dentro de los 30 días siguientes, descontando únicamente el costo de transporte de la devolución cuando aplique.</p><p>2. Garantía legal (Ley 1480). Todos los productos cuentan con la garantía legal por defectos de calidad, funcionamiento o fabricación. Si el producto sale defectuoso, el comprador puede exigir, a su elección: reparación, reposición del producto o devolución del dinero. La garantía cubre defectos de fábrica, no daños por mal uso, golpes, humedad o manipulación no autorizada.</p><p>3. Política comercial de 30 días. Adicionalmente, VÓRTEX Gadgets ofrece una política comercial: dentro de los 30 días posteriores a la entrega, si el producto llega dañado, incompleto o no corresponde a lo pedido, se gestiona reemplazo o reembolso con solo enviar:</p><ul><li>Foto o video del estado del producto</li><li>Número de pedido</li><li>Descripción del inconveniente</li></ul><p>4. Proceso. Los casos de garantía se responden en máximo 2 días hábiles. La solución (reemplazo, reparación o reembolso) se aplica según el caso y las condiciones de la Ley 1480.</p><p>5. Exclusiones. No aplican garantía ni devolución a: productos usados de manera indebida, daños estéticos por maltrato, productos modificados o desarmados por el comprador.</p>"},"politicas":{"t":"Todas las políticas","h":"<h1 class=\"info-h1\">Políticas de la tienda</h1><p>Políticas de VÓRTEX Gadgets</p><p>En esta sección encontrarás toda la información sobre nuestras políticas. Si tienes alguna duda, escríbenos por WhatsApp o correo.</p><ul><li>Términos y Condiciones</li><li>Política de Envíos</li><li>Devoluciones y Garantía</li><li>Política de Privacidad</li></ul><p>Contacto</p><p>Correo: soportevortexgadgets@gmail.com</p><p>WhatsApp: +57 318 173 8642</p><h2>Políticas de la tienda — Colombia</h2><p>Vigentes para VÓRTEX Gadgets. Última actualización: agosto de 2026.</p><h2>Política de envíos</h2><ul><li>Cobertura: envíos a todo el territorio colombiano (cabeceras municipales principales; zonas rurales pueden tener tiempos mayores).</li><li>Tiempos estimados: 8 a 20 días hábiles según la ciudad de destino, contados desde la confirmación del pedido.</li><li>Rastreo: al despachar, enviamos el número de guía por correo y WhatsApp para que sigas tu pedido en tiempo real.</li><li>Envío GRATIS: todos tus pedidos se envían gratis a toda Colombia, sin montos mínimos ni costos ocultos. Tiempo estimado: 8 a 20 días hábiles según la ciudad de destino.</li><li>Dirección incorrecta: si el pedido no puede entregarse por datos errados, el reenvío tendrá un costo adicional.</li></ul><h2>Devoluciones, retracto y garantía (Ley 1480 de 2011 — Estatuto del Consumidor)</h2><ul><li>Derecho de retracto: en compras a distancia tienes 5 días hábiles para retractarte desde la entrega del producto, sin necesidad de justificación (art. 47, Ley 1480 de 2011).</li><li>Requisitos del retracto: producto sin uso, con empaque original, y aviso por escrito (correo o formulario de contacto) dentro del plazo.</li><li>Reembolso: se realiza por el mismo medio de pago en un plazo máximo de 30 días calendario (art. 48).</li><li>Garantía legal de calidad: respondemos por la calidad, idoneidad y seguridad del producto (art. 11). Para hacerla efectiva, escríbenos describiendo el inconveniente con fotos o video.</li><li>Excepciones: productos personalizados o que por su naturaleza no puedan devolverse (los indicamos en cada ficha).</li><li>Superintendencia de Industria y Comercio (SIC): el consumidor puede acudir a la SIC en caso de no resolver una reclamación (solicitudes en línea, sic.gov.co ).</li></ul><h2>Política de privacidad y tratamiento de datos (Ley 1581 de 2012 — Habeas Data)</h2><ul><li>Al comprar o suscribirte, autorizas el tratamiento de tus datos personales (nombre, correo, teléfono, dirección) con fines de procesamiento de pedidos, envíos, facturación, atención al cliente y comunicaciones comerciales.</li><li>No vendemos ni compartimos tus datos con terceros, salvo los necesarios para la logística del pedido y pasarela de pago.</li><li>Puedes ejercer tus derechos de conocer, actualizar, rectificar y suprimir tus datos, o revocar la autorización, escribiendo a soportevortexgadgets@gmail.com. También puedes registrar tu queja ante la SIC.</li><li>Usamos cookies básicas y herramientas de análisis para mejorar tu experiencia de compra.</li></ul><h2>Facturación e impuestos</h2><ul><li>Emitimos factura electrónica de venta conforme a los requisitos de la DIAN para los pedidos que lo requieran.</li><li>Los precios mostrados incluyen el IVA (19 %) cuando aplica.</li><li>Razón social / NIT: VÓRTEX Gadgets SAS — Marlon Torrealba C.C. 1126705132.</li><li>Para facturación empresarial (NIT), indícalo en la nota del pedido o contáctanos antes de pagar.</li></ul><h2>Medios de pago</h2><ul><li>PSE: paga desde tu banco colombiano directamente.</li><li>Tarjetas: débito y crédito (Visa, Mastercard, American Express).</li><li>Procesamos con pasarelas de pago seguras (Mercado Pago, PayPal), incluyendo PSE para pagar desde tu banco sin tarjeta , con cifrado y cumplimiento PCI.</li><li>No almacenamos los datos de tu tarjeta.</li></ul><h2>Términos y condiciones</h2><p>Al realizar una compra aceptas estas políticas. Los precios y disponibilidad pueden cambiar sin previo aviso. Las promociones tienen vigencia limitada. Las imágenes de los productos son referenciales y pueden variar ligeramente de la versión final. Cualquier duda, escríbenos a soportevortexgadgets@gmail.com o por WhatsApp.</p>"},"politica-de-privacidad":{"t":"Política de privacidad","h":"<h1 class=\"info-h1\">Política de Privacidad</h1><p>1. Datos que recopilamos. Para procesar tu pedido recopilamos: nombre, correo electrónico, teléfono, dirección de envío, datos de facturación y el historial de compras. Los datos de pago (tarjeta, PSE) son procesados directamente por las pasarelas de pago (PayPal, Mercado Pago y otros), que cumplen estándares PCI-DSS; VÓRTEX Gadgets no almacena números de tarjeta.</p><p>2. Uso de la información. Utilizamos tus datos para: procesar y entregar pedidos, enviar notificaciones de envío, atender soporte, prevenir fraude y, con tu consentimiento, enviar comunicaciones comerciales.</p><p>3. Cookies y analítica. La tienda utiliza cookies propias y de terceros (analítica, publicidad) para mejorar la experiencia y medir el rendimiento. Puedes deshabilitarlas desde tu navegador.</p><p>4. Protección y tratamiento (Ley 1581 de 2012). Tus datos personales son tratados conforme a la Ley 1581 de 2012 y su reglamentación. VÓRTEX Gadgets adopta medidas de seguridad razonables para protegerlos y no los vende ni comparte con terceros, salvo los necesarios para el cumplimiento del pedido (proveedores logísticos, pasarelas de pago) o por requerimiento legal.</p><p>5. Tus derechos (Habeas Data). Puedes ejercer los derechos de conocer, actualizar, rectificar y suprimir tus datos, así como revocar la autorización de tratamiento, escribiendo a soportevortexgadgets@gmail.com. También puedes consultar a la Superintendencia de Industria y Comercio (SIC).</p><p>6. Contacto. Duda sobre privacidad: soportevortexgadgets@gmail.com.</p>"},"terminos-y-condiciones":{"t":"Términos y condiciones","h":"<h1 class=\"info-h1\">Términos y Condiciones</h1><p>1. Aceptación. Al realizar un pedido en VÓRTEX Gadgets, el comprador acepta los presentes términos y condiciones, que se rigen por la legislación colombiana, en especial la Ley 1480 de 2011 (Estatuto del Consumidor).</p><p>2. Productos y precios. Todos los productos se describen con la mayor exactitud posible. Los precios están expresados en pesos colombianos (COP) e incluyen el IVA (19 %). Los precios pueden variar sin previo aviso; el precio aplicable es el vigente al momento de confirmar la compra.</p><p>3. Disponibilidad. La disponibilidad de stock depende del proveedor. Si un producto no está disponible después de la compra, el comprador será notificado y podrá elegir entre un producto equivalente, esperar reposición o recibir el reembolso total.</p><p>4. Pagos. Se aceptan tarjetas de crédito y débito, PSE, PayPal, Mercado Pago y los demás medios habilitados en el checkout. La compra se confirma únicamente cuando el pago es aprobado.</p><p>5. Envíos. El envío es GRATIS a toda Colombia. Los tiempos de entrega son de 8 a 20 días hábiles según la ciudad de destino. Toda orden incluye número de seguimiento.</p><p>6. Garantía y devoluciones. Aplican la garantía legal y las condiciones descritas en la Política de Devoluciones y Garantía de la tienda.</p><p>7. Limitación de responsabilidad. VÓRTEX Gadgets no se hace responsable por el uso indebido de los productos, daños causados por mal manejo del cliente o por casos de fuerza mayor en la entrega (desastres, restricciones de transporte, etc.).</p><p>8. Contacto. Para cualquier inquietud: soportevortexgadgets@gmail.com o WhatsApp +57 318 173 8642 (lunes a sábado, 8:00 a.m. – 6:00 p.m.).</p>"}};
+
+  function vInfo(slug) {
+    var p = INFO_PAGES[slug];
+    if (!p) return '<div class="empty-state"><p>No encontramos esa información.</p><p style="margin-top:10px"><a class="btn btn-accent" href="#/inicio">Volver al inicio</a></p></div>';
+    return '<article class="info-page">' +
+      '<a class="info-back" href="#/inicio">&lsaquo; Volver al inicio</a>' +
+      p.h +
+      '<div class="info-cta">' +
+      '<a class="btn btn-wa btn-block" href="' + waLink('Hola VÓRTEX Gadgets, tengo una duda') + '" target="_blank" rel="noopener">Preguntar por WhatsApp</a>' +
+      '</div>' +
+      '</article>';
+  }
+
+  /* Categorías: se arman con el campo real "type" de cada producto */
+  var CATEGORIAS = [
+    { slug: 'audio', nombre: 'Audio', tipos: ['Audio'] },
+    { slug: 'smart-home', nombre: 'Smart home', tipos: ['Smart Home', 'Hogar Inteligente', 'Iluminación Inteligente'] },
+    { slug: 'bienestar', nombre: 'Bienestar', tipos: ['Bienestar y Cuidado', 'Salud y Bienestar', 'Bienestar'] },
+    { slug: 'hogar', nombre: 'Hogar', tipos: ['Hogar y Limpieza', 'Hogar y Jardín', 'Cocina', 'Hogar y Climatización'] }
+  ];
+  function tiposDeCat(slug) {
+    var c = CATEGORIAS.filter(function (x) { return x.slug === slug; })[0];
+    return c ? c.tipos : null;
+  }
+
   /* ---------- Router ---------- */
   function parseHash() {
     var h = (location.hash || '').replace(/^#\/?/, '');
@@ -775,7 +811,7 @@
   function renderRoute() {
     var r = parseHash();
     var seg = r.seg;
-    if (r.q && seg[0] === 'catalogo') { var params = new URLSearchParams(r.q); if (params.get('q')) state.searchTerm = params.get('q'); }
+    if (seg[0] === 'catalogo') { var params = new URLSearchParams(r.q || ''); state.cat = params.get('cat') || ''; if (params.get('q')) state.searchTerm = params.get('q'); }
     var v = $('#view');
     if (state.loading && !state.products.length) { v.innerHTML = spinner(); }
     else if (seg.length === 0 || seg[0] === 'inicio') v.innerHTML = vHome();
@@ -788,6 +824,7 @@
     else if (seg[0] === 'carrito') v.innerHTML = vCart();
     else if (seg[0] === 'contraentrega') v.innerHTML = (seg[1] === 'enviado') ? vCodOk() : vCod(r.q);
     else if (seg[0] === 'como-comprar') v.innerHTML = vComo();
+    else if (seg[0] === 'info') v.innerHTML = vInfo(seg[1]);
     else if (seg[0] === 'contacto') v.innerHTML = vContacto();
     else v.innerHTML = '<div class="empty-state"><p>Página no encontrada.</p><p style="margin-top:10px"><a class="btn btn-accent" href="#/inicio">Ir al inicio</a></p></div>';
     closeLb();
@@ -868,6 +905,15 @@
       var qcod = qtyOf(document);
       if (!hcod) { location.hash = '#/contraentrega'; return; }
       location.hash = '#/contraentrega?p=' + encodeURIComponent(hcod) + '&n=' + qcod;
+      return;
+    }
+    if (act === 'newsletter') {
+      var elm = document.getElementById('ftEmail');
+      var mail = elm ? String(elm.value || '').trim() : '';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) { toast('Escribe un correo válido', true); if (elm) elm.focus(); return; }
+      window.open(waLink('Hola VÓRTEX Gadgets, quiero suscribirme y recibir el 10 % en mi primera compra. Mi correo es: ' + mail), '_blank');
+      if (elm) elm.value = '';
+      toast('Te escribimos por WhatsApp para confirmar tu suscripción');
       return;
     }
     if (act === 'toast-close') { toastIdx = SOCIAL_TOASTS.length; pararToasts(); return; }
