@@ -1,5 +1,5 @@
 ﻿/* Service Worker â€” VÃ“RTEX Gadgets PWA */
-const VERSION = 'vortex-app-v16';
+const VERSION = 'vortex-app-v17';
 const PRECACHE = [
   './',
   'index.html',
@@ -47,6 +47,23 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Mismo origen (shell, datos, imÃ¡genes de assets): cachÃ© primero + actualizaciÃ³n en segundo plano
+  // Codigo (JS y CSS): RED PRIMERO, para que las actualizaciones se vean en la siguiente carga.
+  // Antes iba cache-first, que es la razon por la que al desplegar seguia sirviendo el archivo viejo.
+  if (url.origin === self.location.origin && /\.(js|css)$/i.test(url.pathname)) {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          if (res && res.status === 200) {
+            const copy = res.clone();
+            caches.open(VERSION).then((c) => c.put(req, copy));
+          }
+          return res;
+        })
+        .catch(() => caches.match(req))
+    );
+    return;
+  }
+
   if (url.origin === self.location.origin) {
     event.respondWith(
       caches.match(req).then((cached) => {
