@@ -466,3 +466,9 @@ img{max-width:100%}
   .hero-heading{font-size:21px}
   .hero-arrow{display:none}
 }
+
+/* Separacion del texto respecto a las flechas del carrusel.
+   Medido en vivo: la flecha izquierda termina a 64 px del borde del carrusel
+   (48 px por debajo de 900 px de ancho) y el texto arrancaba dentro del circulo. */
+@media (min-width:521px) and (max-width:900px){.hero-slide-content{padding-left:62px}}
+@media (min-width:901px){.hero-slide-content{padding-left:76px}}
