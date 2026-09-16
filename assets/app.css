@@ -427,3 +427,23 @@ img{max-width:100%}
       .btn-hero { padding: 12px 22px; font-size: 14px; }
       .hero-dots { bottom: 12px; }
     }
+
+/* ============================================================
+   Ajustes del carrusel para la PWA
+   El tema de la tienda no contaba con la barra inferior fija de la app:
+   el CTA del banner 4 quedaba tapado y los puntos por debajo del pliegue.
+   ============================================================ */
+.hero-slide{min-height:max(380px,min(clamp(360px,52vw,620px),calc(100vh - var(--nav-h,58px) - var(--safe,0px) - 120px)))}
+@media (max-width:900px){
+  .hero-slide-content{padding:28px 24px 54px}
+  .hero-heading{font-size:clamp(23px,5.2vw,36px);max-width:400px;margin-bottom:12px}
+  .hero-text{font-size:15px;margin-bottom:16px}
+  .hero-actions{gap:10px}
+  .btn-hero{padding:12px 22px;font-size:14px}
+}
+@media (max-width:520px){
+  .hero-slide{min-height:max(400px,calc(100vh - var(--nav-h,58px) - var(--safe,0px) - 150px))}
+  .hero-slide-content{padding:24px 18px 50px}
+  .hero-heading{font-size:22px}
+  .hero-dots{bottom:10px}
+}
