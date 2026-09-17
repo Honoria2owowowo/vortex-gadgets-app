@@ -366,6 +366,65 @@
       .catch(function () { state.testimonios = []; });
   }
 
+  /* ---------- Seccion "Compra con seguridad total" ---------- */
+  /* [2026-09-17] Recreada a partir del video que envio el dueno.
+     Lo que se midio en el video (21 fotogramas, pixel a pixel):
+       - el titulo, el subtitulo, la descripcion, los dos chips y el boton: QUIETOS
+         (0 px de diferencia en todos los fotogramas)
+       - la insignia "100% COMPRA SEGURA": es lo UNICO que cambia, y buscando el
+         mejor encuadre el desplazamiento es siempre (0,0), o sea que NO se mueve:
+         cambia de brillo. Es una animacion de entrada, no un movimiento continuo.
+     Por eso aqui: la insignia respira con un brillo suave y los bloques entran
+     con un desplazamiento corto cuando la seccion aparece en pantalla.
+     El plazo es el unico oficial de la app: 3 a 4 dias habiles (el video decia
+     5-8 dias, que ya no se usa). */
+  function segIcono(k) {
+    if (k === 'truck') {
+      return '<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" ' +
+        'stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' +
+        '<path d="M2 7h11v9H2z"/><path d="M13 10h4l3 3v3h-7z"/>' +
+        '<circle cx="7" cy="18" r="1.7"/><circle cx="17" cy="18" r="1.7"/></svg>';
+    }
+    return '<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" ' +
+      'stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M13 2 4.5 13H11l-1 9 8.5-11H12z"/></svg>';
+  }
+  function vSeguridad() {
+    return '<section class="seg" id="seg">' +
+      '<div class="seg-badge seg-el">' +
+      '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" ' +
+      'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M12 2.5l7.5 3v6c0 4.4-3.1 8.4-7.5 9.5-4.4-1.1-7.5-5.1-7.5-9.5v-6z"/>' +
+      '<path d="M8.8 12.1l2.3 2.3 4.1-4.4"/></svg>' +
+      '100% COMPRA SEGURA</div>' +
+      '<h2 class="seg-h seg-el">Compra con seguridad total</h2>' +
+      '<p class="seg-sub seg-el">Paga al Recibir</p>' +
+      '<p class="seg-p seg-el">Recibe tu pedido en casa en <b>3 a 4 días hábiles</b> y paga en ' +
+      'efectivo al recibirlo. Revisas antes de pagar. <b>Sin riesgos.</b></p>' +
+      '<div class="seg-chips seg-el">' +
+      '<div class="seg-chip">' + segIcono('truck') +
+      '<div><b>Envío nacional</b><span>Gratis a toda Colombia</span></div></div>' +
+      '<div class="seg-chip">' + segIcono('bolt') +
+      '<div><b>Entrega express</b><span>3 a 4 días hábiles</span></div></div>' +
+      '</div>' +
+      '<a class="seg-cta seg-el" href="#/catalogo">¡Comprar ahora!</a>' +
+      '</section>';
+  }
+  /* la animacion de entrada: en cuanto la seccion asoma, los bloques aparecen */
+  function segInit() {
+    var s = document.getElementById('seg');
+    if (!s || s.classList.contains('in')) return;
+    if (!('IntersectionObserver' in window)) { s.classList.add('in'); return; }
+    try {
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { s.classList.add('in'); io.disconnect(); } });
+      }, { threshold: 0.15 });
+      io.observe(s);
+      /* red de seguridad: si algo falla, se muestra igual a los 2,5 s */
+      setTimeout(function () { s.classList.add('in'); }, 2500);
+    } catch (err) { s.classList.add('in'); }
+  }
+
   function vHome() {
     var dest = state.products.filter(function (p) { return p.available; }).slice(0, 8);
     return '' +
@@ -384,7 +443,8 @@
       '<div class="wa-float-big">' +
       '<div><b style="color:#fff">¿Dudas o pedido especial?</b><div class="muted" style="font-size:13px">Escríbenos: ' + esc(CONFIG.waDisplay) + '</div></div>' +
       '<a class="btn btn-wa" href="' + waLink('Hola VÓRTEX, tengo una consulta') + '" target="_blank" rel="noopener">Chatear ahora</a>' +
-      '</div>';
+      '</div>' +
+      vSeguridad();
   }
   function stepHtml(n, t, d) {
     return '<div class="step"><div class="n">' + n + '</div><b>' + t + '</b><p>' + d + '</p></div>';
@@ -1419,4 +1479,8 @@
       navigator.serviceWorker.register('sw.js').catch(function () {});
     });
   }
+
+  /* [2026-09-17] arranque de la animacion de la seccion de seguridad */
+  window.addEventListener('hashchange', function () { setTimeout(segInit, 80); });
+  setTimeout(segInit, 300);
 })();

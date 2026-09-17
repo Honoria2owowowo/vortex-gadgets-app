@@ -649,3 +649,53 @@ a.hb-zone{text-decoration:none}
 @media(prefers-reduced-motion:reduce){
   .tst-track{animation:none;overflow-x:auto}
 }
+
+/* SECCION COMPRA SEGURA 2026-09-17
+   Recreada del video del dueno. En el video lo unico que cambia es la insignia,
+   y no se desplaza: cambia de brillo (animacion de entrada). Se replica igual:
+   la insignia respira y los bloques entran con un desplazamiento corto al
+   aparecer en pantalla. Nada mas se mueve, igual que en el video. */
+.seg{margin:30px 0 8px;padding:36px 20px 32px;border-radius:20px;text-align:center;position:relative;overflow:hidden;
+  background:radial-gradient(130% 110% at 50% 0%,#13212F 0%,#0D161E 68%);
+  border:1px solid var(--line)}
+.seg::after{content:'';position:absolute;left:12%;right:12%;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,201,192,.55),transparent)}
+.seg-el{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+.seg.in .seg-el{opacity:1;transform:none}
+.seg.in .seg-el:nth-child(2){transition-delay:.07s}
+.seg.in .seg-el:nth-child(3){transition-delay:.14s}
+.seg.in .seg-el:nth-child(4){transition-delay:.21s}
+.seg.in .seg-el:nth-child(5){transition-delay:.28s}
+.seg.in .seg-el:nth-child(6){transition-delay:.35s}
+
+.seg-badge{display:inline-flex;align-items:center;gap:9px;padding:8px 18px;border-radius:999px;
+  background:#1A2735;border:1px solid #2C3E50;color:#DCE6EF;font-size:12px;font-weight:800;
+  letter-spacing:.13em;animation:seg-glow 2.8s ease-in-out infinite}
+@keyframes seg-glow{
+  0%,100%{box-shadow:0 0 0 0 rgba(0,166,166,0);border-color:#2C3E50;color:#DCE6EF}
+  50%{box-shadow:0 0 24px -4px rgba(0,166,166,.65);border-color:#3E6A78;color:#FFFFFF}
+}
+.seg-h{margin:18px 0 0;font-size:clamp(22px,4.4vw,36px);font-weight:900;line-height:1.12;
+  text-transform:uppercase;letter-spacing:-.01em;color:#fff}
+.seg-sub{margin:10px 0 0;font-size:15px;font-style:italic;font-weight:700;color:#DCE6EF}
+.seg-p{margin:16px auto 0;max-width:620px;font-size:14.5px;line-height:1.72;color:#B9C6D3}
+.seg-p b{color:#fff}
+.seg-chips{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:24px 0 0}
+.seg-chip{display:flex;align-items:center;gap:11px;text-align:left;padding:13px 18px;border-radius:13px;
+  background:#18242F;border:1px solid #263442;color:#8FD8D2}
+.seg-chip b{display:block;font-size:11.5px;font-weight:800;letter-spacing:.09em;color:#8FD8D2;text-transform:uppercase}
+.seg-chip span{display:block;margin-top:3px;font-size:12.5px;font-weight:700;color:#FFFFFF}
+.seg-cta{display:inline-block;margin:26px 0 0;padding:15px 42px;border-radius:12px;background:#FFFFFF;
+  color:#0B1116;font-size:15px;font-weight:900;text-decoration:none;letter-spacing:.01em;
+  box-shadow:0 10px 26px -10px rgba(0,0,0,.75);transition:transform .18s ease,box-shadow .18s ease}
+.seg-cta:hover{transform:translateY(-2px);box-shadow:0 14px 30px -10px rgba(0,0,0,.85)}
+.seg-cta:active{transform:translateY(0)}
+@media(max-width:520px){
+  .seg{padding:30px 16px 26px;border-radius:16px}
+  .seg-chip{width:100%}
+  .seg-cta{display:block;padding:15px 20px}
+}
+@media(prefers-reduced-motion:reduce){
+  .seg-el{transition:none;opacity:1;transform:none}
+  .seg-badge{animation:none}
+}
