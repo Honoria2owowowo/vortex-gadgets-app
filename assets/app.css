@@ -660,7 +660,14 @@ a.hb-zone{text-decoration:none}
   border:1px solid var(--line)}
 .seg::after{content:'';position:absolute;left:12%;right:12%;top:0;height:1px;
   background:linear-gradient(90deg,transparent,rgba(0,201,192,.55),transparent)}
-.seg-el{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+/* [2026-09-17] OJO con esto: los bloques NO se ocultan por defecto. Se ocultan
+   solo cuando segInit() anade la clase .seg-armed, es decir cuando ya ha
+   encontrado la seccion en el DOM y va a animarla. Antes se ocultaban siempre
+   por CSS: si segInit() corria antes de que el inicio estuviera pintado (primera
+   carga, sin cache) nadie los volvia a mostrar y la seccion se veia como un
+   panel oscuro VACIO. */
+.seg-armed .seg-el{opacity:0;transform:translateY(16px)}
+.seg-el{transition:opacity .55s ease,transform .55s ease}
 .seg.in .seg-el{opacity:1;transform:none}
 .seg.in .seg-el:nth-child(2){transition-delay:.07s}
 .seg.in .seg-el:nth-child(3){transition-delay:.14s}

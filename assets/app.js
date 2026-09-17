@@ -414,15 +414,19 @@
   function segInit() {
     var s = document.getElementById('seg');
     if (!s || s.classList.contains('in')) return;
-    if (!('IntersectionObserver' in window)) { s.classList.add('in'); return; }
+    /* Los bloques solo se ocultan a partir de aqui (clase .seg-armed). Si JS no
+       llega a ejecutarse, la seccion se ve completa: nunca queda en blanco. */
+    s.classList.add('seg-armed');
+    var mostrar = function () { s.classList.add('in'); };
+    /* red de seguridad: pase lo que pase, el contenido se muestra */
+    setTimeout(mostrar, 1200);
+    if (!('IntersectionObserver' in window)) { mostrar(); return; }
     try {
       var io = new IntersectionObserver(function (es) {
-        es.forEach(function (e) { if (e.isIntersecting) { s.classList.add('in'); io.disconnect(); } });
+        es.forEach(function (e) { if (e.isIntersecting) { mostrar(); io.disconnect(); } });
       }, { threshold: 0.15 });
       io.observe(s);
-      /* red de seguridad: si algo falla, se muestra igual a los 2,5 s */
-      setTimeout(function () { s.classList.add('in'); }, 2500);
-    } catch (err) { s.classList.add('in'); }
+    } catch (err) { mostrar(); }
   }
 
   function vHome() {
@@ -1075,6 +1079,12 @@
     renderNav();
     initHeroSlider();
   initHeroBar();
+    /* [2026-09-17] IMPORTANTE: la seccion de seguridad se pinta con sus bloques
+       ocultos hasta recibir la clase 'in'. Si no se llama aqui, en la PRIMERA
+       carga (sin cache) el inicio se pinta despues de que segInit ya se hubiera
+       ejecutado, nadie lo reintenta, y la seccion se queda como un panel oscuro
+       VACIO. Este era el fallo de "no me permite ver nada". */
+    segInit();
     window.scrollTo({ top: 0 });
   }
   function renderNav() {
@@ -1205,7 +1215,7 @@
     }
   });
   function updateLineQty(handle, n) {
-    saveCart(state.cart.map(function (l) { return l.handle === handle ? { handle: l.handle, title: l.title, price: l.price, image: l.image, qty: n } : l; }));
+    saveCart(state.cart.map(function (l) { return l.handle === handle ? { handle: l.handle, title: l.title, price: l.price, image: l.image, variantId: l.variantId || 0, qty: n } : l; }));
     renderRoute();
   }
 
