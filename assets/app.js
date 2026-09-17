@@ -532,7 +532,7 @@
           '<input data-qty-input value="1" inputmode="numeric">' +
           '<button data-action="qty-inc" aria-label="Más">+</button></div></div>' +
           '<div class="d-btns">' +
-          '<button class="btn btn-accent btn-block btn-stack" data-action="cod-start" data-handle="' + esc(p.handle) + '">Pedir contra entrega<span class="btn-sub">Sin registro · Menos de 1 minuto</span></button>' +
+          '<button class="btn btn-accent btn-block btn-stack btn-late" data-action="cod-start" data-handle="' + esc(p.handle) + '">Pedir contra entrega<span class="btn-sub">Sin registro · Menos de 1 minuto</span></button>' +
           '</div>' +
           (tieneTienda(p)
             ? '<a class="d-store" href="' + esc(p.url) + '" target="_blank" rel="noopener">También disponible en la tienda online (pago con PSE / tarjeta)</a>'
@@ -635,7 +635,7 @@
       '<p class="muted" style="font-size:12px;margin-top:8px">Pago contra entrega: pagas en efectivo al recibir y revisas tu pedido antes.</p>' +
       '<p class="pick-h">¿Cómo quieres pedir?</p>' +
       '<div style="display:grid;gap:9px;margin-top:9px">' +
-      '<a class="btn btn-accent btn-block btn-stack" href="#/contraentrega">Completar mis datos de envío<span class="btn-sub">Sin registro · Menos de 1 minuto</span></a>' +
+      '<a class="btn btn-accent btn-block btn-stack btn-late" href="#/contraentrega">Completar mis datos de envío<span class="btn-sub">Sin registro · Menos de 1 minuto</span></a>' +
       '<button class="btn btn-wa2 btn-block btn-stack" data-action="wa-cart">Pedir todo por WhatsApp<span class="btn-sub">Lo cerramos contigo por chat</span></button>' +
       (shopUrl
         ? '<a class="btn btn-ghost btn-block btn-stack" href="' + esc(shopUrl) + '" target="_blank" rel="noopener">Pagar en línea (PSE o tarjeta)<span class="btn-sub">Se abre el pago seguro de la tienda · El envío sigue siendo GRATIS</span></a>'

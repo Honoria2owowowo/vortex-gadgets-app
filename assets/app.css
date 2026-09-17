@@ -706,3 +706,22 @@ a.hb-zone{text-decoration:none}
   .seg-el{transition:none;opacity:1;transform:none}
   .seg-badge{animation:none}
 }
+
+/* LATIDO SUAVE 2026-09-17
+   El dueno pidio que el boton se mueva "levemente" como el de un video suyo.
+   Se midio ese video (175 fotogramas a 30 fps): el boton NO tiene animacion
+   propia. Su posicion, tamano, texto y sombra son identicos durante 5 s; lo
+   unico que cambia son los bordes, por ruido de compresion. Lo unico que se
+   movio fue el scroll de la pagina (subio 22 px entre t=0,13 s y t=0,37 s y
+   despues se quedo quieto). Asi que no habia un movimiento que copiar.
+   Se aplica un latido sutil y elegante: escala 1 -> 1,012 y un halo que respira.
+   Amplitud minima a proposito: "levemente" es que se note sin molestar.
+   Se pausa al pasar el raton y se detiene con prefers-reduced-motion. */
+.btn-late{animation:btn-late 2.6s ease-in-out infinite;will-change:transform}
+@keyframes btn-late{
+  0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(0,201,192,0)}
+  50%{transform:scale(1.012);box-shadow:0 0 24px -3px rgba(0,201,192,.42)}
+}
+.btn-late:hover{animation-play-state:paused;transform:scale(1.03)}
+.btn-late:active{animation-play-state:paused;transform:scale(.99)}
+@media(prefers-reduced-motion:reduce){.btn-late{animation:none}}
