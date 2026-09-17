@@ -444,10 +444,18 @@
      Antes este boton llevaba a /collections/all (el catalogo entero): el cliente
      salia de la app, perdia su carrito y tenia que buscar el producto otra vez. */
   function tieneTienda(p) { return !!(p && p.variantId); }
+  /* [2026-09-16] El id de variante se busca primero en la linea del carrito y,
+     si no esta (carritos guardados antes de este cambio), en el catalogo por
+     handle. Asi el boton funciona tambien para quien ya tenia el carrito lleno. */
+  function variantDeLinea(l) {
+    if (l && l.variantId) return l.variantId;
+    var p = l ? productByHandle(l.handle) : null;
+    return (p && p.variantId) ? p.variantId : 0;
+  }
   function shopifyCartUrl(lines) {
     var partes = [];
     for (var i = 0; i < (lines || []).length; i++) {
-      var v = lines[i].variantId;
+      var v = variantDeLinea(lines[i]);
       if (!v) return null;
       partes.push(v + ':' + (lines[i].qty || 1));
     }
@@ -967,10 +975,10 @@
     if (!p) return;
     var c = state.cart, found = false;
     c = c.map(function (l) {
-      if (l.handle === h) { found = true; return { handle: l.handle, title: l.title, price: l.price, image: l.image, qty: l.qty + qty }; }
+      if (l.handle === h) { found = true; return { handle: l.handle, title: l.title, price: l.price, image: l.image, variantId: l.variantId || (p && p.variantId) || 0, qty: l.qty + qty }; }
       return l;
     });
-    if (!found) c.push({ handle: p.handle, title: p.title, price: p.price, image: p.image, qty: qty });
+    if (!found) c.push({ handle: p.handle, title: p.title, price: p.price, image: p.image, variantId: p.variantId || 0, qty: qty });
     saveCart(c);
     trackPixel('AddToCart', { content_ids: [p.handle], content_name: p.title, content_type: 'product', value: Math.round(p.price * qty), currency: 'COP' });
     toast('✓ Añadido al carrito');
