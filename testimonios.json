@@ -1,0 +1,13 @@
+{
+  "_leeme": "AQUI van SOLO resenas reales de clientes reales. Mientras la lista este vacia, la seccion no se muestra en la app. No inventar: afirmar resenas que no existen es publicidad engañosa (Ley 1480 de 2011).",
+  "_formato": {
+    "nombre": "Nombre del cliente (como quiera aparecer)",
+    "ciudad": "Ciudad, departamento",
+    "estrellas": 5,
+    "titulo": "Opcional: titular corto",
+    "texto": "Lo que escribio el cliente, textual o resumido",
+    "fecha": "2026-09-15",
+    "verificado": true
+  },
+  "testimonios": []
+}

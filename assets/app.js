@@ -163,6 +163,9 @@
     });
   }
   function loadData() {
+    /* los testimonios se cargan aparte y, al llegar, se repinta para que la
+       seccion aparezca sola si hay resenas reales */
+    loadTestimonios().then(function () { renderRoute(); });
     if (tryCache()) { state.loading = false; renderRoute(); }
     loadStorefront().then(function () {
       state.loading = false; renderRoute();
@@ -303,11 +306,72 @@
   }
 
   /* ---------- Vistas ---------- */
+  /* ---------- Testimonios reales ---------- */
+  /* [2026-09-17] La seccion de resenas se pinta SOLO con testimonios reales que
+     esten en testimonios.json. Si la lista esta vacia, devuelve '' y no se ve
+     nada. No se inventan resenas: afirmar opiniones que no existen es publicidad
+     engañosa (Ley 1480 de 2011) y es justo lo que se quito de esta app. */
+  function tstStars(n) {
+    var h = '';
+    for (var i = 1; i <= 5; i++) h += '<span' + (i <= n ? '' : ' class="off"') + '>★</span>';
+    return h;
+  }
+  function tstCard(t) {
+    var ini = String(t.nombre || '?').trim().charAt(0).toUpperCase();
+    var meta = [t.ciudad, t.fecha].filter(Boolean).join(' · ');
+    return '<figure class="tst-card">' +
+      '<div class="tst-top">' +
+      '<span class="tst-av">' + esc(ini) + '</span>' +
+      '<div class="tst-ident">' +
+      '<div class="tst-nom">' + esc(t.nombre) +
+      (t.verificado === false ? '' : '<span class="tst-ver" title="Compra verificada">✓</span>') +
+      '</div>' +
+      '<div class="tst-meta">' + esc(meta) + '</div>' +
+      '</div>' +
+      '</div>' +
+      '<div class="tst-stars">' + tstStars(Number(t.estrellas) || 5) + '</div>' +
+      (t.titulo ? '<div class="tst-tit">' + esc(t.titulo) + '</div>' : '') +
+      '<blockquote class="tst-txt">' + esc(t.texto) + '</blockquote>' +
+      '</figure>';
+  }
+  function vTestimonios() {
+    var ts = state.testimonios || [];
+    if (!ts.length) return '';
+    var suma = 0;
+    ts.forEach(function (t) { suma += Number(t.estrellas) || 0; });
+    var media = (suma / ts.length).toFixed(1);
+    var tarjetas = ts.map(tstCard).join('');
+    return '<section class="tst">' +
+      '<div class="tst-head">' +
+      '<h2>Reseñas de clientes</h2>' +
+      '<div class="tst-score"><b>' + media + '</b>' +
+      '<span class="tst-stars">' + tstStars(Math.round(suma / ts.length)) + '</span>' +
+      '<small>(' + ts.length + (ts.length === 1 ? ' reseña' : ' reseñas') + ' de compra verificada)</small>' +
+      '</div>' +
+      '</div>' +
+      '<div class="tst-marquee">' +
+      /* la tira va DUPLICADA: al llegar al 50 % el bucle vuelve a empezar sin
+         salto. El movimiento es siempre derecha -> izquierda, en bucle. */
+      '<div class="tst-track">' + tarjetas + tarjetas + '</div>' +
+      '</div>' +
+      '</section>';
+  }
+  function loadTestimonios() {
+    return fetch('testimonios.json?v=36', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        var arr = (j && j.testimonios) ? j.testimonios : [];
+        state.testimonios = arr.filter(function (t) { return t && t.nombre && t.texto; });
+      })
+      .catch(function () { state.testimonios = []; });
+  }
+
   function vHome() {
     var dest = state.products.filter(function (p) { return p.available; }).slice(0, 8);
     return '' +
       vHeroSlider() +
       vHeroBar() +
+      vTestimonios() +
       '<h2 class="section-title">Destacados de la semana</h2>' +
       '<p class="section-sub">Elige, completa tus datos y paga al recibir</p>' + gridHtml(dest) +
       '<h2 class="section-title">Así de fácil compras</h2>' +
