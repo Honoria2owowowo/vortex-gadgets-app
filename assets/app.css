@@ -576,3 +576,19 @@ a.hb-zone{text-decoration:none}
   .hb-zone{padding:0 11px}
   .hb-mid{padding:0 10px}
 }
+
+
+/* ============================================================
+   CORRECCION 2026-09-16 - La barra fija de compra (.buybar) se apila
+   SOBRE la barra inferior, pero .view solo reservaba la altura de la barra
+   inferior (--nav-h). Por eso el final de la ficha de producto quedaba
+   tapado. Aqui se reserva tambien la altura de .buybar en movil.
+   ============================================================ */
+@media(max-width:859px){
+  .view{padding-bottom:calc(30px + var(--nav-h) + var(--safe) + 78px)}
+}
+
+/* Casilla de autorizacion de datos personales (Ley 1581) */
+.cod-acepto{display:flex;gap:9px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:11px 12px;margin:12px 0 8px;font-size:12.5px;line-height:1.5;color:#C7D0DA;cursor:pointer}
+.cod-acepto input{margin-top:2px;width:17px;height:17px;flex:none;accent-color:#00A6A6}
+.cod-acepto b{color:#fff}
