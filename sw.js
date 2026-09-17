@@ -1,11 +1,11 @@
 ﻿/* Service Worker â€” VÃ“RTEX Gadgets PWA */
-const VERSION = 'vortex-app-v37';
+const VERSION = 'vortex-app-v38';
 const PRECACHE = [
   './',
   'index.html',
   'manifest.json',
-  'assets/app.css?v=29',
-  'assets/app.js?v=29',
+  'assets/app.css?v=38',
+  'assets/app.js?v=38',
   'assets/cod-splash.png',
   'datos-tienda.json',
   'icons/icon-192.png',
@@ -36,7 +36,11 @@ self.addEventListener('fetch', (event) => {
   // NavegaciÃ³n: red primero, cachÃ© si estÃ¡s sin conexiÃ³n
   if (req.mode === 'navigate') {
     event.respondWith(
-      fetch(req)
+      /* [2026-09-17] cache:'reload' es importante: sin el, esta peticion la
+         resolvia la cache HTTP del navegador y seguia sirviendo un index.html
+         viejo (GitHub Pages lo cachea unos 10 minutos). Era la causa de que
+         hubiera que abrir la app dos veces para ver un despliegue. */
+      fetch(req, { cache: 'reload' })
         .then((res) => {
           const copy = res.clone();
           caches.open(VERSION).then((c) => c.put('index.html', copy));
