@@ -605,3 +605,13 @@ a.hb-zone{text-decoration:none}
 .ft-legal{margin-top:26px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);font-size:13.5px;line-height:1.75;color:#ffffffa6}
 .ft-legal-h{font-weight:800;color:#fff;font-size:15px;letter-spacing:.05em;margin-bottom:2px}
 .ft-legal a{color:#ffffffd1;text-decoration:underline}
+
+/* JERARQUIA BOTONES 2026-09-16
+   El carrito tenia 3 botones con el mismo peso visual: el de WhatsApp en verde
+   solido parecia el principal. Se demota a contorno verde, se anade un titulo
+   que ordena la decision y microcopy dentro de cada boton. */
+.pick-h{font-size:13px;font-weight:800;color:#fff;margin:14px 0 0}
+.btn-wa2{background:transparent;color:var(--wa);border-color:var(--wa)}
+.btn-wa2:hover{background:rgba(37,211,102,.12)}
+.btn-stack{flex-direction:column;gap:1px;padding:10px 16px;text-align:center}
+.btn-sub{display:block;font-size:11px;font-weight:700;opacity:.72;line-height:1.3}

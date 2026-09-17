@@ -128,7 +128,7 @@
     return false;
   }
   function loadStorefront() {
-    var q = '{ products(first: 60) { edges { node { id title handle productType description availableForSale priceRange { minVariantPrice { amount } } compareAtPriceRange { minVariantPrice { amount } } images(first: 6) { edges { node { url } } } } } } collections(first: 25) { edges { node { handle title } } } }';
+    var q = '{ products(first: 60) { edges { node { id title handle productType description availableForSale priceRange { minVariantPrice { amount } } compareAtPriceRange { minVariantPrice { amount } } variants(first: 1) { edges { node { id } } } images(first: 6) { edges { node { url } } } } } } collections(first: 25) { edges { node { handle title } } } }';
     return fetch('https://' + CONFIG.shopDomain + '/api/' + CONFIG.apiVersion + '/graphql.json', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': CONFIG.storefrontToken },
@@ -142,11 +142,17 @@
         var img = (n.images && n.images.edges && n.images.edges.length) ? n.images.edges[0].node.url : '';
         var images = ((n.images && n.images.edges) || []).map(function (i) { return i.node.url; });
         var cmp = (n.compareAtPriceRange && n.compareAtPriceRange.minVariantPrice) ? n.compareAtPriceRange.minVariantPrice.amount : 0;
+        /* [2026-09-16] id numerico de la variante: hace falta para el permalink
+           del carrito de Shopify (/cart/{variante}:{cantidad}). Si el producto no
+           existe en la tienda, no viene y el boton de pagar en linea se oculta. */
+        var vgid = (n.variants && n.variants.edges && n.variants.edges.length) ? n.variants.edges[0].node.id : '';
+        var vnum = vgid ? (Number(String(vgid).split('/').pop()) || 0) : 0;
         return {
           title: n.title, handle: n.handle,
           price: Number(n.priceRange.minVariantPrice.amount) || 0,
           compare: Number(cmp) || 0,
           image: img, images: images,
+          variantId: vnum,
           desc: n.description || '', available: !!n.availableForSale,
           type: n.productType || '',
           url: CONFIG.storeUrl + '/products/' + n.handle
@@ -398,9 +404,11 @@
           '<input data-qty-input value="1" inputmode="numeric">' +
           '<button data-action="qty-inc" aria-label="Más">+</button></div></div>' +
           '<div class="d-btns">' +
-          '<button class="btn btn-accent btn-block" data-action="cod-start" data-handle="' + esc(p.handle) + '">Pedir contra entrega</button>' +
+          '<button class="btn btn-accent btn-block btn-stack" data-action="cod-start" data-handle="' + esc(p.handle) + '">Pedir contra entrega<span class="btn-sub">Sin registro · Menos de 1 minuto</span></button>' +
           '</div>' +
-          '<a class="d-store" href="' + esc(p.url) + '" target="_blank" rel="noopener">También disponible en la tienda online (pago con PSE / tarjeta)</a>' +
+          (tieneTienda(p)
+            ? '<a class="d-store" href="' + esc(p.url) + '" target="_blank" rel="noopener">También disponible en la tienda online (pago con PSE / tarjeta)</a>'
+            : '') +
           '</div>'
         : '<button class="btn btn-ghost btn-block" disabled>Producto agotado</button>') +
       '<div class="d-trust">' +
@@ -428,6 +436,25 @@
       '</div>';
   }
 
+  /* [2026-09-16] Enlace de pago en linea.
+     Shopify arma el carrito con un permalink: /cart/{variante}:{cantidad},...
+     Solo se puede construir si TODAS las lineas tienen id de variante, es decir
+     si el producto existe de verdad en la tienda. Si falta alguno devuelve null
+     y el boton NO se muestra.
+     Antes este boton llevaba a /collections/all (el catalogo entero): el cliente
+     salia de la app, perdia su carrito y tenia que buscar el producto otra vez. */
+  function tieneTienda(p) { return !!(p && p.variantId); }
+  function shopifyCartUrl(lines) {
+    var partes = [];
+    for (var i = 0; i < (lines || []).length; i++) {
+      var v = lines[i].variantId;
+      if (!v) return null;
+      partes.push(v + ':' + (lines[i].qty || 1));
+    }
+    if (!partes.length) return null;
+    return CONFIG.storeUrl + '/cart/' + partes.join(',');
+  }
+
   function vCart() {
     if (!state.cart.length) {
       return '<div class="empty-state">' +
@@ -448,6 +475,7 @@
         '</div>';
     }).join('');
     var sub = cartSubtotal(), disc = cartDiscount(), total = cartTotal();
+    var shopUrl = shopifyCartUrl(state.cart);
     return '<h1 style="font-size:22px;font-weight:900;margin-bottom:12px">Tu carrito</h1>' +
       '<div class="cart-cupon">' +
       (couponOn
@@ -462,10 +490,13 @@
       '<div class="trow"><span>Envío</span><span class="free">GRATIS</span></div>' +
       '<div class="trow total"><span>Total a pagar</span><span>' + money(total) + '</span></div>' +
       '<p class="muted" style="font-size:12px;margin-top:8px">Pago contra entrega: pagas en efectivo al recibir y revisas tu pedido antes.</p>' +
-      '<div style="display:grid;gap:9px;margin-top:12px">' +
-      '<a class="btn btn-accent btn-block" href="#/contraentrega">Completar mis datos de envío</a>' +
-      '<button class="btn btn-wa btn-block" data-action="wa-cart">Pedir todo por WhatsApp</button>' +
-      '<a class="btn btn-ghost btn-block" href="' + esc(CONFIG.storeUrl) + '/collections/all" target="_blank" rel="noopener">Pagar en línea en la tienda</a>' +
+      '<p class="pick-h">¿Cómo quieres pedir?</p>' +
+      '<div style="display:grid;gap:9px;margin-top:9px">' +
+      '<a class="btn btn-accent btn-block btn-stack" href="#/contraentrega">Completar mis datos de envío<span class="btn-sub">Sin registro · Menos de 1 minuto</span></a>' +
+      '<button class="btn btn-wa2 btn-block btn-stack" data-action="wa-cart">Pedir todo por WhatsApp<span class="btn-sub">Lo cerramos contigo por chat</span></button>' +
+      (shopUrl
+        ? '<a class="btn btn-ghost btn-block btn-stack" href="' + esc(shopUrl) + '" target="_blank" rel="noopener">Pagar en línea (PSE o tarjeta)<span class="btn-sub">Se abre el pago seguro de la tienda · El envío sigue siendo GRATIS</span></a>'
+        : '<p class="muted" style="font-size:11.5px;margin:2px 0 0">Algunos productos de este carrito no están habilitados para pago en línea. Puedes pedir contra entrega o por WhatsApp.</p>') +
       '</div></div>';
   }
 
@@ -626,8 +657,8 @@
     var optsDoc = TIPOS_DOC.map(function (x) {
       return '<option value="' + x[0] + '"' + ((d.tipoDoc || 'CC') === x[0] ? ' selected' : '') + '>' + x[0] + ' — ' + x[1] + '</option>';
     }).join('');
-    return '<h1 style="font-size:22px;font-weight:900">Datos de envío</h1>' +
-      '<p class="muted" style="margin:4px 0 12px">Pago <b>contra entrega</b>: pagas en efectivo cuando recibas y revisas tu pedido antes.</p>' +
+    return '<h1 style="font-size:22px;font-weight:900">Último paso: tus datos</h1>' +
+      '<p class="muted" style="margin:4px 0 12px">Toma <b>menos de 1 minuto</b> y no necesitas tarjeta. Pago <b>contra entrega</b>: pagas en efectivo cuando recibas y revisas tu pedido antes.</p>' +
       '<div class="totals" style="margin-top:0">' + resumen +
         (t.disc > 0 ? '<div class="trow" style="color:#4CE0D6"><span>Cupón ' + esc(couponCode()) + ' (-' + couponPct() + '%)</span><span>-' + money(t.disc) + '</span></div>' : '') +
         '<div class="trow"><span>Envío</span><span style="color:#4CE0D6;font-weight:800">GRATIS</span></div>' +
