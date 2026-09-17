@@ -343,6 +343,20 @@
       gridHtml(list);
   }
 
+  /* [2026-09-16] Blindaje del plazo de envio.
+     Las descripciones de producto vienen de la tienda (GraphQL / datos-tienda.json)
+     y alli pueden quedar plazos viejos (p.ej. "2-6 dias habiles"). Aqui se normaliza
+     cualquier RANGO de dias u horas habiles al plazo oficial unico, de modo que la
+     promesa nunca pueda contradecirse aunque cambie el catalogo.
+     No toca plazos sueltos como "5 dias habiles" (retracto) ni "30 dias" (garantia). */
+  function saneaPlazo(txt) {
+    if (!txt) return txt;
+    return String(txt)
+      .replace(/\b\d+\s*(?:a|-|\u2013|\u2014)\s*\d+\s*d[i\u00ed]as?\s*h[\u00e1a]biles/gi, '3 a 4 d\u00edas h\u00e1biles')
+      .replace(/\b\d+\s*(?:a|-|\u2013|\u2014)\s*\d+\s*horas\s*h[\u00e1a]biles/gi, '3 a 4 d\u00edas h\u00e1biles')
+      .replace(/\b24\s*-\s*72\s*(?:horas|h)?\b/gi, '3 a 4 d\u00edas h\u00e1biles');
+  }
+
   function vProduct(handle) {
     var p = state.products.filter(function (x) { return x.handle === handle; })[0];
     if (!p) return '<div class="empty-state"><p>Producto no encontrado.</p><p style="margin-top:10px"><a class="btn btn-accent" href="#/catalogo">Ver catálogo</a></p></div>';
@@ -397,7 +411,7 @@
       '</div>' +
       '<div class="acc">' +
       '<button class="acc-h" data-action="acc-toggle">Descripción <span class="chev">▾</span></button>' +
-      '<div class="acc-b">' + (p.desc || 'Producto disponible en la tienda VÓRTEX Gadgets.') + '</div>' +
+      '<div class="acc-b">' + saneaPlazo(p.desc || 'Producto disponible en la tienda VÓRTEX Gadgets.') + '</div>' +
       '<button class="acc-h" data-action="acc-toggle">Envío y contra entrega <span class="chev">▾</span></button>' +
       '<div class="acc-b">Despachamos a todo Colombia con número de guía: tu pedido llega en 3 a 4 días hábiles.\n\nPagas CONTRA ENTREGA: en efectivo al recibir tu pedido, después de revisarlo. También puedes pagar en línea (PSE o tarjeta) desde nuestra tienda web.</div>' +
       '<button class="acc-h" data-action="acc-toggle">Garantía y devoluciones <span class="chev">▾</span></button>' +
