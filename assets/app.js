@@ -460,7 +460,14 @@
       partes.push(v + ':' + (lines[i].qty || 1));
     }
     if (!partes.length) return null;
-    return CONFIG.storeUrl + '/cart/' + partes.join(',');
+    var ruta = '/cart/' + partes.join(',');
+    /* [2026-09-16] Si el cliente aplico un cupon en la app hay que mandarlo a
+       Shopify, o al pagar en linea veria el precio LLENO y perderia su descuento.
+       El cupon VORTEX10 existe tambien como codigo de descuento en la tienda
+       (comprobado: 259.900 -> 233.910, el 10 % exacto). */
+    var cup = couponCode();
+    if (cup) return CONFIG.storeUrl + '/discount/' + encodeURIComponent(cup) + '?redirect=' + ruta;
+    return CONFIG.storeUrl + ruta;
   }
 
   function vCart() {
