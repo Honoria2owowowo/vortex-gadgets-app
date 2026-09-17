@@ -599,3 +599,9 @@ a.hb-zone{text-decoration:none}
 @media(max-width:859px){
   .app-footer{padding-bottom:calc(var(--nav-h) + var(--safe) + 84px)}
 }
+
+/* Identidad del negocio en el pie (2026-09-16). Sin esto el comprador no sabe
+   quien le vende, que es la principal razon de desconfianza en contra entrega. */
+.ft-legal{margin-top:26px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);font-size:13.5px;line-height:1.75;color:#ffffffa6}
+.ft-legal-h{font-weight:800;color:#fff;font-size:15px;letter-spacing:.05em;margin-bottom:2px}
+.ft-legal a{color:#ffffffd1;text-decoration:underline}
