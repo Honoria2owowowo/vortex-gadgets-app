@@ -14,7 +14,7 @@
        MIENTRAS ESTE VACIO, la app funciona igual que siempre: el pedido solo va por
        WhatsApp y no se manda a ningun servidor. Al ponerlo, el pedido se guarda
        ademas en el servidor y aparece en el panel privado. */
-    apiPedidos: '',
+    apiPedidos: 'https://vortex-pedidos.granadoalejandro97.workers.dev',   // desplegado el 2026-09-17 (Worker vortex-pedidos)
     shopDomain: 'kvrfbn-n1.myshopify.com', // dominio de la API
     storefrontToken: 'd93566827739f74089b5b9933113035c', // token público (catálogo)
     apiVersion: '2026-01',
