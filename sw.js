@@ -1,11 +1,11 @@
 ﻿/* Service Worker â€” VÃ“RTEX Gadgets PWA */
-const VERSION = 'vortex-app-v49';
+const VERSION = 'vortex-app-v50';
 const PRECACHE = [
   './',
   'index.html',
   'manifest.json',
-  'assets/app.css?v=49',
-  'assets/app.js?v=49',
+  'assets/app.css?v=50',
+  'assets/app.js?v=50',
   'assets/cod-splash.png',
   'datos-tienda.json',
   'icons/icon-192.png',
@@ -102,4 +102,63 @@ self.addEventListener('fetch', (event) => {
       })
     );
   }
+});
+
+/* ===========================================================================
+   AVISOS DE VENTA (push)   [2026-09-18]
+   ===========================================================================
+   El dueno quiere que le suene con el panel CERRADO. Antes el sonido lo ponia la
+   pagina, y sin pagina abierta no habia sonido. Con esto lo pone el propio
+   telefono: no hace falta tener nada abierto.
+
+   EL SONIDO NO SE ELIGE AQUI. Una notificacion web no puede sonar con un sonido
+   propio: lo pone el sistema operativo. En Android el dueno puede escoger cual
+   quiere en: Ajustes -> Notificaciones -> Chrome -> sonido.
+   =========================================================================== */
+self.addEventListener('push', (event) => {
+  let aviso = { title: 'VÓRTEX Gadgets', body: 'Tienes un aviso nuevo.' };
+  try {
+    if (event.data) {
+      const crudo = event.data.text();
+      if (crudo) {
+        const j = JSON.parse(crudo);
+        if (j.title) aviso.title = j.title;
+        if (j.body) aviso.body = j.body;
+        if (j.id) aviso.id = j.id;
+      }
+    }
+  } catch (e) {
+    /* Si el mensaje no se entiende, se muestra algo generico antes que nada. */
+  }
+
+  event.waitUntil(self.registration.showNotification(aviso.title, {
+    body: aviso.body,
+    icon: 'icons/icon-192.png',
+    badge: 'icons/icon-192.png',
+    /* requireInteraction: el aviso de una VENTA no debe borrarse solo. Se queda en
+       pantalla hasta que el dueno lo vea. Justo lo contrario de una notificacion
+       cualquiera, que desaparece en segundos. */
+    requireInteraction: true,
+    /* En Android O en adelante estas dos las ignora el sistema y usa lo del canal,
+       pero se dejan puestas para los navegadores que si las respetan. */
+    vibrate: [200, 100, 200],
+    tag: aviso.id ? ('pedido-' + aviso.id) : 'vortex-aviso',
+    renotify: true,
+    data: { url: 'gestor-pedidos-cod.html' }
+  }));
+});
+
+/* Al tocar la notificacion se abre el panel (o se trae al frente si ya estaba). */
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const destino = (event.notification.data && event.notification.data.url) || 'gestor-pedidos-cod.html';
+  const completa = new URL(destino, self.location.origin).href;
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((ventanas) => {
+      for (const v of ventanas) {
+        if (v.url.indexOf('gestor-pedidos-cod') > -1 && 'focus' in v) return v.focus();
+      }
+      if (clients.openWindow) return clients.openWindow(completa);
+    })
+  );
 });

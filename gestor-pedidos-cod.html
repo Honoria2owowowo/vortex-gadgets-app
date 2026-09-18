@@ -690,6 +690,7 @@
           ultimoVisto = new Date().toISOString();
           vigilar();
           pintarAviso();
+          revisarPush();
           toast('Bienvenido. Ya puedes ver tus pedidos.');
         });
       })
@@ -895,6 +896,179 @@
     }
   }
 
+
+  /* ==========================================================================
+     AVISOS AL TELEFONO (push)   [2026-09-18]
+     ==========================================================================
+     POR QUE EXISTE ESTO
+     El aviso con sonido funcionaba solo con el panel ABIERTO, porque el sonido lo
+     reproducia la pagina. El dueno no va a tener el panel abierto todo el dia, ni
+     en el computador ni en el celular. Con esto el aviso lo hace el PROPIO
+     TELEFONO, asi que suena aunque no haya nada abierto.
+
+     LIMITE QUE NO SE PUEDE SALTAR (y conviene decirlo claro)
+     Una notificacion web NO puede sonar con un sonido propio: el sonido lo elige
+     el sistema operativo, no la web. Lo que SI puede hacer el dueno en Android es
+     elegir cual quiere: Ajustes -> Notificaciones -> Chrome -> sonido. Ahi puede
+     poner uno inconfundible.
+
+     OJO CON EL PERMISO
+     `Notification.requestPermission()` TIENE que llamarse dentro del manejador del
+     clic. Si se pidiera solo al abrir la pagina, el navegador lo bloquea y despues
+     hay que desbloquearlo a mano en los ajustes. Por eso va todo dentro de
+     activarPush(), que solo se ejecuta al tocar el boton.
+     ========================================================================== */
+
+  var K_PUSH = 'vortex_push_activo';
+  var pushEstado = '';   /* apagado | concedido | activo | bloqueado | no-soportado */
+
+  function soportaPush() {
+    return ('serviceWorker' in navigator) && ('PushManager' in window) && ('Notification' in window);
+  }
+
+  /* base64url -> bytes (lo que necesita applicationServerKey) */
+  function urlB64aBytes(b64) {
+    var s = String(b64 || '').replace(/-/g, '+').replace(/_/g, '/');
+    while (s.length % 4) s += '=';
+    var bin = atob(s);
+    var u = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+    return u;
+  }
+
+  /* Mira en que estado estan los avisos en ESTE aparato. */
+  function revisarPush() {
+    if (!soportaPush()) { pushEstado = 'no-soportado'; pintarAviso(); return; }
+    if (Notification.permission === 'denied') { pushEstado = 'bloqueado'; pintarAviso(); return; }
+    navigator.serviceWorker.ready.then(function (reg) {
+      return reg.pushManager.getSubscription();
+    }).then(function (sub) {
+      pushEstado = sub ? 'activo' : (Notification.permission === 'granted' ? 'concedido' : 'apagado');
+      pintarAviso();
+    }).catch(function () {
+      pushEstado = 'apagado';
+      pintarAviso();
+    });
+  }
+
+  function activarPush() {
+    if (!apiActiva) { toast('Primero entra con tu clave.', true); return; }
+    if (!soportaPush()) {
+      toast('Este navegador no permite avisos al teléfono. En Android, ábrelo en Chrome.', true);
+      return;
+    }
+    Notification.requestPermission().then(function (permiso) {
+      if (permiso !== 'granted') {
+        revisarPush();
+        toast(permiso === 'denied'
+          ? 'Bloqueaste los avisos. Para activarlos: toca el candado junto a la dirección → Notificaciones → Permitir.'
+          : 'No diste permiso para los avisos.', true);
+        return;
+      }
+      return pedirApi('/api/push-clave').then(function (j) {
+        if (!j || !j.clave) throw new Error('el servidor no devolvió su clave de avisos');
+        return navigator.serviceWorker.ready.then(function (reg) {
+          return reg.pushManager.getSubscription().then(function (ya) {
+            if (ya) return ya;
+            return reg.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: urlB64aBytes(j.clave)
+            });
+          });
+        });
+      }).then(function (sub) {
+        var s = sub.toJSON();
+        return pedirApi('/api/push-suscribir', {
+          metodo: 'POST',
+          cuerpo: {
+            endpoint: s.endpoint,
+            keys: s.keys,
+            etiqueta: String(navigator.userAgent).slice(0, 45)
+          }
+        });
+      }).then(function () {
+        pushEstado = 'activo';
+        escribir(K_PUSH, '1');
+        pintarAviso();
+        toast('Avisos activados en este aparato. Sonará aunque cierres el panel.');
+      });
+    }).catch(function (e) {
+      pushEstado = 'apagado';
+      pintarAviso();
+      toast('No se pudieron activar los avisos: ' + ((e && e.message) || 'error'), true);
+    });
+  }
+
+  function probarPush() {
+    toast('Enviando aviso de prueba…');
+    pedirApi('/api/push-probar', { metodo: 'POST', cuerpo: {} }).then(function (j) {
+      if (j && j.ok) {
+        toast('Aviso enviado a ' + j.dispositivos + ' aparato(s). Debería sonar en segundos.');
+      } else {
+        toast((j && j.error) || 'El servicio de avisos lo rechazó.', true);
+      }
+    }).catch(function (e) {
+      toast('No se pudo probar: ' + ((e && e.message) || 'error'), true);
+    });
+  }
+
+  function apagarPush() {
+    if (!soportaPush()) return;
+    navigator.serviceWorker.ready.then(function (reg) {
+      return reg.pushManager.getSubscription();
+    }).then(function (sub) {
+      if (!sub) throw new Error('no había nada que apagar');
+      var endpoint = sub.endpoint;
+      return sub.unsubscribe().then(function () {
+        return pedirApi('/api/push-borrar', { metodo: 'POST', cuerpo: { endpoint: endpoint } });
+      });
+    }).then(function () {
+      pushEstado = 'apagado';
+      borrar(K_PUSH);
+      pintarAviso();
+      toast('Avisos al teléfono apagados en este aparato.');
+    }).catch(function (e) {
+      toast('No se pudieron apagar: ' + ((e && e.message) || 'error'), true);
+    });
+  }
+
+  /* Botones y estado de los avisos al teléfono, para meterlos en la barra. */
+  function botonesPush() {
+    if (!apiActiva) return '';
+    if (pushEstado === 'no-soportado') {
+      return '<span class="pt mal"><span class="dot"></span>Avisos no disponibles aquí</span>';
+    }
+    if (pushEstado === 'bloqueado') {
+      return '<span class="pt mal"><span class="dot"></span>Avisos bloqueados' +
+             '<button class="btn sm" id="btnVerPush" style="margin-left:6px">Cómo activarlos</button></span>';
+    }
+    if (pushEstado === 'activo') {
+      return '<span class="pt ok"><span class="dot"></span>Avisos al teléfono activos</span>' +
+             '<button class="btn sm" id="btnProbarPush">Probar</button>' +
+             '<button class="btn ghost sm" id="btnApagarPush">Apagar</button>';
+    }
+    return '<button class="btn accent sm" id="btnActivarPush">Activar avisos al teléfono</button>';
+  }
+
+  function conectarBotonesPush() {
+    var a = document.getElementById('btnActivarPush');
+    if (a) a.onclick = activarPush;
+    var p = document.getElementById('btnProbarPush');
+    if (p) p.onclick = probarPush;
+    var ap = document.getElementById('btnApagarPush');
+    if (ap) ap.onclick = function () {
+      if (confirm('¿Apagar los avisos al teléfono en este aparato?')) apagarPush();
+    };
+    var v = document.getElementById('btnVerPush');
+    if (v) v.onclick = function () {
+      alert('Los avisos están bloqueados para esta página.\n\n' +
+            'Para activarlos: toca el candado (o el icono de ajustes) junto a la ' +
+            'dirección del sitio → Notificaciones → Permitir. Luego vuelve aquí y ' +
+            'pulsa "Activar avisos al teléfono".\n\n' +
+            'Si no aparece esa opción, borra los datos del sitio para esta página y vuelve a entrar.');
+    };
+  }
+
   /* ---------- barra de estado ---------- */
   function pintarAviso() {
     var caja = document.getElementById('avisoBox');
@@ -916,8 +1090,9 @@
         ' pedido(s) solo en este navegador</span>' : '') +
       '<span class="sep"></span>' +
       (soloLocal ? '<button class="btn teal sm" id="btnSubirLocales">Subir los locales</button>' : '') +
-      (sonidoOn ? '' : '<button class="btn sonar off sm" id="btnSonido">Activar aviso con sonido</button>') +
-      (sonidoOn ? '<button class="btn sonar on sm" id="btnSonido">Sonido activo</button>' : '') +
+      (sonidoOn ? '' : '<button class="btn sonar off sm" id="btnSonido">Aviso con sonido (panel abierto)</button>') +
+      (sonidoOn ? '<button class="btn sonar on sm" id="btnSonido">Sonido del panel activo</button>' : '') +
+      botonesPush() +
       '<button class="btn sm" id="btnRefrescar">Actualizar</button>' +
       '<button class="btn ghost sm" id="btnSalir" style="background:#e2e8f0;color:#0f172a">Salir</button>';
 
@@ -937,6 +1112,7 @@
     };
     var bx = document.getElementById('btnSalir');
     if (bx) bx.onclick = function () { if (confirm('¿Cerrar la sesión del panel?')) salir(); };
+    conectarBotonesPush();
   }
 
   function pintarBanner() {
@@ -983,6 +1159,7 @@
         ultimoVisto = new Date().toISOString();
         vigilar();
         pintarAviso();
+        revisarPush();
       });
     } else {
       pedidos = [];
