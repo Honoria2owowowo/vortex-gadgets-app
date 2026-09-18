@@ -370,6 +370,19 @@ img{max-width:100%}
     .hero-slide--light .hero-slide-content { color: #111; }
     .hero-slide--dark .hero-slide-content, .hero-slide--center .hero-slide-content { color: #fff; }
 
+    /* [2026-09-18] Dos columnas en la diapositiva de la oferta: el texto a la
+       izquierda y las cifras en grande a la derecha. Antes el contenido era una
+       sola columna de 640px, asi que en escritorio TODA la mitad derecha quedaba
+       vacia. En pantallas pequenas las cifras se ocultan (el precio ya va en el
+       boton) para no alargar la diapositiva. */
+    .hero-cols { display: flex; align-items: center; gap: 36px; width: 100%; }
+    .hero-col { min-width: 0; }
+    .hero-wow { margin-left: auto; text-align: right; flex: 0 0 auto; }
+    .hero-wow-num { font-size: clamp(44px, 6vw, 78px); font-weight: 900; line-height: 1; color: #111; letter-spacing: -.02em; }
+    .hero-wow-old { font-size: 17px; font-weight: 700; color: #6b5f00; margin-top: 10px; }
+    .hero-wow-off { display: inline-block; margin-top: 12px; background: #111; color: #fff; border-radius: 9px; padding: 7px 16px; font-size: 17px; font-weight: 900; }
+    @media (max-width: 1100px) { .hero-wow { display: none; } }
+
     /* badges y textos */
     .hero-eyebrow {
       display: inline-block; border: 1px solid rgba(255,255,255,.6); border-radius: 999px;
