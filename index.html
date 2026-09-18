@@ -15,7 +15,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <!-- AL DESPLEGAR: sube el ?v= de app.css y app.js aqui y la VERSION de sw.js.
        Asi ninguna cache vieja puede servir el codigo anterior. -->
-  <link rel="stylesheet" href="assets/app.css?v=41">
+  <link rel="stylesheet" href="assets/app.css?v=42">
   <style>
     /* Splash pago contra entrega (aparece al entrar y desaparece) */
     .splash{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;
@@ -43,7 +43,28 @@
     </div>
   </div>
 
-  <div class="announce" id="announce">ENVÍO GRATIS a toda Colombia · PAGA CONTRA ENTREGA</div>
+  <!-- [2026-09-17] Barra de anuncios. Antes era un texto fijo centrado; el dueno
+       pidio que se MOVIERA: que entre por la derecha y salga por la izquierda,
+       repitiendo la misma secuencia. El JS (initAnnounce) duplica la secuencia y
+       la anima; si no hay JS o el visitante pide movimiento reducido, se ve
+       centrada y quieta, sin perder ningun mensaje.
+       Las 8 frases son datos REALES del negocio (nada inventado): envio gratis,
+       contra entrega, revisar antes de pagar, cupon VORTEX10 del 10%, plazo de
+       3 a 4 dias habiles, sin tarjeta, garantia de funcionamiento y los 5 dias de
+       retracto de la Ley 1480. -->
+  <div class="announce" id="announce" data-announce
+       aria-label="Envío gratis a toda Colombia. Pagas contra entrega. Revisa antes de pagar. Ahorra 10% con el cupón VORTEX10. Llega en 3 a 4 días hábiles. No necesitas tarjeta. Garantía de funcionamiento. 5 días de retracto, Ley 1480.">
+    <div class="an-track" data-an-track>
+      <span class="an-item">ENVÍO <b>GRATIS</b> a toda Colombia</span>
+      <span class="an-item">PAGAS <b>CONTRA ENTREGA</b></span>
+      <span class="an-item"><b>REVISA</b> antes de pagar</span>
+      <span class="an-item">AHORRA <b>10%</b> con el cupón VORTEX10</span>
+      <span class="an-item">LLEGA en <b>3 a 4 días hábiles</b></span>
+      <span class="an-item"><b>NO NECESITAS TARJETA</b></span>
+      <span class="an-item">GARANTÍA <b>de funcionamiento</b></span>
+      <span class="an-item"><b>5 DÍAS</b> de retracto · Ley 1480</span>
+    </div>
+  </div>
 
   <header class="topbar">
     <div class="topbar-in">
@@ -182,7 +203,7 @@
   </div>
 
   <div class="toast" id="toast" hidden></div>
-  <script src="assets/app.js?v=41" defer></script>
+  <script src="assets/app.js?v=42" defer></script>
   <script>
     /* Splash COD: aparece al entrar, rota 360° y desaparece solo */
     (function () {

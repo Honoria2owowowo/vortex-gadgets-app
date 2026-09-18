@@ -740,6 +740,52 @@
     hbTimer = setInterval(subir, 5000);
   }
 
+  /* ---------- Barra de anuncios en movimiento (2026-09-17) ----------
+     El dueno pidio que el anuncio se mueva: que ENTRE POR LA DERECHA y SALGA
+     POR LA IZQUIERDA, repitiendo la misma secuencia.
+     Como se hace sin cortes: la secuencia se duplica N veces (N par) y se anima
+     de translateX(0) a translateX(-50%). Con N par, -50% cae justo en la mitad,
+     donde el contenido es identico al del arranque, asi que el reinicio del
+     bucle no se ve.
+     La duracion se calcula segun el ancho real medido, para que la velocidad en
+     px/s sea la misma en movil y en escritorio.
+     Se llama UNA sola vez: si se llamara en cada renderRoute, la marquesina se
+     reiniciaria cada vez que el cliente cambia de pagina. */
+  var AN_SECUENCIA = null;
+  function initAnnounce() {
+    var caja = document.querySelector('[data-announce]');
+    if (!caja) return;
+    var pista = caja.querySelector('[data-an-track]');
+    if (!pista) return;
+    if (AN_SECUENCIA === null) AN_SECUENCIA = pista.innerHTML;
+    pista.innerHTML = AN_SECUENCIA;
+    caja.classList.remove('an-live');
+    caja.style.removeProperty('--an-dur');
+    if (pista.children.length < 2) return;
+    var quieto = false;
+    try { quieto = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); } catch (e) {}
+    if (quieto) return;
+    /* ancho de UNA secuencia: hay que medirlo SIN envolver y SIN centrar, porque
+       con flex-wrap el ancho leido seria el del contenedor, no el del contenido */
+    var wj = pista.style.flexWrap, jc = pista.style.justifyContent;
+    pista.style.flexWrap = 'nowrap';
+    pista.style.justifyContent = 'flex-start';
+    var ancho = pista.scrollWidth;
+    pista.style.flexWrap = wj;
+    pista.style.justifyContent = jc;
+    var pantalla = window.innerWidth || 360;
+    if (!ancho || ancho < 40 || ancho > pantalla * 30) return;   // medida poco fiable: se deja quieta
+    var copias = Math.ceil(pantalla / ancho) + 1;   // que siempre llene la pantalla
+    if (copias > 12) copias = 12;
+    if (copias % 2) copias++;                        // par: obligatorio para que -50% encaje
+    var html = AN_SECUENCIA;
+    for (var i = 1; i < copias; i++) html += AN_SECUENCIA;
+    pista.innerHTML = html;
+    var VELOCIDAD = 58;                              // px por segundo
+    caja.style.setProperty('--an-dur', (ancho * copias / 2 / VELOCIDAD).toFixed(2) + 's');
+    caja.classList.add('an-live');
+  }
+
   /* ---------- Formulario contra entrega (datos de envío) ---------- */
   var DEPARTAMENTOS = ['Amazonas', 'Antioquia', 'Arauca', 'Atlántico', 'Bogotá D.C.', 'Bolívar', 'Boyacá', 'Caldas', 'Caquetá', 'Casanare', 'Cauca', 'Cesar', 'Chocó', 'Córdoba', 'Cundinamarca', 'Guainía', 'Guaviare', 'Huila', 'La Guajira', 'Magdalena', 'Meta', 'Nariño', 'Norte de Santander', 'Putumayo', 'Quindío', 'Risaralda', 'San Andrés y Providencia', 'Santander', 'Sucre', 'Tolima', 'Valle del Cauca', 'Vaupés', 'Vichada'];
   var TIPOS_DOC = [['CC', 'Cédula de ciudadanía'], ['CE', 'Cédula de extranjería'], ['NIT', 'NIT'], ['TI', 'Tarjeta de identidad'], ['PAS', 'Pasaporte']];
@@ -1480,6 +1526,7 @@
   initPixel();
   initExitPopup();
   initSocialToast();
+  initAnnounce();
   setInterval(tickFlash, 1000);
   loadData();
   if ('serviceWorker' in navigator) {

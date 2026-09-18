@@ -29,7 +29,23 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .hidden{display:none!important}
 
 /* ---------- Anuncio + barra superior ---------- */
-.announce{background:linear-gradient(90deg,#008C8C,#00A6A6);color:#04231F;font-weight:800;font-size:12px;text-align:center;padding:7px 10px;letter-spacing:.4px}
+.announce{background:linear-gradient(90deg,#008C8C,#00A6A6);color:#04231F;font-weight:800;font-size:12px;letter-spacing:.4px;overflow:hidden}
+.an-track{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;padding:7px 10px;row-gap:4px}
+.an-item{flex:0 0 auto;display:inline-flex;align-items:center;white-space:nowrap;font-weight:600}
+.an-item b{font-weight:900;letter-spacing:.6px}
+/* el separador va dentro de CADA item (no entre items). Asi, al duplicar la
+   secuencia, el ritmo de puntos es identico en las dos mitades y el bucle de
+   translateX(-50%) encaja sin salto. */
+.an-item::after{content:'';width:4px;height:4px;border-radius:50%;background:#04231F;opacity:.42;margin:0 15px}
+/* En movimiento: una sola fila, sin centrar, de DERECHA a IZQUIERDA. El JS
+   duplica la secuencia N veces (N par) y anima hasta -50%, que cae justo en la
+   mitad: ahi el contenido es identico al del inicio, asi que no hay corte. */
+.announce.an-live .an-track{flex-wrap:nowrap;justify-content:flex-start;animation:an-marquesina var(--an-dur,42s) linear infinite;will-change:transform}
+@keyframes an-marquesina{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.announce:hover .an-track{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){
+  .announce.an-live .an-track{animation:none;flex-wrap:wrap;justify-content:center}
+}
 .topbar{position:sticky;top:0;z-index:60;background:rgba(11,15,20,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .topbar-in{display:flex;align-items:center;gap:6px;max-width:1120px;margin:0 auto;padding:10px 12px}
 .brand{display:flex;align-items:center;gap:8px;color:var(--text)}
