@@ -37,11 +37,15 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
    secuencia, el ritmo de puntos es identico en las dos mitades y el bucle de
    translateX(-50%) encaja sin salto. */
 .an-item::after{content:'';width:4px;height:4px;border-radius:50%;background:#04231F;opacity:.42;margin:0 15px}
-/* En movimiento: una sola fila, sin centrar, de DERECHA a IZQUIERDA. El JS
-   duplica la secuencia N veces (N par) y anima hasta -50%, que cae justo en la
-   mitad: ahi el contenido es identico al del inicio, asi que no hay corte. */
+/* En movimiento: una sola fila, sin centrar, de DERECHA a IZQUIERDA.
+   OJO: NO se puede animar a -50%. translateX(%) se calcula sobre el ANCHO DEL
+   PROPIO ELEMENTO, y .an-track es un contenedor flex de bloque: mide lo que le
+   da el padre (el ancho de la barra), no su contenido. Con -50% recorria 760 px
+   cuando una secuencia mide 1634 px, y el bucle daba un salto visible de media
+   barra cada vuelta. Por eso el JS mide en el DOM la distancia real entre el
+   primer mensaje y el primero de la copia siguiente, y la pasa en --an-mueve. */
 .announce.an-live .an-track{flex-wrap:nowrap;justify-content:flex-start;animation:an-marquesina var(--an-dur,42s) linear infinite;will-change:transform}
-@keyframes an-marquesina{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes an-marquesina{from{transform:translateX(0)}to{transform:translateX(var(--an-mueve,-50%))}}
 .announce:hover .an-track{animation-play-state:paused}
 @media(prefers-reduced-motion:reduce){
   .announce.an-live .an-track{animation:none;flex-wrap:wrap;justify-content:center}

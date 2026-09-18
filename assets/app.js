@@ -747,7 +747,7 @@
      de translateX(0) a translateX(-50%). Con N par, -50% cae justo en la mitad,
      donde el contenido es identico al del arranque, asi que el reinicio del
      bucle no se ve.
-     La duracion se calcula segun el ancho real medido, para que la velocidad en
+     La duracion se calcula con esa misma distancia, para que la velocidad en
      px/s sea la misma en movil y en escritorio.
      Se llama UNA sola vez: si se llamara en cada renderRoute, la marquesina se
      reiniciaria cada vez que el cliente cambia de pagina. */
@@ -765,24 +765,39 @@
     var quieto = false;
     try { quieto = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); } catch (e) {}
     if (quieto) return;
-    /* ancho de UNA secuencia: hay que medirlo SIN envolver y SIN centrar, porque
-       con flex-wrap el ancho leido seria el del contenedor, no el del contenido */
+    /* mensajes que tiene UNA secuencia */
+    var porSecuencia = pista.children.length;
+    if (porSecuencia < 2) return;
+    /* Medir UNA secuencia. Hay que hacerlo sin envolver y sin centrar, porque
+       con flex-wrap el ancho leido seria el de la barra, no el del contenido. */
     var wj = pista.style.flexWrap, jc = pista.style.justifyContent;
     pista.style.flexWrap = 'nowrap';
     pista.style.justifyContent = 'flex-start';
-    var ancho = pista.scrollWidth;
-    pista.style.flexWrap = wj;
-    pista.style.justifyContent = jc;
+    var anchoUno = pista.scrollWidth;
     var pantalla = window.innerWidth || 360;
-    if (!ancho || ancho < 40 || ancho > pantalla * 30) return;   // medida poco fiable: se deja quieta
-    var copias = Math.ceil(pantalla / ancho) + 1;   // que siempre llene la pantalla
+    if (!anchoUno || anchoUno < 40 || anchoUno > pantalla * 30) {   // medida poco fiable
+      pista.style.flexWrap = wj;
+      pista.style.justifyContent = jc;
+      return;
+    }
+    /* copias suficientes para que la tira siempre cubra la pantalla (con holgura) */
+    var copias = Math.ceil((pantalla + 120) / anchoUno) + 1;
     if (copias > 12) copias = 12;
-    if (copias % 2) copias++;                        // par: obligatorio para que -50% encaje
+    if (copias % 2) copias++;                        // par: las dos mitades quedan identicas
     var html = AN_SECUENCIA;
     for (var i = 1; i < copias; i++) html += AN_SECUENCIA;
     pista.innerHTML = html;
+    /* Distancia EXACTA de una secuencia, medida sobre el DOM ya montado: va del
+       primer mensaje al primero de la copia siguiente. Se mide mientras la pista
+       esta sin envolver, que es como estara cuando la animacion corra. */
+    var seq = pista.children[porSecuencia].getBoundingClientRect().left -
+              pista.children[0].getBoundingClientRect().left;
+    pista.style.flexWrap = wj;
+    pista.style.justifyContent = jc;
+    if (!(seq > 40)) return;                         // medida poco fiable: se deja quieta
     var VELOCIDAD = 58;                              // px por segundo
-    caja.style.setProperty('--an-dur', (ancho * copias / 2 / VELOCIDAD).toFixed(2) + 's');
+    caja.style.setProperty('--an-mueve', (-seq).toFixed(2) + 'px');
+    caja.style.setProperty('--an-dur', (seq / VELOCIDAD).toFixed(2) + 's');
     caja.classList.add('an-live');
   }
 
