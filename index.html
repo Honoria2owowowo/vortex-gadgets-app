@@ -5,6 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>VÓRTEX Gadgets — Envío gratis y pago contra entrega</title>
   <meta name="description" content="Catálogo oficial de VÓRTEX Gadgets Colombia. Tecnología y gadgets con envío GRATIS a toda Colombia y pago contra entrega.">
+  <!-- [2026-09-18] Vista previa al compartir el enlace (WhatsApp, Facebook, Instagram).
+       Sin esto el enlace sale PELADO: sin imagen ni titulo, justo antes de que el
+       cliente decida si confia en la tienda. Las direcciones van ABSOLUTAS: si se
+       ponen relativas, WhatsApp no encuentra la imagen.
+       El texto dice solo lo que la app cumple: contra entrega, envio gratis y
+       3 a 4 dias habiles. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="VÓRTEX Gadgets">
+  <meta property="og:locale" content="es_CO">
+  <meta property="og:url" content="https://app.vortexgadgets.com.co/">
+  <meta property="og:title" content="Paga cuando lo tengas en tus manos — VÓRTEX Gadgets">
+  <meta property="og:description" content="Envío GRATIS a toda Colombia y pago contra entrega: recibes, revisas y pagas. Llega en 3 a 4 días hábiles. +10 % con el cupón VORTEX10.">
+  <meta property="og:image" content="https://app.vortexgadgets.com.co/assets/og-vortex.jpg">
+  <meta property="og:image:secure_url" content="https://app.vortexgadgets.com.co/assets/og-vortex.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Paga cuando lo tengas en tus manos — envío gratis a toda Colombia y pago contra entrega">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Paga cuando lo tengas en tus manos — VÓRTEX Gadgets">
+  <meta name="twitter:description" content="Envío GRATIS a toda Colombia y pago contra entrega. Llega en 3 a 4 días hábiles.">
+  <meta name="twitter:image" content="https://app.vortexgadgets.com.co/assets/og-vortex.jpg">
   <meta name="theme-color" content="#00A6A6">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icons/icon-192.png" type="image/png">
@@ -15,15 +37,21 @@
   <meta name="mobile-web-app-capable" content="yes">
   <!-- AL DESPLEGAR: sube el ?v= de app.css y app.js aqui y la VERSION de sw.js.
        Asi ninguna cache vieja puede servir el codigo anterior. -->
-  <link rel="stylesheet" href="assets/app.css?v=52">
+  <link rel="stylesheet" href="assets/app.css?v=53">
   <style>
-    /* Splash pago contra entrega (aparece al entrar y desaparece) */
+    /* [2026-09-18] La bienvenida se ACORTO. Antes bloqueaba la vista 4,6 s mas 0,6 de
+       desvanecido: casi 5,2 s antes de poder ver un producto, y quien llega de un
+       anuncio se iba antes de llegar al catalogo. Ahora:
+         - trafico de anuncio (fbclid, gclid, ttclid o utm_source de Meta/TikTok):
+           0,7 s. Ya sabe lo que quiere; lo que necesita es ver productos.
+         - visitante normal: 1,5 s, para que le de tiempo a leer el mensaje.
+       El mensaje de contra entrega NO se quita: solo se acorta el tiempo. */
     .splash{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;
       background:radial-gradient(circle at 50% 35%,#0d5c5c,#052020 75%);transition:opacity .55s ease;padding:22px}
     .splash-card{background:transparent;border-radius:22px;padding:18px 22px;text-align:center;max-width:330px;width:100%;
       animation:fadeCard .5s ease both}
     .splash-img{width:min(60vw,240px);aspect-ratio:1/1;object-fit:contain;margin:0 auto 8px;display:block;
-      animation:spin360 3.2s cubic-bezier(.35,.65,.3,1) 1 both;filter:drop-shadow(0 16px 26px rgba(0,0,0,.45))}
+      animation:spin360 1.05s cubic-bezier(.35,.65,.3,1) 1 both;filter:drop-shadow(0 16px 26px rgba(0,0,0,.45))}
     .splash-txt{font-size:20px;font-weight:800;color:#ffffff;letter-spacing:.4px;text-shadow:0 2px 8px rgba(0,0,0,.3)}
     .splash-sub{font-size:13.5px;color:#cdecec;margin-top:5px;text-shadow:0 1px 6px rgba(0,0,0,.3)}
     .splash-btn{margin-top:14px;width:100%;border:0;border-radius:12px;background:#00A6A6;color:#fff;
@@ -31,7 +59,15 @@
     .splash-hide{opacity:0;pointer-events:none}
     @keyframes spin360{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
     @keyframes fadeCard{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    /* Quien pide movimiento reducido (mareos, accesibilidad) no ve el giro. */
+    @media (prefers-reduced-motion: reduce){
+      .splash-img{animation:none}
+      .splash-card{animation:none}
+    }
   </style>
+<!-- Si el JavaScript falla, la bienvenida nunca se quitaria y TAPARIA toda la app:
+     ese fallo silencioso deja la tienda inservible. Con esto se ve el catalogo. -->
+<noscript><style>.splash{display:none!important}</style></noscript>
 </head>
 <body>
   <div class="splash" id="splash">
@@ -213,9 +249,12 @@
   </div>
 
   <div class="toast" id="toast" hidden></div>
-  <script src="assets/app.js?v=52" defer></script>
+  <script src="assets/app.js?v=53" defer></script>
   <script>
-    /* Splash COD: aparece al entrar, rota 360° y desaparece solo */
+    /* Splash COD: aparece al entrar, rota 360° y desaparece solo.
+       Desde el 2026-09-18 la duracion depende de por donde llega el visitante
+       (0,7 s desde un anuncio, 1,5 s el resto). El porque esta explicado arriba,
+       en el bloque <style>. */
     (function () {
       var s = document.getElementById('splash');
       var c = document.getElementById('splashClose');
@@ -224,7 +263,11 @@
         s.classList.add('splash-hide');
         setTimeout(function () { s.remove(); }, 600);
       }
-      var t = setTimeout(hide, 4600); /* ~4,6 s visible */
+      var q = '';
+      try { q = String(location.search || '') + String(location.hash || ''); } catch (e) {}
+      var deAnuncio = /[?&](fbclid|gclid|ttclid|gbraid|wbraid)=/i.test(q) ||
+                      /[?&]utm_source=(facebook|instagram|meta|fb|ig|tiktok|google)/i.test(q);
+      var t = setTimeout(hide, deAnuncio ? 700 : 1500);
       c.addEventListener('click', function () { clearTimeout(t); hide(); });
       s.addEventListener('click', function (e) { if (e.target === s) { clearTimeout(t); hide(); } });
     })();
@@ -234,11 +277,16 @@
   <div class="exit-popup" data-exit-popup aria-hidden="true">
     <div class="exit-popup-card" role="dialog" aria-modal="true" aria-label="Cupón de bienvenida">
       <button class="exit-popup-close" data-exit-close type="button" aria-label="Cerrar">&times;</button>
-      <p class="exit-popup-eyebrow">Espera — tu 10% extra está a punto de expirar</p>
+      <p class="exit-popup-eyebrow">Antes de irte: tu cupón de bienvenida</p>
       <h3>No te vayas sin tu cupón</h3>
-      <p>Usa el código <b>VORTEX10</b> en tu primera compra: 10% adicional sobre la oferta flash (hasta 45% de descuento total). Sin compra mínima.</p>
+      <!-- [2026-09-18] El descuento ya NO va escrito a mano: lo calcula el JS desde los
+           precios reales (precio antes vs precio con el cupon). Antes decia "hasta 45 %"
+           cuando el maximo real es 55 %: se quedaba corto en su propia oferta.
+           Y "oferta flash" pasa a "precio de lanzamiento", que es el termino de la app. -->
+      <p>Usa el código <b>VORTEX10</b>: 10% adicional sobre el precio de lanzamiento,
+        sin compra mínima.<span id="exitMax" hidden></span></p>
       <button class="btn btn-block" data-action="exit-coupon" type="button">Aplicar cupón VORTEX10</button>
-      <p class="exit-popup-note">Válido hoy · Envío GRATIS a toda Colombia · Pago contra entrega</p>
+      <p class="exit-popup-note">Envío GRATIS a toda Colombia · Pago contra entrega</p>
     </div>
   </div>
 </body>

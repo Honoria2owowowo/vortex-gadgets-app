@@ -172,12 +172,12 @@
     /* los testimonios se cargan aparte y, al llegar, se repinta para que la
        seccion aparezca sola si hay resenas reales */
     loadTestimonios().then(function () { renderRoute(); });
-    if (tryCache()) { state.loading = false; renderRoute(); }
+    if (tryCache()) { state.loading = false; renderRoute(); pintarDescuentoPopup(); }
     loadStorefront().then(function () {
-      state.loading = false; renderRoute();
+      state.loading = false; renderRoute(); pintarDescuentoPopup();
     }).catch(function () {
-      return loadFallback().then(function () { state.loading = false; renderRoute(); })
-        .catch(function () { state.loading = false; if (!state.products.length) toast('Sin conexión y sin catálogo guardado', true); renderRoute(); });
+      return loadFallback().then(function () { state.loading = false; renderRoute(); pintarDescuentoPopup(); })
+        .catch(function () { state.loading = false; if (!state.products.length) toast('Sin conexión y sin catálogo guardado', true); renderRoute(); pintarDescuentoPopup(); });
     });
   }
 
@@ -1591,6 +1591,33 @@
     if (!SOCIAL_TOASTS.length || toastIdx > 0) return;
     if (document.getElementById('socialToast')) return;
     toastTimer = setTimeout(mostrarToast, 7000);
+  }
+
+  /* ---------- Descuento maximo REAL (para el popup de salida) ----------
+     [2026-09-18] Se CALCULA en vez de escribirlo a mano: descuento del producto
+     (precio antes vs precio hoy) mas el 10 % del cupon, sobre los productos que
+     hay cargados de verdad. Un numero escrito a mano se queda viejo el dia que
+     cambies un precio, y en publicidad eso se llama prometer algo falso.
+     Si no hay datos, no se promete NINGUN porcentaje: el texto sigue siendo cierto
+     sin el numero. */
+  function maxDescuentoTotal() {
+    var max = 0;
+    (state.products || []).forEach(function (p) {
+      var antes = Number(p.compare) || 0, hoy = Number(p.price) || 0;
+      if (!antes || antes <= hoy) return;
+      var conCupon = hoy * (1 - CONFIG.couponPct / 100);
+      var pct = Math.round((antes - conCupon) * 100 / antes);
+      if (pct > max) max = pct;
+    });
+    return max;
+  }
+  function pintarDescuentoPopup() {
+    var el = document.getElementById('exitMax');
+    if (!el) return;
+    var max = maxDescuentoTotal();
+    if (max < 11) { el.hidden = true; el.textContent = ''; return; }
+    el.textContent = ' Hoy hay hasta ' + max + ' % de descuento total.';
+    el.hidden = false;
   }
 
   /* ---------- Popup de intención de salida (migrado de la tienda) ---------- */
