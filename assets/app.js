@@ -896,16 +896,39 @@
       '</form>';
   }
 
+  /* Confirmacion del pedido.
+     [2026-09-17] El dueno pidio quitar el boton de WhatsApp: no quiere que al
+     terminar se mande al cliente a WhatsApp. Ahora el pedido ya quedo guardado en
+     su panel y la pantalla solo confirma. */
   function vCodOk() {
-    var txt = 'Hola VÓRTEX Gadgets, quiero confirmar mi pedido contra entrega.';
-    try { txt = sessionStorage.getItem('vx_last_wa') || txt; } catch (e) {}
+    var ref = '';
+    try { ref = sessionStorage.getItem('vx_pedido_id') || ''; } catch (e) {}
     return '<div class="codok">' +
       '<div class="codok-ico">✓</div>' +
       '<h1 style="font-size:22px;font-weight:900">Pedido registrado</h1>' +
-      '<p class="muted" style="margin:6px 0 14px">Guardamos tus datos de envío. Si WhatsApp no se abrió solo, toca el botón verde y envíanos el mensaje que ya está escrito.</p>' +
-      '<a class="btn btn-wa btn-block" href="' + esc(waLink(txt)) + '" target="_blank" rel="noopener">Abrir WhatsApp y enviar el pedido</a>' +
-      '<a class="btn btn-ghost btn-block" href="#/catalogo" style="margin-top:9px">Seguir comprando</a>' +
-      '<p class="muted" style="font-size:12px;margin-top:12px">Te escribimos al WhatsApp que dejaste para confirmar el envío.</p>' +
+      '<p class="muted" style="margin:6px 0 14px">Gracias por tu compra. En breve un asesor se contactará contigo para confirmar tu envío.</p>' +
+      (ref ? '<p class="muted" style="font-size:13px;margin:0 0 14px">N.º de pedido: <b>' + esc(ref) + '</b></p>' : '') +
+      '<a class="btn btn-accent btn-block" href="#/catalogo">Seguir comprando</a>' +
+      '<p class="muted" style="font-size:12px;margin-top:12px">Te contactaremos al celular que dejaste.</p>' +
+      '</div>';
+  }
+
+  /* Pantalla de emergencia: SOLO aparece si el servidor NO pudo guardar el pedido.
+     Existe para que una caida del servidor no se convierta en una venta perdida:
+     el cliente tiene un boton para mandarnos el pedido por WhatsApp. No es un
+     redireccionamiento automatico: nada mas terminar un pedido normal, ya no se
+     abre WhatsApp. */
+  function vCodFallo() {
+    var txt = 'Hola VÓRTEX Gadgets, quiero confirmar mi pedido contra entrega.';
+    try { txt = sessionStorage.getItem('vx_last_wa') || txt; } catch (e) {}
+    return '<div class="codok">' +
+      '<div class="codok-ico" style="background:#f59e0b;color:#3b2600">!</div>' +
+      '<h1 style="font-size:22px;font-weight:900">No pudimos registrar tu pedido</h1>' +
+      '<p class="muted" style="margin:6px 0 14px">Hubo un problema de conexión con nuestro sistema. ' +
+      '<b>Tu pedido no se ha perdido:</b> mándanoslo por WhatsApp y lo cerramos contigo ahora mismo.</p>' +
+      '<a class="btn btn-wa btn-block" href="' + esc(waLink(txt)) + '" target="_blank" rel="noopener">Enviar mi pedido por WhatsApp</a>' +
+      '<a class="btn btn-ghost btn-block" href="#/contraentrega" style="margin-top:9px">Reintentar</a>' +
+      '<p class="muted" style="font-size:12px;margin-top:12px">Tus datos y tu carrito siguen guardados en este teléfono.</p>' +
       '</div>';
   }
 
@@ -986,6 +1009,14 @@
     };
   }
 
+  /* Navega dentro de la app y sube al principio: las pantallas de resultado deben
+     verse desde arriba, no a mitad de pagina. */
+  function irA(hash) {
+    try { history.replaceState(null, '', hash); renderRoute(); }
+    catch (e) { location.hash = hash; }
+    try { window.scrollTo(0, 0); } catch (e) {}
+  }
+
   function codGuardarPedido(pedido) {
     var arr = [];
     try {
@@ -1054,17 +1085,41 @@
     var guardado = pedido ? codGuardarPedido(pedido) : false;
     try { sessionStorage.setItem('vx_last_wa', msg); } catch (e) {}
     trackPixel('InitiateCheckout', { value: Math.round(total), currency: 'COP', num_items: piezas });
-    /* WhatsApp PRIMERO y sin esperar a nadie. Si se esperara al servidor antes de
-       abrir la ventana, el navegador la bloquearia al creer que ya no viene de un
-       toque del usuario. El envio al servidor va despues, en segundo plano, y no
-       puede hacer fallar el pedido. */
-    openWa(msg);
-    if (pedido) enviarPedidoServidor(pedido);
-    saveCart([]);
-    if (!guardado) toast('No pudimos guardar la copia local, pero el pedido va por WhatsApp', true);
-    codEnviando = false;
-    try { history.replaceState(null, '', '#/contraentrega/enviado'); renderRoute(); }
-    catch (e) { location.hash = '#/contraentrega/enviado'; }
+    if (pedido) { try { sessionStorage.setItem('vx_pedido_id', pedido.id); } catch (e) {} }
+
+    /* SIN SERVIDOR CONFIGURADO: se mantiene el comportamiento de siempre (WhatsApp).
+       Es una red de seguridad para que la tienda nunca se quede sin forma de recibir
+       pedidos si alguien vacia CONFIG.apiPedidos. */
+    if (!pedido || !CONFIG.apiPedidos) {
+      openWa(msg);
+      saveCart([]);
+      codEnviando = false;
+      if (!guardado) toast('No pudimos guardar la copia local, pero el pedido va por WhatsApp', true);
+      irA('#/contraentrega/enviado');
+      return;
+    }
+
+    /* CON SERVIDOR: el pedido no se da por bueno hasta que el servidor lo confirma.
+       [2026-09-17] Antes se abria WhatsApp, se vaciaba el carrito y se ponia
+       "Pedido registrado" PASARA LO QUE PASARA con el servidor. Asi era imposible
+       enterarse de que un pedido no habia llegado: el dueno se entero de casualidad.
+       Ahora, si el servidor no confirma, el carrito NO se vacia y se avisa. */
+    var btn = document.querySelector('[data-action="cod-submit"]');
+    var textoBtn = btn ? btn.innerHTML : '';
+    if (btn) { btn.disabled = true; btn.innerHTML = 'Enviando tu pedido…'; }
+
+    enviarPedidoServidor(pedido).then(function (res) {
+      codEnviando = false;
+      if (btn) { btn.disabled = false; btn.innerHTML = textoBtn; }
+      if (res && res.ok) {
+        saveCart([]);
+        if (!guardado) toast('Aviso: no se pudo guardar la copia local del pedido', true);
+        irA('#/contraentrega/enviado');
+      } else {
+        /* El carrito y los datos se dejan intactos para poder reintentar. */
+        irA('#/contraentrega/fallo');
+      }
+    });
   }
 
   /* ---------- Carrusel del hero (migrado de la tienda vortexgadgets.com.co) ---------- */
@@ -1190,7 +1245,7 @@
       if (pv) trackPixel('ViewContent', { content_ids: [pv.handle], content_name: pv.title, content_type: 'product', value: Math.round(pv.price), currency: 'COP' });
     }
     else if (seg[0] === 'carrito') v.innerHTML = vCart();
-    else if (seg[0] === 'contraentrega') v.innerHTML = (seg[1] === 'enviado') ? vCodOk() : vCod(r.q);
+    else if (seg[0] === 'contraentrega') v.innerHTML = (seg[1] === 'enviado') ? vCodOk() : ((seg[1] === 'fallo') ? vCodFallo() : vCod(r.q));
     else if (seg[0] === 'como-comprar') v.innerHTML = vComo();
     else if (seg[0] === 'info') v.innerHTML = vInfo(seg[1]);
     else if (seg[0] === 'contacto') v.innerHTML = vContacto();
