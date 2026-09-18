@@ -136,6 +136,46 @@
     box-shadow:0 6px 18px rgba(0,166,166,.35)}
   .banner-nuevos.show{display:flex}
   #toast.tocable{cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+  /* ---------- confirmar antes de despachar, telefono y rendimiento ---------- */
+  .ord.pordespachar{box-shadow:0 0 0 2px #f59e0b inset}
+  .cf{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:9px;padding:9px;border-radius:9px;background:#f1f5f9}
+  .cf-ok{background:#dcfce7}
+  .cf-ojo{background:#fef3c7}
+  .cf-mal{background:#fee2e2}
+  .cf-t{font-size:12px;font-weight:800;color:#0f172a;margin-right:auto}
+  .tav{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0 2px}
+  .tav-i{font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px}
+  .tav-i.mal{background:#fee2e2;color:#991b1b}
+  .tav-i.ojo{background:#fef3c7;color:#92400e}
+  .tav-i.ok{background:#dcfce7;color:#166534}
+  .btn.okc{background:#15803d;color:#fff}
+  #rendBox{display:none;margin:12px 0 18px;padding:14px;background:#fff;border:1px solid var(--line);border-radius:12px}
+  .rend-top{display:flex;gap:6px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+  .btn.sel{background:#0f172a;color:#fff}
+  .rend-global{display:flex;align-items:center;gap:14px;padding:14px;border-radius:12px;margin-bottom:12px}
+  .rend-global.ok{background:#dcfce7}
+  .rend-global.ojo{background:#fef3c7}
+  .rend-global.mal{background:#fee2e2}
+  .rg-num{font-size:34px;font-weight:900;line-height:1}
+  .rg-txt{font-size:12px;color:#334155}
+  .rend-h{font-size:14px;font-weight:800;margin:16px 0 6px}
+  table.rend{width:100%;border-collapse:collapse;font-size:13px}
+  table.rend th{text-align:left;font-size:11px;text-transform:uppercase;color:#64748b;border-bottom:1px solid var(--line);padding:5px 4px}
+  table.rend td{padding:6px 4px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+  table.rend td.mal{color:#991b1b;font-weight:800}
+  table.rend td.ojo{color:#92400e;font-weight:800}
+  table.rend td.ok{color:#166534;font-weight:800}
+  .barra{height:5px;border-radius:3px;background:#e2e8f0;margin-top:4px;overflow:hidden}
+  .barra i{display:block;height:100%}
+  .barra i.mal{background:#dc2626}
+  .barra i.ojo{background:#f59e0b}
+  .barra i.ok{background:#16a34a}
+  .rend-nota{font-size:11.5px;color:#64748b;margin-top:10px;line-height:1.55}
+  .rk{padding:1px 5px;border-radius:4px;font-weight:700}
+  .rk.ok{background:#dcfce7}
+  .rk.ojo{background:#fef3c7}
+  .rk.mal{background:#fee2e2}
   .banner-nuevos button{margin-left:auto; background:rgba(255,255,255,.22); border:0; color:#fff;
     font-weight:700; border-radius:8px; padding:6px 12px; cursor:pointer; font-size:13px; font-family:inherit}
 
@@ -338,7 +378,10 @@
     var prod = p.producto ? esc(p.producto) : '<i style="color:#cbd5e1">sin producto</i>';
     var f = '<span class="lbl-upd">'+(p.compro==='si'?'CONFIRMADO':'')+(p.compro==='si'&&p.pagado?' · ':'')+(p.pagado?'PAGADO':'')+'</span>';
     var upd = p.updated ? fmtFecha(p.updated) : '';
-    return '<article class="ord'+(p.compro==='no'?' cancelado':'')+(nuevosIds[p.id]?' nuevo':'')+'" data-id="'+esc(p.id)+'">'+
+    /* Lo que NO esta confirmado no se puede despachar: se marca la ficha entera
+       para que se vea de un vistazo, sin tener que abrir nada. */
+    var porDespachar = !p.entregado && p.compro !== 'no' && p.confirmacion !== 'confirmado';
+    return '<article class="ord'+(p.compro==='no'?' cancelado':'')+(nuevosIds[p.id]?' nuevo':'')+(porDespachar?' pordespachar':'')+'" data-id="'+esc(p.id)+'">'+
       '<div class="ord-h">'+
         '<div class="ava">'+ini+'</div>'+
         '<div class="who">'+
@@ -346,6 +389,7 @@
             (nuevosIds[p.id]?'<span class="marca-nuevo">NUEVO</span>':'')+
             (p.soloLocal?'<span class="marca-nuevo" style="background:#b45309">SOLO AQUÍ</span>':'')+'</div>'+
           '<div class="ph">📱 '+tel+(p.correo?' · ✉ '+esc(p.correo):'')+'</div>'+
+          bloqueTel(p)+
           (p.numDoc?'<div class="ph">🪪 '+esc(p.tipoDoc||'CC')+' '+esc(p.numDoc)+'</div>':'')+
           '<div class="prod"><b>'+prod+'</b> ×'+Number(p.cantidad||1)+' · '+money(p.valor)+'</div>'+
           '<div class="prod" style="color:var(--mut)">📍 '+esc(p.direccion||'')+' · '+esc(p.ciudad||'')+(p.departamento?', '+esc(p.departamento):'')+'</div>'+
@@ -361,6 +405,7 @@
         chipHtml('entregado','Entregado',!!p.entregado)+
       '</div>'+
       (p.nota?'<div class="nota">📝 '+esc(p.nota)+'</div>':'')+
+      bloqueConf(p)+
       '<div class="ord-f">'+
         '<button class="btn sm" data-a="wa">WhatsApp</button>'+
         '<button class="btn sm" data-a="copiar">Copiar para Dropi</button>'+
@@ -596,7 +641,7 @@
     return [p.compro, p.pagado, p.salio, p.camino, p.entregado, p.guia,
             p.nombre, p.apellido, p.telefono, p.correo, p.tipoDoc, p.numDoc,
             p.departamento, p.ciudad, p.direccion, p.nota, p.producto,
-            p.cantidad, p.valor].join('\u0001');
+            p.cantidad, p.valor, p.confirmacion, p.confirmadoEn, p.avisos].join('\u0001');
   }
 
   /* ---------- llamadas a la API ---------- */
@@ -788,7 +833,10 @@
         nombre: p.nombre, apellido: p.apellido, telefono: p.telefono, correo: p.correo,
         tipoDoc: p.tipoDoc, numDoc: p.numDoc, departamento: p.departamento,
         ciudad: p.ciudad, direccion: p.direccion, nota: p.nota,
-        producto: p.producto, cantidad: p.cantidad, valor: p.valor
+        producto: p.producto, cantidad: p.cantidad, valor: p.valor,
+        confirmacion: p.confirmacion || '',
+        confirmado_en: p.confirmadoEn || '',
+        avisos: p.avisos || 0
       };
       var yaEsta = !!conocidos[p.id];
       var prom = yaEsta
@@ -1127,6 +1175,291 @@
     };
   }
 
+
+  /* ==========================================================================
+     CONFIRMAR ANTES DE DESPACHAR, VALIDAR EL TELEFONO Y MEDIR LA ENTREGA
+     ==========================================================================
+     POR QUE ESTO ES LO MAS RENTABLE QUE HAY EN EL PANEL
+
+     La tasa de entrega es la palanca mas rentable del negocio: pasar del 70 % al
+     80 % es como ganar un 14 % mas de ingresos SIN gastar un peso mas en
+     publicidad. Ningun producto y ningun pais dan eso gratis.
+
+     Y la palanca numero uno para bajarla es NO DESPACHAR SIN CONFIRMAR: cuenta el
+     30-40 % de las devoluciones. La confirmacion por WhatsApp tiene un 75-85 % de
+     respuesta en LATAM.
+
+     OJO CON LA VALIDACION POR CODIGO SMS: eso necesita un proveedor de pago
+     (Twilio). Lo que se hace aqui es lo que se puede hacer GRATIS y filtra
+     igual o mas: formato, duplicados y patrones de fraude con el propio
+     historial. Y la confirmacion por WhatsApp es una validacion REAL: si el
+     cliente contesta desde ese numero, el numero existe.
+     ========================================================================== */
+
+  var CONF_ESPERA_HORAS = 24;
+
+  /* ---------- 1. EL TELEFONO ---------- */
+
+  /* Deja el numero como lo necesita WhatsApp: 57 + los 10 digitos. */
+  function telIntl(t) {
+    var d = String(t || '').replace(/[^0-9]/g, '');
+    if (d.length === 12 && d.indexOf('57') === 0) d = d.slice(2);
+    if (d.length === 10 && d.charAt(0) === '3') return '57' + d;
+    return d;
+  }
+
+  /* Marcas de alarma de un telefono, mirando el propio historial. NO bloquea
+     nada: solo avisa. La decision siempre es del dueno. */
+  function analizarTel(p) {
+    var avisos = [];
+    var d = telIntl(p.telefono).slice(-10);
+    var valido = d.length === 10 && d.charAt(0) === '3';
+    if (!valido) avisos.push({ t: 'mal', m: 'Teléfono mal formado' });
+    if (valido) {
+      var mismo = pedidos.filter(function (q) { return telIntl(q.telefono).slice(-10) === d; });
+      if (mismo.length >= 3) {
+        avisos.push({ t: 'mal', m: 'Este número ya tiene ' + mismo.length + ' pedidos' });
+      } else if (mismo.length === 2) {
+        avisos.push({ t: 'ojo', m: 'Ya hay otro pedido con este número' });
+      }
+      var fallidos = mismo.filter(function (q) { return q.id !== p.id && q.compro === 'no'; });
+      if (fallidos.length) {
+        avisos.push({ t: 'mal', m: fallidos.length + ' pedido(s) NO entregado(s) con este número' });
+      }
+    }
+    if (p.confirmacion === 'confirmado') {
+      avisos.push({ t: 'ok', m: 'Número validado: confirmó por WhatsApp' });
+    }
+    return avisos;
+  }
+
+  function bloqueTel(p) {
+    var a = analizarTel(p);
+    if (!a.length) return '';
+    return '<div class="tav">' + a.map(function (x) {
+      return '<span class="tav-i ' + x.t + '">' + esc(x.m) + '</span>';
+    }).join('') + '</div>';
+  }
+
+  /* ---------- 2. CONFIRMAR POR WHATSAPP ---------- */
+
+  function msgConfirmar(p, recordatorio) {
+    var nombre = String(p.nombre || '').split(' ')[0] || 'cliente';
+    var lineas = recordatorio
+      ? ['Hola ' + nombre + ', te escribo otra vez de VÓRTEX Gadgets.',
+         '',
+         'Tu pedido sigue reservado, pero no lo podemos despachar hasta confirmarlo:',
+         '- ' + (p.producto || '') + ' — ' + money(p.valor),
+         '',
+         '¿Lo recibes y pagas contra entrega? Responde SÍ o NO, por favor.']
+      : ['Hola ' + nombre + ', te escribo de VÓRTEX Gadgets.',
+         '',
+         'Recibimos tu pedido:',
+         '- Producto: ' + (p.producto || ''),
+         '- Valor a pagar: ' + money(p.valor),
+         '- Ciudad: ' + (p.ciudad || ''),
+         '',
+         '¿Confirmas que lo recibes y pagas contra entrega? Responde SÍ o NO, por favor.'];
+    return lineas.join('\n');
+  }
+
+  /* Abre WhatsApp con el mensaje ya escrito y deja el pedido marcado como
+     enviado. OJO: la ventana se abre ANTES de tocar nada del estado, porque si
+     se hiciera algo antes de abrirla el navegador la bloquearia. */
+  function waConfirmar(p, recordatorio) {
+    var tel = telIntl(p.telefono);
+    if (tel.length < 12) {
+      toast('Ese teléfono (' + (p.telefono || 'vacío') + ') no sirve para WhatsApp.', true);
+      return;
+    }
+    window.open('https://wa.me/' + tel + '?text=' + encodeURIComponent(msgConfirmar(p, recordatorio)),
+                '_blank');
+    p.confirmacion = 'enviado';
+    p.confirmadoEn = new Date().toISOString();
+    p.avisos = (p.avisos || 0) + 1;
+    guardar();
+    toast(recordatorio ? 'Recordatorio enviado. Avísale que confirme, por favor.'
+                       : 'Mensaje abierto. Cuando conteste, márcalo como "Confirmó".');
+  }
+
+  function marcarConf(p, estado) {
+    p.confirmacion = estado;
+    p.confirmadoEn = new Date().toISOString();
+    if (estado === 'cancelado') p.compro = 'no';
+    if (estado === 'confirmado') p.compro = 'si';
+    guardar();
+    var t = {
+      confirmado: 'Marcado como confirmado. Este sí se puede despachar.',
+      sin_respuesta: 'Marcado como sin respuesta. Mándale el recordatorio.',
+      cancelado: 'Marcado como no confirmado: queda cancelado.'
+    };
+    toast(t[estado] || 'Guardado.');
+  }
+
+  /* Cuantos pedidos no se pueden despachar todavia. Es el numero que importa. */
+  function sinConfirmar() {
+    return pedidos.filter(function (p) {
+      return !p.entregado && p.compro !== 'no' && p.confirmacion !== 'confirmado';
+    }).length;
+  }
+
+  /* Si un pedido lleva mas de CONF_ESPERA_HORAS en "enviado" sin respuesta, pasa
+     a "sin respuesta" para que el dueno lo vea y decida. */
+  function revisarVencidos() {
+    var ahora = Date.now();
+    var hubo = false;
+    pedidos.forEach(function (p) {
+      if (p.confirmacion === 'enviado' && p.confirmadoEn) {
+        var horas = (ahora - new Date(p.confirmadoEn).getTime()) / 3600000;
+        if (horas >= CONF_ESPERA_HORAS) { p.confirmacion = 'sin_respuesta'; hubo = true; }
+      }
+    });
+    if (hubo) guardar();
+    return hubo;
+  }
+
+  var TEXTO_CONF = {
+    '':            { c: 'gris',  t: 'Sin contactar' },
+    enviado:       { c: 'ojo',   t: 'Mensaje enviado, esperando respuesta' },
+    confirmado:    { c: 'ok',    t: 'CONFIRMADO — se puede despachar' },
+    sin_respuesta: { c: 'mal',   t: 'Sin respuesta — insiste o cancela' },
+    cancelado:     { c: 'mal',   t: 'No confirmó — cancelado' }
+  };
+
+  function bloqueConf(p) {
+    var e = p.confirmacion || '';
+    var info = TEXTO_CONF[e] || TEXTO_CONF[''];
+    var mandar = (e === 'enviado' || e === 'sin_respuesta');
+    return '<div class="cf cf-' + info.c + '">' +
+      '<span class="cf-t">' + esc(info.t) + '</span>' +
+      '<button class="btn accent sm" data-cf="wa" data-cf-rec="' + (mandar ? '1' : '0') + '">' +
+        (mandar ? 'Reenviar recordatorio' : 'Confirmar por WhatsApp') + '</button>' +
+      (e !== 'confirmado' ? '<button class="btn okc sm" data-cf="si">Confirmó</button>' : '') +
+      (e !== 'cancelado' ? '<button class="btn sm" data-cf="no">No confirmó</button>' : '') +
+      '</div>';
+  }
+
+  /* ---------- 3. RENDIMIENTO: TASA DE ENTREGA ---------- */
+
+  /* Un pedido esta CERRADO cuando ya se sabe como acabo. Los que van en camino
+     NO cuentan: incluirlos hundiria la tasa artificialmente y daria una lectura
+     falsa. Es el error mas comun al medir esto. */
+  function cerrado(p) { return !!p.entregado || p.compro === 'no'; }
+
+  function claveProducto(s) {
+    var t = String(s || '').trim();
+    t = t.replace(/^[0-9]+\s*x\s*/i, '');           /* quitar el "1x " del principio */
+    t = t.split(' — ')[0].split(' - ')[0];           /* quedarse con el nombre */
+    return t.trim().slice(0, 60) || '(sin producto)';
+  }
+
+  function calcularRend(dias) {
+    var desde = dias ? Date.now() - dias * 86400000 : 0;
+    var lista = pedidos.filter(function (p) {
+      if (!cerrado(p)) return false;
+      if (desde) {
+        var t = new Date(p.creado).getTime();
+        if (t && t < desde) return false;
+      }
+      return true;
+    });
+    function agrupar(clave) {
+      var m = {};
+      lista.forEach(function (p) {
+        var k = clave(p);
+        if (!m[k]) m[k] = { pedidos: 0, ok: 0 };
+        m[k].pedidos++;
+        if (p.entregado) m[k].ok++;
+      });
+      return Object.keys(m).map(function (k) {
+        return {
+          nombre: k, pedidos: m[k].pedidos, ok: m[k].ok,
+          tasa: m[k].pedidos ? Math.round(m[k].ok * 100 / m[k].pedidos) : 0
+        };
+      }).sort(function (a, b) { return a.tasa - b.tasa; });
+    }
+    return {
+      total: lista.length,
+      ok: lista.filter(function (p) { return !!p.entregado; }).length,
+      porProducto: agrupar(function (p) { return claveProducto(p.producto); }),
+      porCiudad: agrupar(function (p) { return String(p.ciudad || '').trim() || '(sin ciudad)'; })
+    };
+  }
+
+  function claseTasa(t) { return t < 70 ? 'mal' : (t > 80 ? 'ok' : 'ojo'); }
+
+  function tablaRend(cabecera, filas) {
+    if (!filas.length) return '<p class="rend-nota">Sin pedidos cerrados en este periodo.</p>';
+    return '<table class="rend"><thead><tr><th>' + cabecera +
+      '</th><th>Pedidos</th><th>Entreg.</th><th>Tasa</th></tr></thead><tbody>' +
+      filas.map(function (f) {
+        return '<tr><td>' + esc(f.nombre) + '</td><td>' + f.pedidos + '</td><td>' + f.ok +
+          '</td><td class="' + claseTasa(f.tasa) + '">' + f.tasa + '%' +
+          '<div class="barra"><i class="' + claseTasa(f.tasa) + '" style="width:' + f.tasa + '%"></i></div>' +
+          '</td></tr>';
+      }).join('') + '</tbody></table>';
+  }
+
+  function pintarRendimiento() {
+    var caja = document.getElementById('rendBox');
+    if (!caja) return;
+    var dias = parseInt(caja.getAttribute('data-dias') || '90', 10);
+    var r = calcularRend(dias);
+    var g = r.total ? Math.round(r.ok * 100 / r.total) : 0;
+    var aviso = r.total < 20
+      ? '<p class="rend-nota"><b>Cuidado:</b> solo hay ' + r.total +
+        ' pedido(s) cerrado(s). Con menos de 20 la tasa todavía no es fiable — ' +
+        'un pedido de más o de menos la mueve varios puntos.</p>'
+      : '';
+    caja.innerHTML =
+      '<div class="rend-top">' +
+        '<button class="btn sm" data-rd="30">30 días</button>' +
+        '<button class="btn sm" data-rd="90">90 días</button>' +
+        '<button class="btn sm" data-rd="0">Todo</button>' +
+        '<button class="btn ghost sm" id="btnRendCerrar" style="margin-left:auto">Cerrar</button>' +
+      '</div>' +
+      '<div class="rend-global ' + claseTasa(g) + '">' +
+        '<span class="rg-num">' + g + '%</span>' +
+        '<span class="rg-txt">tasa de entrega global<br>' +
+        '<b>' + r.ok + '</b> entregados de <b>' + r.total + '</b> pedidos cerrados</span>' +
+      '</div>' + aviso +
+      '<h3 class="rend-h">Por producto</h3>' + tablaRend('Producto', r.porProducto) +
+      '<h3 class="rend-h">Por ciudad</h3>' + tablaRend('Ciudad', r.porCiudad) +
+      '<p class="rend-nota">Solo cuentan los pedidos <b>cerrados</b> (entregados o cancelados): ' +
+      'los que van en camino todavía no cuentan, o falsearían la tasa. ' +
+      '<span class="rk ok">Verde: más del 80 %</span> · ' +
+      '<span class="rk ojo">Ámbar: 70–80 %</span> · ' +
+      '<span class="rk mal">Rojo: menos del 70 % — ahí se pierde dinero</span>. ' +
+      'Ordenado de peor a mejor: lo de arriba es lo que hay que cortar o arreglar.</p>';
+
+    Array.prototype.forEach.call(caja.querySelectorAll('[data-rd]'), function (b) {
+      b.classList.toggle('sel', String(dias) === b.getAttribute('data-rd'));
+      b.onclick = function () {
+        caja.setAttribute('data-dias', b.getAttribute('data-rd'));
+        pintarRendimiento();
+      };
+    });
+    var cerrar = document.getElementById('btnRendCerrar');
+    if (cerrar) cerrar.onclick = function () {
+      caja.style.display = 'none';
+      caja.setAttribute('data-abierto', '0');
+    };
+  }
+
+  function alternarRendimiento() {
+    var caja = document.getElementById('rendBox');
+    if (!caja) return;
+    var abierto = caja.getAttribute('data-abierto') === '1';
+    if (abierto) {
+      caja.style.display = 'none';
+      caja.setAttribute('data-abierto', '0');
+    } else {
+      caja.style.display = 'block';
+      caja.setAttribute('data-abierto', '1');
+      pintarRendimiento();
+    }
+  }
+
   /* ---------- barra de estado ---------- */
   function pintarAviso() {
     var caja = document.getElementById('avisoBox');
@@ -1151,6 +1484,7 @@
       (sonidoOn ? '' : '<button class="btn sonar off sm" id="btnSonido">Aviso con sonido (panel abierto)</button>') +
       (sonidoOn ? '<button class="btn sonar on sm" id="btnSonido">Sonido del panel activo</button>' : '') +
       botonesPush() +
+      '<button class="btn sm" id="btnRendimiento">Rendimiento</button>' +
       '<button class="btn sm" id="btnRefrescar">Actualizar</button>' +
       '<button class="btn ghost sm" id="btnSalir" style="background:#e2e8f0;color:#0f172a">Salir</button>';
 
@@ -1171,6 +1505,18 @@
     var bx = document.getElementById('btnSalir');
     if (bx) bx.onclick = function () { if (confirm('¿Cerrar la sesión del panel?')) salir(); };
     conectarBotonesPush();
+    var br = document.getElementById('btnRendimiento');
+    if (br) br.onclick = alternarRendimiento;
+    /* La caja de rendimiento vive fuera de la barra (que se repinta entera), asi
+       que solo se crea una vez y se coloca despues del resumen. */
+    if (!document.getElementById('rendBox')) {
+      var rb = document.createElement('div');
+      rb.id = 'rendBox';
+      rb.setAttribute('data-dias', '90');
+      rb.setAttribute('data-abierto', '0');
+      var st = document.getElementById('stats');
+      if (st && st.parentNode) st.parentNode.insertBefore(rb, st.nextSibling);
+    }
   }
 
   function pintarBanner() {
@@ -1189,6 +1535,27 @@
     pintarBanner();
     /* Al volver a la pestaña, se deja de parpadear el titulo: ya lo estas viendo. */
     window.addEventListener('focus', pararAvisoVisual);
+
+    /* Los botones de confirmacion se manejan por delegacion: asi funcionan tambien
+       en las fichas que se pintan despues (pedidos nuevos, cambio de filtro). */
+    document.addEventListener('click', function (e) {
+      var b = e.target && e.target.closest ? e.target.closest('[data-cf]') : null;
+      if (!b) return;
+      e.preventDefault();
+      var art = b.closest('.ord');
+      if (!art) return;
+      var id = art.getAttribute('data-id');
+      var p = pedidos.filter(function (x) { return x.id === id; })[0];
+      if (!p) return;
+      var accion = b.getAttribute('data-cf');
+      if (accion === 'wa') waConfirmar(p, b.getAttribute('data-cf-rec') === '1');
+      else if (accion === 'si') marcarConf(p, 'confirmado');
+      else if (accion === 'no') marcarConf(p, 'cancelado');
+    });
+
+    /* Los pedidos que llevan mas de un dia esperando respuesta se marcan solos. */
+    revisarVencidos();
+    setInterval(revisarVencidos, 600000);
     /* Si aun no hay servidor configurado, el panel funciona como siempre y se
        avisa de que todavia no esta protegido. Bloquearlo sin servidor dejaria al
        dueno sin acceso a sus propios pedidos, que seria peor. */
