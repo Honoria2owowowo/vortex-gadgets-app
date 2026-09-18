@@ -15,7 +15,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <!-- AL DESPLEGAR: sube el ?v= de app.css y app.js aqui y la VERSION de sw.js.
        Asi ninguna cache vieja puede servir el codigo anterior. -->
-  <link rel="stylesheet" href="assets/app.css?v=43">
+  <link rel="stylesheet" href="assets/app.css?v=44">
   <style>
     /* Splash pago contra entrega (aparece al entrar y desaparece) */
     .splash{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;
@@ -48,21 +48,31 @@
        repitiendo la misma secuencia. El JS (initAnnounce) duplica la secuencia y
        la anima; si no hay JS o el visitante pide movimiento reducido, se ve
        centrada y quieta, sin perder ningun mensaje.
-       Las 8 frases son datos REALES del negocio (nada inventado): envio gratis,
-       contra entrega, revisar antes de pagar, cupon VORTEX10 del 10%, plazo de
-       3 a 4 dias habiles, sin tarjeta, garantia de funcionamiento y los 5 dias de
-       retracto de la Ley 1480. -->
+       Los 8 mensajes estan REESCRITOS para que pesen mas la OFERTA y el BENEFICIO
+       (que es lo que genera deseo de compra) y menos la logistica. Siguen siendo
+       datos REALES del negocio, todos ya publicados en otras partes de la web:
+         - envio gratis, sin monto minimo (FAQ y politica de envios)
+         - precio de lanzamiento (portada y ficha de producto)
+         - +10% con el cupon VORTEX10 (verificado: 259.900 -> 233.910)
+         - "si no te encantan, te devolvemos tu dinero" (texto de la portada)
+         - pagas cuando lo tengas en tus manos (pago contra entrega)
+         - sin tarjeta ni anticipos (ficha de producto)
+         - llega en 3 a 4 dias habiles (FAQ, politica y ficha)
+         - garantia de funcionamiento (ficha y devoluciones)
+       NO se anade urgencia ni escasez ni prueba social: no hay dato real que las
+       respalde. De hecho el propio codigo elimino viewersNow() porque mostraba un
+       "N viendo ahora" inventado ("no se anuncia lo que no se puede probar"). -->
   <div class="announce" id="announce" data-announce
-       aria-label="Envío gratis a toda Colombia. Pagas contra entrega. Revisa antes de pagar. Ahorra 10% con el cupón VORTEX10. Llega en 3 a 4 días hábiles. No necesitas tarjeta. Garantía de funcionamiento. 5 días de retracto, Ley 1480.">
+       aria-label="Envío gratis a toda Colombia. Precio de lanzamiento. 10% extra con el cupón VORTEX10. Si no te encanta, te devolvemos tu dinero. Pagas cuando lo tengas en tus manos. Sin tarjeta y sin anticipo. Llega en 3 a 4 días hábiles. Garantía de funcionamiento.">
     <div class="an-track" data-an-track>
       <span class="an-item">ENVÍO <b>GRATIS</b> a toda Colombia</span>
-      <span class="an-item">PAGAS <b>CONTRA ENTREGA</b></span>
-      <span class="an-item"><b>REVISA</b> antes de pagar</span>
-      <span class="an-item">AHORRA <b>10%</b> con el cupón VORTEX10</span>
+      <span class="an-item"><b>PRECIO DE LANZAMIENTO</b></span>
+      <span class="an-item"><b>10% EXTRA</b> con el cupón VORTEX10</span>
+      <span class="an-item">SI NO TE ENCANTA, <b>TE DEVOLVEMOS TU DINERO</b></span>
+      <span class="an-item">PAGA <b>CUANDO LO TENGAS EN TUS MANOS</b></span>
+      <span class="an-item"><b>SIN TARJETA</b> y sin anticipo</span>
       <span class="an-item">LLEGA en <b>3 a 4 días hábiles</b></span>
-      <span class="an-item"><b>NO NECESITAS TARJETA</b></span>
       <span class="an-item">GARANTÍA <b>de funcionamiento</b></span>
-      <span class="an-item"><b>5 DÍAS</b> de retracto · Ley 1480</span>
     </div>
   </div>
 
@@ -203,7 +213,7 @@
   </div>
 
   <div class="toast" id="toast" hidden></div>
-  <script src="assets/app.js?v=43" defer></script>
+  <script src="assets/app.js?v=44" defer></script>
   <script>
     /* Splash COD: aparece al entrar, rota 360° y desaparece solo */
     (function () {
