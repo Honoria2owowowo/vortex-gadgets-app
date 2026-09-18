@@ -9,6 +9,12 @@
     waNumber: '573181738642',              // WhatsApp de pedidos
     waDisplay: '+57 318 173 8642',
     storeUrl: 'https://vortexgadgets.com.co',
+    /* Servidor de pedidos (el Worker de Cloudflare de la carpeta vortex-api).
+       Ejemplo: 'https://vortex-pedidos.tucuenta.workers.dev'
+       MIENTRAS ESTE VACIO, la app funciona igual que siempre: el pedido solo va por
+       WhatsApp y no se manda a ningun servidor. Al ponerlo, el pedido se guarda
+       ademas en el servidor y aparece en el panel privado. */
+    apiPedidos: '',
     shopDomain: 'kvrfbn-n1.myshopify.com', // dominio de la API
     storefrontToken: 'd93566827739f74089b5b9933113035c', // token público (catálogo)
     apiVersion: '2026-01',
@@ -956,20 +962,18 @@
     return m;
   }
 
-  function codGuardarPedido(d, items) {
-    var arr = [];
-    try {
-      var raw = localStorage.getItem(PEDIDOS_KEY);
-      arr = raw ? JSON.parse(raw) : [];
-    } catch (e) { arr = []; }
-    if (!Array.isArray(arr)) arr = [];
+  /* Arma el objeto del pedido. Se separa de guardarlo porque el MISMO objeto se
+     usa para dos cosas: la copia local del navegador y el envio al servidor. Antes
+     se armaba dentro de codGuardarPedido, asi que el servidor no lo veia. */
+  function codPedidoObj(d, items) {
+    if (!items || !items.length) return null;
     var t = codTotals(items);
     var qty = items.reduce(function (a, l) { return a + l.qty; }, 0);
     var prod = items.map(function (l) { return l.qty + 'x ' + l.title; }).join(' + ');
     var now = new Date().toISOString();
     var nota = d.notas || '';
     if (couponCode() && t.disc > 0) nota += (nota ? ' · ' : '') + 'Cupón ' + couponCode() + ' -' + money(t.disc);
-    arr.unshift({
+    return {
       id: 'P' + Date.now().toString(36).toUpperCase(),
       creado: now, updated: now,
       nombre: d.nombre, apellido: d.apellido,
@@ -979,8 +983,59 @@
       producto: prod, cantidad: qty, valor: t.total, nota: nota,
       compro: '', pagado: false, salio: false, camino: false, entregado: false, guia: '',
       origen: 'app_pwa'
-    });
+    };
+  }
+
+  function codGuardarPedido(pedido) {
+    var arr = [];
+    try {
+      var raw = localStorage.getItem(PEDIDOS_KEY);
+      arr = raw ? JSON.parse(raw) : [];
+    } catch (e) { arr = []; }
+    if (!Array.isArray(arr)) arr = [];
+    arr.unshift(pedido);
     try { localStorage.setItem(PEDIDOS_KEY, JSON.stringify(arr)); return true; } catch (e) { return false; }
+  }
+
+  /* ---------- Envio del pedido al servidor (2026-09-17) ----------
+     Manda el pedido a la API de Cloudflare para que quede guardado y aparezca en el
+     panel privado, ademas de irse por WhatsApp.
+
+     TRES REGLAS QUE NO SE PUEDEN ROMPER:
+     1) Si no hay servidor configurado (CONFIG.apiPedidos vacio), no se hace nada.
+     2) Si el servidor esta caido, tarda o da error, el pedido NO se pierde: sigue
+        llegando por WhatsApp como siempre. Esta funcion no puede lanzar errores.
+     3) Se manda DESPUES de abrir WhatsApp, nunca antes (ver codSubmit).
+     Se usa keepalive para que la peticion termine aunque el cliente cambie de
+     pantalla o se vaya de la app justo despues de confirmar. */
+  function enviarPedidoServidor(pedido) {
+    var base = String(CONFIG.apiPedidos || '').replace(/\/+$/, '');
+    if (!base || !pedido || !window.fetch) return null;
+    var ctrl = null;
+    var reloj = null;
+    try { if (window.AbortController) ctrl = new AbortController(); } catch (e) { ctrl = null; }
+    var tarea = fetch(base + '/api/pedido', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(pedido),
+      signal: ctrl ? ctrl.signal : undefined,
+      keepalive: true
+    }).then(function (r) {
+      if (reloj) clearTimeout(reloj);
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      try { sessionStorage.setItem('vx_pedido_sync', '1'); } catch (e) {}
+      return r.json();
+    }).catch(function () {
+      if (reloj) clearTimeout(reloj);
+      /* Al comprador no se le dice nada feo: para el, el pedido ya quedo hecho.
+         Se deja la marca por si hace falta revisarlo desde el navegador. */
+      try { sessionStorage.setItem('vx_pedido_sync', '0'); } catch (e) {}
+      return null;
+    });
+    if (ctrl) {
+      reloj = setTimeout(function () { try { ctrl.abort(); } catch (e) {} }, 12000);
+    }
+    return tarea;
   }
 
   var codEnviando = false;
@@ -995,10 +1050,16 @@
     var piezas = items.reduce(function (a, l) { return a + l.qty; }, 0);
     codEnviando = true;
     var msg = codMsg(d, items);
-    var guardado = codGuardarPedido(d, items);
+    var pedido = codPedidoObj(d, items);
+    var guardado = pedido ? codGuardarPedido(pedido) : false;
     try { sessionStorage.setItem('vx_last_wa', msg); } catch (e) {}
     trackPixel('InitiateCheckout', { value: Math.round(total), currency: 'COP', num_items: piezas });
+    /* WhatsApp PRIMERO y sin esperar a nadie. Si se esperara al servidor antes de
+       abrir la ventana, el navegador la bloquearia al creer que ya no viene de un
+       toque del usuario. El envio al servidor va despues, en segundo plano, y no
+       puede hacer fallar el pedido. */
     openWa(msg);
+    if (pedido) enviarPedidoServidor(pedido);
     saveCart([]);
     if (!guardado) toast('No pudimos guardar la copia local, pero el pedido va por WhatsApp', true);
     codEnviando = false;
