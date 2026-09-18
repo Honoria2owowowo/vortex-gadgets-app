@@ -445,7 +445,7 @@
       stepHtml('4', 'Pagas al recibir', 'Revisas tu pedido y pagas en efectivo.') +
       '</div>' +
       '<div class="wa-float-big">' +
-      '<div><b style="color:#fff">¿Dudas o pedido especial?</b><div class="muted" style="font-size:13px">Escríbenos: ' + esc(CONFIG.waDisplay) + '</div></div>' +
+      '<div><b style="color:#fff">¿Dudas o pedido especial?</b></div>' +
       '<a class="btn btn-wa" href="' + waLink('Hola VÓRTEX, tengo una consulta') + '" target="_blank" rel="noopener">Chatear ahora</a>' +
       '</div>' +
       vSeguridad();
@@ -659,8 +659,7 @@
       '<span class="chip"><span class="ck">✓</span> Cupón <b>VORTEX10</b> (-10%)</span>' +
       '<span class="chip"><span class="ck">✓</span> Garantía de funcionamiento</span>' +
       '</div>' +
-      '<div class="wa-float-big"><div><b style="color:#fff">¿Listo para pedir?</b>' +
-      '<div class="muted" style="font-size:13px">Escríbenos y te ayudamos: ' + esc(CONFIG.waDisplay) + '</div></div>' +
+      '<div class="wa-float-big"><div><b style="color:#fff">¿Listo para pedir?</b></div>' +
       '<a class="btn btn-wa" href="' + waLink('Hola VÓRTEX, quiero hacer un pedido contra entrega') + '" target="_blank" rel="noopener">Escribir por WhatsApp</a></div>';
   }
 
@@ -669,7 +668,6 @@
       '<p class="muted" style="margin:4px 0 14px">Te respondemos rápido por WhatsApp, todos los días.</p>' +
       '<div class="wa-float-big" style="justify-content:flex-start;flex-direction:column;align-items:stretch">' +
       '<b style="color:#fff">WhatsApp oficial de pedidos</b>' +
-      '<div style="font-size:22px;font-weight:900">' + esc(CONFIG.waDisplay) + '</div>' +
       '<div class="muted" style="font-size:13px">Catálogo, pedidos, cupón VORTEX10, garantías y soporte.</div>' +
       '<a class="btn btn-wa" href="' + waLink('Hola VÓRTEX Gadgets') + '" target="_blank" rel="noopener">Abrir WhatsApp</a>' +
       '</div>' +
