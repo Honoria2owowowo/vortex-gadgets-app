@@ -31,12 +31,17 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 /* ---------- Anuncio + barra superior ---------- */
 .announce{background:linear-gradient(90deg,#008C8C,#00A6A6);color:#04231F;font-weight:800;font-size:12px;letter-spacing:.4px;overflow:hidden}
 .an-track{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;padding:7px 10px;row-gap:4px}
-.an-item{flex:0 0 auto;display:inline-flex;align-items:center;white-space:nowrap;font-weight:600}
+/* OJO: .an-item NO debe ser contenedor flex. Si lo es, el texto suelto se
+   convierte en flex items anonimos y CSS DESCARTA el espacio en blanco de los
+   bordes: se leia "ENVIO GRATISa toda Colombia" y "PAGACUANDO LO TENGAS EN TUS
+   MANOS". Sin flex, el contenido se compone como texto normal y el espacio se
+   respeta. */
+.an-item{flex:0 0 auto;white-space:nowrap;font-weight:600}
 .an-item b{font-weight:900;letter-spacing:.6px}
 /* el separador va dentro de CADA item (no entre items). Asi, al duplicar la
    secuencia, el ritmo de puntos es identico en las dos mitades y el bucle de
    translateX(-50%) encaja sin salto. */
-.an-item::after{content:'';width:4px;height:4px;border-radius:50%;background:#04231F;opacity:.42;margin:0 15px}
+.an-item::after{content:'';display:inline-block;vertical-align:middle;width:4px;height:4px;border-radius:50%;background:#04231F;opacity:.42;margin:0 15px}
 /* En movimiento: una sola fila, sin centrar, de DERECHA a IZQUIERDA.
    OJO: NO se puede animar a -50%. translateX(%) se calcula sobre el ANCHO DEL
    PROPIO ELEMENTO, y .an-track es un contenedor flex de bloque: mide lo que le
