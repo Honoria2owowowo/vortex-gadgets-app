@@ -737,6 +737,14 @@
         var arr = raw ? JSON.parse(raw) : [];
         if (Array.isArray(arr)) locales = arr;
       } catch (e) { locales = []; }
+      /* La marca de "no compro / cancelado" NO existe en el servidor: solo vive en
+         esta lista local. Al traer la lista del servidor hay que copiarla de vuelta,
+         porque si no, al recargar el panel un pedido cancelado volveria a aparecer
+         como si nada. */
+      var comproLocal = {};
+      locales.forEach(function (p) { if (p && p.id && p.compro) comproLocal[p.id] = p.compro; });
+      delServidor.forEach(function (p) { if (comproLocal[p.id]) p.compro = comproLocal[p.id]; });
+
       var soloLocal = locales.filter(function (p) { return p && p.id && !conocidos[p.id]; });
       soloLocal.forEach(function (p) { p.soloLocal = true; });
       pedidos = delServidor.concat(soloLocal);
