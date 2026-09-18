@@ -135,6 +135,7 @@
     border-radius:12px; padding:11px 14px; margin:0 0 12px; font-weight:700; font-size:14px;
     box-shadow:0 6px 18px rgba(0,166,166,.35)}
   .banner-nuevos.show{display:flex}
+  #toast.tocable{cursor:pointer;text-decoration:underline;text-underline-offset:3px}
   .banner-nuevos button{margin-left:auto; background:rgba(255,255,255,.22); border:0; color:#fff;
     font-weight:700; border-radius:8px; padding:6px 12px; cursor:pointer; font-size:13px; font-family:inherit}
 
@@ -220,9 +221,22 @@
     if(isNaN(d)) return '';
     return d.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'2-digit'})+' '+d.toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});
   }
-  function toast(msg){
+  function toast(msg, alTocar){
     var t=$('toast'); t.textContent=msg; t.classList.add('show');
-    clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove('show');},2400);
+    t.onclick = null;
+    clearTimeout(t._h);
+    if (alTocar) {
+      /* Con accion: no se oculta solo (hay que poder tocarlo para ver el detalle). */
+      t.classList.add('tocable');
+      t.onclick = function () {
+        t.classList.remove('show');
+        t.classList.remove('tocable');
+        t.onclick = null;
+        alTocar();
+      };
+      return;
+    }
+    t._h = setTimeout(function(){t.classList.remove('show');},2400);
   }
   function guardar(){
     localStorage.setItem(LS_KEY, JSON.stringify(pedidos));
@@ -921,6 +935,36 @@
 
   var K_PUSH = 'vortex_push_activo';
   var pushEstado = '';   /* apagado | concedido | activo | bloqueado | no-soportado */
+  var ultimoErrorPush = '';
+
+  /* Detalle del aparato y del error. Sirve para saber POR QUE falla: el mensaje
+     "push service error" por si solo no distingue entre una VPN, que falte la
+     cuenta de Google, o que el navegador no sea Chrome. */
+  function diagnosticoPush() {
+    var ua = String(navigator.userAgent || '');
+    var esChrome = /Chrome\//.test(ua) && !/Edg|OPR|Opera|SamsungBrowser|Firefox/.test(ua);
+    return [
+      'Permiso de notificaciones: ' + (('Notification' in window) ? Notification.permission : 'no disponible'),
+      'Navegador: ' + ua.slice(0, 150),
+      '¿Es Chrome? ' + (esChrome ? 'sí' : 'NO (esto suele ser la causa)'),
+      'Service worker: ' + (('serviceWorker' in navigator) ? 'soportado' : 'NO'),
+      'Push: ' + (('PushManager' in window) ? 'soportado' : 'NO'),
+      'Conexión: ' + (navigator.onLine ? 'en línea' : 'SIN conexión'),
+      'Último error: ' + (ultimoErrorPush || '(ninguno)')
+    ].join('\n');
+  }
+
+  /* Se muestra al fallar: el aviso corto no cabe tanto detalle. */
+  function mostrarDiagnostico() {
+    alert('No se pudieron activar los avisos al teléfono.\n\n' +
+      'Casi siempre es una de estas tres cosas:\n\n' +
+      '1) TIENES UNA VPN ENCENDIDA. Es la causa más común: apágala y vuelve a intentar.\n\n' +
+      '2) Estás usando un navegador que no es Chrome (Samsung Internet, el de Xiaomi, ' +
+      'Opera...). Abre el panel en Chrome.\n\n' +
+      '3) El teléfono no tiene cuenta de Google activa o le falta Google Play Services.\n\n' +
+      'Otras veces es un fallo pasajero: espera unos segundos y toca otra vez.\n\n' +
+      '--- DETALLE PARA ENVIAR ---\n' + diagnosticoPush());
+  }
 
   function soportaPush() {
     return ('serviceWorker' in navigator) && ('PushManager' in window) && ('Notification' in window);
@@ -970,9 +1014,15 @@
         return navigator.serviceWorker.ready.then(function (reg) {
           return reg.pushManager.getSubscription().then(function (ya) {
             if (ya) return ya;
-            return reg.pushManager.subscribe({
+            var opciones = {
               userVisibleOnly: true,
               applicationServerKey: urlB64aBytes(j.clave)
+            };
+            /* Un fallo de FCM muchas veces es pasajero. Se intenta una vez mas
+               antes de molestar al dueno: la segunda suele funcionar. */
+            return reg.pushManager.subscribe(opciones).catch(function (e1) {
+              return new Promise(function (listo) { setTimeout(listo, 2500); })
+                .then(function () { return reg.pushManager.subscribe(opciones); });
             });
           });
         });
@@ -994,8 +1044,13 @@
       });
     }).catch(function (e) {
       pushEstado = 'apagado';
+      /* Se guarda el nombre Y el mensaje: el nombre ("NotAllowedError",
+         "InvalidStateError"...) es lo que distingue una causa de otra. */
+      ultimoErrorPush = [e && e.name, e && e.message].filter(Boolean).join(': ') || 'desconocido';
       pintarAviso();
-      toast('No se pudieron activar los avisos: ' + ((e && e.message) || 'error'), true);
+      toast('No se pudieron activar los avisos. Toca aquí para ver por qué.', true, function () {
+        mostrarDiagnostico();
+      });
     });
   }
 
@@ -1047,12 +1102,15 @@
              '<button class="btn sm" id="btnProbarPush">Probar</button>' +
              '<button class="btn ghost sm" id="btnApagarPush">Apagar</button>';
     }
-    return '<button class="btn accent sm" id="btnActivarPush">Activar avisos al teléfono</button>';
+    return '<button class="btn accent sm" id="btnActivarPush">Activar avisos al teléfono</button>' +
+           (ultimoErrorPush ? '<button class="btn sm" id="btnPorQuePush">¿Por qué no funciona?</button>' : '');
   }
 
   function conectarBotonesPush() {
     var a = document.getElementById('btnActivarPush');
     if (a) a.onclick = activarPush;
+    var pq = document.getElementById('btnPorQuePush');
+    if (pq) pq.onclick = mostrarDiagnostico;
     var p = document.getElementById('btnProbarPush');
     if (p) p.onclick = probarPush;
     var ap = document.getElementById('btnApagarPush');

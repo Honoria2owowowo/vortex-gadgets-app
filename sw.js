@@ -1,11 +1,11 @@
 ﻿/* Service Worker â€” VÃ“RTEX Gadgets PWA */
-const VERSION = 'vortex-app-v50';
+const VERSION = 'vortex-app-v51';
 const PRECACHE = [
   './',
   'index.html',
   'manifest.json',
-  'assets/app.css?v=50',
-  'assets/app.js?v=50',
+  'assets/app.css?v=51',
+  'assets/app.js?v=51',
   'assets/cod-splash.png',
   'datos-tienda.json',
   'icons/icon-192.png',
