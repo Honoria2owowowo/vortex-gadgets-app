@@ -793,13 +793,17 @@ a.hb-zone{text-decoration:none}
    la misma fila el titular se partia UNA PALABRA POR LINEA y dejaba media
    pantalla amarilla vacia. */
 @media (max-width:900px){
-  .hero-cols{flex-direction:column;align-items:stretch;gap:16px}
+  .hero-cols{flex-direction:column;align-items:stretch;gap:14px}
   .hero-col{width:100%}
-  .hero-prod{width:100%;max-width:none;margin:0;flex-direction:row;gap:12px;align-items:center}
-  .hero-prod-img{width:96px;height:96px;aspect-ratio:auto;flex:0 0 96px;border-radius:14px;border-width:2px}
-  .hero-prod-tag{font-size:12.5px;padding:6px 12px;line-height:1.35;text-align:left}
+  .hero-prod{width:100%;max-width:none;margin:0;flex-direction:row;gap:14px;align-items:center}
+  /* [2026-09-22] El tamano se mide contra el ALTO de la pantalla (18vh, tope
+     140 px), no contra el ancho. Medido en 390x844: con 82 px fijos la foto era
+     una miniatura sobre una tarjeta de 358 px y sobraban 244 px de amarillo
+     vacio. Con 18vh crece en celulares altos y encoge en los bajos, para que el
+     boton de compra nunca quede recortado. */
+  .hero-prod-img{width:min(140px,18vh);height:min(140px,18vh);aspect-ratio:auto;flex:0 0 auto;border-radius:16px;border-width:2px}
+  .hero-prod-tag{font-size:13px;padding:7px 14px;line-height:1.4;text-align:left}
 }
-@media (max-width:520px){.hero-prod-img{width:82px;height:82px;flex:0 0 82px}}
 
 /* Cerrar el aviso flotante: el aspa medía 19px y era dificil de pulsar. */
 /* [2026-09-22] El aspa medía 34x34 y en movil lo recomendado son 44x44: era
