@@ -37,7 +37,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <!-- AL DESPLEGAR: sube el ?v= de app.css y app.js aqui y la VERSION de sw.js.
        Asi ninguna cache vieja puede servir el codigo anterior. -->
-  <link rel="stylesheet" href="assets/app.css?v=57">
+  <link rel="stylesheet" href="assets/app.css?v=58">
   <style>
     /* [2026-09-18] La bienvenida se ACORTO. Antes bloqueaba la vista 4,6 s mas 0,6 de
        desvanecido: casi 5,2 s antes de poder ver un producto, y quien llega de un
@@ -231,6 +231,16 @@
         <a href="#/contacto" data-close-drawer>Contacto / WhatsApp</a>
         <a href="https://vortexgadgets.com.co" target="_blank" rel="noopener">Tienda completa (pago en línea)</a>
       </nav>
+      <!-- [2026-09-22] Quien te vende. Antes este dato solo estaba en el pie, muy
+           abajo, y el comprador debe verlo ANTES de dar su cedula y su direccion.
+           Cuando llegue el RUT de la DIAN: cambia la linea de identificacion por
+           "NIT <numero>-<digito>" y anade la razon social si aplica. -->
+      <div class="drawer-quien">
+        <p class="dq-h">Quién te vende</p>
+        <p><b>VÓRTEX Gadgets</b> · Avenida 6A Norte, 21-NORTE-35 · Cali, Colombia</p>
+        <p>Identificación: CC 1126705132</p>
+        <p><a href="https://wa.me/573181738642" target="_blank" rel="noopener">+57 318 173 8642</a> · <a href="mailto:soportevortexgadgets@gmail.com">soportevortexgadgets@gmail.com</a></p>
+      </div>
       <button class="btn btn-accent" id="btnInstall">Instalar app</button>
       <p class="muted drawer-hint" id="iosHint" hidden>En iPhone: Compartir → “Añadir a pantalla de inicio”.</p>
     </div>
@@ -249,7 +259,7 @@
   </div>
 
   <div class="toast" id="toast" hidden></div>
-  <script src="assets/app.js?v=57" defer></script>
+  <script src="assets/app.js?v=58" defer></script>
   <script>
     /* Splash COD: aparece al entrar, rota 360° y desaparece solo.
        Desde el 2026-09-18 la duracion depende de por donde llega el visitante

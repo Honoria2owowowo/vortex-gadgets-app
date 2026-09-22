@@ -932,6 +932,83 @@
       '</div>';
   }
 
+  /* [2026-09-22] Que campo corresponde a cada mensaje de error, para poder
+     marcarlo en rojo y bajar hasta el. Antes el aviso salia arriba mientras el
+     cliente estaba abajo pulsando el boton: parecia que el boton no funcionaba. */
+  var MAPA_ERR = [
+    ['Nombre (', 'cod_nombre'],
+    ['Apellido (', 'cod_apellido'],
+    ['Pasaporte (', 'cod_numDoc'],
+    ['Número de documento (', 'cod_numDoc'],
+    ['Teléfono celular (', 'cod_telefono'],
+    ['Correo (', 'cod_correo'],
+    ['Departamento', 'cod_departamento'],
+    ['Ciudad', 'cod_ciudad'],
+    ['Dirección (', 'cod_direccion'],
+    ['Autorización de datos', 'cod_acepto']
+  ];
+  function campoDeError(msg) {
+    for (var i = 0; i < MAPA_ERR.length; i++) {
+      if (String(msg).indexOf(MAPA_ERR[i][0]) === 0) return MAPA_ERR[i][1];
+    }
+    return '';
+  }
+  /* Marca los campos con error, muestra el motivo debajo y baja hasta el primero. */
+  function marcarErrores(campos, mensajes) {
+    limpiarErrores();
+    var lista = campos && campos.length ? campos : [];
+    var vistos = {};
+    var primero = '';
+    lista.forEach(function (c) {
+      if (!c.id || vistos[c.id]) return;
+      vistos[c.id] = 1;
+      if (!primero) primero = c.id;
+      var el = document.getElementById(c.id);
+      if (!el) return;
+      var caja = el.closest('.fld') || el.closest('.cod-acepto') || el.parentNode;
+      if (!caja) return;
+      caja.classList.add('is-err');
+      if (caja.classList.contains('fld')) {
+        var aviso = document.createElement('span');
+        aviso.className = 'fld-err';
+        aviso.textContent = c.msg;
+        caja.appendChild(aviso);
+      }
+    });
+    var form = document.getElementById('codForm');
+    if (form) { form.classList.add('is-err'); setTimeout(function () { form.classList.remove('is-err'); }, 400); }
+    var n = lista.length;
+    toast('Falta completar ' + (n === 1 ? '1 campo' : n + ' campos') + '. Te llevamos al primero.', true);
+    var target = primero ? document.getElementById(primero) : null;
+    if (target) {
+      try { target.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { target.scrollIntoView(); }
+      setTimeout(function () { try { target.focus({ preventScroll: true }); } catch (e) { target.focus(); } }, 320);
+    }
+  }
+  function limpiarErrores() {
+    var form = document.getElementById('codForm');
+    if (!form) return;
+    Array.prototype.forEach.call(form.querySelectorAll('.is-err'), function (el) { el.classList.remove('is-err'); });
+    Array.prototype.forEach.call(form.querySelectorAll('.fld-err'), function (el) { el.remove(); });
+  }
+  /* Al corregir un campo, el rojo desaparece solo. */
+  document.addEventListener('input', function (e) {
+    var el = e.target;
+    if (!el || !el.closest || !el.closest('#codForm')) return;
+    var caja = el.closest('.fld');
+    if (caja && caja.classList.contains('is-err')) {
+      caja.classList.remove('is-err');
+      var av = caja.querySelector('.fld-err');
+      if (av) av.remove();
+    }
+  });
+  document.addEventListener('change', function (e) {
+    var el = e.target;
+    if (!el || !el.id || el.id !== 'cod_acepto') return;
+    var caja = el.closest('.cod-acepto');
+    if (caja) caja.classList.remove('is-err');
+  });
+
   function leerCod() {
     var d = {
       nombre: codVal('cod_nombre'),
@@ -961,7 +1038,10 @@
     if (d.direccion.length < 8) e.push('Dirección (calle, número y barrio)');
     var acep = document.getElementById('cod_acepto');
     if (!acep || !acep.checked) e.push('Autorización de datos (marca la casilla)');
-    return { datos: d, errores: e };
+    return {
+      datos: d, errores: e,
+      campos: e.map(function (m) { return { id: campoDeError(m), msg: m }; })
+    };
   }
 
   function codMsg(d, items) {
@@ -1075,7 +1155,7 @@
     var items = codItems(parseHash().q);
     if (!items.length) { toast('Todavía no tienes productos', true); return; }
     var r = leerCod();
-    if (r.errores.length) { toast('Revisa: ' + r.errores.join(', '), true); return; }
+    if (r.errores.length) { marcarErrores(r.campos, r.errores); return; }
     var d = r.datos;
     var total = codTotals(items).total;
     var piezas = items.reduce(function (a, l) { return a + l.qty; }, 0);
@@ -1131,7 +1211,7 @@
     { mod: "", style: "",
       content: "<div class=\"hero-slide-media\">\n        <picture>\n          <source media=\"(max-width: 900px)\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box-mobile.png?v=145853460823946795501788233790\">\n          <img src=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box.png?v=126154574519817888841788230324\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box.png?v=126154574519817888841788230324&width=640 640w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box.png?v=126154574519817888841788230324&width=960 960w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box.png?v=126154574519817888841788230324&width=1280 1280w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box.png?v=126154574519817888841788230324&width=1920 1920w\" sizes=\"100vw\" alt=\"Ofertas exclusivas VÓRTEX\" loading=\"lazy\" style=\"filter: contrast(1.14) saturate(1.1);\">\n        </picture>\n      </div>\n      <div class=\"hero-slide-overlay\"></div>\n      <div class=\"hero-slide-content\">\n        <p class=\"hero-eyebrow\" style=\"border-color: rgba(0,0,0,.5); color: #111; background: rgba(255,255,255,.85);\">Exclusivo para ti</p>\n        <h1 class=\"hero-heading\" style=\"color: #0b0e13; text-shadow: 0 1px 3px rgba(255,255,255,.65);\">Tu primera compra con <span class=\"accent\" style=\"color:#ff6b2b;\">ofertas únicas</span></h1>\n        <p class=\"hero-text\" style=\"color: #111; font-weight: 500; text-shadow: 0 1px 2px rgba(255,255,255,.7);\">Gadgets seleccionados para empezar con todo. Aprovecha tu cupón de bienvenida.</p>\n        <div class=\"hero-actions\">\n          <a class=\"btn-hero btn-hero--yellow\" href=\"#/catalogo\">ENVÍO GRATIS</a>\n          <a class=\"btn-hero btn-hero--white\" href=\"#/catalogo\">10 % EXTRA</a>\n        </div>\n      </div>" },
     { mod: "", style: "background:#ffe600;",
-      content: "<div class=\"hero-slide-overlay\" style=\"background:linear-gradient(100deg, #ffe600 40%, #ffd21f 75%, #ffce2e 100%);\"></div>\n      <div class=\"hero-slide-content\" style=\"color:#111;\">\n        <div class=\"hero-cols\">\n          <div class=\"hero-col\">\n            <div class=\"hero-badge-dark\">Nuevo<span>Mini Proyector HY320</span></div>\n            <h1 class=\"hero-heading\">Tu cine en casa: <span class=\"accent\" style=\"color:#111; text-decoration:underline; text-decoration-color:#ff6b2b; text-underline-offset:6px;\">1080P nativo</span> y las apps adentro</h1>\n            <div class=\"hero-pills\">\n              <span class=\"hero-pill\">SOPORTE 4K</span>\n              <span class=\"hero-pill-plus\">+</span>\n              <span class=\"hero-pill\">IMAGEN LED</span>\n            </div>\n            <p class=\"hero-text\" style=\"max-width:560px\">Sin caja, sin consola y sin computador de por medio.</p>\n            <div class=\"hero-actions\">\n              <a class=\"btn-hero btn-hero--dark\" href=\"#/producto/mini-proyector-portatil-hy320-android-tv-13-1080p-soporte-4k\">Ver el proyector — $259.900</a>\n            </div>\n          </div>\n          <div class=\"hero-wow\">\n            <div class=\"hero-wow-num\">-28 %</div>\n            <div class=\"hero-wow-old\">Antes <s>$359.900</s></div>\n            <div class=\"hero-wow-off\">Ahorras $100.000</div>\n          </div>\n        </div>\n      </div>" },
+      content: "<div class=\"hero-slide-overlay\" style=\"background:linear-gradient(100deg, #ffe600 40%, #ffd21f 75%, #ffce2e 100%);\"></div>\n      <div class=\"hero-slide-content\" style=\"color:#111;\">\n        <div class=\"hero-cols\">\n          <div class=\"hero-col\">\n            <div class=\"hero-badge-dark\">Nuevo<span>Mini Proyector HY320</span></div>\n            <h1 class=\"hero-heading\">Tu cine en casa: <span class=\"accent\" style=\"color:#111; text-decoration:underline; text-decoration-color:#ff6b2b; text-underline-offset:6px;\">las apps adentro</span> y 4K soportado</h1>\n            <div class=\"hero-pills\">\n              <span class=\"hero-pill\">SOPORTE 4K</span>\n              <span class=\"hero-pill-plus\">+</span>\n              <span class=\"hero-pill\">IMAGEN LED</span>\n            </div>\n            <p class=\"hero-text\" style=\"max-width:560px\">Sin caja, sin consola y sin computador de por medio.</p>\n            <div class=\"hero-actions\">\n              <a class=\"btn-hero btn-hero--dark\" href=\"#/producto/mini-proyector-portatil-hy320-android-tv-13-1080p-soporte-4k\">Ver el proyector — $259.900</a>\n            </div>\n          </div>\n          <div class=\"hero-prod\">\n            <div class=\"hero-prod-img\"><img src=\"https://cdn.shopify.com/s/files/1/0828/1178/1371/files/proyector-3.png?v=1788581390\" alt=\"Mini Proyector HY320\" loading=\"lazy\"></div>\n            <div class=\"hero-prod-tag\">-28 % · <s>$359.900</s> · Ahorras $100.000</div>\n          </div>\n        </div>\n      </div>" },
     { mod: "", style: "background:#EAF7EF;",
       content: "<div class=\"hero-slide-media\">\n        <picture>\n          <source media=\"(max-width: 900px)\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-van-mobile.png?v=72521963569034057271788233794\">\n          <img src=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-van.png?v=123366742103092711511788231801\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-van.png?v=123366742103092711511788231801&width=640 640w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-van.png?v=123366742103092711511788231801&width=960 960w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-van.png?v=123366742103092711511788231801&width=1280 1280w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-van.png?v=123366742103092711511788231801&width=1920 1920w\" sizes=\"100vw\" alt=\"Envío GRATIS en tu primera compra\" loading=\"lazy\">\n        </picture>\n      </div>\n      <div class=\"hero-slide-overlay\" style=\"background:linear-gradient(90deg, rgba(234,247,239,.94) 0%, rgba(234,247,239,.7) 45%, rgba(234,247,239,0) 72%);\"></div>\n      <div class=\"hero-slide-content\" style=\"color:#111;\">\n        <p class=\"hero-eyebrow\" style=\"border-color:#111; color:#333; background:rgba(255,255,255,.75);\">Exclusivo para ti</p>\n        <h1 class=\"hero-heading\">ENVÍO <span class=\"accent\" style=\"color:#ff6b2b;\">GRATIS</span></h1>\n        <p class=\"hero-text\" style=\"font-weight:800; letter-spacing:.04em; text-transform:uppercase; color:#111;\">En todas tus compras</p>\n        <div class=\"hero-actions\">\n          <a class=\"btn-hero btn-hero--dark\" href=\"#/catalogo\">Aprovechar oferta</a>\n        </div>\n        <p class=\"hero-fineprint\">*<a href=\"#/info/terminos-y-condiciones\">Consulta los Términos y Condiciones</a>.</p>\n      </div>" }
   ];
@@ -1346,7 +1426,7 @@
       toast('Te escribimos por WhatsApp para confirmar tu suscripción');
       return;
     }
-    if (act === 'toast-close') { toastIdx = SOCIAL_TOASTS.length; pararToasts(); return; }
+    if (act === 'toast-close') { apagarAviso(); toastIdx = SOCIAL_TOASTS.length; pararToasts(); return; }
     if (act === 'exit-coupon') {
       closeExitPopup();
       applyCoupon(CONFIG.couponCode);
@@ -1571,8 +1651,13 @@
 
   function mostrarToast() {
     if (toastIdx >= SOCIAL_TOASTS.length) return;
-    /* No tapar el boton de pedir en el formulario contra entrega */
-    if ((location.hash || '').indexOf('#/contraentrega') === 0) { toastTimer = setTimeout(mostrarToast, 6000); return; }
+    /* [2026-09-22] No tapar el boton de pedir. Antes solo se evitaba el
+       formulario contra entrega: en el carrito llegaba a tapar "Completar mis
+       datos de envio" y en la ficha el boton de anadir. Si el cliente lo cerro
+       una vez, no vuelve en toda la visita. */
+    var h = location.hash || '';
+    var rutaCallada = h.indexOf('#/contraentrega') === 0 || h.indexOf('#/carrito') === 0 || h.indexOf('#/producto/') === 0;
+    if (rutaCallada || avisoApagado()) { toastTimer = setTimeout(mostrarToast, 6000); return; }
     var d = SOCIAL_TOASTS[toastIdx++];
     var el = toastBox();
     el.innerHTML = '<span class="st-dot"></span><div class="st-body">' +
@@ -1587,8 +1672,16 @@
     toastTimer = setTimeout(ocultarToast, 7000);
   }
 
+  /* [2026-09-22] El cliente que ya cerro el aviso no lo vuelve a ver. */
+  function avisoApagado() {
+    try { return localStorage.getItem('vx_aviso_off') === '1'; } catch (e) { return false; }
+  }
+  function apagarAviso() {
+    try { localStorage.setItem('vx_aviso_off', '1'); } catch (e) {}
+  }
   function initSocialToast() {
     if (!SOCIAL_TOASTS.length || toastIdx > 0) return;
+    if (avisoApagado()) return;
     if (document.getElementById('socialToast')) return;
     toastTimer = setTimeout(mostrarToast, 7000);
   }

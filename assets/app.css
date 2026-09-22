@@ -763,3 +763,47 @@ a.hb-zone{text-decoration:none}
 .btn-late:hover{animation-play-state:paused;transform:scale(1.03)}
 .btn-late:active{animation-play-state:paused;transform:scale(.99)}
 @media(prefers-reduced-motion:reduce){.btn-late{animation:none}}
+
+/* ============================================================
+   [2026-09-22] Errores del formulario contra entrega.
+   El aviso salia arriba mientras el cliente estaba abajo pulsando el
+   boton: parecia que el boton no funcionaba. Ahora el campo se marca en
+   rojo, se dice el motivo debajo, y la pagina baja hasta el primero.
+   ============================================================ */
+.fld.is-err input,.fld.is-err select,.fld.is-err textarea{border-color:#FF5B5B;box-shadow:0 0 0 3px rgba(255,91,91,.18)}
+.fld.is-err label{color:#FF8A8A}
+.fld-err{font-size:11.5px;color:#FF8A8A;font-weight:700;margin-top:1px}
+.cod-acepto.is-err{border-color:#FF5B5B;box-shadow:0 0 0 3px rgba(255,91,91,.18)}
+.codform.is-err{animation:errShake .34s ease}
+@keyframes errShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+/* ============================================================
+   [2026-09-22] Foto del proyector en su diapositiva del banner.
+   Se vendia un producto de $259.900 sin ensenarlo: era un bloque
+   amarillo con un boton y nada mas.
+   ============================================================ */
+.hero-prod{margin-left:auto;flex:0 0 auto;width:min(330px,30vw);display:flex;flex-direction:column;gap:12px;align-items:center}
+.hero-prod-img{width:100%;aspect-ratio:1/1;border-radius:20px;overflow:hidden;background:#0b0e13;border:3px solid #111;box-shadow:0 18px 40px rgba(0,0,0,.32)}
+.hero-prod-img img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;display:block}
+.hero-prod-tag{display:inline-block;background:#111;color:#fff;border-radius:9px;padding:7px 16px;font-size:14.5px;font-weight:900;text-align:center}
+.hero-prod-tag s{opacity:.55;font-weight:700}
+@media (max-width:1100px){.hero-prod{width:min(270px,32vw)}}
+/* En movil (donde entra el trafico del anuncio) la foto va en tira: imagen
+   a la izquierda y la oferta al lado, para no alargar la diapositiva. */
+@media (max-width:900px){
+  .hero-cols{gap:14px}
+  .hero-prod{width:100%;max-width:none;margin:0;flex-direction:row;gap:12px;align-items:center}
+  .hero-prod-img{width:96px;height:96px;aspect-ratio:auto;flex:0 0 96px;border-radius:14px;border-width:2px}
+  .hero-prod-tag{font-size:12.5px;padding:6px 12px;line-height:1.35}
+}
+@media (max-width:520px){.hero-prod-img{width:78px;height:78px;flex:0 0 78px}}
+
+/* Cerrar el aviso flotante: el aspa medía 19px y era dificil de pulsar. */
+.st-x{min-width:34px;min-height:34px;font-size:21px;top:3px;right:5px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.st-x:focus-visible{outline:2px solid #8A6A00;outline-offset:2px}
+
+/* Quien te vende, dentro del menu lateral (antes solo estaba en el pie). */
+.drawer-quien{margin-top:16px;padding:12px 13px;border:1px solid var(--line);border-radius:12px;font-size:12.5px;line-height:1.6;color:#C7D0DA}
+.drawer-quien p{margin:0 0 3px}
+.drawer-quien .dq-h{font-weight:800;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:#8A98A6;margin-bottom:6px}
+.drawer-quien a{color:var(--accent)}
