@@ -64,7 +64,7 @@
   /* ---------- Estado ---------- */
   var state = {
     cat: '',
-    products: [], collections: [], loading: true, searchTerm: ''
+    products: [], collections: [], loading: true, searchTerm: '', pruebaSocial: null
   };
   function loadCart() {
     try { return JSON.parse(localStorage.getItem('vx_cart')) || []; } catch (e) { return []; }
@@ -172,6 +172,8 @@
     /* los testimonios se cargan aparte y, al llegar, se repinta para que la
        seccion aparezca sola si hay resenas reales */
     loadTestimonios().then(function () { renderRoute(); });
+    loadPruebaSocial().then(function () { renderRoute(); });
+    iniciarReloj();
     if (tryCache()) { state.loading = false; renderRoute(); pintarDescuentoPopup(); }
     loadStorefront().then(function () {
       state.loading = false; renderRoute(); pintarDescuentoPopup();
@@ -184,6 +186,82 @@
   /* ---------- Urgencia ---------- */
   /* [2026-09-16] Se elimino viewersNow(): mostraba "N viendo ahora" con un numero
      inventado (18 + hash % 46). No se anuncia lo que no se puede probar. */
+
+  /* [2026-09-22] Prueba social y contador HONESTOS.
+     Se pidio "el contador de 15 minutos y el 4.9/5". No se copian, por tres motivos
+     medidos: el contador de Shopify se reinicia (theme.js: Date.now() + 900000, y al
+     llegar a 0 vuelve a empezar), no existe ninguna app de resenas instalada, y una
+     media de 4.9 con cero resenas no puede ser verdad.
+
+     En su lugar, esto. Las reglas estan en el codigo, no en la buena voluntad:
+       - la nota exige resenas > 0 -> sin resenas reales NO SE PUEDE pintar
+       - el contador va a una fecha real y al llegar se PARA (no se reinicia)
+       - sin datos reales no se dibuja nada */
+  function p2(n) { return (n < 10 ? '0' : '') + n; }
+
+  function urgenciaHtml() {
+    var c = state.pruebaSocial;
+    if (!c) return '';
+    var partes = [];
+    /* La nota SOLO se dibuja si hay resenas que la sostengan. Una valoracion sin
+       resenas no es un dato: es una afirmacion. Si alguien escribe una media sin
+       resenas, se ignora entera, aunque este en el archivo. */
+    if (Number(c.media) > 0 && Number(c.resenas) > 0) {
+      partes.push('<b>★ ' + Number(c.media).toFixed(1) + '/5</b> — ' +
+        Number(c.resenas).toLocaleString('es-CO') + ' reseñas');
+    }
+    if (Number(c.pedidos_entregados) > 0) {
+      partes.push('<b>+' + Number(c.pedidos_entregados).toLocaleString('es-CO') +
+        ' pedidos entregados</b> en Colombia');
+    }
+    var fin = Date.parse(c.cierra_el || '');
+    var cont = '';
+    if (!isNaN(fin) && fin > Date.now()) {
+      cont = '<div class="urg-cont">Esta oferta termina en ' +
+        '<b data-cierra="' + esc(c.cierra_el) + '">…</b></div>';
+    }
+    if (!partes.length && !cont) return '';
+    return '<div class="urg">' +
+      (partes.length ? '<div class="urg-linea">' + partes.join('<span class="urg-sep">·</span>') + '</div>' : '') +
+      cont + '</div>';
+  }
+
+  /* Cuenta hacia la fecha declarada. Al llegar a cero PARA y lo dice. El contador
+     viejo de Shopify volvia a empezar cada 15 minutos: eso es lo que no se repite.
+
+     Se usa UN solo intervalo para toda la app, y busca los elementos en el DOM en
+     cada vuelta. Asi funciona sin tener que engancharse a cada repintado (la app
+     repinta al navegar, al buscar, al cambiar el carrito...) y no se acumulan
+     intervalos. Cuando la fecha pasa, el intervalo se cancela: no gasta bateria. */
+  function iniciarReloj() {
+    if (window.__relojUrg) return;
+    window.__relojUrg = setInterval(function () {
+      var els = document.querySelectorAll('[data-cierra]');
+      if (!els.length) { return; }
+      var fin = Date.parse(els[0].getAttribute('data-cierra'));
+      if (isNaN(fin)) { return; }
+      var ms = fin - Date.now();
+      for (var i = 0; i < els.length; i++) {
+        if (ms <= 0) {
+          if (els[i].textContent !== 'la promoción terminó') { els[i].textContent = 'la promoción terminó'; }
+          continue;
+        }
+        var s = Math.floor(ms / 1000);
+        var d = Math.floor(s / 86400);
+        els[i].textContent = (d > 0 ? d + ' d ' : '') +
+          p2(Math.floor(s % 86400 / 3600)) + ':' + p2(Math.floor(s % 3600 / 60)) + ':' + p2(s % 60);
+      }
+      /* Llegada la fecha, se deja de contar y el intervalo se cancela. */
+      if (ms <= 0) { clearInterval(window.__relojUrg); window.__relojUrg = null; }
+    }, 1000);
+  }
+
+  function loadPruebaSocial() {
+    return fetch('prueba-social.json?v=' + (CONFIG.version || '1'), { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { state.pruebaSocial = j || null; })
+      .catch(function () { state.pruebaSocial = null; });
+  }
   function flashEnd() {
     var k = 'vx_flash_end';
     var t = Number(sessionStorage.getItem(k));
@@ -563,6 +641,7 @@
             : '') +
           '</div>'
         : '<button class="btn btn-ghost btn-block" disabled>Producto agotado</button>') +
+      urgenciaHtml() +
       '<div class="d-trust">' +
       '<div class="dt"><span class="ck">✓</span><span>Envío GRATIS a toda Colombia</span></div>' +
       '<div class="dt"><span class="ck">✓</span><span>Pago contra entrega: revisas antes de pagar</span></div>' +

@@ -1066,3 +1066,17 @@ h1,h2,h3,h4{
   border:1px solid var(--line);display:block;background:#0A0E13}
 .tst-foto figcaption{margin-top:5px;font-size:10.5px;color:var(--muted);letter-spacing:.2px}
 @media(max-width:420px){ .tst-card{flex:0 0 232px} .tst-foto img{height:124px} }
+
+/* ============================================================================
+   [2026-09-22] Línea de prueba social y contador honestos.
+   Aparecen junto a las garantías de la ficha, solo si hay datos reales en
+   prueba-social.json. Si no hay nada, no se dibuja ni el contenedor.
+   ============================================================================ */
+.urg{margin:14px 0 4px}
+.urg-linea{font-size:13.5px;line-height:1.55;color:var(--text-2)}
+.urg-linea b{color:var(--text);font-weight:var(--fw-label,600)}
+.urg-sep{margin:0 7px;opacity:.5}
+.urg-cont{margin-top:9px;display:inline-block;padding:8px 14px;border-radius:999px;
+  background:rgba(0,166,166,.12);border:1px solid rgba(0,166,166,.4);
+  font-size:13px;color:var(--text-2)}
+.urg-cont b{color:var(--action);font-weight:var(--fw-head,650);font-variant-numeric:tabular-nums;letter-spacing:.02em}
