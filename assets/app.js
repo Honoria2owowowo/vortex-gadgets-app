@@ -497,51 +497,6 @@
       .replace(/\b24\s*-\s*72\s*(?:horas|h)?\b/gi, '3 a 4 d\u00edas h\u00e1biles');
   }
 
-  /* [2026-09-22] Etiquetas de las tarjetas de la ficha.
-     Se sacan del PROPIO titulo del producto. Los 26 titulos del catalogo vienen
-     partidos con "—" o "·", y lo que va despues del nombre es siempre un
-     beneficio: "Recargable por USB", "Acero Inoxidable Antioxido", "720P Nativo".
-     La frase 0 se descarta porque es el nombre, que ya esta en el h1.
-     Los parentesis se quitan: en los titulos llevan avisos legales ("no son Apple
-     originales") que no pintan nada como etiqueta de una foto, y lo que queda
-     sigue siendo cierto. */
-  var PROMESAS_CERCA = ['Envío GRATIS a toda Colombia', 'Pagas al recibirlo', 'Llega en 3 a 4 días'];
-  function etiquetasCerca(p) {
-    var partes = String(p.title || '').replace(/\u2014/g, '·').replace(/ - /g, '·').split('·');
-    var out = [];
-    for (var i = 1; i < partes.length; i++) {
-      var s = partes[i].replace(/\([^)]*\)/g, ' ').replace(/\s+/g, ' ').trim();
-      if (s.length >= 5 && s.length <= 52 && out.indexOf(s) === -1) out.push(s);
-    }
-    for (var j = 0; out.length < 3 && j < PROMESAS_CERCA.length; j++) {
-      if (out.indexOf(PROMESAS_CERCA[j]) === -1) out.push(PROMESAS_CERCA[j]);
-    }
-    return out.slice(0, 3);
-  }
-
-  /* La seccion. Cada tarjeta abre el visor de fotos que ya existe (open-gallery),
-     asi no se duplica nada. */
-  function cercaHtml(p, imgs) {
-    if (!imgs || imgs.length < 2) return '';
-    var et = etiquetasCerca(p);
-    var n = Math.min(et.length, imgs.length, 4);
-    if (n < 1) return '';
-    var fichas = '';
-    for (var i = 0; i < n; i++) {
-      fichas += '<button class="cerca-c" data-action="open-gallery" data-idx="' + i + '"' +
-        ' aria-label="Ver foto ' + (i + 1) + ' en grande">' +
-        '<img src="' + esc(imgs[i]) + '" alt="" loading="lazy" decoding="async">' +
-        '<span class="cerca-g" aria-hidden="true"></span>' +
-        '<span class="cerca-l">' + esc(et[i]) + '</span>' +
-        '<span class="cerca-a" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m0 0-5-5m5 5-5 5"/></svg></span>' +
-        '</button>';
-    }
-    return '<section class="cerca">' +
-      '<h2 class="cerca-h">Míralo de cerca</h2>' +
-      '<p class="cerca-s">Toca cualquier foto para verla en grande. Envío gratis y pagas cuando lo tengas en tus manos.</p>' +
-      '<div class="cerca-grid">' + fichas + '</div></section>';
-  }
-
   function vProduct(handle) {
     var p = state.products.filter(function (x) { return x.handle === handle; })[0];
     if (!p) return '<div class="empty-state"><p>Producto no encontrado.</p><p style="margin-top:10px"><a class="btn btn-accent" href="#/catalogo">Ver catálogo</a></p></div>';
@@ -605,10 +560,6 @@
       '<div class="acc-b">Todos nuestros productos tienen garantía de funcionamiento. Si algo llega dañado o no funciona, te lo cambiamos o devolvemos tu dinero. Escríbenos por WhatsApp y te atendemos.</div>' +
       '</div>' +
       '</div></div>' +
-      /* [2026-09-22] Las tarjetas van DESPUES del bloque de info, a lo ancho de
-         la ficha. El bloque de garantias de arriba (.d-trust) no se toca: esto
-         no lo repite, muestra el producto en grande con sus beneficios. */
-      cercaHtml(p, imgs) +
       /* barra fija móvil */
       (p.available
         ? '<div class="buybar">' +
@@ -1496,16 +1447,20 @@
     if (act === 'lb-prev') { lbNav(-1); return; }
     if (act === 'lb-next') { lbNav(1); return; }
   });
-  /* [2026-09-22] El crecimiento de las tarjetas tiene que verse TAMBIEN en el
-     movil. Con el dedo no existe el hover, asi que al tocar se marca la tarjeta
-     un instante y ahi se ve el mismo efecto. Con eso el comportamiento vale en
-     todos los dispositivos, que es lo que se pidio. */
+  /* [2026-09-22] La foto de la tarjeta de producto crece al TOCAR.
+     Con el dedo no existe el hover, asi que al tocar se marca la foto un instante
+     y ahi se ve el mismo efecto que con el cursor. Con eso el comportamiento vale
+     en todos los dispositivos, que es lo que se pidio.
+
+     Se engancha a .pimg, que es la caja de la foto en la tarjeta de producto. Como
+     el catalogo y "Destacados de la semana" usan la misma tarjeta, esto cubre los
+     dos sitios de una vez. */
   document.addEventListener('touchstart', function (e) {
-    var c = (e.target && e.target.closest) ? e.target.closest('.cerca-c') : null;
-    if (!c) return;
-    c.classList.add('is-tap');
-    clearTimeout(c._tapaT);
-    c._tapaT = setTimeout(function () { c.classList.remove('is-tap'); }, 650);
+    var im = (e.target && e.target.closest) ? e.target.closest('.pimg') : null;
+    if (!im) return;
+    im.classList.add('is-tap');
+    clearTimeout(im._tapaP);
+    im._tapaP = setTimeout(function () { im.classList.remove('is-tap'); }, 600);
   }, { passive: true });
   document.addEventListener('input', function (e) {
     var inp = e.target;

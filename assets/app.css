@@ -1028,72 +1028,32 @@ h1,h2,h3,h4{
 }
 
 /* ============================================================================
-   [2026-09-22] Sección "Míralo de cerca" — tarjetas de la ficha de producto
+   [2026-09-22] La foto de la tarjeta de producto crece al pasar el cursor o el dedo
 
-   Réplica del patrón del video de referencia: foto a sangre, etiqueta blanca en
-   negrita abajo a la izquierda sobre un degradado oscuro, y botón circular blanco
-   con flecha abajo a la derecha.
+   Es el efecto del video de referencia, aplicado donde se pidió: a la foto de la
+   tarjeta del catálogo. Un solo cambio cubre los dos sitios, porque el catálogo y
+   la sección "Destacados de la semana" se pintan con la misma tarjeta:
+       gridHtml() -> prodCard() -> <article class="pcard"><div class="pimg"><img>
 
-   El degradado no es decorativo: en este catálogo las fotos son collages de
-   proveedor con texto ya impreso, y sin él la etiqueta se perdería sobre las
-   zonas claras. Va del 58% de la altura hacia abajo para tapar también el texto
-   que muchas fotos llevan abajo.
+   Cómo funciona en cada dispositivo:
+     con cursor  -> :hover
+     con el dedo -> .is-tap, que se pone al tocar (en el móvil no existe el hover),
+                    más :active mientras se mantiene pulsado
+   Eso es exactamente lo que se pidió: el mismo comportamiento en todos.
 
-   LA ETIQUETA SE MANTIENE BLANCA Y CON PESO 600, no 900: es la misma regla de
-   jerarquía que se aplicó al resto de la app.
+   El marco .pimg ya tiene overflow:hidden y aspect-ratio 1/1, así que el zoom
+   queda recortado dentro de su caja: la foto no se sale ni deforma la tarjeta. Y
+   como las fotos del catálogo ya son cuadradas (103 de 123), el encuadre no cambia.
+
+   No se toca .pcard:active{transform:scale(.985)}, que encoge la tarjeta entera al
+   pulsar: eso es el acuse de recibo y ya funcionaba.
    ============================================================================ */
-.cerca{margin-top:var(--sp-section,64px)}
-.cerca-h{margin:0 0 6px;font-size:clamp(20px,5.2vw,28px)}
-.cerca-s{margin:0 0 16px;color:var(--text-2);font-size:14px;line-height:1.5}
-.cerca-grid{display:grid;grid-template-columns:1fr;gap:12px}
-@media(min-width:620px){.cerca-grid{grid-template-columns:repeat(2,1fr);gap:14px}}
-@media(min-width:900px){.cerca-grid{grid-template-columns:repeat(3,1fr);gap:16px}}
-.cerca-c{
-  position:relative;display:block;width:100%;padding:0;border:0;
-  background:#0b0e13;border-radius:18px;overflow:hidden;cursor:pointer;
-  aspect-ratio:1/1;text-align:left;font:inherit;color:#fff;
-  box-shadow:0 10px 28px rgba(0,0,0,.28);
-}
-.cerca-c img{
-  width:100%;height:100%;object-fit:cover;display:block;
-  transform:scale(1.001);
-  transition:transform .55s cubic-bezier(.2,.7,.2,1),filter .35s ease;
-}
-.cerca-g{position:absolute;left:0;right:0;bottom:0;height:58%;pointer-events:none;
-  background:linear-gradient(to top,rgba(4,8,12,.93) 0%,rgba(4,8,12,.6) 42%,rgba(4,8,12,0) 100%)}
-.cerca-l{position:absolute;left:16px;right:62px;bottom:15px;color:#fff;
-  font-weight:var(--fw-label,600);font-size:clamp(14px,3.6vw,18px);letter-spacing:var(--ls-head,-.015em);
-  line-height:1.22;text-shadow:0 1px 10px rgba(0,0,0,.55)}
-.cerca-a{position:absolute;right:14px;bottom:13px;display:grid;place-items:center;
-  width:38px;height:38px;border-radius:50%;background:#fff;color:#0b0e13;
-  box-shadow:0 4px 16px rgba(0,0,0,.4);transition:transform .35s ease}
-.cerca-c:active .cerca-a,.cerca-c.is-tap .cerca-a{transform:translateX(3px)}
-
-/* El efecto: crece y se oscurece. Con cursor... */
+.pimg img{transition:transform .5s cubic-bezier(.2,.7,.2,1),filter .3s ease}
 @media(hover:hover){
-  .cerca-c:hover img{transform:scale(1.07);filter:brightness(.9)}
+  .pimg:hover img{transform:scale(1.07);filter:brightness(.92)}
 }
-/* ...y con el dedo, que es lo que se pidió que también funcionara. */
-.cerca-c:active img,.cerca-c.is-tap img{transform:scale(1.07);filter:brightness(.9)}
-.cerca-c:focus-visible{outline:2px solid var(--action);outline-offset:3px}
+.pcard:active .pimg img,.pimg.is-tap img{transform:scale(1.07);filter:brightness(.92)}
 @media(prefers-reduced-motion:reduce){
-  .cerca-c img{transition:none}
-  .cerca-c:active img,.cerca-c.is-tap img{transform:none}
+  .pimg img{transition:none}
+  .pcard:active .pimg img,.pimg.is-tap img{transform:none;filter:none}
 }
-
-/* ============================================================================
-   [2026-09-22] Por qué la tarjeta es cuadrada y no 4:3
-
-   Medido sobre las 123 fotos del catálogo: 103 (el 84%) son cuadradas — las
-   resoluciones más repetidas son 816x816, 1024x1024 y 1000x1000. Como la foto se
-   recorta con object-fit:cover, la proporción de la tarjeta decide cuánto se
-   pierde de cada imagen:
-
-     tarjeta 4:3  ->  recorte medio del 24,0% de la foto
-     tarjeta 1:1  ->  recorte medio del  3,3%
-     tarjeta 3:4  ->  recorte medio del 26,4%
-
-   Con 4:3 se comía un cuarto de cada foto, y en las que llevan titular impreso
-   arriba (el proyector, por ejemplo) ese titular quedaba cortado por la mitad.
-   Cuadrada, la foto entra prácticamente entera.
-   ============================================================================ */
