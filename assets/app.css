@@ -1051,7 +1051,7 @@ h1,h2,h3,h4{
 .cerca-c{
   position:relative;display:block;width:100%;padding:0;border:0;
   background:#0b0e13;border-radius:18px;overflow:hidden;cursor:pointer;
-  aspect-ratio:4/3;text-align:left;font:inherit;color:#fff;
+  aspect-ratio:1/1;text-align:left;font:inherit;color:#fff;
   box-shadow:0 10px 28px rgba(0,0,0,.28);
 }
 .cerca-c img{
@@ -1080,3 +1080,20 @@ h1,h2,h3,h4{
   .cerca-c img{transition:none}
   .cerca-c:active img,.cerca-c.is-tap img{transform:none}
 }
+
+/* ============================================================================
+   [2026-09-22] Por qué la tarjeta es cuadrada y no 4:3
+
+   Medido sobre las 123 fotos del catálogo: 103 (el 84%) son cuadradas — las
+   resoluciones más repetidas son 816x816, 1024x1024 y 1000x1000. Como la foto se
+   recorta con object-fit:cover, la proporción de la tarjeta decide cuánto se
+   pierde de cada imagen:
+
+     tarjeta 4:3  ->  recorte medio del 24,0% de la foto
+     tarjeta 1:1  ->  recorte medio del  3,3%
+     tarjeta 3:4  ->  recorte medio del 26,4%
+
+   Con 4:3 se comía un cuarto de cada foto, y en las que llevan titular impreso
+   arriba (el proyector, por ejemplo) ese titular quedaba cortado por la mitad.
+   Cuadrada, la foto entra prácticamente entera.
+   ============================================================================ */
