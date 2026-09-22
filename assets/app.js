@@ -22,8 +22,9 @@
     pixelId: '1544591750238444',           // Píxel de Meta oficial "Píxel de vortexgadgets" (corregido 09/09/2026: apuntaba al ajeno 1724390862126477)
     ttPixelId: 'DACQKEJC77U4RNF8JLTG',     // Píxel de TikTok "Vortex Gadgets App"
     couponCode: 'VORTEX10',                // cupón 10 % extra
-    couponPct: 10,
-    flashMinutes: 15                       // duración del contador flash
+    couponPct: 10
+    /* [2026-09-22] Se quito flashMinutes: era la duracion del contador flash falso.
+       El contador contaba 15 minutos y, al llegar a cero, volvia a empezar. */
   };
 
   /* ---------- Utilidades ---------- */
@@ -262,30 +263,6 @@
       .then(function (j) { state.pruebaSocial = j || null; })
       .catch(function () { state.pruebaSocial = null; });
   }
-  function flashEnd() {
-    var k = 'vx_flash_end';
-    var t = Number(sessionStorage.getItem(k));
-    if (!t || t < Date.now()) { t = Date.now() + CONFIG.flashMinutes * 60000; sessionStorage.setItem(k, t); }
-    return t;
-  }
-  function fmtClock(ms) {
-    if (ms < 0) ms = 0;
-    var s = Math.floor(ms / 1000), h = Math.floor(s / 3600);
-    s %= 3600;
-    var m = Math.floor(s / 60); s %= 60;
-    function p(n) { return (n < 10 ? '0' : '') + n; }
-    return p(h) + ':' + p(m) + ':' + p(s);
-  }
-  function tickFlash() {
-    $$('[data-flash]').forEach(function (el) {
-      var end = Number(el.getAttribute('data-end')) || 0;
-      if (end <= 0) end = flashEnd();
-      var rem = end - Date.now();
-      if (rem <= 0) { end = flashEnd(); el.setAttribute('data-end', end); rem = end - Date.now(); }
-      el.textContent = fmtClock(rem);
-    });
-  }
-
   /* ---------- WhatsApp ---------- */
   function waLink(text) { return 'https://wa.me/' + CONFIG.waNumber + '?text=' + encodeURIComponent(text); }
   function productWaText(p, qty) {
@@ -1904,7 +1881,6 @@
   initExitPopup();
   initSocialToast();
   initAnnounce();
-  setInterval(tickFlash, 1000);
   loadData();
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
