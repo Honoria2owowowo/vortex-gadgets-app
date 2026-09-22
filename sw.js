@@ -1,16 +1,16 @@
 ﻿/* Service Worker â€” VÃ“RTEX Gadgets PWA */
-const VERSION = 'vortex-app-v66';
+const VERSION = 'vortex-app-v67';
 const PRECACHE = [
   './',
   'index.html',
   'manifest.json',
-  'assets/app.css?v=66',
-  'assets/app.js?v=66',
+  'assets/app.css?v=67',
+  'assets/app.js?v=67',
   'assets/cod-splash.png',
   'datos-tienda.json',
-  'icons/icon-192.png',
-  'icons/icon-512.png',
-  'icons/maskable-512.png'
+  'icons/icon-192-v2.png',
+  'icons/icon-512-v2.png',
+  'icons/maskable-512-v2.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -133,8 +133,8 @@ self.addEventListener('push', (event) => {
 
   event.waitUntil(self.registration.showNotification(aviso.title, {
     body: aviso.body,
-    icon: 'icons/icon-192.png',
-    badge: 'icons/icon-192.png',
+    icon: 'icons/icon-192-v2.png',
+    badge: 'icons/icon-192-v2.png',
     /* requireInteraction: el aviso de una VENTA no debe borrarse solo. Se queda en
        pantalla hasta que el dueno lo vea. Justo lo contrario de una notificacion
        cualquiera, que desaparece en segundos. */
