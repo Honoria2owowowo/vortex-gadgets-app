@@ -338,10 +338,26 @@
       '<div class="tst-stars">' + tstStars(Number(t.estrellas) || 5) + '</div>' +
       (t.titulo ? '<div class="tst-tit">' + esc(t.titulo) + '</div>' : '') +
       '<blockquote class="tst-txt">' + esc(t.texto) + '</blockquote>' +
+      /* [2026-09-22] La foto que mando el cliente. Es opcional: una resena sin
+         foto se ve igual de bien. Se marca como "foto del cliente" para que
+         quede claro que no es material de la tienda. */
+      (t.foto
+        ? '<figure class="tst-foto"><img src="' + esc(t.foto) + '" alt="Foto enviada por ' + esc(t.nombre) + '" loading="lazy" decoding="async"><figcaption>Foto del cliente</figcaption></figure>'
+        : '') +
       '</figure>';
   }
-  function vTestimonios() {
+  /* [2026-09-22] Que resenas van en cada sitio:
+       - una resena CON "producto" solo sale en la ficha de ese producto
+       - una resena SIN "producto" sale en todas las fichas y en el inicio
+     Asi una resena del proyector no aparece dando a entender que es del
+     enfriador de aire. */
+  function tstDeProducto(handle) {
     var ts = state.testimonios || [];
+    if (!handle) return ts;
+    return ts.filter(function (t) { return !t.producto || t.producto === handle; });
+  }
+  function vTestimonios(handle) {
+    var ts = tstDeProducto(handle);
     if (!ts.length) return '';
     var suma = 0;
     ts.forEach(function (t) { suma += Number(t.estrellas) || 0; });
@@ -349,7 +365,9 @@
     var tarjetas = ts.map(tstCard).join('');
     return '<section class="tst">' +
       '<div class="tst-head">' +
-      '<h2>Reseñas de clientes</h2>' +
+      /* En la ficha el titular NO dice "de este producto": son clientes de la
+         tienda. Afirmar que la resena es de ese producto seria inventar. */
+      '<h2>' + (handle ? 'Lo que dicen nuestros clientes' : 'Reseñas de clientes') + '</h2>' +
       '<div class="tst-score"><b>' + media + '</b>' +
       '<span class="tst-stars">' + tstStars(Math.round(suma / ts.length)) + '</span>' +
       '<small>(' + ts.length + (ts.length === 1 ? ' reseña' : ' reseñas') + ' de compra verificada)</small>' +
@@ -560,6 +578,10 @@
       '<div class="acc-b">Todos nuestros productos tienen garantía de funcionamiento. Si algo llega dañado o no funciona, te lo cambiamos o devolvemos tu dinero. Escríbenos por WhatsApp y te atendemos.</div>' +
       '</div>' +
       '</div></div>' +
+      /* [2026-09-22] Las resenas tambien en la ficha, que es donde decide el
+         cliente. Si la lista esta vacia, vTestimonios devuelve '' y no se ve
+         nada: nunca hay un bloque vacio. */
+      vTestimonios(p.handle) +
       /* barra fija móvil */
       (p.available
         ? '<div class="buybar">' +

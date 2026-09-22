@@ -1057,3 +1057,12 @@ h1,h2,h3,h4{
   .pimg img{transition:none}
   .pcard:active .pimg img,.pimg.is-tap img{transform:none;filter:none}
 }
+
+/* [2026-09-22] La foto que manda el cliente en una resena.
+   object-fit:cover con altura fija para que todas las tarjetas de la tira midan
+   lo mismo, manda la foto que manda (vertical, cuadrada o panoramica). */
+.tst-foto{margin:10px 0 0}
+.tst-foto img{width:100%;height:140px;object-fit:cover;border-radius:10px;
+  border:1px solid var(--line);display:block;background:#0A0E13}
+.tst-foto figcaption{margin-top:5px;font-size:10.5px;color:var(--muted);letter-spacing:.2px}
+@media(max-width:420px){ .tst-card{flex:0 0 232px} .tst-foto img{height:124px} }

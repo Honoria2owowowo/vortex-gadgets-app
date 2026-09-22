@@ -7,7 +7,9 @@
     "titulo": "Opcional: titular corto",
     "texto": "Lo que escribio el cliente, textual o resumido",
     "fecha": "2026-09-15",
-    "verificado": true
+    "verificado": true,
+    "foto": "OPCIONAL: enlace a la foto que mando el cliente (dejalo fuera si no mando ninguna)",
+    "producto": "OPCIONAL: identificador del producto si la resena es de uno concreto. Si no lo pones, la resena sale en TODAS las fichas"
   },
   "testimonios": []
 }
