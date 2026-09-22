@@ -960,3 +960,28 @@ h1,h2,h3,h4{
 }
 .hero-eyebrow,.hero-brand{letter-spacing:var(--ls-label)!important;font-weight:var(--fw-label)!important}
 .seg-h{letter-spacing:var(--ls-display)!important;font-weight:var(--fw-head)!important}
+
+/* ============================================================================
+   [2026-09-22] Buscador y carrito pegados a la derecha (móvil)
+
+   Cómo estaba: .topbar-in es una fila flex con gap:6px y ningún margen
+   automático, así que los cuatro elementos se apilaban desde la izquierda:
+   hamburguesa → marca → lupa → carrito. La lupa y el carrito quedaban pegados
+   detrás de "VÓRTEX Gadgets" y sobraba un hueco muerto a la derecha.
+
+   Cómo queda: el margen automático de la lupa empuja TODO el grupo derecho
+   (lupa + carrito) contra el borde, y la marca se queda a la izquierda. El
+   relleno derecho de la barra (12px) hace que el carrito termine alineado con
+   la hamburguesa del otro lado: la barra queda simétrica.
+
+   Es el mismo patrón que ya se usa unas líneas más arriba en este archivo:
+   .hb-right{flex:0 0 auto;margin-left:auto}
+
+   Se añaden 4px de aire entre la lupa y el carrito (6 del gap + 4 = 10px), que
+   es lo que se veía apretado en la captura. Y min-width:0 en la marca es una
+   válvula de seguridad para pantallas muy estrechas: deja que el texto ceda
+   antes de empujar los iconos fuera de la pantalla.
+   ============================================================================ */
+.topbar-in #btnSearch{margin-left:auto}
+.topbar-in a[aria-label="Carrito"]{margin-left:4px}
+.topbar-in .brand{min-width:0}
