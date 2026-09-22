@@ -1104,3 +1104,8 @@ h1,h2,h3,h4{
 @media (prefers-reduced-motion: reduce) {
   .brand-v { animation: none !important; box-shadow: 0 0 14px rgba(0,166,166,.45); }
 }
+
+/* [2026-09-22] Quién vende, en la ficha de producto. Va justo encima del bloque de
+   garantías, que es donde el comprador decide si da su cédula y su dirección. */
+.quien-vende{margin:12px 0 0;font-size:13px;color:var(--text-2);line-height:1.5}
+.quien-vende b{color:var(--text);font-weight:var(--fw-label,600)}
