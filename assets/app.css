@@ -1013,3 +1013,16 @@ h1,h2,h3,h4{
   .topbar-in .brand-t{font-size:13px}
   .topbar-in .brand-t b{font-size:14px;letter-spacing:.2px}
 }
+
+/* ============================================================================
+   [2026-09-22] La teja de la marca lleva el símbolo alado
+   Antes el glifo era la letra "V" de la fuente (font-size:20px). Ahora es un SVG,
+   así que hay que darle tamaño propio. Se dimensiona por ANCHO, no por alto: el
+   símbolo mide 372x283 (1,31:1, más ancho que alto), así que fijando el ancho a
+   24px queda de 18px de alto y respira dentro de la teja de 34px.
+   fill usa currentColor, así que respeta el color:#04231F que ya tenía la teja.
+   ============================================================================ */
+.brand-v svg{width:24px;height:auto;display:block;overflow:visible}
+@media(max-width:345px){
+  .topbar-in .brand-v svg{width:21px}
+}
