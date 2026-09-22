@@ -928,3 +928,35 @@ h1,h2,h3,h4{
 .dato{display:flex;flex-direction:column;gap:2px}
 .dato .n{font-size:clamp(26px,7vw,40px);font-weight:var(--fw-head);line-height:1;letter-spacing:var(--ls-head);color:#fff}
 .dato .l{font-size:12.5px;color:var(--text-2);letter-spacing:var(--ls-label)}
+
+/* ============================================================================
+   [2026-09-22] UN SOLO COLOR DE ACCIÓN
+   El carrusel tenía 4 colores distintos para la misma acción (uno por
+   diapositiva): naranja, amarillo, blanco y negro. Apple usa un único
+   #0071E3 en el mismo botón píldora, repetido cuatro veces en la página.
+   Se conserva la variante de contorno como acción SECUNDARIA, que es
+   exactamente lo que hace Apple con su enlace "Learn more" al lado del "Buy".
+   Se eligió el teal porque es el único color que separa bien en los cinco
+   fondos que tiene el carrusel (dos fotos, dos claros y uno amarillo).
+   ============================================================================ */
+.btn-hero--orange,.btn-hero--yellow,.btn-hero--white,.btn-hero--dark,.btn-hero--teal{
+  background:var(--action);color:#04231F;
+  border:2px solid rgba(0,0,0,.28);
+  box-shadow:0 6px 18px rgba(0,0,0,.18);
+}
+.btn-hero--outline-white{background:transparent;color:inherit;border:2px solid currentColor;box-shadow:none}
+.btn-hero{font-weight:var(--fw-label);letter-spacing:var(--ls-body)}
+
+/* ============================================================================
+   [2026-09-22] SE APAGAN LAS MAYÚSCULAS QUE QUEDABAN
+   Apple no tiene un solo elemento en mayúsculas en las dos páginas medidas.
+   Aquí quedaban 10, incluido un titular de sección entero (.seg-h) y una
+   línea del carrusel con text-transform puesto en línea. Se sustituye el
+   grito por peso e interletrado.
+   ============================================================================ */
+.hero-text{text-transform:none!important;font-weight:var(--fw-body)!important;letter-spacing:var(--ls-body)!important}
+.hero-eyebrow,.hero-brand,.seg-h,.seg-chip b,.st-badge,.ft-pay,.exit-popup-eyebrow,.hero-chip,.pvendor{
+  text-transform:none!important;
+}
+.hero-eyebrow,.hero-brand{letter-spacing:var(--ls-label)!important;font-weight:var(--fw-label)!important}
+.seg-h{letter-spacing:var(--ls-display)!important;font-weight:var(--fw-head)!important}
