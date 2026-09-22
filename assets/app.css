@@ -817,3 +817,114 @@ a.hb-zone{text-decoration:none}
 .drawer-quien p{margin:0 0 3px}
 .drawer-quien .dq-h{font-weight:800;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:#8A98A6;margin-bottom:6px}
 .drawer-quien a{color:var(--accent)}
+
+/* ============================================================================
+   [2026-09-22] SISTEMA TIPOGRÁFICO Y DE COLOR
+
+   Adaptado de valores MEDIDOS en vivo sobre apple.com y apple.com/iphone-18-pro/
+   (getComputedStyle, viewport 1440). Lo que se copia es el sistema, no los
+   activos: SF Pro se sirve desde apple.com/wss/fonts bajo la licencia de Apple
+   y NO se puede usar ni enlazar desde otra web. Aquí se usa Inter
+   (SIL Open Font License 1.1, uso comercial libre), la sustituta libre más
+   cercana, autoalojada en un solo archivo variable de 47 KB.
+
+   Los cinco hallazgos de Apple que se aplican aquí:
+     1. Titulares en peso 600, no 900. La app venía con 800/900 en todo, que es
+        justo lo que la hacía ver apretada y barata.
+     2. Interletrado NEGATIVO en lo grande: Apple mide -1,2px a 80px (-0,015em)
+        y -0,28px a 56px. Y POSITIVO en las etiquetas pequeñas (+0,231px).
+     3. Interlínea 1,05-1,10 en titulares y 1,47 en párrafo.
+     4. Cero mayúsculas: se rastrearon las dos páginas y hay 0 elementos con
+        text-transform:uppercase. Apple no grita; informa en gris.
+     5. Una sola familia y un solo color de acción. Apple usa #0071E3 en el
+        mismo botón píldora repetido 4 veces; la app mezclaba teal, naranja y
+        verde en botones distintos.
+   ============================================================================ */
+@font-face{
+  font-family:'Inter';
+  font-style:normal;
+  font-weight:100 900;
+  font-display:swap;
+  src:url('fonts/inter-var-latin.woff2') format('woff2');
+}
+
+:root{
+  --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  /* Pesos */
+  --fw-body:400;
+  --fw-label:600;
+  --fw-head:650;
+  --fw-display:700;
+  /* Interlíneas */
+  --lh-display:1.06;
+  --lh-head:1.16;
+  --lh-body:1.5;
+  /* Interletrados */
+  --ls-display:-.022em;
+  --ls-head:-.015em;
+  --ls-body:-.004em;
+  --ls-label:.02em;
+  /* Ritmo vertical: Apple usa 144px por sección; aquí 64-112px, que mantiene
+     el aire sin convertir el catálogo en un scroll infinito en el móvil. */
+  --sp-section:clamp(64px,9vw,112px);
+  /* Colores por FUNCIÓN, no por capricho:
+     --action = todo lo que se pulsa para comprar (un solo color, siempre)
+     --offer  = precios tachados, descuentos y ahorro (semántico, no acción) */
+  --action:#00A6A6;
+  --action-2:#00C9C0;
+  --offer:#FF4D6D;
+  --text-2:#8A97A6;
+  --text-3:#6E7481;
+}
+
+/* --- Texto --- */
+body,button,input,select,textarea{font-family:var(--font);letter-spacing:var(--ls-body)}
+body{font-weight:var(--fw-body);line-height:var(--lh-body)}
+.muted{color:var(--text-2)}
+
+/* --- Titulares: el cambio grande. Peso contenido y letra apretada. --- */
+h1,h2,h3,h4{
+  font-weight:var(--fw-head)!important;
+  letter-spacing:var(--ls-head)!important;
+  line-height:var(--lh-head)!important;
+}
+.hero-heading{
+  font-weight:var(--fw-display)!important;
+  letter-spacing:var(--ls-display)!important;
+  line-height:var(--lh-display)!important;
+}
+.d-title,.d-price,h1.hero-heading{
+  font-weight:var(--fw-head)!important;
+  letter-spacing:var(--ls-head)!important;
+  line-height:var(--lh-head)!important;
+}
+
+/* --- Etiquetas pequeñas: interletrado POSITIVO, en gris, sin gritar.
+       Apple no usa mayúsculas: se apagan aquí y se cambia por peso. --- */
+.pick-h,.drawer-quien .dq-h,.ft-col h4,.ft-news h4{
+  text-transform:none!important;
+  font-weight:var(--fw-label)!important;
+  letter-spacing:var(--ls-label)!important;
+  color:var(--text-2)!important;
+}
+
+/* --- Botones: un solo color de acción en toda la tienda.
+       Antes: teal en el cuerpo y naranja (#F97316) solo en el pie: dos colores
+       distintos para la misma acción. --- */
+.btn{font-weight:var(--fw-label);letter-spacing:var(--ls-body);border-radius:999px}
+.btn-accent{background:var(--action);color:#04231F}
+.ft-btn{background:var(--action);border-color:var(--action);border-radius:999px}
+.btn-wa,.btn-wa2{border-radius:999px}
+
+/* --- El precio: un solo tratamiento, con la cifra mandando. --- */
+.d-price,.price,.card-price b{letter-spacing:var(--ls-head)}
+
+/* --- Ritmo vertical entre bloques de la página. --- */
+.trust-row{gap:10px;margin-top:calc(var(--sp-section) * .22)}
+
+/* --- Cifra grande, el patrón más trasplantable de Apple (48px / peso 600 /
+       interlínea 1,0). En Apple dice "48MP"; aquí dice lo que un comprador
+       contra entrega sí necesita saber. --- */
+.dato{display:flex;flex-direction:column;gap:2px}
+.dato .n{font-size:clamp(26px,7vw,40px);font-weight:var(--fw-head);line-height:1;letter-spacing:var(--ls-head);color:#fff}
+.dato .l{font-size:12.5px;color:var(--text-2);letter-spacing:var(--ls-label)}

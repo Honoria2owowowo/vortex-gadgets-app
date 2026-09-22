@@ -37,7 +37,10 @@
   <meta name="mobile-web-app-capable" content="yes">
   <!-- AL DESPLEGAR: sube el ?v= de app.css y app.js aqui y la VERSION de sw.js.
        Asi ninguna cache vieja puede servir el codigo anterior. -->
-  <link rel="stylesheet" href="assets/app.css?v=60">
+  <!-- Inter autoalojada (SIL OFL 1.1). Se precarga porque el 73% del trafico
+       entra desde el anuncio en el movil y el cambio de fuente se notaba. -->
+  <link rel="preload" href="assets/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/app.css?v=61">
   <style>
     /* [2026-09-18] La bienvenida se ACORTO. Antes bloqueaba la vista 4,6 s mas 0,6 de
        desvanecido: casi 5,2 s antes de poder ver un producto, y quien llega de un
