@@ -1109,3 +1109,49 @@ h1,h2,h3,h4{
    garantías, que es donde el comprador decide si da su cédula y su dirección. */
 .quien-vende{margin:12px 0 0;font-size:13px;color:var(--text-2);line-height:1.5}
 .quien-vende b{color:var(--text);font-weight:var(--fw-label,600)}
+
+/* ============================================================================
+   [2026-09-22] LEGIBILIDAD DEL TEXTO DEL CARRUSEL SOBRE LA FOTO
+
+   Medido en la captura del usuario con la razón de contraste de la norma WCAG
+   (mínimo 4,5:1 para texto normal):
+
+       titular grande ......... 11,17:1   OK
+       párrafo ................. 3,54:1   NO CUMPLE
+       letra pequeña ........... 3,03:1   NO CUMPLE
+
+   La causa: las diapositivas llevan <div class="hero-slide-overlay"> pero el CSS
+   del velo exige el modificador --dark o --light para pintar, y ninguna lo
+   llevaba. El velo se quedaba sin fondo y el texto caía sobre la foto tal cual.
+   Ya está asignado por diapositiva (arreglado en app.js).
+
+   Y esto remata el trabajo:
+     - en móvil el velo oscuro iba del 92% al 5% a los 70% de la altura, justo
+       donde están el párrafo y la letra pequeña: se apagaba en el peor sitio
+     - la letra pequeña llevaba opacity .65
+     - ahora el texto va sólido y con sombra, que garantiza el contraste letra
+       por letra sobre CUALQUIER foto sin oscurecer la imagen entera
+   Las sombras van SOLO en las diapositivas oscuras: la 3 tiene texto oscuro con
+   sombra blanca en línea, y una sombra oscura la empeoraría.
+   ============================================================================ */
+.hero-slide--dark .hero-heading{text-shadow:0 1px 4px rgba(0,0,0,.75), 0 0 20px rgba(0,0,0,.5)}
+.hero-slide--dark .hero-text{opacity:1!important;text-shadow:0 1px 3px rgba(0,0,0,.9), 0 0 12px rgba(0,0,0,.6)}
+.hero-slide--dark .hero-fineprint{opacity:.92!important;text-shadow:0 1px 3px rgba(0,0,0,.9), 0 0 10px rgba(0,0,0,.65)}
+.hero-slide--dark .hero-eyebrow,.hero-slide--dark .hero-brand{text-shadow:0 1px 3px rgba(0,0,0,.8)}
+@media(max-width:520px){
+  .hero-slide--dark .hero-slide-overlay{
+    background:linear-gradient(180deg, rgba(10,12,16,.94) 0%, rgba(10,12,16,.88) 42%, rgba(10,12,16,.8) 74%, rgba(10,12,16,.62) 100%);
+  }
+}
+
+/* El contador del corte de despacho, encima del botón de compra. */
+.hero-corte{
+  display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;
+  margin-top:12px;padding:8px 15px;border-radius:999px;
+  background:rgba(4,10,14,.72);border:1px solid rgba(76,224,214,.45);
+  color:#E8F6F5;font-size:13px;line-height:1.3;
+  backdrop-filter:blur(3px);
+}
+.hero-corte b{color:#7BE9E0;font-weight:var(--fw-head,650)}
+.hero-corte .hc-reloj{font-variant-numeric:tabular-nums;letter-spacing:.03em}
+@media(max-width:520px){ .hero-corte{font-size:12.5px;padding:7px 13px} }

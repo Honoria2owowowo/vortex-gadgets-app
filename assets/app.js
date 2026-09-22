@@ -237,8 +237,9 @@
   function iniciarReloj() {
     if (window.__relojUrg) return;
     window.__relojUrg = setInterval(function () {
+      try { pintarCortes(); } catch (e) {}
       var els = document.querySelectorAll('[data-cierra]');
-      if (!els.length) { return; }
+      if (!els.length) { return; }   /* el corte lo mueve pintarCortes(), que va arriba */
       var fin = Date.parse(els[0].getAttribute('data-cierra'));
       if (isNaN(fin)) { return; }
       var ms = fin - Date.now();
@@ -1287,11 +1288,11 @@
 
   /* ---------- Carrusel del hero (migrado de la tienda vortexgadgets.com.co) ---------- */
   var HERO_SLIDES = [
-    { mod: "", style: "",
-      content: "<div class=\"hero-slide-media\">\n        <picture>\n          <source media=\"(max-width: 900px)\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-mobile.png?v=1789770031\">\n          <img src=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035&width=640 640w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035&width=960 960w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035&width=1280 1280w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035&width=1920 1920w\" sizes=\"100vw\" alt=\"Audífonos M10\" loading=\"eager\" fetchpriority=\"high\">\n        </picture>\n      </div>\n      <div class=\"hero-slide-overlay\"></div>\n      <div class=\"hero-slide-content\">\n        <p class=\"hero-eyebrow\">OFERTA DE LANZAMIENTO · AUDÍFONOS M10 -26%</p>\n        <h1 class=\"hero-heading\">Audífonos Bluetooth M10: sonido premium, 24 h de batería y estuche de carga. Pagas cuando los tengas en tus manos.</h1>\n        <p class=\"hero-text\">Bluetooth 10 m · controles táctiles. Envío GRATIS a toda Colombia y 5 días de retracto: si no te encantan, te devolvemos tu dinero.</p>\n        <div class=\"hero-actions\">\n          <a class=\"btn-hero btn-hero--orange\" href=\"#/producto/auda-fonos-bluetooth-inala-mbricos-m10-a-sonido-premium-con-estuche-de-carga\">COMPRAR AHORA CON ENVÍO GRATIS — [[P:auda-fonos-bluetooth-inala-mbricos-m10-a-sonido-premium-con-estuche-de-carga|$77.700]]</a>\n          <a class=\"btn-hero btn-hero--outline-white\" href=\"#/catalogo\">Ver todo</a>\n        </div>\n        <p class=\"hero-fineprint hero-fineprint--urg\">Precio de lanzamiento · Envío GRATIS a toda Colombia · Llega en 3 a 4 días hábiles · +10 % extra con el código VORTEX10</p>\n      </div>" },
-    { mod: "", style: "",
+    { mod: "hero-slide--dark", style: "",
+      content: "<div class=\"hero-slide-media\">\n        <picture>\n          <source media=\"(max-width: 900px)\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-mobile.png?v=1789770031\">\n          <img src=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035&width=640 640w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035&width=960 960w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035&width=1280 1280w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035&width=1920 1920w\" sizes=\"100vw\" alt=\"Audífonos M10\" loading=\"eager\" fetchpriority=\"high\">\n        </picture>\n      </div>\n      <div class=\"hero-slide-overlay\"></div>\n      <div class=\"hero-slide-content\">\n        <p class=\"hero-eyebrow\">OFERTA DE LANZAMIENTO · AUDÍFONOS M10 -26%</p>\n        <h1 class=\"hero-heading\">Audífonos Bluetooth M10: sonido premium, 24 h de batería y estuche de carga. Pagas cuando los tengas en tus manos.</h1>\n        <p class=\"hero-text\">Bluetooth 10 m · controles táctiles. Envío GRATIS a toda Colombia y 5 días de retracto: si no te encantan, te devolvemos tu dinero.</p>\n        <div class=\"hero-actions\">\n          <a class=\"btn-hero btn-hero--orange\" href=\"#/producto/auda-fonos-bluetooth-inala-mbricos-m10-a-sonido-premium-con-estuche-de-carga\">COMPRAR AHORA CON ENVÍO GRATIS — [[P:auda-fonos-bluetooth-inala-mbricos-m10-a-sonido-premium-con-estuche-de-carga|$77.700]]</a>\n          <a class=\"btn-hero btn-hero--outline-white\" href=\"#/catalogo\">Ver todo</a>\n        </div>\n        [[CORTE]]\n        <p class=\"hero-fineprint hero-fineprint--urg\">Precio de lanzamiento · Envío GRATIS a toda Colombia · Llega en 3 a 4 días hábiles · +10 % extra con el código VORTEX10</p>\n      </div>" },
+    { mod: "hero-slide--dark", style: "",
       content: "<div class=\"hero-slide-media\">\n        <picture>\n          <source media=\"(max-width: 900px)\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold-mobile.png?v=76911661388189351661788233787\">\n          <img src=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold.png?v=180299142012676739271788230321\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold.png?v=180299142012676739271788230321&width=640 640w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold.png?v=180299142012676739271788230321&width=960 960w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold.png?v=180299142012676739271788230321&width=1280 1280w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold.png?v=180299142012676739271788230321&width=1920 1920w\" sizes=\"100vw\" alt=\"VÓRTEX: tu energía diaria\" loading=\"lazy\">\n        </picture>\n      </div>\n      <div class=\"hero-slide-overlay\"></div>\n      <div class=\"hero-slide-content\">\n        <p class=\"hero-brand\">VÓRTEX GADGETS</p>\n        <h1 class=\"hero-heading\">El sonido <span class=\"accent\">anti-pereza</span> que despierta tu energía</h1>\n        <p class=\"hero-text\">Diseñado para darte foco, energía y motivación en cada nota. Tu mejor versión empieza con un play.</p>\n        <div class=\"hero-guarantee\">\n          <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3z\"/><path d=\"m9 12 2 2 4-4\"/></svg>\n          5 días de retracto: si no te encanta, te devolvemos tu dinero\n        </div>\n        <div class=\"hero-actions\">\n          <a class=\"btn-hero btn-hero--yellow\" href=\"#/catalogo\">Quiero el mío</a>\n          <a class=\"btn-hero btn-hero--outline-white\" href=\"#/como-comprar\">Ver garantía</a>\n        </div>\n      </div>" },
-    { mod: "", style: "",
+    { mod: "hero-slide--light", style: "",
       content: "<div class=\"hero-slide-media\">\n        <picture>\n          <source media=\"(max-width: 900px)\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box-mobile.png?v=145853460823946795501788233790\">\n          <img src=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box.png?v=126154574519817888841788230324\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box.png?v=126154574519817888841788230324&width=640 640w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box.png?v=126154574519817888841788230324&width=960 960w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box.png?v=126154574519817888841788230324&width=1280 1280w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-ml-box.png?v=126154574519817888841788230324&width=1920 1920w\" sizes=\"100vw\" alt=\"Ofertas exclusivas VÓRTEX\" loading=\"lazy\" style=\"filter: contrast(1.14) saturate(1.1);\">\n        </picture>\n      </div>\n      <div class=\"hero-slide-overlay\"></div>\n      <div class=\"hero-slide-content\">\n        <p class=\"hero-eyebrow\" style=\"border-color: rgba(0,0,0,.5); color: #111; background: rgba(255,255,255,.85);\">Exclusivo para ti</p>\n        <h1 class=\"hero-heading\" style=\"color: #0b0e13; text-shadow: 0 1px 3px rgba(255,255,255,.65);\">Tu primera compra con <span class=\"accent\" style=\"color:#ff6b2b;\">ofertas únicas</span></h1>\n        <p class=\"hero-text\" style=\"color: #111; font-weight: 500; text-shadow: 0 1px 2px rgba(255,255,255,.7);\">Gadgets seleccionados para empezar con todo. Aprovecha tu cupón de bienvenida.</p>\n        <div class=\"hero-actions\">\n          <a class=\"btn-hero btn-hero--yellow\" href=\"#/catalogo\">ENVÍO GRATIS</a>\n          <a class=\"btn-hero btn-hero--white\" href=\"#/catalogo\">10 % EXTRA</a>\n        </div>\n      </div>" },
     { mod: "", style: "background:#ffe600;",
       content: "<div class=\"hero-slide-overlay\" style=\"background:linear-gradient(100deg, #ffe600 40%, #ffd21f 75%, #ffce2e 100%);\"></div>\n      <div class=\"hero-slide-content\" style=\"color:#111;\">\n        <div class=\"hero-cols\">\n          <div class=\"hero-col\">\n            <div class=\"hero-badge-dark\">Nuevo<span>Mini Proyector HY320</span></div>\n            <h1 class=\"hero-heading\">Tu cine en casa: <span class=\"accent\" style=\"color:#111; text-decoration:underline; text-decoration-color:#ff6b2b; text-underline-offset:6px;\">las apps adentro</span> y 4K soportado</h1>\n            <div class=\"hero-pills\">\n              <span class=\"hero-pill\">SOPORTE 4K</span>\n              <span class=\"hero-pill-plus\">+</span>\n              <span class=\"hero-pill\">IMAGEN LED</span>\n            </div>\n            <p class=\"hero-text\" style=\"max-width:560px\">Sin caja, sin consola y sin computador de por medio.</p>\n            <div class=\"hero-actions\">\n              <a class=\"btn-hero btn-hero--dark\" href=\"#/producto/mini-proyector-portatil-hy320-android-tv-13-1080p-soporte-4k\">Ver el proyector — [[P:mini-proyector-portatil-hy320-android-tv-13-1080p-soporte-4k|$259.900]]</a>\n            </div>\n          </div>\n          <div class=\"hero-prod\">\n            <div class=\"hero-prod-img\"><img src=\"https://cdn.shopify.com/s/files/1/0828/1178/1371/files/proyector-3.png?v=1788581390\" alt=\"Mini Proyector HY320\" loading=\"lazy\"></div>\n            <div class=\"hero-prod-tag\">[[O:mini-proyector-portatil-hy320-android-tv-13-1080p-soporte-4k|-28 % · <s>$359.900</s> · Ahorras $100.000]]</div>\n          </div>\n        </div>\n      </div>" },
@@ -1309,7 +1310,42 @@
     }
     return null;
   }
+  /* [2026-09-22] Contador del corte de despacho del dia.
+     No es una fecha limite inventada: es la hora real a la que cierra el despacho.
+     Cuenta hacia el corte de HOY y, si ya paso, hacia el de manana, y lo dice. */
+  function reloj12(hh, mm) {
+    var s = hh < 12 ? 'a.m.' : 'p.m.';
+    var h = hh % 12; if (h === 0) h = 12;
+    return h + ':' + p2(mm) + ' ' + s;
+  }
+  function htmlCorte() {
+    var c = state.pruebaSocial || {};
+    var v = String(c.corte_despacho || '');
+    if (!/^\d{1,2}:\d{2}$/.test(v)) return '';
+    return '<div class="hero-corte" data-corte="' + esc(v) + '">…</div>';
+  }
+  function pintarCortes() {
+    var els = document.querySelectorAll('[data-corte]');
+    for (var i = 0; i < els.length; i++) {
+      var p = String(els[i].getAttribute('data-corte')).split(':');
+      var hh = parseInt(p[0], 10), mm = parseInt(p[1], 10);
+      if (isNaN(hh) || isNaN(mm)) continue;
+      var ahora = new Date();
+      var fin = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate(), hh, mm, 0, 0);
+      var hoy = fin.getTime() > ahora.getTime();
+      if (!hoy) fin.setDate(fin.getDate() + 1);
+      var ms = fin.getTime() - ahora.getTime();
+      var s = Math.floor(ms / 1000);
+      var reloj = p2(Math.floor(s / 3600)) + ':' + p2(Math.floor(s % 3600 / 60)) + ':' + p2(s % 60);
+      els[i].innerHTML = (hoy
+        ? 'Pide antes de las ' + reloj12(hh, mm) + ' y tu pedido <b>sale hoy</b>'
+        : 'Ya cerró el despacho de hoy: tu pedido <b>sale en el siguiente</b>') +
+        ' <b class="hc-reloj">' + reloj + '</b>';
+    }
+  }
+
   function heroPreciosVivos(html) {
+    html = html.split('[[CORTE]]').join(htmlCorte());
     return html.replace(/\[\[([PO]):([^|\]]+)\|([^\]]*)\]\]/g, function (m, tipo, h, respaldo) {
       var p = productoPorHandle(h);
       if (!p) return respaldo;

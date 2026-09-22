@@ -4,10 +4,12 @@
     "pedidos_entregados": "Tu numero REAL de pedidos entregados (del gestor o de Dropi). null = no se muestra.",
     "media": "Nota media SOLO si tienes resenas reales. Se ignorara mientras 'resenas' sea 0 o null.",
     "resenas": "Numero REAL de resenas que has recogido. Sin esto, la nota no se dibuja nunca.",
-    "cierra_el": "OPCIONAL. Fecha y hora REAL en que termina tu promocion, ej 2026-09-30T23:59:00-05:00. El contador cuenta hacia esa fecha y al llegar dice que termino. null = sin contador."
+    "cierra_el": "OPCIONAL. Fecha y hora REAL en que termina tu promocion, ej 2026-09-30T23:59:00-05:00. El contador cuenta hacia esa fecha y al llegar dice que termino. null = sin contador.",
+    "corte_despacho": "OPCIONAL. La HORA REAL a la que cierra tu despacho del dia, formato 24h, ej \"16:00\". Sale un contador encima del boton de compra: 'Pide antes de las 4:00 p.m. y tu pedido sale hoy'. Si ya paso el corte, dice que sale en el siguiente. null = no se muestra."
   },
   "pedidos_entregados": null,
   "media": null,
   "resenas": null,
-  "cierra_el": null
+  "cierra_el": null,
+  "corte_despacho": null
 }
