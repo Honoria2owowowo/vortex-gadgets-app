@@ -985,3 +985,31 @@ h1,h2,h3,h4{
 .topbar-in #btnSearch{margin-left:auto}
 .topbar-in a[aria-label="Carrito"]{margin-left:4px}
 .topbar-in .brand{min-width:0}
+
+/* ============================================================================
+   [2026-09-22] Barra superior: cierre de los dos casos que quedaron abiertos
+
+   v64 empujó la lupa y el carrito a la derecha con margin-left:auto, y eso
+   funciona desde 360px. Pero al medirlo aparecieron dos estrecheces:
+
+   a) El aire de 4px entre lupa y carrito se descontaba de la marca cuando la
+      fila iba justa. Aquí se limita a las pantallas donde sobra espacio.
+   b) Por debajo de 345px la fila no cabía: medido a 320px, la marca se
+      comprimía de 175px a 157px (el nombre se partía en dos líneas) y el margen
+      automático de la lupa se quedaba en 0px, es decir los iconos seguían
+      pegados a la marca, que es justo lo que se quería corregir.
+
+   En ese rango se compacta la marca (teja y cuerpo de texto algo menores) para
+   que quepa en UNA línea y sobre espacio real para el empuje a la derecha.
+   ============================================================================ */
+@media(min-width:345px){
+  .topbar-in a[aria-label="Carrito"]{margin-left:4px}
+}
+@media(max-width:345px){
+  .topbar-in a[aria-label="Carrito"]{margin-left:0}
+  .topbar-in{gap:4px}
+  .topbar-in .brand{gap:6px}
+  .topbar-in .brand-v{width:30px;height:30px;font-size:17px;border-radius:9px}
+  .topbar-in .brand-t{font-size:13px}
+  .topbar-in .brand-t b{font-size:14px;letter-spacing:.2px}
+}
