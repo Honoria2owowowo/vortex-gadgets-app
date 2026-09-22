@@ -1603,6 +1603,13 @@
   if (isIOS() && !window.navigator.standalone) $('#iosHint').hidden = false;
 
   window.addEventListener('hashchange', renderRoute);
+  /* [2026-09-22] El silencio por ruta solo evitaba que el aviso APARECIERA. Si
+     ya estaba en pantalla y el cliente entraba al carrito o a la ficha, seguia
+     tapando el boton. Ahora se quita al cambiar de ruta. */
+  window.addEventListener('hashchange', function () {
+    var h = location.hash || '';
+    if (h.indexOf('#/contraentrega') === 0 || h.indexOf('#/carrito') === 0 || h.indexOf('#/producto/') === 0) pararToasts();
+  });
 
   /* ---------- Aviso flotante de actividad ----------
      El contenido es el REAL de la seccion social-proof de la tienda
@@ -1733,6 +1740,9 @@
     }
     function show() {
       if (shown) return;
+      /* [2026-09-22] Nunca en el paso de pago: el popup se abria ENCIMA del
+         formulario contra entrega y se comia el primer toque del cliente. */
+      if ((location.hash || '').indexOf('#/contraentrega') === 0) return;
       shown = true;
       try { sessionStorage.setItem('vortex_exit_shown', '1'); } catch (e) {}
       pop.classList.add('is-open');

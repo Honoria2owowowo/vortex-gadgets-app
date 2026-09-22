@@ -788,19 +788,25 @@ a.hb-zone{text-decoration:none}
 .hero-prod-tag{display:inline-block;background:#111;color:#fff;border-radius:9px;padding:7px 16px;font-size:14.5px;font-weight:900;text-align:center}
 .hero-prod-tag s{opacity:.55;font-weight:700}
 @media (max-width:1100px){.hero-prod{width:min(270px,32vw)}}
-/* En movil (donde entra el trafico del anuncio) la foto va en tira: imagen
-   a la izquierda y la oferta al lado, para no alargar la diapositiva. */
+/* [2026-09-22] En movil (donde entra el trafico del anuncio) el texto va a ANCHO
+   COMPLETO y la foto baja debajo, en tira. Verificado en 390 px: con la foto en
+   la misma fila el titular se partia UNA PALABRA POR LINEA y dejaba media
+   pantalla amarilla vacia. */
 @media (max-width:900px){
-  .hero-cols{gap:14px}
+  .hero-cols{flex-direction:column;align-items:stretch;gap:16px}
+  .hero-col{width:100%}
   .hero-prod{width:100%;max-width:none;margin:0;flex-direction:row;gap:12px;align-items:center}
   .hero-prod-img{width:96px;height:96px;aspect-ratio:auto;flex:0 0 96px;border-radius:14px;border-width:2px}
-  .hero-prod-tag{font-size:12.5px;padding:6px 12px;line-height:1.35}
+  .hero-prod-tag{font-size:12.5px;padding:6px 12px;line-height:1.35;text-align:left}
 }
-@media (max-width:520px){.hero-prod-img{width:78px;height:78px;flex:0 0 78px}}
+@media (max-width:520px){.hero-prod-img{width:82px;height:82px;flex:0 0 82px}}
 
 /* Cerrar el aviso flotante: el aspa medía 19px y era dificil de pulsar. */
-.st-x{min-width:34px;min-height:34px;font-size:21px;top:3px;right:5px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+/* [2026-09-22] El aspa medía 34x34 y en movil lo recomendado son 44x44: era
+   dificil de acertar con el dedo. */
+.st-x{min-width:44px;min-height:44px;font-size:22px;top:2px;right:2px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .st-x:focus-visible{outline:2px solid #8A6A00;outline-offset:2px}
+.social-toast{padding-right:46px}
 
 /* Quien te vende, dentro del menu lateral (antes solo estaba en el pie). */
 .drawer-quien{margin-top:16px;padding:12px 13px;border:1px solid var(--line);border-radius:12px;font-size:12.5px;line-height:1.6;color:#C7D0DA}
