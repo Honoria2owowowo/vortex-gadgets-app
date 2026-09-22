@@ -1080,3 +1080,27 @@ h1,h2,h3,h4{
   background:rgba(0,166,166,.12);border:1px solid rgba(0,166,166,.4);
   font-size:13px;color:var(--text-2)}
 .urg-cont b{color:var(--action);font-weight:var(--fw-head,650);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+
+/* ============================================================================
+   [2026-09-22] La teja de la marca palpita
+
+   Ritmo lento (3,6 s) y amplitud baja a propósito:
+     - más de 3 destellos por segundo es lo que las normas de accesibilidad
+       prohíben, y además se lee como tienda barata
+     - un resplandor suave llama la atención; uno fuerte la espanta
+   El resplandor sube de 12px/35% a 22px/70% y añade un anillo tenue que se
+   expande, que es lo que hace que el ojo lo note sin que parezca un aviso.
+
+   El fondo degradado, el radio y el color NO se tocan: solo el box-shadow.
+   ============================================================================ */
+@keyframes latidoMarca {
+  0%, 100% { box-shadow: 0 0 12px rgba(0,166,166,.35), 0 0 0 0 rgba(0,166,166,.32); }
+  50%      { box-shadow: 0 0 22px rgba(0,166,166,.72), 0 0 0 6px rgba(0,166,166,0); }
+}
+.brand-v { animation: latidoMarca 3.6s ease-in-out infinite; }
+
+/* Quien tenga las animaciones desactivadas ve la teja quieta, con su resplandor
+   de siempre. */
+@media (prefers-reduced-motion: reduce) {
+  .brand-v { animation: none !important; box-shadow: 0 0 14px rgba(0,166,166,.45); }
+}
