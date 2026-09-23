@@ -23,24 +23,78 @@
       "titulo": "Mini Proyector Portátil HY320 — 720p Nativo · Decodifica 1080p y 4K · Apps Instalables",
       "descripcion": "<p>Disfruta una experiencia de <strong>cine en casa</strong> con el proyector HY320: entretenimiento inteligente, conectividad versátil y una imagen LED de 300 lúmenes en un equipo que pesa solo 1,2 kg.</p><ul><li><strong>Resolución nativa 720p (1280 × 720)</strong> y decodifica contenido 1080p y 4K</li><li><strong>Apps instalables:</strong> baja las aplicaciones de streaming directo al proyector, sin cajas ni consolas de por medio</li><li><strong>Rotación de 180°:</strong> proyecta en pared, techo o suelo sin mover muebles</li><li><strong>Corrección trapezoidal vertical automática:</strong> la imagen queda cuadrada sola</li><li><strong>Conectividad:</strong> WiFi, Bluetooth 5.0, HDMI, USB y salida de audio</li><li><strong>Reproduce desde USB</strong> (memoria o disco) sin necesidad de internet</li><li><strong>Lámpara LED de 30.000 horas:</strong> son unos 20 años usándolo 4 horas al día, y no hay que cambiar bombillas</li><li><strong>Espejo de pantalla desde tu celular</strong> (Miracast y AirPlay)</li></ul><p><strong>Incluye:</strong> proyector, control remoto, cable de alimentación y manual de usuario.</p><p><strong>Envío GRATIS a toda Colombia</strong> (3 a 4 días hábiles). <strong>Pagas contra entrega:</strong> en efectivo cuando lo recibes, después de revisarlo. También puedes pagar con tarjeta o PSE desde nuestra tienda web.</p><p><strong>Garantía de 30 días</strong> por fallas de funcionamiento: si algo falla, te lo cambiamos o te devolvemos tu dinero. Además tienes <strong>5 días hábiles de retracto</strong> (Ley 1480 de 2011): si no te convence, lo devuelves y te devolvemos tu dinero. Son dos derechos distintos y los dos aplican.</p>",
       "specs": [
-        { "k": "Resolución nativa", "v": "720p (1280 × 720)" },
-        { "k": "Contenido que reproduce", "v": "1080p y 4K (decodificados)" },
-        { "k": "Brillo", "v": "300 lúmenes ANSI" },
-        { "k": "Tecnología", "v": "LCD con lámpara LED" },
-        { "k": "Contraste", "v": "1.500:1" },
-        { "k": "Vida de la lámpara", "v": "30.000 horas (≈20 años a 4 h al día)" },
-        { "k": "Tamaño de imagen", "v": "Hasta ~2 m de ancho en cuarto oscuro · ~1,3 m con luz ambiente" },
-        { "k": "Distancia de proyección", "v": "1 a 2,5 m según el tamaño que quieras" },
-        { "k": "Rotación", "v": "180° (pared, techo o suelo)" },
-        { "k": "Corrección de imagen", "v": "Trapezoidal vertical automática" },
-        { "k": "Sistema", "v": "Android con apps instalables" },
-        { "k": "Espejo de pantalla", "v": "Miracast y AirPlay" },
-        { "k": "Conexiones", "v": "WiFi · Bluetooth 5.0 · HDMI · USB · salida de audio" },
-        { "k": "Parlante", "v": "3 W integrado" },
-        { "k": "Ruido", "v": "25 dB (casi inaudible)" },
-        { "k": "Consumo", "v": "60 W" },
-        { "k": "Peso", "v": "1,20 kg" },
-        { "k": "Medidas", "v": "21,8 × 10,2 × 4 cm (ancho × fondo × alto)" }
+        {
+          "k": "Resolución nativa",
+          "v": "720p (1280 × 720)"
+        },
+        {
+          "k": "Contenido que reproduce",
+          "v": "1080p y 4K (decodificados)"
+        },
+        {
+          "k": "Brillo",
+          "v": "300 lúmenes ANSI"
+        },
+        {
+          "k": "Tecnología",
+          "v": "LCD con lámpara LED"
+        },
+        {
+          "k": "Contraste",
+          "v": "1.500:1"
+        },
+        {
+          "k": "Vida de la lámpara",
+          "v": "30.000 horas (≈20 años a 4 h al día)"
+        },
+        {
+          "k": "Tamaño de imagen",
+          "v": "Hasta ~2 m de ancho en cuarto oscuro · ~1,3 m con luz ambiente"
+        },
+        {
+          "k": "Distancia de proyección",
+          "v": "1 a 2,5 m según el tamaño que quieras"
+        },
+        {
+          "k": "Rotación",
+          "v": "180° (pared, techo o suelo)"
+        },
+        {
+          "k": "Corrección de imagen",
+          "v": "Trapezoidal vertical automática"
+        },
+        {
+          "k": "Sistema",
+          "v": "Android con apps instalables"
+        },
+        {
+          "k": "Espejo de pantalla",
+          "v": "Miracast y AirPlay"
+        },
+        {
+          "k": "Conexiones",
+          "v": "WiFi · Bluetooth 5.0 · HDMI · USB · salida de audio"
+        },
+        {
+          "k": "Parlante",
+          "v": "3 W integrado"
+        },
+        {
+          "k": "Ruido",
+          "v": "25 dB (casi inaudible)"
+        },
+        {
+          "k": "Consumo",
+          "v": "60 W"
+        },
+        {
+          "k": "Peso",
+          "v": "1,20 kg"
+        },
+        {
+          "k": "Medidas",
+          "v": "21,8 × 10,2 × 4 cm (ancho × fondo × alto)"
+        }
       ],
       "incluye": [
         "Proyector HY320 Mini",
@@ -61,6 +115,1663 @@
         "ProjectorCentral (HY320 Mini): 1280×720 TFT LCD, distancia 1,5 a 3 m",
         "Listados de comercio del HY320 Mini (varios): contenido de la caja, sin pilas"
       ]
+    },
+    "ventilador-de-techo-sankey-con-luz-led-silencioso-y-moderno": {
+      "modelo": "Sankey CM2029FRC (ventilador de techo de 20 pulgadas / 50 cm con luminaria LED y control remoto), identificado por coincidencia con lo que describe la tienda.",
+      "titulo": "Ventilador de Techo Sankey de 20 Pulgadas con Luz LED de 3 Tonos y Control Remoto, 65 W",
+      "descripcion": "<p>Ventilador de techo Sankey con luminaria LED integrada: refresca e ilumina con un solo equipo. La luz tiene 3 tonos —blanco frío, intermedio y cálido— para que pases de luz de trabajo a luz cálida sin cambiar bombillos.</p><ul><li>Motor DC de 1.200 RPM con giro hacia adelante y giro invertido, para usarlo en verano y en invierno</li><li>6 niveles de velocidad y temporizador de hasta 2 horas</li><li>5 aspas y luminaria LED de 3 tonos, todo en un mismo equipo</li><li>Control remoto incluido: velocidad, luz y temporizador desde la cama o el sofá</li><li>65 W, 110 V - 60 Hz</li></ul><p>Su tamaño de 20 pulgadas lo hace ideal para cuartos, estudios, cocinas y pasillos, donde un ventilador grande queda desproporcionado. Se instala fijo en el techo.</p>",
+      "specs": [
+        {
+          "k": "Tipo",
+          "v": "Ventilador de techo con luminaria LED integrada"
+        },
+        {
+          "k": "Diámetro",
+          "v": "20 pulgadas / 50 cm"
+        },
+        {
+          "k": "Potencia",
+          "v": "65 W"
+        },
+        {
+          "k": "Voltaje / frecuencia",
+          "v": "110 V - 60 Hz"
+        },
+        {
+          "k": "Aspas",
+          "v": "5"
+        },
+        {
+          "k": "Niveles de velocidad",
+          "v": "6"
+        },
+        {
+          "k": "Tipo de motor",
+          "v": "Motor DC, 1.200 RPM"
+        },
+        {
+          "k": "Temperatura de color de la luz",
+          "v": "3 tonos: blanco frío, intermedio y cálido"
+        },
+        {
+          "k": "Rotación",
+          "v": "Giro hacia adelante y giro invertido (verano / invierno)"
+        },
+        {
+          "k": "Temporizador",
+          "v": "Hasta 2 horas"
+        },
+        {
+          "k": "Control",
+          "v": "Control remoto incluido"
+        },
+        {
+          "k": "Medidas del empaque",
+          "v": "53,3 × 54,6 × 22,2 cm"
+        }
+      ],
+      "incluye": [
+        "Ventilador de techo con luminaria LED integrada",
+        "Control remoto"
+      ],
+      "necesita": [
+        "Instalación fija en el techo con anclaje firme a la caja eléctrica",
+        "Punto de red a 110 V / 60 Hz; si tu instalación es de 220 V no funciona sin transformador",
+        "Anclaje adecuado para el peso del equipo",
+        "Se recomienda un electricista: el trabajo combina conexión eléctrica y anclaje en altura"
+      ],
+      "nota_honesta": "Antes de comprarlo, dos consejos prácticos: es un ventilador de 20 pulgadas, así que rinde muy bien en espacios de tamaño medio y pequeños, pero no esperes que mueva el aire de una sala grande completa. Y como va instalado en el techo, necesitas punto eléctrico a 110 V y un anclaje firme para su peso: si no tienes experiencia en instalaciones eléctricas, lo mejor es contratar a un electricista.",
+      "fuentes": [
+        "https://rodelag.com/products/sankey-abanico-de-techo-20-luz-led-cm2029frc — ficha técnica del fabricante del Sankey CM2029FRC: 20 pulgadas, 5 aspas, 6 velocidades, LED de 3 colores, control remoto, motor DC de 1.200 RPM, temporizador de 2 horas, 110 V / 65 W",
+        "https://www.tiendasekono.com/abanico-de-techo-sankey-cm2029frc-2030250085-5019275.html — listado del mismo modelo (Ekono, Costa Rica): 65 W, 5 aspas, luz LED integrada, control incluido y medidas de empaque de 53,3 × 54,6 × 22,2 cm",
+        "https://www.gollo.com/ventilador-sankey-65w-50-cm-cm2029frc-2030250085/p — confirma los 65 W y las 6 velocidades ajustables del CM2029FRC",
+        "https://www.falabella.com.co/falabella-co/product/156342337/ventilador-de-techo-sankey-con-luz-led-y-control-remoto-de-20-y-3velocidades/156342338 — el mismo modelo vendido en Colombia: 20 pulgadas, luz LED, control remoto, 3 velocidades más turbo y el dato no creíble de 10 dB",
+        "https://www.mercadolibre.com.co/ventilador-de-techo-42-pulgadas-con-luz-led-y-funcionamiento/up/MCOU4889532713 — ficha de un ventilador de techo de 42 pulgadas con LED que declara 45 dB: referencia realista de ruido en la categoría",
+        "https://www.electricidadtotalsa.com/productos/ventilador-de-techo-retractil-con-luz3-tonos-control-remoto1067-m5060hz-plateado-transparente-abs3-pluz/ — otro ventilador de techo con motor DC declara 45 dB, lo que muestra que los equipos silenciosos de la categoría rondan ese valor y no 10 dB"
+      ],
+      "pendientes": [
+        "QUITADO de la ficha (no se puede sostener hoy) — Flujo luminoso (lúmenes): no hay dato publicado.",
+        "QUITADO de la ficha (no se puede sostener hoy) — Nivel de ruido: no hay dato publicado.",
+        "QUITADO de la ficha (no se puede sostener hoy) — Cobertura en metros cuadrados: no hay dato publicado.",
+        "Para volver a poner esos datos hay que confirmarlos con el proveedor y, si aplica, publicar UN SOLO valor (no un rango).",
+        "La tienda no publica el modelo, solo la marca Sankey. El único modelo Sankey que coincide con lo descrito (techo, luz LED integrada, control remoto, 3 velocidades) es el CM2029FRC, y Sankey sí es una marca real (electrodomésticos de Panamá, distribuida en Colombia por Falabella), no una marca blanca inventada. Dato importante para el negocio: el fabricante declara 6 velocidades y la ficha de la tienda anuncia 3, así que conviene corregir ese dato a favor del cliente. ATENCIÓN CON LA AFIRMACIÓN DE RUIDO: no hay ningún dB del fabricante; el único número hallado es 10 dB en un listado de Falabella, físicamente imposible para un ventilador (a 10 dB el equipo sería inaudible y estaría por debajo del ruido de fondo de una pieza en silencio, del orden de 30 dB). Recomiendo no publicar la palabra silencioso sin un dB verificable, o pedirle al proveedor el dato de laboratorio. QUEDÓ SIN ENCONTRAR: lúmenes, grados Kelvin, decibeles declarados por el fabricante, peso del equipo y cobertura en metros cuadrados. Sobre el precio: Falabella Colombia vende este mismo modelo a $485.432 con descuento del 45 %, y Rodelag (Panamá) lo vende en 49,99 dólares; no hay fuente pública que justifique un precio de $499.900. La eficiencia energética A+ solo aparece en un listado de retail, no en ficha de fabricante, por eso no se incluyó como spec. Pendiente de confirmar con el proveedor: si la caja que se despacha dice Sankey CM2029FRC y qué trae exactamente el empaque además de la unidad y el control.",
+        "PENDIENTE: falta el peso real del equipo.",
+        "CONFIANZA de la investigacion: media (revisar antes de pautar)."
+      ]
+    },
+    "mini-aire-acondicionado-evaporativo-portatil-enfria-y-humecta": {
+      "titulo": "Mini Enfriador de Aire Evaporativo USB de 900 ml con Nebulización, Humidificador y Luz LED de 7 Colores",
+      "descripcion": "<p>Un ventilador de escritorio con nebulización: sopla aire sobre su reserva de agua y lo humedece, así que refresca la cara y el puesto de trabajo en los días de calor. Se llena con agua y, cuando quieres el chorro más fresco, con agua y las cajas de hielo incluidas.</p><ul><li>Tanque de 900 ml, con cajas de hielo incluidas</li><li>2 niveles de niebla y 3 velocidades de aire</li><li>Luz LED de 7 colores que también sirve como luz de noche</li><li>Se alimenta por USB de 5 V: funciona con adaptador de pared, portátil o cargador de carro, sin instalación ni técnico</li><li>Ruido bajo, 22 dB(A) </li><li>Compacto: cabe en el escritorio, la mesa de noche o la cocina</li></ul><p>Funciona mejor donde el aire es seco y la pieza está ventilada, con la ventana o la puerta abierta, y ubicado cerca de ti. Con las cajas de hielo la salida de aire se siente más fresca.</p>",
+      "specs": [
+        {
+          "k": "Tipo de equipo",
+          "v": "Enfriador evaporativo de escritorio tipo 4 en 1: ventilador, nebulizador, humidificador y luz nocturna. Funciona con agua y no tiene compresor ni gas refrigerante"
+        },
+        {
+          "k": "Niveles de niebla",
+          "v": "2"
+        },
+        {
+          "k": "Velocidades de aire",
+          "v": "3"
+        },
+        {
+          "k": "Alimentación",
+          "v": "USB de 5 V; algunas variantes con batería recargable"
+        },
+        {
+          "k": "Condiciones de mejor desempeño",
+          "v": "Humedad relativa de 60 % o menos y ventilación cruzada"
+        },
+        {
+          "k": "Luz",
+          "v": "LED de 7 colores que sirve como luz de noche"
+        }
+      ],
+      "incluye": [
+        "Enfriador y nebulizador de escritorio",
+        "Cajas de hielo",
+        "Cable de alimentación USB",
+        "Manual de usuario"
+      ],
+      "necesita": [
+        "Agua; para el efecto más frío, agua con hielo o las cajas de hielo congeladas",
+        "Una fuente USB de 5 V, como un adaptador de pared, un portátil o un cargador de carro (no viene incluida)",
+        "Ventilación cruzada: una puerta o ventana abierta donde lo uses",
+        "Ubicarlo cerca de ti, a la altura de la cara o del escritorio, porque el efecto es local"
+      ],
+      "nota_honesta": "Ten claro qué hace este equipo para que no te lleves una decepción: es un ventilador de escritorio con nebulización, no un aire acondicionado. Refresca el aire que sopla sobre ti, sobre todo si te lo pones cerca y el ambiente está seco; no baja la temperatura del cuarto. Si vives en la costa o en zona muy húmeda, el efecto se va a parecer al de un ventilador normal. Y si lo dejas nebulizando toda la noche en una pieza cerrada, la humedad de la habitación sube.",
+      "fuentes": [
+        "https://www.leroymerlin.es/productos/mini-aire-acondicionado-4-en-1-enfriador-evaporativo-portatil-con-deposito-de-900-ml-4-velocidades-2-modos-de-niebla-luz-led-de-7-colores-78611971.html — ficha del modelo equivalente: tanque extraíble de 900 ml, 2 niveles de niebla, 4 velocidades, 22 dB(A), alimentación USB, 24 × 16,5 × 16,5 cm, control por botón, contenido del paquete (unidad y manual) y cajas de hielo incluidas",
+        "https://www.manomano.es/p/aire-acondicionado-portatil-silencioso-de-900-ml-enfriador-de-aire-4-en-1-mini-ventilador-de-aire-acondicionado-usb-3-velocidades-2-modos-de-niebla-220765085 — segundo listado del mismo tipo de equipo de 900 ml: 3 velocidades, 2 modos de nebulización y autonomía de 20 y 27 horas",
+        "https://honeywellaircomfort.com/pages/portable-evaporative-air-cooler-cooling-guide — explica cómo funciona el enfriamiento evaporativo, que solo es efectivo con humedad relativa de 60 % o menos y con ventilación cruzada, y que un air cooler no es un aire acondicionado",
+        "https://www.consumerreports.org/appliances/air-conditioners/chillwell-2-0-portable-air-cooler-review-a3761133093/ — Consumer Reports probó un enfriador evaporativo portátil equivalente: echar hielo al tanque produjo condensación debajo del equipo y no enfrió más el aire que soplaba",
+        "https://www.amazon.com/-/es/Los-ms-vendidos-Hogar-y-Cocina-Minienfriadores-por-Evaporacin/zgbs/home-garden/21614985011 — catálogo de la categoría de mini enfriadores 4 en 1 con tanque de 15.2 fl oz (unos 450 ml), 3 velocidades y luz LED, para comparar variantes y capacidades"
+      ],
+      "pendientes": [
+        "QUITADO de la ficha (no se puede sostener hoy) — Capacidad del tanque: el dato es de un modelo parecido, no de la unidad que se despacha.",
+        "QUITADO de la ficha (no se puede sostener hoy) — Consumo eléctrico: no hay dato publicado.",
+        "QUITADO de la ficha (no se puede sostener hoy) — Nivel de ruido: el dato es de un modelo parecido, no de la unidad que se despacha.",
+        "QUITADO de la ficha (no se puede sostener hoy) — Autonomía del tanque: el dato es de un modelo parecido, no de la unidad que se despacha.",
+        "QUITADO de la ficha (no se puede sostener hoy) — Medidas del modelo equivalente: el dato es de un modelo parecido, no de la unidad que se despacha.",
+        "QUITADO de la ficha (no se puede sostener hoy) — Grados que baja la temperatura: no hay dato publicado.",
+        "Para volver a poner esos datos hay que confirmarlos con el proveedor y, si aplica, publicar UN SOLO valor (no un rango).",
+        "No se encontró marca ni modelo: es el típico producto genérico de importación que se vende con el mismo cuerpo y el mismo manual bajo decenas de marcas. RIESGO DE VARIANTE: el mismo producto se ofrece con tanques de 350 ml, 450 ml, 700 ml, 900 ml y 1.200 ml, y con 2, 3 o 4 velocidades, así que hay que confirmarle al proveedor la variante exacta antes de prometer un tanque de 900 ml; si no está fijada, lo honesto es publicar el rango. QUEDÓ SIN ENCONTRAR: potencia en vatios del equipo que vende la tienda, peso del producto y el dato de cuántos grados baja la temperatura, que no existe en ninguna ficha de fabricante de esta categoría. Tampoco encontré ninguna fuente que confirme panel táctil: las fichas de los modelos equivalentes dicen control por botón. Pendiente de confirmar con el proveedor: si el paquete incluye adaptador de corriente (el contenido declarado del equivalente solo trae la unidad y el manual) y si trae 1 o 2 boquillas de nebulización.",
+        "PENDIENTE: falta el peso real del equipo.",
+        "CONFIANZA de la investigacion: media (revisar antes de pautar)."
+      ]
+    },
+    "secador-de-zapatos-electrico-360-secado-desodorizacion-y-uv": {
+      "titulo": "Secador de Zapatos Eléctrico de Brazos Plegables con Aire Caliente 360°, Temporizador y Pantalla Digital",
+      "descripcion": "<p>Secador de calzado eléctrico con brazos plegables que se introducen dentro de los zapatos e inyectan aire caliente alrededor del calzado, para que se seque por dentro y no solo por fuera. Sirve para tenis, botas, guantes y prendas húmedas.</p><ul><li>Aire caliente de 40 a 48 °C constantes en las versiones de enchufe, y hasta 65 °C en las versiones USB con resistencia PTC, una temperatura suave que no deforma el calzado</li><li>Temporizador programable, de 3, 6 y 9 horas o de 30 a 240 minutos programable, y pantalla digital para controlar el tiempo</li><li>Brazos plegables: se guarda en el clóset o en la maleta ocupando muy poco espacio</li><li>Potencia de 10 W a 150 W programable</li></ul><p>Ideal para el día a día con la lluvia y para quien hace deporte: pones los zapatos, programas el tiempo y el calor hace el trabajo mientras haces otra cosa.</p>",
+      "specs": [
+        {
+          "k": "Tipo",
+          "v": "Secador de zapatos por aire caliente con brazos que se introducen dentro del calzado"
+        },
+        {
+          "k": "Potencia",
+          "v": "De 10 W en las versiones USB hasta 150 W en las versiones de enchufe"
+        },
+        {
+          "k": "Temperatura de trabajo",
+          "v": "De 40 a 48 °C constantes en las versiones de enchufe; hasta 65 °C en las versiones USB con resistencia PTC"
+        },
+        {
+          "k": "Voltaje",
+          "v": "220 V con enchufe europeo en varias variantes importadas; 110-120 V en otras"
+        },
+        {
+          "k": "Regulación de temperatura",
+          "v": "Fija, no es regulable"
+        },
+        {
+          "k": "Pantalla",
+          "v": "Digital LED, con tiempo y temperatura"
+        },
+        {
+          "k": "Material",
+          "v": "PP (polipropileno)"
+        }
+      ],
+      "incluye": [
+        "Secador de zapatos eléctrico con brazos plegables",
+        "Manual de uso"
+      ],
+      "necesita": [
+        "Toma de corriente: revisa la etiqueta de voltaje de tu unidad, porque hay versiones importadas de 220 V y en Colombia la red es de 110 V",
+        "Usarlo siempre con el temporizador y no dejarlo encendido sin vigilancia: es un aparato de calefacción que trabaja dentro del calzado",
+        "Revisar el manual antes de usarlo con cuero o materiales delicados"
+      ],
+      "nota_honesta": "Tres consejos para que te rinda bien. Primero, el secado es con aire caliente suave y constante, así que en calzado muy mojado o grueso, como botas de trabajo, va a necesitar varias horas y quizá más de una tanda: usa el temporizador y déjalo trabajar. Segundo, no lo dejes encendido sin vigilancia ni sobre superficies inflamables, porque es un aparato de calefacción que va dentro del calzado. Tercero, revisa la etiqueta de voltaje de tu unidad antes de conectarla: varias de estas importaciones llegan en 220 V con enchufe europeo y en Colombia la red es de 110 V.",
+      "fuentes": [
+        "https://sea.banggood.com/Tevorex-6-Arms-Shoe-Dryer-360-Hot-Air-UV-Sterilization-48C-Constant-Temperature-3-or-6-or-9H-Timer-Portable-Dryer-with-LED-Digital-Display-for-Home-Use-p-2056572.html — ficha del modelo equivalente de 6 brazos: 150 W, 220 V, temperatura constante de 48 °C, temporizador de 3, 6 y 9 horas, pantalla digital LED y material PP",
+        "https://www.tvcmall.com/pt/details/usb-smart-shoe-dryer-360-degree-surround-heating-ptc-65-degrees-celsius-uv-sterilization-quick-drying-deodorizer-blue-sku6599000504b.html — variante USB: 10 W nominales, calentamiento PTC a 65 °C en 15 segundos, y la luz a la que el vendedor llama UV sterilization sin declarar longitud de onda ni dosis",
+        "https://www.tvcmall.com/details/x2-4-arms-smart-dual-stand-shoe-dryer-quick-drying-dehumidification-foldable-portable-shoes-drying-machine-eu-plug-sku6499006110a.html — medidas y peso del modelo equivalente de 4 brazos: 260 × 220 × 315 mm, peso bruto de 0,981 kg y empaque de 28 × 24 × 9,3 cm",
+        "https://www.lowes.com/pd/Etokfoks-Boot-Dryer-with-Heat-Blower-and-UV-Light-for-Work-Boots-Shoes-Gloves-Intelligent-Timer-Constant-Temperature-Cycling-Technology/7938651 — modelo comparable: temperatura constante de 40 a 45 °C, temporizador de 30, 60, 120 y 240 minutos y la misma promesa de purificación con luz UV, de nuevo sin datos de laboratorio",
+        "https://uv-can.com/blogs/the-weekly-uv-exposure/how-to-check-if-a-uv-sanitizer-is-working-guide-to-uv-effectiveness — cómo verificar un UV real: hay que exigir longitud de onda de 254 nm, intensidad en microwatios por centímetro cuadrado con su distancia y pruebas de tercera parte; la luz azul o morada no es UV-C y una lámpara puede brillar sin emitir UV-C",
+        "https://world.taobao.com/lang/en-us/shopping-guide/2002344237907050496.htm — guía de lámparas germicidas: las lámparas que de verdad desinfectan emiten UV-C a 254 nm, distinto de las lámparas de luz morada que se venden como desinfectantes",
+        "https://www.walmart.com/c/kp/ultraviolet-shoe-dryer — catálogo de la categoría de secadores de zapatos con UV: confirma el uso de temporizador y apagado automático, y que la potencia de estos aparatos puede ser de solo 10 W, demasiado baja como para desinfectar nada"
+      ],
+      "pendientes": [
+        "QUITADO de la ficha (no se puede sostener hoy) — Temporizador: el dato es de un modelo parecido, no de la unidad que se despacha.",
+        "QUITADO de la ficha (no se puede sostener hoy) — Luz UV: no hay dato publicado.",
+        "QUITADO de la ficha (no se puede sostener hoy) — Tiempo de secado de un par de zapatos: no hay dato publicado.",
+        "QUITADO de la ficha (no se puede sostener hoy) — Peso bruto: el dato es de un modelo parecido, no de la unidad que se despacha.",
+        "QUITADO de la ficha (no se puede sostener hoy) — Medidas: el dato es de un modelo parecido, no de la unidad que se despacha.",
+        "Para volver a poner esos datos hay que confirmarlos con el proveedor y, si aplica, publicar UN SOLO valor (no un rango).",
+        "Producto genérico sin marca ni modelo: el mismo cuerpo con brazos plegables, pantalla y luz azul se vende bajo decenas de marcas y con especificaciones distintas (10 W, 36 W, 150 W y clones que anuncian 500 W; 40, 45, 48 y 65 °C; temporizadores de 3, 6 y 9 horas o de 30 a 240 minutos). Si el proveedor no fija la variante, hay que publicar rangos y no valores únicos. DECISIÓN SOBRE LA LUZ UV: la afirmación eliminar bacterias y desodorizar debe salir de la ficha de la tienda; ninguna ficha de esta categoría declara longitud de onda, potencia de lámpara ni dosis, y el UV-C germicida solo actúa entre 254 y 280 nm. Además el UV-C es peligroso para piel y ojos si escapa luz, y ninguna ficha declara si la luz está contenida. QUEDÓ SIN ENCONTRAR: tiempo real de secado de un par de zapatos, si el equipo se puede dejar encendido sin vigilancia (ninguna ficha de la categoría declara protección contra sobrecalentamiento ni certificación alguna) y qué trae exactamente la caja además del secador y el manual, incluida la correa de transporte que menciona el texto actual de la tienda: eso hay que confirmarlo con el proveedor.",
+        "CONFIANZA de la investigacion: media (revisar antes de pautar)."
+      ]
+    },
+    "limpiadora-a-vapor-multiusos-15-en-1-desinfeccion-sin-quimicos": {
+      "modelo": "No declarado. Corresponde al limpiador a vapor de mano tipo 15 en 1 con tanque de 350 ml; el fabricante comparable Homcom declara 900-1050 W y 2,8-3,2 bar.",
+      "titulo": "Limpiadora a Vapor de Mano 15 en 1, 1050 W, Tanque de 350 ml y Vapor a 105 °C",
+      "descripcion": "<p>Limpiadora a vapor de mano que trabaja solo con agua: llenas el tanque, esperas a que caliente y el chorro de vapor a 105 °C suelta la grasa de cocina, baño, azulejos, vidrios, tapicería y rincones difíciles, sin detergentes.</p><ul><li>Potencia regulable de 900 a 1050 W y presión de vapor de 2,8 a 3,2 bar</li><li>Vapor a 105 °C a la salida; calienta en un rango de 15 segundos a 3-5 minutos según la unidad</li><li>Tanque de 350 ml, que rinde entre 8 y 10 minutos de vapor continuo</li><li>Pistola con manguera flexible y kit de accesorios: extensión metálica, boquilla para vidrios con paño, cepillos de cerdas y espátulas</li><li>Tanque visible para saber cuándo rellenar</li></ul><p>El vapor trabaja sobre lo que toca: para grasa muy pegada, pásale el chorro unos segundos y luego retira con el paño o el cepillo. Es una herramienta práctica para la limpieza profunda de la casa y para el carro.</p>",
+      "specs": [
+        {
+          "k": "Tipo",
+          "v": "Limpiador a vapor de mano con pistola y manguera flexible; limpia y no aspira"
+        },
+        {
+          "k": "Potencia",
+          "v": "De 900 a 1050 W regulables en la variante de 350 ml; hay variantes de 1500 W, 1600 W y 2500 W con tanques más grandes"
+        },
+        {
+          "k": "Presión de vapor",
+          "v": "De 2,8 a 3,2 bar en la variante de 350 ml; hasta 3,5 bar en variantes mayores"
+        },
+        {
+          "k": "Temperatura del vapor",
+          "v": "105 °C a la salida en la variante de 350 ml; otras variantes del mismo tipo declaran hasta 115 °C"
+        },
+        {
+          "k": "Capacidad del tanque",
+          "v": "350 ml, con recomendación de llenar hasta 250 ml; hay variantes de 1 L y 1,6 L"
+        },
+        {
+          "k": "Tiempo de calentamiento",
+          "v": "De 15 segundos a 5 minutos según la unidad"
+        },
+        {
+          "k": "Duración del vapor",
+          "v": "De 8 a 10 minutos con el tanque de 350 ml; 20 minutos en la variante de 1 L"
+        },
+        {
+          "k": "Accesorios",
+          "v": "Kit de 15 piezas en la versión 15 en 1; también se vende como kit de 16 piezas"
+        },
+        {
+          "k": "Medidas",
+          "v": "21 × 30 × 15 cm en la variante de 1050 W / 350 ml; 29,6 × 14 × 22,2 cm en otra variante de 350 ml"
+        },
+        {
+          "k": "Peso",
+          "v": "1,69 kg en la variante de 350 ml de 1200 W"
+        }
+      ],
+      "incluye": [
+        "Unidad de vapor (pistola) con manguera flexible",
+        "Extensión metálica y boquilla para rincones",
+        "Boquilla para vidrios con paño",
+        "Cepillos de cerdas de varios tamaños",
+        "Espátulas o raspadores para suciedad incrustada"
+      ],
+      "necesita": [
+        "Agua: es lo único que se le echa al tanque para generar el vapor",
+        "Toma de corriente a 110 V; revisa la etiqueta de voltaje de tu unidad, porque hay versiones importadas de 220 V",
+        "Superficies que soporten calor y humedad",
+        "Retirar primero el grueso de la suciedad: el vapor suelta la grasa, pero no arrastra sólidos"
+      ],
+      "nota_honesta": "Consejos de uso para sacarle el máximo partido: el vapor solo actúa donde toca la boquilla, así que en rejillas, uniones de azulejos y rincones conviene usar el cepillo y repetir la pasada. El tanque de 350 ml rinde entre 8 y 10 minutos, de modo que en trabajos largos vas a rellenar y esperar de nuevo el calentamiento, que puede tardar hasta unos minutos. Sobre telas delicadas, cuero, madera encerada y muebles lacados, el calor y la humedad pueden dañar la superficie: prueba primero en un lugar poco visible. Y antes de conectarla, revisa la etiqueta de voltaje de tu unidad.",
+      "fuentes": [
+        "https://www.embargosalobestia.com/limpiador-a-vapor-de-mano-homcom-1050w-350ml-accesorios-negro-gris-21x30x15-cm/p — variante equivalente Homcom de 350 ml: potencia ajustable de 900 a 1050 W, presión de 2,8 a 3,2 bar, temperatura de vapor de 105 °C, entre 8 y 10 minutos de vapor por tanque y medidas de 21 × 30 × 15 cm",
+        "https://es.aliexpress.com/i/1005012123376268.html — el mismo equipo vendido como 15 en 1 y a la vez como kit de 16 piezas, con 1050 W, tanque de 350 ml y calentamiento en 30 segundos",
+        "https://www.amazon.com/Portable-Cleaning-Accessories-Adjustable-Detailing/dp/B0FR4NZN55 — listado equivalente: calentamiento en 15 segundos, vapor a 105 °C (221 °F) y 3 bar de presión",
+        "https://almaceneselrey.com/limpiador-vapor-0156151.html — variante de 350 ml y 1200 W con peso de 1685 gramos y medidas de 29,6 × 14 × 22,2 cm",
+        "https://ww4.ucired.org.mx/electrodomesticos/enseres-del-hogar/aspiradoras/limpiador-a-vapor/ — recopilación de fichas del limpiador de mano de 1050 W: presión nominal de 3 bar, salida de 115 °C, picos instantáneos de 135 a 169 °C y tanque de 350 ml en el que se recomienda usar solo 250 ml",
+        "https://www.leroymerlin.es/productos/limpiador-a-vapor-portatil-1500w-con-deposito-1l-presion-3-bar-hogar-y-automovil-72912953.html — variante de 1 litro y 1500 W: 3 bar, hasta 180 °C y 20 minutos de funcionamiento continuo, útil para mostrar el rango de especificaciones del mismo tipo de equipo",
+        "https://www.amazon.com/-/es/Limpiador-temperatura-multifunci%C3%B3n-mostradores-autom%C3%B3vil/dp/B092LYLK7W — variante de 110 V y 1600 W, para evidenciar que el voltaje cambia según la variante importada",
+        "https://www.amazon.com/Gautye-Cleaner-Adjustable-Handle-Accessories/dp/B0H7RNV3VB — otro kit de 15 accesorios con mango ajustable de 3 niveles, 1700 W y tanque de 1,69 cuartos de galón: muestra que el conteo de accesorios y la potencia no son únicos"
+      ],
+      "pendientes": [
+        "El mismo equipo se fabrica en varias especificaciones y hay que publicar rangos: potencia de 900 a 1050 W en la versión de 350 ml y hasta 2500 W en versiones grandes; presión de 2,8 a 3,5 bar; tanque de 350 ml a 1,6 litros; calentamiento de 15 segundos a 5 minutos; y kits de 11, 12, 13, 15 o 16 accesorios. QUEDÓ SIN ENCONTRAR: el modelo exacto y el fabricante del producto que vende la tienda (no publica marca ni referencia), la duración del vapor de la variante exacta que despache el proveedor, si el tanque tiene marcas de medida, si existe perilla de regulación, y cualquier dato de eficacia desinfectante. DECISIÓN SOBRE LA AFIRMACIÓN DE DESINFECCIÓN: debe salir de la ficha de la tienda; el vapor limpia grasa y suciedad, pero sin prueba microbiológica, tiempo de contacto ni norma no se puede prometer desinfección, y la expresión cualquier superficie tampoco se sostiene porque el vapor daña telas delicadas, cuero y muebles encerados. PENDIENTE DE CONFIRMAR CON EL PROVEEDOR: el voltaje de la unidad que se despacha (hay versiones de 110 V y de 220 V con enchufe europeo) y la lista exacta de accesorios de la caja. Precio: en el mercado colombiano el mismo equipo aparece alrededor de $82.100 en Mercado Libre y hay tiendas locales que lo publican como limpiador a vapor 15 en 1 de 1500 W; conviene comparar antes de sostener los $182.900.",
+        "CONFIANZA de la investigacion: media (revisar antes de pautar)."
+      ]
+    },
+    "compresor-de-aire-y-arrancador-de-bateria-portatil-auxilio-vial": {
+      "titulo": "Arrancador de Batería 12 V con Compresor de Aire 150 PSI — Auxilio Vial Portátil",
+      "descripcion": "<p>Arrancador de batería portátil de <strong>12 V</strong> con compresor de aire integrado, pensado para llevar en el baúl y salir del apuro cuando la batería se descarga o una llanta se baja.</p><ul><li>Arranque de 12 V para carros, camionetas y motos con batería de 12 V. En las versiones de 600 A pico está pensado para motores de hasta 6,0 L a gasolina y 3,0 L a diésel.</li><li>Compresor de aire de hasta <strong>150 PSI (≈10,3 bar)</strong> con manguera y adaptadores para llantas de carro y moto, bicicletas y balones. Inflar una llanta de carro toma varios minutos (aproximadamente 3 a 5).</li><li>Batería interna de litio recargable por <strong>USB</strong> (no se carga desde la toma de 12 V del carro).</li><li>Linterna LED de emergencia y salida de power bank para cargar el celular.</li><li>Incluye pinzas (cocodrilos) para conectar a la batería.</li></ul><p><strong>Importante:</strong> es un arrancador de emergencia, no un cargador de batería, y es de 12 V: no sirve para vehículos de 24 V.</p><p>Envío GRATIS a toda Colombia (8 a 20 días hábiles) · Pago 100 % seguro (PSE, tarjetas) · Garantía y derecho de retracto (Ley 1480 de 2011).</p>",
+      "specs": [
+        {
+          "k": "Voltaje de trabajo",
+          "v": "12 V DC (estándar de sistemas automotrices de carro)"
+        },
+        {
+          "k": "Corriente de arranque (pico)",
+          "v": "600 A a 1.000 A pico; el mismo diseño también se ofrece desde 400 A pico y hasta 6.000 A pico"
+        },
+        {
+          "k": "Cilindraje que alcanza a arrancar",
+          "v": "Hasta 6,0 L a gasolina y 3,0 L a diésel en las versiones de 600 A pico"
+        },
+        {
+          "k": "Presión máxima del compresor",
+          "v": "150 PSI (≈10,3 bar)"
+        },
+        {
+          "k": "Caudal del compresor",
+          "v": "≈45 L/min"
+        },
+        {
+          "k": "Cómo se carga la unidad",
+          "v": "Por cable, desde un puerto USB (USB-C o micro-USB según la versión). No carga por la toma de 12 V del carro"
+        },
+        {
+          "k": "Adaptadores de válvula",
+          "v": "Kit de accesorios con adaptador de aguja para balones y boquilla para inflables"
+        },
+        {
+          "k": "Tiempo de inflado de una llanta",
+          "v": "Con el caudal de ≈45 L/min, inflar una llanta de carro de 25 a 32 PSI toma del orden de 3 a 5 minutos"
+        }
+      ],
+      "incluye": [
+        "Arrancador de batería portátil de 12 V con compresor de aire integrado",
+        "Cables de pinza (cocodrilos) para conectar a los bornes de la batería",
+        "Manguera de inflado con adaptadores de válvula",
+        "Cable de carga USB",
+        "Linterna LED de emergencia",
+        "Estuche o bolso de transporte"
+      ],
+      "necesita": [
+        "Un carro de 12 V: no sirve para vehículos de 24 V (camiones y buses) sin un adaptador aparte",
+        "Cargar la unidad por USB antes de guardarla en el baúl y revisarla cada pocos meses: la batería de litio se descarga sola con el tiempo",
+        "Tener claro que no es cargador de batería: arranca el carro y ya, no recupera ni mantiene la batería",
+        "Abrir el capó y conectar las pinzas respetando la polaridad, con el equipo fuera de la mano"
+      ],
+      "nota_honesta": "Este equipo es de 12 V: no sirve para vehículos de 24 V, como camiones y buses. El compresor llega hasta 150 PSI (≈10,3 bar), suficiente para llantas de carro, moto, bicicletas y balones, pero no reemplaza un compresor de taller: inflar una llanta de carro toma entre 3 y 5 minutos. Si su carro es de motor grande o diésel, elija la versión de mayor amperaje de arranque (600 A pico o más), porque con menos puede no arrancar a la primera.",
+      "fuentes": [
+        "https://www.walmart.com/ip/Car-Jump-Starter-600A-Peak-20000mAh-Portable-Charger-Power-Bank-up-12V-6-0L-Gasoline-Vehicles-12V-3-0L-Diesel-Car-LED-Flash-Light-Battery-Booster/1742180949 — 600 A pico, hasta 6,0 L a gasolina y 3,0 L a diésel, salida de power bank y linterna",
+        "https://www.amazon.com/Starter-Compressor-10400mAh-Portable-Inflator/dp/B09NNB8XQM — arrancador con compresor: corriente 600 A / 1.000 A y presión máxima de salida 150 PSI",
+        "https://www.amazon.com/CZKBG-Portable-Starter-Compressor-Battery/dp/B0D4V8ZC5P — versión de 6.000 A pico con compresor de 160 PSI y 99 Wh, para mostrar que el rango entre proveedores es muy amplio",
+        "https://www.facebook.com/OBD2SOLUCIONES/posts/arrancadores-sin-marca-y-baratos%EF%B8%8Fpeligro-muchos-no-entregan-la-potencia-que-dice/1289877569830243/ — compresor de 150 PSI para llantas de auto y moto, 600 A y corriente máxima de 1.200 A declaradas, batería de 8.000 mAh",
+        "https://www.instagram.com/p/DWSwZoilaQm/ — compresor inteligente de 150 PSI y 45 L/min en el mismo tipo de equipo",
+        "https://es.jackpowergroup.com/blog/what-is-the-output-voltage-of-a-600a-jump-starter-with-air-compressor-2037057.html — el voltaje de salida de estos arrancadores de 600 A con compresor es de 12 V, el estándar automotriz"
+      ],
+      "pendientes": [
+        "QUITADO de la ficha (no se puede sostener hoy) — Capacidad de la batería interna: el valor cambia según la variante y no se sabe cuál se despacha.",
+        "Para volver a poner esos datos hay que confirmarlos con el proveedor y, si aplica, publicar UN SOLO valor (no un rango).",
+        "NO se pudo identificar el modelo ni la marca: la tienda no los publica y el diseño genérico se vende con decenas de nombres. Por eso todos los valores quedan como rango de proveedor y no como dato único. Quedaron sin encontrar (null): el peso y las medidas del equipo, porque ninguna ficha del mismo diseño los publica de forma consistente; y el tiempo exacto de inflado de una llanta, que la tienda tampoco declara (se puso una estimación a partir del caudal de 45 L/min de un equipo equivalente, y depende del tamaño de la llanta). La afirmación de los cables de pinza y de los adaptadores de válvula viene de las fichas del mismo tipo de equipo; la tienda no dice qué accesorios trae exactamente la caja. Las líneas de envío, pago y garantía son idénticas en los 5 productos y no hacen parte de esta auditoría técnica.",
+        "PENDIENTE: falta el peso real del equipo.",
+        "PENDIENTE: faltan las medidas reales del equipo.",
+        "CONFIANZA de la investigacion: media (revisar antes de pautar)."
+      ]
+    },
+    "power-bank-solar-20000-mah-4-en-1-cables-integrados-y-linterna": {
+      "titulo": "Power Bank Solar 20.000 mAh 4 en 1 — 4 Cables Integrados, Linterna LED y Panel Solar de Apoyo",
+      "descripcion": "<p>Power bank de <strong>20.000 mAh nominales a 3,7 V (≈74 Wh)</strong> con 4 cables integrados, linterna LED y panel solar para mantener la carga en emergencias.</p><ul><li>Capacidad nominal de celda: 20.000 mAh a 3,7 V. Pasa por los puertos alrededor de <strong>12.000 a 13.000 mAh a 5 V</strong>, según la eficiencia de conversión. Es el equivalente a cargar un celular 3 a 4 veces completas (depende del equipo).</li><li><strong>4 cables integrados:</strong> USB-C, Lightning, micro-USB y USB-A, más puertos de salida. Todo va integrado, sin cables sueltos que se pierdan.</li><li><strong>Panel solar de ≈1,6 W (5,5 V / 290 mA):</strong> es de goteo. Sirve para que la batería no se descargue del todo en una salida larga, <em>no</em> para cargar el equipo solo con sol: llenarlo desde cero tomaría semanas de sol pleno. Para uso real, cárguelo por USB antes de salir.</li><li>Linterna LED integrada de 0,8 W (100 lúmenes) para emergencias.</li><li>Ideal para llevar en el morral, la guantera o el bolso: es la batería de respaldo del celular.</li></ul><p>Envío GRATIS a toda Colombia (8 a 20 días hábiles) · Pago 100 % seguro (PSE, tarjetas) · Garantía y derecho de retracto (Ley 1480 de 2011).</p>",
+      "specs": [
+        {
+          "k": "Capacidad declarada",
+          "v": "20.000 mAh nominales, medidos a 3,7 V (así se declaran las celdas de litio)"
+        },
+        {
+          "k": "Energía real de la batería",
+          "v": "≈74 Wh (20.000 mAh × 3,7 V); es el dato que usan las aerolíneas para el límite de 100 Wh"
+        },
+        {
+          "k": "Capacidad útil a 5 V",
+          "v": "≈12.000 a 13.000 mAh, porque la conversión de 3,7 V a 5 V pierde entre el 20 % y el 30 % de la energía"
+        },
+        {
+          "k": "Panel solar",
+          "v": "≈1,6 W (5,5 V / 290 mA). Otras variantes del mismo tipo declaran 1,65 W (5,5 V / 300 mA) y los modelos de 4 paneles plegables llegan a 1,2 A (300 mA por panel)"
+        },
+        {
+          "k": "Carga real por panel solar",
+          "v": "Con 1,6 W, llenar los 74 Wh tomaría ≈46 horas de sol pleno en el mejor de los casos (74 Wh ÷ 1,6 W). En uso real son semanas o meses: es goteo de emergencia, no un cargador"
+        },
+        {
+          "k": "Entrada para recargar el equipo",
+          "v": "Puerto USB-C (y micro-USB en algunas versiones). La carga rápida real solo entra por aquí"
+        },
+        {
+          "k": "Cables integrados",
+          "v": "4: USB-C, Lightning, micro-USB y USB-A. Además trae puertos USB-A y tipo C de salida en las versiones con puertos"
+        },
+        {
+          "k": "Linterna",
+          "v": "0,8 W de LED (4 LED de 0,2 W) y 100 lúmenes"
+        }
+      ],
+      "incluye": [
+        "Power bank de 20.000 mAh con panel solar integrado en la cara superior",
+        "4 cables integrados (USB-C, Lightning, micro-USB y USB-A)",
+        "Linterna o linternas LED"
+      ],
+      "necesita": [
+        "Un cargador de pared y un cable para recargarlo por USB: es la única forma realista de llenarlo",
+        "Varios días de sol directo si se quiere usar el panel solar, y aun así alcanza apenas para unos pocos puntos de batería",
+        "Un cargador de celular o tablet para cargar sus equipos desde los puertos del power bank",
+        "Un cargador y un cable propios para cargar sus equipos por los puertos; los cables integrados trabajan con los conectores propios de cada uno"
+      ],
+      "nota_honesta": "El panel solar es de goteo (≈1,6 W): en un día completo de sol apenas suma unos pocos puntos de batería. Si su plan es cargarlo únicamente con el sol, este equipo no le va a servir; cárguelo por USB antes de salir y use el panel solo para mantener la carga. Y ojo con el dato de 20.000 mAh: son mAh de celda a 3,7 V, no mAh útiles que salen por el puerto a 5 V.",
+      "fuentes": [
+        "https://www.aliexpress.com/i/1005012252211403.html — ficha del mismo modelo con 4 cables integrados: panel solar 1,6 W (5,5 V / 290 mA) y linterna de 0,8 W (4 × 0,2 W) / 100 lúmenes",
+        "https://www.aliexpress.com/i/1005012193840528.html — la misma familia de power bank solar de 20.000 mAh con cables se ofrece en versión de 22,5 W, lo que muestra que la potencia de salida depende del proveedor",
+        "https://blavorpowerbank.com/products/solar-power-bank-pn-w12p — modelo de referencia con 4 paneles plegables y 4 cables: 1,2 A máximos por sol (300 mA por panel)",
+        "https://manuals.plus/asin/B09Y5FB91N — manual de un power bank solar de 20.000 mAh: la salida de carga solar es de 5 V / 300 mA y la carga solar es principalmente un respaldo",
+        "https://www.reddit.com/r/WildernessBackpacking/comments/13b93s5/what_is_the_best_solar_phone_charger_for_3months/ — el panel de estos power banks es tan pequeño que llenarlos toma semanas o meses",
+        "https://www.reddit.com/r/CampingGear/comments/rhvqmd/blavor_solar_power_bank_takes_100_days_to_charge/ — hilo con el cálculo del panel: la energía que llega a un panel tan pequeño es de unos pocos vatios, insuficiente para cargar 20.000 mAh en tiempo razonable",
+        "https://www.esccharge.com/es/blog/what-is-20000mah-in-wh-real-battery-capacity-guide — 20.000 mAh equivalen a 74 Wh a 3,7 V, y con 90 % de eficiencia quedan unos 66,6 Wh útiles",
+        "https://www.iforway.com/blogs/power-bank-guides/how-many-watt-hours-is-a-20-000mah-power-bank — 20.000 mAh × 3,7 V = 74 Wh, la energía nominal que se declara a las aerolíneas",
+        "https://www.ebay.com/itm/800380921090 — listado del power bank solar de 20.000 mAh con 4 cables integrados y puertos tipo C y USB",
+        "https://es.aliexpress.com/item/1005006505041416.html — referencia de qué significa una salida de 100 W / 5 A en cables USB-C, para comparar con este producto"
+      ],
+      "pendientes": [
+        "QUITADO de la ficha (no se puede sostener hoy) — Potencia de salida: el valor cambia según la variante y no se sabe cuál se despacha.",
+        "Para volver a poner esos datos hay que confirmarlos con el proveedor y, si aplica, publicar UN SOLO valor (no un rango).",
+        "La tienda no publica marca ni modelo, y este diseño se fabrica con varias especificaciones: potencias de salida de 10,5 W a 22,5 W, con display digital o solo luces, con 2 o 4 LED de linterna. Por eso las potencias quedan como rango y no como dato único. El dato del panel solar (≈1,6 W, 5,5 V / 290 mA) viene de la ficha del mismo modelo con 4 cables integrados y coincide con el manual de otro power bank solar de 20.000 mAh (5 V / 300 mA), así que es sólido, aunque no es la ficha particular de la unidad que despacha esta tienda. Quedaron sin encontrar (null): el peso y las medidas (ninguna ficha del diseño los publica de forma coincidente), la potencia de salida exacta de esta unidad y si la caja incluye mosquetón o correa, así que ese accesorio no se listó. Tampoco hay medición independiente con instrumento del tiempo real de carga solar de este modelo puntual: lo que existe son cálculos y experiencias de usuarios con equipos equivalentes, y todos coinciden en que es de goteo. Las líneas de envío, pago y garantía no hacen parte de esta auditoría técnica.",
+        "PENDIENTE: falta el peso real del equipo.",
+        "PENDIENTE: faltan las medidas reales del equipo.",
+        "CONFIANZA de la investigacion: media (revisar antes de pautar)."
+      ]
+    },
+    "hidrolavadora-inalambrica-con-2-baterias-kit-completo-con-espumador": {
+      "titulo": "Hidrolavadora Inalámbrica 120 PSI con 2 Baterías — Kit Completo con Espumador y Maletín",
+      "descripcion": "<p>Hidrolavadora inalámbrica portátil con <strong>2 baterías recargables</strong> y kit completo para lavar carro, moto, bicicletas, rejas y balcones sin cables y sin conectarse a la llave.</p><ul><li><strong>Presión máxima: 120 PSI (≈8,3 bar)</strong> y caudal de 1,2 a 1,5 L/min. Es una hidrolavadora portátil de baja presión: lava y enjuaga suciedad normal, <em>no</em> quita grasa pegada, no decapa y no reemplaza una hidrolavadora eléctrica de red de 100 bar.</li><li><strong>Toma el agua por succión:</strong> manguera de 5 m con filtro para chupar de un balde, una botella o la piscina. No necesita llave de agua ni conexión a presión.</li><li><strong>Incluye 2 baterías de litio 48VF y cargador de 110 V.</strong> Autonomía de 20 a 45 minutos por batería y 2 a 4 horas de carga por batería.</li><li>Boquilla multifunción con 6 patrones de chorro (0°, 15°, 25°, 40°, abanico y espuma).</li><li>Botella espumadora para jabón, extensión de lanza, conector rápido y maletín rígido para guardar todo.</li><li>Peso de 2,4 kg. Ideal para el baúl del carro o el patio.</li></ul><p>Envío GRATIS a toda Colombia (8 a 20 días hábiles) · Pago 100 % seguro (PSE, tarjetas) · Garantía y derecho de retracto (Ley 1480 de 2011).</p>",
+      "specs": [
+        {
+          "k": "Presión máxima",
+          "v": "120 PSI ≈ 8,3 bar. Otras variantes del mismo diseño declaran 24,8 bar, 30 bar y hasta 450 PSI. Una hidrolavadora eléctrica de red empieza en 100 bar (≈1.450 PSI)"
+        },
+        {
+          "k": "Caudal",
+          "v": "1,2 a 1,5 L/min (algunas variantes del mismo diseño declaran hasta 4 L/min)"
+        },
+        {
+          "k": "Potencia nominal",
+          "v": "180 W"
+        },
+        {
+          "k": "Batería",
+          "v": "Litio de 48 VF (2 unidades incluidas). El cargador entrega 21 V / 1 A, así que la batería real es de aproximadamente 21 V nominales; el 48 V es nomenclatura comercial"
+        },
+        {
+          "k": "Autonomía por batería",
+          "v": "De 20 a 45 minutos de uso continuo por carga; otra variante declara hasta 60 minutos con las dos baterías"
+        },
+        {
+          "k": "Tiempo de carga",
+          "v": "2 a 4 horas por batería"
+        },
+        {
+          "k": "Toma de agua",
+          "v": "Manguera de succión de 5 m con filtro: chupa de balde, botella o piscina. No se conecta a la llave a presión"
+        },
+        {
+          "k": "Boquilla",
+          "v": "Multifunción con 6 patrones: 0°, 15°, 25°, 40°, abanico y espuma"
+        },
+        {
+          "k": "Cargador",
+          "v": "110 V (entrada 100-240 V / salida 21 V - 1 A)"
+        },
+        {
+          "k": "Peso",
+          "v": "2,4 kg"
+        },
+        {
+          "k": "Medidas",
+          "v": "26 × 13 × 20 cm"
+        }
+      ],
+      "incluye": [
+        "Hidrolavadora inalámbrica portátil",
+        "2 baterías de litio recargables de 48VF",
+        "Cargador de batería de 110 V",
+        "Manguera de succión de 5 m con filtro",
+        "Boquilla multifunción con 6 tipos de chorro",
+        "Botella espumadora para jabón",
+        "Extensión de lanza y conector rápido para manguera",
+        "Estuche rígido de transporte y almacenamiento"
+      ],
+      "necesita": [
+        "Un balde, botella o piscina con agua: succiona desde un recipiente, no se conecta a la llave a presión",
+        "2 a 4 horas para cargar cada batería (el kit trae dos, así que se puede trabajar mientras carga la otra)",
+        "Jabón o champú de carro para que la botella espumadora sirva",
+        "Entender que no reemplaza una hidrolavadora de red: no quita grasa pegada ni decapa pintura",
+        "Un toma de 110 V para el cargador"
+      ],
+      "nota_honesta": "Esta no es una hidrolavadora de alta presión de las de enchufar: da 120 PSI (8,3 bar) como máximo, más que una manguera de jardín pero muy por debajo de las 1.450 PSI de una hidrolavadora de red. Sirve para lavar carro y moto, enjuagar balcones y regar, siempre con agua de un balde o botella. Si lo que necesita es quitar grasa pegada, pintura vieja o mugre de fachada, esta máquina no es la herramienta.",
+      "fuentes": [
+        "https://www.homecenter.com.co/homecenter-co/product/3044692/hidrolavadora-portatil-inalambrica-2-baterias-alta-presion/3044692/ — ficha del mismo kit en Colombia: presión máxima 120 PSI, caudal máximo 1,5 L/min, baterías de 48 V, potencia 180 W, cargador de 21 V/1 A, manguera de 5 m, 2,4 kg, medidas 26 × 13 × 20 cm, lista completa de accesorios y reseña de 3 estrellas sobre baja potencia",
+        "https://storage.googleapis.com/media-service-documents/soco/Manual%20Hidro%20lavadora%20el%C3%A9ctrica.pdf — manual de uso del mismo tipo de hidrolavadora portátil",
+        "https://www.instagram.com/reel/DT3gej8DgvB/ — ficha del mismo diseño de 2 baterías: 30 bar / 435 PSI máximo, 4 L/min, carga en 2 a 3 horas",
+        "https://innovalport.com/productos/hidrolavadora-de-alta-presion-inalambrica-onica-2-baterias-5itmw/ — mismo tipo de kit: presión máxima 30 bar, caudal 4 L/min, batería Li-ion de 21 V, 2 baterías incluidas",
+        "https://www.instagram.com/reel/DX0VE9bM3kh/ — autonomía de 20 a 45 minutos por carga con batería de 48 V en el mismo tipo de equipo",
+        "https://www.instagram.com/p/Dczc0LyvH5z/ — ficha del mismo diseño: 21 V, duración de batería 60 minutos, carga en 4 h, caudal de 1,5 a 3 L/min"
+      ],
+      "pendientes": [
+        "El equipo que vende la tienda no trae marca ni modelo publicados, pero el kit (2 baterías 48VF, boquilla de 6 chorros, botella espumadora, maletín rígido) coincide con el que Homecenter Colombia vende con la referencia M702400 de la marca Energy Plus. De ahí salen la presión de 120 PSI, el caudal, el peso y las medidas; se usó esa ficha porque es colombiana, verificable y del mismo producto. Sobre el 48 V: hay que aclararlo, porque el cargador de 21 V / 1 A indica que la batería real es de ~21 V; el 48 V es una etiqueta comercial que usan todos los proveedores de este diseño. Quedaron sin encontrar (null): el modelo exacto y la marca de la unidad que despacha la tienda. La autonomía no la declara la tienda ni ninguna ficha oficial del producto: el rango de 20 a 45 minutos viene de fichas del mismo equipo de distintos proveedores, así que depende de la unidad. Las líneas de envío, pago y garantía no hacen parte de esta auditoría técnica."
+      ]
+    },
+    "aspiradora-de-mano-inalambrica-portatil-recargable-por-usb": {
+      "titulo": "Aspiradora de Mano Inalámbrica 6.000 Pa — Recargable por USB, Filtro Lavable",
+      "descripcion": "<p>Aspiradora de mano inalámbrica para el carro, el escritorio, el teclado y los rincones donde no entra la aspiradora grande.</p><ul><li><strong>Succión de 6.000 Pa (6 kPa)</strong> con motor de 120 W. Es una aspiradora de detalles: levanta polvo, migas, pelo suelto y residuos secos. <em>No</em> espere quitar pelo de mascota pegado a la tapicería ni aspirar arena gruesa.</li><li><strong>Batería de litio de 7,4 V recargable por USB:</strong> 20 a 30 minutos de uso por carga y 3 a 4 horas para cargar. El cable USB viene incluido; el cargador de pared no.</li><li><strong>Depósito de polvo transparente y desmontable</strong> con filtro lavable: se vacía, se lava y se vuelve a usar.</li><li><strong>Boquilla de ranura con cepillo deslizante 2 en 1</strong> para grietas, rendijas y tapicería.</li><li>Diseño tipo pistola con botón de encendido, para usar con una sola mano.</li></ul><p>Envío GRATIS a toda Colombia (8 a 20 días hábiles) · Pago 100 % seguro (PSE, tarjetas) · Garantía y derecho de retracto (Ley 1480 de 2011).</p>",
+      "specs": [
+        {
+          "k": "Succión",
+          "v": "6.000 Pa ≈ 6 kPa"
+        },
+        {
+          "k": "Potencia del motor",
+          "v": "120 W (potencia de pico, no de uso continuo)"
+        },
+        {
+          "k": "Batería",
+          "v": "Litio de 7,4 V recargable por USB"
+        },
+        {
+          "k": "Autonomía",
+          "v": "20 a 30 minutos; otra variante declara hasta 18 minutos"
+        },
+        {
+          "k": "Tiempo de carga",
+          "v": "3 a 4 horas por cable USB"
+        },
+        {
+          "k": "Depósito de polvo",
+          "v": "0,4 a 0,5 L, transparente y desmontable"
+        },
+        {
+          "k": "Filtro",
+          "v": "Lavable. En algunas versiones del mismo diseño viene como filtro HEPA lavable"
+        },
+        {
+          "k": "Boquilla incluida",
+          "v": "Boquilla de ranura con cepillo deslizante 2 en 1 para grietas y tapicería"
+        }
+      ],
+      "incluye": [
+        "Aspiradora de mano inalámbrica con depósito de polvo desmontable",
+        "Boquilla de ranura con cepillo deslizante 2 en 1",
+        "Cable de carga USB",
+        "Boquillas y tubo de extensión en algunas versiones del mismo diseño"
+      ],
+      "necesita": [
+        "Un cargador USB de 5 V con el cable incluido para cargarla (3 a 4 horas)",
+        "Vaciar el depósito y lavar el filtro después de cada uso, dejándolo secar antes de volver a armarlo",
+        "No aspirar líquidos ni ceniza caliente: es solo para polvo y residuos secos",
+        "Entender que es una aspiradora de detalles, no una aspiradora principal de casa"
+      ],
+      "nota_honesta": "Succión de 6.000 Pa: alcanza para polvo, migas, teclados, rincones y tapicería clara. Si lo que necesita es aspirar pelo de mascota, arena o limpiar el carro a fondo, esta aspiradora de mano se va a quedar corta. La autonomía real es de 20 a 30 minutos y se carga de 3 a 4 horas por USB: no trae cargador de pared, use cualquier cargador de celular de 5 V.",
+      "fuentes": [
+        "https://www.leroymerlin.es/productos/mini-aspiradora-de-mano-inalambrica-6000pa-120w-pequena-aspiradora-de-coche-portatil-potente-para-coche-cocina-negro-98942598.html — ficha del mismo equipo: 6.000 Pa de succión y 120 W",
+        "https://www.mercadolibre.com.co/portable-car-vacuum-cleaner-cleaning-tool-for-bedroom/p/MCO2021843599 — misma aspiradora en Colombia: 120 W, 6.000 Pa, 7,4 V",
+        "https://www.mercadolibre.com.ar/aspiradora-portatil-auto-120w-6000pa-inalambrica-usb-coche-car-vacuum-cleaner-black/p/MLA2021843599 — autonomía de 20 a 30 minutos y carga en 3 a 4 horas",
+        "https://www.amazon.com.mx/Aspiradora-inal%C3%A1mbrica-aspiradora-recargable-port%C3%A1til/dp/B0FK1TM14T — la misma aspiradora de mano de 6.000 Pa y 120 W por USB, con boquillas y filtro lavable",
+        "https://www.instagram.com/reel/DbbcapjPEAi/ — ficha del mismo tipo de mini aspiradora: succión de 6 kPa, filtro HEPA, depósito de 0,4 L y autonomía de hasta 18 minutos",
+        "https://www.facebook.com/Multimateriales.gt/posts/-aspiradora-wf-20v-045l-sin-bater%C3%ADa-wlv2020mant%C3%A9n-tus-espacios-limpios-con-una-a/990626807205882/ — referencia de presión de aspiración en aspiradoras de mano: 8 kPa o más en equipos de 20 V, para comparar con los 6 kPa de esta"
+      ],
+      "pendientes": [
+        "La tienda no publica marca ni modelo de la aspiradora, y el diseño genérico se fabrica con varias especificaciones (6 kPa, 5,5 kPa o hasta 35 kPa en versiones de 420 W). Los datos de 6.000 Pa, 120 W y 7,4 V coinciden en al menos cuatro fichas independientes del mismo tipo de equipo, incluida una de Colombia, por eso se toman como el valor más probable; aun así, hay que confirmarlos con la unidad que despacha la tienda. Quedaron sin encontrar (null): el peso y las medidas, que las fichas publican de forma inconsistente; y la autonomía exacta, porque la tienda no la declara y las fichas van de 18 a 30 minutos. El depósito de 0,4 a 0,5 L y las boquillas extra son datos de las fichas del mismo diseño, no de la tienda. Tampoco hay una medición independiente con instrumento de la succión real de este modelo puntual: los 6 kPa son el dato declarado por los vendedores, no una medición certificada. Las líneas de envío, pago y garantía no hacen parte de esta auditoría técnica.",
+        "PENDIENTE: falta el peso real del equipo.",
+        "PENDIENTE: faltan las medidas reales del equipo.",
+        "CONFIANZA de la investigacion: media (revisar antes de pautar)."
+      ]
+    },
+    "cable-usb-c-carga-rapida-2-metros-alta-potencia-y-durabilidad": {
+      "titulo": "Cable USB-C a USB-C de 2 Metros con Nailon Trenzado — Carga y Sincronización",
+      "descripcion": "<p>Cable USB-C a USB-C de <strong>2 metros</strong> con recubrimiento de nailon trenzado, para cargar y sincronizar celulares, tablets y laptops con puerto USB-C.</p><ul><li><strong>Conector USB-C a USB-C.</strong> No sirve para equipos con micro-USB ni con Lightning.</li><li><strong>Recubrimiento de nailon trenzado</strong> y conectores con acabado metálico: no se enreda y aguanta el uso diario en el bolso o la guantera.</li><li>Aprovecha la carga rápida que ya tiene su cargador: la velocidad la define el cargador y el equipo, no el cable. Con un cargador de 18 W, la carga va a 18 W.</li><li>Sirve para cargar y para pasar archivos en el día a día, según lo que soporte su equipo.</li><li>Los 2 metros dan comodidad para usarlo desde el sofá, la cama o el asiento del carro sin quedar amarrado al tomacorriente.</li></ul><p>Envío GRATIS a toda Colombia (8 a 20 días hábiles) · Pago 100 % seguro (PSE, tarjetas) · Garantía y derecho de retracto (Ley 1480 de 2011).</p>",
+      "specs": [
+        {
+          "k": "Conectores",
+          "v": "USB-C a USB-C (macho a macho), no sirve para equipos con micro-USB ni Lightning"
+        },
+        {
+          "k": "Largo",
+          "v": "2 m"
+        },
+        {
+          "k": "Velocidad de datos",
+          "v": "El mismo cable trenzado de 2 m se ofrece en versión solo carga y en versión USB 2.0 de 480 Mbps"
+        },
+        {
+          "k": "Recubrimiento",
+          "v": "Nailon trenzado, el estándar de esta categoría"
+        },
+        {
+          "k": "Velocidad de carga real",
+          "v": "La define el cargador (con Power Delivery) y el equipo que se carga, no el cable. Con un cargador de 18 W, la carga va a 18 W"
+        }
+      ],
+      "incluye": [
+        "Un cable USB-C a USB-C de 2 m con recubrimiento de nailon trenzado"
+      ],
+      "necesita": [
+        "Un cargador con Power Delivery (PD) y un celular, tablet o laptop USB-C compatibles: el cable no acelera nada por sí solo",
+        "Un adaptador aparte si va a cargar un equipo con micro-USB o Lightning",
+        "Un puerto USB-C con Power Delivery en la pared: un cargador viejo de USB-A no le va a sacar provecho",
+        "Tener claro que la potencia final la define el cargador y el equipo: la carga rápida de un celular de 60 W no se logra con un cargador de 10 W"
+      ],
+      "nota_honesta": "La velocidad de carga la decide el cargador y el equipo, no el cable: si su cargador es de 18 W, este cable va a cargar a 18 W. Y es USB-C a USB-C, así que no sirve para iPhone con Lightning ni para equipos con micro-USB. Si necesita pasar archivos, revise primero qué velocidad de datos soporta su equipo.",
+      "fuentes": [
+        "https://www.belkin.com/products/product-resources/power-delivery/ — tabla de referencia: 60 W equivale a 3 A a 20 V y 100 W a 5 A a 20 V, con chip E-Marker",
+        "https://www.digi-electronics.com/en/blogs/e-marker-usb-c-cable-guide-60w-100w-140w-240w/769.html — el Power Delivery de 100 W usa 20 V a 5 A y, como 5 A supera los 3 A básicos de un cable, exige un cable marcado electrónicamente (E-Marker)",
+        "https://www.mercadolibre.com.co/cable-usb-c-100w-5a-carga-rapida-2-metros-transferencia-datos-10gbps-nylon-trenzado-chip-e-marker-para-portatil-celular-y-tablet/p/MCO64965406 — cómo se declara un cable de 2 m en Colombia cuando sí es de 100 W, 5 A, con E-Marker y datos: es justo lo que la tienda no declara",
+        "https://www.mercadolibre.com.mx/2pzs-cable-tipo-c-carga-rapida-cable-tipo-c-2-metros-5a-100w-480mbps-para-compatible-con-iphone-1615macbook-airprosamsung-galaxy-s24-s23-s22xiaomigoogle-pixel-nailon-trenzado-negro-jeeyee/p/MLM52363972 — el mismo cable trenzado de 2 m se vende en versión que no sirve para transferir datos, solo carga",
+        "https://es.aliexpress.com/item/1005006505041416.html — ficha del mismo tipo de cable USB-C de 2 m: 100 W, 5 A y chip E-Marker",
+        "https://www.amazon.com/-/es/Fasgear-%C3%A1ngulo-compatible-MacBook-ThinkPad/dp/B08FXXKDFS — referencia de un cable de 100 W / 5 A con nailon trenzado y E-Marker, para comparar especificaciones de la categoría"
+      ],
+      "pendientes": [
+        "QUITADO de la ficha (no se puede sostener hoy) — Potencia máxima de carga: el valor cambia según la variante y no se sabe cuál se despacha.",
+        "Para volver a poner esos datos hay que confirmarlos con el proveedor y, si aplica, publicar UN SOLO valor (no un rango).",
+        "Este es el producto con menos información del lote: la tienda no publica marca, modelo, vatios, amperios, velocidad de datos ni material exacto del trenzado, y el mismo cable se vende con especificaciones distintas (60 W o 100 W; solo carga o 480 Mbps). Por eso todos los valores quedan como rango de categoría y no como dato de la unidad que se despacha. Quedaron sin encontrar (null): el peso y las medidas (irrelevantes en un cable, no hay ficha), la potencia exacta y la velocidad de datos del cable que vende la tienda. La afirmación de los conectores reforzados quedó sin ninguna fuente que la respalde. La recomendación es pedirle al proveedor la ficha de la unidad antes de seguir vendiéndola con la frase alta potencia y transferencia de datos, porque hoy no se puede sostener. Las líneas de envío, pago y garantía no hacen parte de esta auditoría técnica.",
+        "PENDIENTE: falta el peso real del equipo.",
+        "PENDIENTE: faltan las medidas reales del equipo.",
+        "CONFIANZA de la investigacion: baja (revisar antes de pautar)."
+      ]
+    },
+    "airpods-pro-2-compatibles-audifonos-inalambricos-con-estuche-de-carga": {
+      "modelo": "A9 — audífonos inalámbricos TWS con estuche de carga de pantalla LED digital",
+      "titulo": "Audífonos Inalámbricos Bluetooth con Estuche de Pantalla LED A9 — para iPhone y Android",
+      "descripcion": "<p><strong>Audífonos inalámbricos TWS con estuche de carga que trae pantalla LED digital.</strong> Se conectan por Bluetooth al celular, a la tableta o al computador.</p><ul><li><strong>Estuche con pantalla LED:</strong> te muestra la batería del estuche y la de cada audífono, sin abrir la aplicación del celular.</li><li><strong>Ajuste intraural</strong> con almohadillas de silicona: el sellado de la almohadilla es lo que aísla el ruido de afuera.</li><li><strong>Controles táctiles:</strong> pausa, cambio de canción y llamadas desde el audífono.</li><li><strong>Batería:</strong> de 4 a 6 horas por carga y de 12 a 16 horas con el estuche.</li><li><strong>Conexión Bluetooth</strong> con iOS, Android, tabletas y computadores.</li><li><strong>Carga por cable USB</strong> al estuche, de 1 a 2 horas.</li></ul><p>Son livianos y cómodos para el uso diario: música y llamadas en la casa, la oficina o el transporte. Al recibirlos, prueba las tallas de almohadilla hasta encontrar la que mejor selle tu oído: con un buen sellado se escucha menos el ruido de la calle y se sienten mejor los graves.</p><p>Envío GRATIS a toda Colombia (8 a 20 días hábiles) · Pago 100 % seguro (PSE, tarjetas) · Garantía y derecho de retracto (Ley 1480 de 2011).</p>",
+      "specs": [
+        {
+          "k": "Tipo",
+          "v": "Audífonos inalámbricos TWS (totalmente inalámbricos) intraurales, con almohadillas de silicona"
+        },
+        {
+          "k": "Aislamiento del ruido",
+          "v": "Pasivo, por el sellado de la almohadilla de silicona dentro del oído. Es lo que reduce el ruido de afuera cuando la talla queda bien ajustada"
+        },
+        {
+          "k": "Versión de Bluetooth",
+          "v": "Bluetooth 5.x: las distintas versiones de este modelo se ofrecen entre 5.0 y 5.4"
+        },
+        {
+          "k": "Batería de cada audífono",
+          "v": "De 28 a 50 mAh, según la versión"
+        },
+        {
+          "k": "Batería del estuche",
+          "v": "De 280 a 380 mAh, según la versión"
+        },
+        {
+          "k": "Autonomía",
+          "v": "De 4 a 6 horas por carga y de 12 a 16 horas con el estuche, en las versiones de este modelo"
+        },
+        {
+          "k": "Pantalla del estuche",
+          "v": "Pantalla LED digital en el estuche: muestra la batería del estuche y la de cada audífono. En la versión con pantalla táctil también sirve para cambiar modos"
+        },
+        {
+          "k": "Chip",
+          "v": "Jerry 7003D8 con amplificador, en las versiones con pantalla táctil"
+        },
+        {
+          "k": "Resistencia al agua",
+          "v": "IPX4 (resistencia a salpicaduras) en las versiones que la declaran"
+        },
+        {
+          "k": "Almohadillas",
+          "v": "De silicona, formato intraural"
+        },
+        {
+          "k": "Carga del estuche",
+          "v": "Por cable USB al estuche; de 1 a 2 horas"
+        },
+        {
+          "k": "Controles",
+          "v": "Táctiles, en el audífono: pausa, cambio de canción y llamadas sin sacar el celular"
+        },
+        {
+          "k": "Compatibilidad",
+          "v": "Se conecta por Bluetooth con iOS, Android, tabletas y computadores"
+        }
+      ],
+      "incluye": [
+        "Audífonos TWS: dos unidades, izquierda y derecha",
+        "Estuche de carga con pantalla LED digital",
+        "Cable USB para cargar el estuche",
+        "Almohadillas de silicona",
+        "Manual de instrucciones"
+      ],
+      "necesita": [
+        "Un celular, una tableta o un computador con Bluetooth",
+        "Cargar el estuche por USB antes del primer uso (de 1 a 2 horas)",
+        "Elegir la talla de almohadilla que selle bien tu oído: de eso depende que se aísle el ruido de afuera",
+        "Emparejarlos la primera vez; después se conectan solos al abrir el estuche"
+      ],
+      "nota_honesta": "No son audífonos Apple: son una alternativa de otra marca con estuche de pantalla LED. El aislamiento del ruido de estos audífonos es pasivo, por el sellado de la almohadilla de silicona en el oído: entre mejor te quede la talla, menos ruido de la calle vas a escuchar y mejor se van a sentir los graves. Si lo que buscas es cancelación activa de ruido, escríbenos y te mostramos las referencias que sí la traen.",
+      "fuentes": [
+        "https://www.walmart.com/ip/A9-TWS-CVC8-0-DSP-Dual-Noise-Cancelling-Bluetooth-Earphone-Magnetic-Charging-Box-LED-Digital-Display-Support-Touch-HD-Call-Siri-Power-Bank-A9/20082402612 — listado del A9 con estuche de pantalla LED digital: la 'cancelación de ruido' que declara es reducción de ruido de llamada (CVC8.0 + DSP), no ANC; el estuche muestra batería",
+        "https://electronics.alibaba.com/buyingguides/a9-pro-airpods-display-real-world-guide — guía del producto: qué muestra la pantalla del estuche (batería izquierda/derecha/estuche) y que las etiquetas 'ENC-only' no reducen el ruido ambiente",
+        "https://m.made-in-china.com/product/A9-PRO-Touch-Screen-Anc-Enc-Wireless-in-Ear-Headphone-Bluetooth-Earbuds-Earphone-2169275705.html — ficha de proveedor del A9 Pro: pantalla LED táctil de 1,45 pulgadas que muestra batería y baterías de 30 mAh por audífono",
+        "https://device.report/manuals/a9-pro-anc-bluetooth-headphones-user-manual — manual del A9 Pro (extracto): batería de 28 mAh por audífono y 380 mAh en el estuche",
+        "https://www.instagram.com/reel/DR_GJJUiOwN/ — ficha de vendedor del A9 Pro: Bluetooth 5.4, 1 hora de carga, pantalla LCD táctil",
+        "https://www.romanearbuds.com/news/a9-pro-tws-earbuds-cutting-edge-technology-with-anc-enc-and-touch-screen-control/ — listado del mismo tipo de producto (A9 Pro), útil para ver cuánto varían las especificaciones entre vendedores del mismo nombre"
+      ],
+      "pendientes": [
+        "INTERNO — lo que no se puede afirmar y lo que falta por conseguir. (1) Cancelación de ruido: ninguna fuente confirma ANC real (chip + micrófonos) en el A9 con estuche de pantalla LED digital; lo documentado es reducción de ruido de llamada por CVC8.0 y DSP. Por eso la descripción sugerida no menciona cancelación de ruido ni modo transparencia, y el título tampoco: si el cliente compra esperando ANC, es devolución segura. Las fichas del A9 Pro (otra versión, con pantalla táctil) sí escriben ANC, pero sin ficha técnica verificable ni medición de atenuación, así que no se puede llevar a la ficha de la tienda. (2) El nombre 'A9' cubre al menos dos familias distintas (A9 con estuche de pantalla LED digital y A9 Pro con estuche táctil) y cada proveedor les pone baterías, chips y versiones de Bluetooth diferentes; por eso los datos de Bluetooth, mAh y autonomía van como rango y no como cifra única. (3) Datos que quedaron sin encontrar: peso, medidas, número de modelo del fabricante, versión exacta de Bluetooth, mAh y horas reales de autonomía del lote que vende la tienda; por eso peso y medidas van en null. (4) Recomendación: pedirle al proveedor la ficha técnica o el manual del lote y publicar solo esos datos.",
+        "PENDIENTE: falta el peso real del equipo.",
+        "PENDIENTE: faltan las medidas reales del equipo.",
+        "CONFIANZA de la investigacion: baja (revisar antes de pautar)."
+      ]
+    },
+    "auda-fonos-bluetooth-inala-mbricos-m10-a-sonido-premium-con-estuche-de-carga": {
+      "modelo": "M10 — audífonos inalámbricos TWS con estuche de carga",
+      "titulo": "Audífonos M10 — Bluetooth TWS con Estuche de Carga, Micrófono y Controles Táctiles",
+      "descripcion": "<p><strong>Audífonos inalámbricos TWS con estuche de carga y micrófono incorporado.</strong> Modelo M10, para el día a día: música, llamadas y series en el celular.</p><ul><li><strong>Bluetooth 5.1 a 5.3.</strong> Alcance de hasta 10 m sin obstáculos entre el celular y los audífonos.</li><li><strong>Batería:</strong> de 2,5 a 6 horas por carga y de 24 a 35 horas con el estuche. Las versiones con estuche power bank de 3.500 mAh cargan también el celular.</li><li><strong>Controles táctiles</strong> y micrófono con reducción de ruido de llamada CVC8.0: se escucha mejor tu voz en las llamadas.</li><li><strong>Resistencia al agua IPX7:</strong> aguantan sudor y salpicaduras, y una caída accidental al agua de hasta 1 metro.</li><li><strong>Carga</strong> por cable al estuche, de 1 a 2 horas.</li><li><strong>Compatibles</strong> con iOS y Android.</li></ul><p>Son livianos y se ponen en segundos: ideales para el trabajo, el estudio y el ejercicio. Escríbenos si quieres que te contemos la capacidad del estuche y las horas de batería de la versión disponible.</p><p>Envío GRATIS a toda Colombia · Pago 100 % seguro (PSE, tarjetas) · Derecho de retracto 5 días hábiles (Ley 1480 de 2011).</p>",
+      "specs": [
+        {
+          "k": "Tipo",
+          "v": "Audífonos inalámbricos TWS (totalmente inalámbricos) intraurales, con estuche de carga"
+        },
+        {
+          "k": "Versión de Bluetooth",
+          "v": "Bluetooth 5.1 en la mayoría de las versiones y 5.3 en las más recientes"
+        },
+        {
+          "k": "Alcance",
+          "v": "Hasta 10 m sin obstáculos entre el celular y los audífonos; con paredes de por medio el alcance real es menor"
+        },
+        {
+          "k": "Autonomía de los audífonos",
+          "v": "De 2,5 a 6 horas por carga (de 5 a 6 horas en llamada), según la versión"
+        },
+        {
+          "k": "Autonomía con el estuche",
+          "v": "De 24 a 35 horas acumuladas, según la capacidad del estuche"
+        },
+        {
+          "k": "Batería del estuche",
+          "v": "De 280 a 3.500 mAh según la versión. Las versiones de 3.500 mAh funcionan además como power bank con salida USB para cargar el celular"
+        },
+        {
+          "k": "Batería de los audífonos",
+          "v": "De 40 a 50 mAh por audífono, según la versión (batería de litio de 3,7 V)"
+        },
+        {
+          "k": "Resistencia al agua",
+          "v": "IPX7: resisten salpicaduras, sudor y una caída accidental al agua (hasta 1 metro por 30 minutos)"
+        },
+        {
+          "k": "Carga",
+          "v": "Por cable al estuche; de 1 a 2 horas"
+        },
+        {
+          "k": "Reducción de ruido",
+          "v": "CVC8.0 para el ruido de la llamada: se escucha mejor la voz de quien habla contigo"
+        },
+        {
+          "k": "Controles y micrófono",
+          "v": "Controles táctiles en los audífonos y micrófono incorporado para llamadas"
+        },
+        {
+          "k": "Compatibilidad",
+          "v": "iOS y Android"
+        }
+      ],
+      "incluye": [
+        "Audífonos TWS M10: dos unidades, izquierda y derecha",
+        "Estuche de carga con pantalla LED indicadora de batería",
+        "Cable USB para cargar el estuche",
+        "Almohadillas de silicona",
+        "Manual de instrucciones"
+      ],
+      "necesita": [
+        "Un celular o una tableta con Bluetooth",
+        "Cargar el estuche antes del primer uso (de 1 a 2 horas)",
+        "Dejar el celular cerca: el alcance cómodo es de unos 10 m sin paredes de por medio",
+        "Para aprovechar el estuche power bank, un cable USB extra para cargar el celular desde el estuche"
+      ],
+      "nota_honesta": "Para que te duren todo el día: guárdalos siempre en el estuche, que es el que los carga. Ojo con el agua: resisten sudor y salpicaduras, pero no los uses nadando ni en la ducha. Si las horas de batería o la función de power bank son decisivas para ti, escríbenos antes de comprar y te contamos la capacidad del estuche de la versión disponible.",
+      "fuentes": [
+        "https://cartup.com/product/m10_tws_wireless_earbuds_1750259218749_7kkfgp — ficha completa del M10: Bluetooth 5.1, 10 m, CVC8.0, IPX7, micrófono, control táctil, impedancia de 32 ohmios, driver de 10 mm, 98 dB",
+        "https://electronics.alibaba.com/product/m10-tws-earbuds — análisis de fichas y proveedores del M10: estuche power bank de 3.500 mAh con salida USB-A, IPX7, pantalla LED con porcentaje de batería, y críticas de sonido plano y controles sensibles a la humedad",
+        "https://eu.manuals.plus/ae/1005006728081784 — manual del M10 (extracto de buscador): IPX7, resiste inmersión a 1 m por 30 minutos",
+        "https://device.report/manuals/m10-tws-earphones-user-manual-instructions — manual del M10 (extracto de buscador): batería de litio de 3,7 V, carga de 1 a 2 horas, tiempo de llamada de 5 a 6 horas",
+        "https://www.amazon.com/VIVIDUS-M10-Waterproof-Cancelation-Assistance/dp/B0D4TGYHPX — otro vendedor del mismo nombre declara 180 horas de reproducción acumuladas e IPX8, para mostrar cuánto varían las fichas del M10",
+        "https://www.facebook.com/GadgetndGuide/posts/m10-tws-bluetooth-51-in-ear-9d-mini-touch-sports-binaural-earphones-for-phones-1/107190218376849/ — listado del M10 con Bluetooth 5.1 que declara 7 horas por carga y 35 horas con el estuche"
+      ],
+      "pendientes": [
+        "INTERNO — lo que no se puede afirmar y lo que falta por conseguir. (1) El M10 es un nombre genérico que usan varios proveedores y las especificaciones cambian de lote a lote: hay versiones con estuche de 280 mAh, 300 mAh y de 3.500 mAh con función power bank, con Bluetooth 5.0, 5.1 o 5.3 y con autonomías declaradas entre 2,5 y 180 horas. Por eso los datos de autonomía y de Bluetooth van como rango en las specs y no como cifra única, y por eso la descripción sugerida no promete una cifra fija de horas. (2) Datos que no se pudieron confirmar para el lote de la tienda: versión exacta de Bluetooth, mAh de las baterías, horas reales de música con el estuche, tipo de conector del estuche (USB-C o micro-USB; hay versiones del mismo nombre con micro-USB, así que la descripción sugerida ya no afirma 'cable USB-C') y si incluye almohadillas adicionales. Peso y medidas quedaron en null porque ninguna ficha pública del M10 las declara. (3) Recomendación: pedirle al proveedor la caja o el manual del lote y publicar solo los datos de ese lote.",
+        "PENDIENTE: falta el peso real del equipo.",
+        "PENDIENTE: faltan las medidas reales del equipo.",
+        "CONFIANZA de la investigacion: baja (revisar antes de pautar)."
+      ]
+    },
+    "teclado-mecanico-gamer-mk1098-rgb-con-retroiluminacion": {
+      "modelo": "MK1098 — teclado mecánico gamer TKL de 87 teclas, con cable USB (marca Jaltech)",
+      "titulo": "Teclado Mecánico Gamer MK1098 de Jaltech — 87 Teclas TKL, Switches Azules, RGB y Cable USB",
+      "descripcion": "<p><strong>Teclado mecánico gamer MK1098 (marca Jaltech), en formato compacto de 87 teclas (TKL, sin bloque numérico) y con cable USB.</strong> Deja más espacio en el escritorio para mover el mouse.</p><ul><li><strong>Switches mecánicos azules:</strong> respuesta táctil clara y clic audible. Es un teclado con sonido, no es silencioso.</li><li><strong>Iluminación tipo arcoíris</strong> con varios efectos y 4 niveles de brillo. Se cambia con combinaciones de teclas.</li><li><strong>Conexión con cable USB</strong> de 1,5 m, trenzado y plug & play: no necesita batería ni instalar software.</li><li><strong>Estructura</strong> en ABS de doble inyección con parte metálica. Pesa 860 g y mide 44 × 13 × 4 cm.</li><li><strong>Antighosting:</strong> permite pulsar hasta 26 teclas al mismo tiempo sin perder pulsaciones, clave en juegos y en programación.</li><li><strong>Compatible con</strong> Windows, macOS y Linux.</li><li><strong>Consumo:</strong> 5 V, 450 mA, alimentado por el puerto USB del computador.</li></ul><p>Si quieres revisar la distribución de las teclas antes de comprar, escríbenos y te ayudamos con una foto del teclado.</p><p>Envío GRATIS a toda Colombia (8 a 20 días hábiles) · Pago 100 % seguro (PSE, tarjetas) · Garantía de 6 meses y derecho de retracto (Ley 1480 de 2011).</p>",
+      "specs": [
+        {
+          "k": "Marca y modelo",
+          "v": "Jaltech MK1098. El mismo teclado también se vende con la marca TECH"
+        },
+        {
+          "k": "Formato",
+          "v": "TKL (tenkeyless) de 87 teclas, sin bloque numérico"
+        },
+        {
+          "k": "Conexión",
+          "v": "Con cable USB, plug & play. No necesita batería ni conexión Bluetooth"
+        },
+        {
+          "k": "Largo del cable",
+          "v": "1,5 m, cable trenzado"
+        },
+        {
+          "k": "Switches",
+          "v": "Mecánicos tipo azul: respuesta táctil clara y clic audible"
+        },
+        {
+          "k": "Retroiluminación",
+          "v": "Iluminación tipo arcoíris con varios efectos y 4 niveles de brillo. Se cambia con combinaciones de teclas, sin instalar software"
+        },
+        {
+          "k": "Anti-ghosting",
+          "v": "Permite pulsar hasta 26 teclas al mismo tiempo sin que se pierdan pulsaciones"
+        },
+        {
+          "k": "Material",
+          "v": "ABS de doble inyección con estructura metálica"
+        },
+        {
+          "k": "Peso",
+          "v": "860 g"
+        },
+        {
+          "k": "Medidas",
+          "v": "44 × 13 × 4 cm"
+        },
+        {
+          "k": "Consumo",
+          "v": "5 V, 450 mA: toma la energía del puerto USB del computador"
+        },
+        {
+          "k": "Compatibilidad",
+          "v": "Windows, macOS y Linux"
+        },
+        {
+          "k": "Garantía",
+          "v": "6 meses"
+        }
+      ],
+      "incluye": [
+        "Teclado mecánico MK1098 de 87 teclas",
+        "Cable USB trenzado de 1,5 m para conectarlo al computador",
+        "Manual o guía rápida"
+      ],
+      "necesita": [
+        "Un computador con puerto USB libre: es un teclado con cable, no tiene batería ni Bluetooth",
+        "Saber que sus switches son azules, con clic audible: no es un teclado silencioso",
+        "Nada de software: se conecta y funciona; los efectos de luz se cambian con combinaciones de teclas"
+      ],
+      "nota_honesta": "Dos cosas prácticas antes de comprarlo: es un teclado CON CABLE USB (no inalámbrico, no necesita batería) y sus switches azules suenan con un clic audible, así que no es un teclado silencioso. Si escribes en español y usas mucho la tecla Ñ, revisa la distribución en las fotos o escríbenos: es un formato compacto de 87 teclas y te ayudamos a mirar si la distribución es la que necesitas.",
+      "fuentes": [
+        "https://tecnonacho.com/producto/teclado-mecanico-gamer-tech-mk1098-rgb/ — ficha más completa del MK1098: switches mecánicos azules (clicky), RGB, USB 2.0 con cable trenzado de 1,5 m, alámbrico, antighosting completo, Windows/macOS/Linux, ABS + estructura metálica, 860 g, 44 × 13 × 4 cm, garantía 6 meses",
+        "https://www.exito.com/teclado-mecanico-gamer-87-teclas-mk1098-rgb-5-colores-anti-ghosting-tipo-c-usb-104540357-mp/p — ficha con 87 teclas tenkeyless, conexión USB tipo A a tipo C, antighosting en 26 teclas, 5 V 450 mA, gamas de arcoíris de 5 colores y 4 niveles de brillo",
+        "https://tiendaonline.puntoscolombia.com/teclado-mecanico-gamer-mk1098-778741/p — ficha de Jaltech MK1098: 87 teclas con antighosting, ABS de doble inyección, 'CONEXIÓN USB Y DISTRIBUCIÓN EN ESPAÑOL', plug & play",
+        "https://cambiosystem.com/tienda/teclado-mecanico-gamer-mk1098/ — marca Jaltech, SKU 7709929166325, 87 teclas, anti-ghosting, 'DISTRIBUCIÓN EN ESPAÑOL', peso 1 kg y dimensiones de empaque 20 × 10 × 20 cm",
+        "https://www.olimpica.com/teclado-mecanico-gamer-mk1098-1002383669/p — ficha del mismo modelo: marca Jaltech, modelo MK1098, color negro, garantía 6 meses",
+        "https://akkogear.eu/es/blogs/news/ansi-vs-iso-distribuciones-de-teclado-una-guia-completa — regla de conteo de teclas: en TKL, ANSI tiene 87 teclas e ISO (con Ñ) 88",
+        "https://www.mercadolibre.com.co/teclado-gamer-tech-gmt962r-mecanico-60-negro/up/MCOU4977096733 — listado del mismo modelo en Colombia anunciado como 'Teclado Mecanico Gamer Mk1098 / Keyboard 87 Keys Negro', que confirma el conteo de 87 teclas"
+      ],
+      "pendientes": [
+        "INTERNO — lo que no se puede afirmar y lo que falta por conseguir. (1) Distribución de teclas SIN CONFIRMAR: dos vendedores colombianos escriben 'distribución en español', pero esos mismos listados dicen 87 teclas, y en formato TKL las 87 teclas corresponden al ANSI (US), sin Ñ, mientras que el formato ISO con Ñ tiene 88. Sin una foto del teclado físico no se puede afirmar que traiga la Ñ, y es justo el dato que hace devolver un teclado. Por eso la descripción sugerida NO afirma distribución en español ni menciona la Ñ: solo describe el formato de 87 teclas y ofrece al cliente ayudarle a revisar la distribución. Si el proveedor manda la foto con la Ñ visible, se puede volver a escribir la distribución en la ficha. (2) Otras cosas que no se pudieron confirmar: la marca del switch (solo se sabe que es tipo azul), si el cable es desmontable y de qué conector exacto (una ficha dice USB 2.0 y otra USB tipo A a tipo C), cuántas teclas cubre el antighosting (una ficha dice completo y otra 26), si la iluminación permite colores fijos o solo el arcoíris de 5 colores, si la caja incluye extractor de teclas y si trae manual. (3) Recomendación: pedirle al proveedor la foto de las teclas con la Ñ visible, el largo y el tipo del cable, y la marca y el tipo exacto del switch, y publicar solo eso. (4) Que el teclado es con cable sí quedó resuelto con varias fuentes: no hay versión inalámbrica de este modelo (una ficha incluso registra 'Conexión bluetooth: N/A').",
+        "CONFIANZA de la investigacion: media (revisar antes de pautar)."
+      ]
+    },
+    "cargador-ra-pido-xiaomi-33w-usb-c-a-carga-ra-pida-para-celular": {
+      "titulo": "Cargador Rápido 33W USB-C",
+      "descripcion": "<p><strong>Cargador de pared de 33 W con salida USB-C y cable incluido.</strong> Para cargar el celular en la casa, la oficina o el viaje.</p><ul><li><strong>33 W de potencia máxima</strong> con el protocolo de carga rápida del fabricante; por USB PD la entrega llega hasta 27 W.</li><li><strong>Entrada de 100-240 V:</strong> funciona en cualquier país, solo cambia el enchufe.</li><li><strong>Compatible con USB PD y QC:</strong> sirve con la mayoría de celulares Android, con iPhone, tabletas y accesorios que carguen por USB-C.</li><li><strong>Cable USB incluido</strong> para empezar a cargar de una.</li><li><strong>Tamaño compacto</strong> para llevarlo en el bolso o dejarlo fijo en la oficina.</li></ul><p>La velocidad de carga depende del celular: los equipos con carga rápida propia aprovechan todo el cargador; los que cargan por USB PD reciben hasta 27 W, y los iPhone alrededor de 20 W, hasta unos 25 W en los modelos Pro Max. Escríbenos con el modelo de tu celular y te decimos a qué potencia cargaría.</p><p>Envío GRATIS a toda Colombia · Pago 100 % seguro (PSE, tarjetas) · Garantía y derecho de retracto (Ley 1480 de 2011).</p>",
+      "specs": [
+        {
+          "k": "Potencia máxima",
+          "v": "33 W, con el protocolo de carga rápida del fabricante (aprox. 11 V × 3 A). Por USB PD la entrega llega hasta 27 W"
+        },
+        {
+          "k": "Entrada",
+          "v": "100-240 V, 50/60 Hz: sirve en cualquier país, solo cambia el enchufe"
+        },
+        {
+          "k": "Salida",
+          "v": "Un puerto USB-C. La potencia máxima de 33 W se entrega por ese puerto"
+        },
+        {
+          "k": "Protocolos",
+          "v": "Carga rápida de 33 W con el protocolo propio del fabricante, USB PD hasta 27 W y QC 3.0"
+        },
+        {
+          "k": "Carga de un iPhone",
+          "v": "El iPhone regula la potencia que recibe: alrededor de 20 W en la mayoría de los modelos y hasta unos 25 W en los modelos Pro Max. No alcanza los 33 W"
+        },
+        {
+          "k": "Carga de otros Android",
+          "v": "Depende del celular: los que usan el protocolo de carga rápida del fabricante aprovechan los 33 W; los que cargan por USB PD reciben hasta 27 W"
+        },
+        {
+          "k": "Cable incluido",
+          "v": "Sí incluye cable USB para cargar"
+        }
+      ],
+      "incluye": [
+        "Cargador de pared de 33 W con salida USB-C",
+        "Cable USB para cargar"
+      ],
+      "necesita": [
+        "Un cable que soporte carga rápida: con un cable corriente la potencia baja aunque el cargador sea de 33 W",
+        "Un celular compatible con el protocolo de carga rápida de 33 W para aprovechar toda la potencia; el resto carga a la velocidad que soporte",
+        "Un enchufe de pared: no incluye adaptador de viaje"
+      ],
+      "nota_honesta": "Ten en cuenta que los 33 W son la potencia máxima del cargador: tu celular la aprovecha solo si soporta ese tipo de carga rápida. Con iPhone o con equipos que cargan por USB PD la velocidad real está alrededor de 20 a 27 W. Dinos qué celular tienes y te decimos a qué potencia carga de verdad.",
+      "fuentes": [
+        "https://www.chargerlab.com/teardown-of-xiaomi-33w-usb-a-charger-mdy-16-ef — desarme del cargador 33 W original de Xiaomi (MDY-16-EF): entrada 100-240 V, salida 5 V 3 A y 3,6-11 V 3 A (33 W), puerto USB-A con lengüeta naranja, 81,1 g, protocolos Xiaomi propietario + PD hasta 27 W + QC 3.0",
+        "https://www.mi.com/ph/support/faq/details/KA-07461/ — ficha oficial del Mi 33W Wall Charger (Type-A + Type-C): entrada 90-264 V, salida USB-C de hasta 33 W y USB-A de hasta 27 W, y la lista de protecciones que declara Xiaomi",
+        "https://electronics.alibaba.com/buyingguides/xiaomi-original-charger-guide-how-to-choose-right — cómo distinguir un cargador original de Xiaomi: logo Mi en relieve, número de modelo en la carcasa y código QR de verificación",
+        "https://techtouch.pk/real-vs-fake-xiaomi-120w-charger/ — comparación original contra imitación en cargadores Xiaomi: el original declara completamente su modelo, entrada y salida, y los clones pesan menos",
+        "https://www.chargerlab.com/apple-iphone-15-pro-max-charging-test-chargerlab-compatibility-100 — prueba de carga del iPhone 15 Pro Max: 14,5 V y 1,75 A, unos 25,43 W como máximo",
+        "https://support.apple.com/en-us/102574 — Apple indica que para carga rápida se necesita un adaptador USB-C de 20 W o más",
+        "https://www.mercadolibre.com.co/cargador-xiaomi-33w-original-tipo-c-turbo-cargador-mdy11ex/up/MCOU3636291570 — ejemplo del mercado colombiano: los '33 W' de Xiaomi se venden siempre amarrados a un número de modelo (MDY-11-EX), que es lo que hay que exigir en la ficha"
+      ],
+      "pendientes": [
+        "INTERNO — por qué el título va sin la marca y qué falta por conseguir. (1) NO se puede confirmar que el cargador sea un original de Xiaomi: la tienda no publica número de modelo, foto de la etiqueta ni código de verificación, y sin eso no hay derecho a usar la marca de otro en el título ni en la descripción. Es el mayor riesgo legal del lote (publicidad engañosa, Ley 1480 de 2011). Por eso el título sugerido quedó como 'Cargador Rápido 33W USB-C', sin la marca, y la descripción no menciona Xiaomi. (2) Cómo se reconoce un original de Xiaomi, para pedírselo al proveedor: número de modelo impreso en la carcasa (MDY-11-EX y MDY-16-EF tienen un solo puerto USB-A; MDY-11-EZ tiene USB-A + USB-C), logo Mi en relieve, etiqueta con entrada y salida completas y código QR de verificación que lleva al sitio de Xiaomi. Los clones suelen venir con la carcasa lisa, sin modelo, con textos mal impresos y con menos peso. Si el proveedor manda la foto de la etiqueta con el modelo y se verifica el código, se puede volver a poner la marca acompañada del modelo exacto. (3) Datos que no se pudieron atribuir al producto: si el cargador que vende la tienda tiene salida USB-A o USB-C, qué cable trae la caja (USB-A a USB-C o USB-C a USB-C) y si de verdad declara las protecciones que anunciaba la descripción (las de Xiaomi son sobrevoltaje, cortocircuito, sobrecalentamiento, sobrecorriente, subtensión, campos electromagnéticos, estática y rayos, según la ficha oficial del Mi 33W Tipo-A + Tipo-C). Por eso peso y medidas van en null: las del original MDY-16-EF son 81,1 g y 54,8 × 28 × 46,8 mm, pero no se pueden atribuir a un producto sin modelo identificado.",
+        "PENDIENTE: falta el peso real del equipo.",
+        "PENDIENTE: faltan las medidas reales del equipo.",
+        "CONFIANZA de la investigacion: media (revisar antes de pautar)."
+      ]
+    },
+    "interruptor-inteligente-wifi-doble-tactil-alexa-y-google-home": {
+      "titulo": "Interruptor Inteligente WiFi Doble — Táctil · App Tuya / Smart Life · Alexa y Google Home",
+      "descripcion": "<p>Interruptor de pared táctil de 2 canales con WiFi de 2,4 GHz. Controla cada luz por separado desde el celular, con horarios y temporizador en la app Tuya Smart o Smart Life, y por voz con Alexa o Google Home.</p><ul><li><strong>Se conecta directo a tu red WiFi:</strong> no necesita hub ni puente.</li><li>Soporta <strong>10 A por canal</strong> y cargas de <strong>5 a 600 W por canal</strong>.</li><li>Voltaje de 100-250 V AC, 50/60 Hz. Consumo en reposo de 0,5 W.</li><li>Panel táctil de vidrio templado, disponible en blanco y negro.</li><li>Programa horarios, cuenta regresiva y escenas desde la app.</li></ul><p><strong>Hay dos versiones, según tu instalación:</strong> una para caja con cable neutro y otra para caja sin neutro. La versión sin neutro trabaja con un condensador instalado en la carga y, con bombillos LED de muy bajo vataje, puede presentar un parpadeo leve. El aparato maneja 110/220 V, así que la instalación la debe hacer un electricista.</p>",
+      "specs": [
+        {
+          "k": "Tipo",
+          "v": "Interruptor de pared táctil WiFi de 2 canales, 1 vía"
+        },
+        {
+          "k": "Voltaje",
+          "v": "100-250 V AC, 50/60 Hz"
+        },
+        {
+          "k": "Corriente por canal",
+          "v": "10 A"
+        },
+        {
+          "k": "Carga por canal",
+          "v": "5 a 600 W por canal"
+        },
+        {
+          "k": "Consumo en reposo",
+          "v": "0,5 W"
+        },
+        {
+          "k": "Temperatura de trabajo",
+          "v": "0 a 40 °C"
+        },
+        {
+          "k": "Conectividad",
+          "v": "WiFi 2,4 GHz. Se conecta directo a la red: no necesita hub"
+        },
+        {
+          "k": "App",
+          "v": "Tuya Smart o Smart Life, gratuita"
+        },
+        {
+          "k": "Control por voz",
+          "v": "Alexa y Google Home"
+        },
+        {
+          "k": "Versión sin neutro",
+          "v": "Es un producto distinto: requiere un condensador instalado en la carga y no funciona bien con todas las luminarias"
+        },
+        {
+          "k": "Panel",
+          "v": "Vidrio templado con acabado táctil"
+        },
+        {
+          "k": "Material del cuerpo",
+          "v": "ABS"
+        }
+      ],
+      "incluye": [
+        "1 interruptor táctil de 2 canales",
+        "Placa frontal y tornillos de montaje",
+        "Condensador, solo en la versión sin neutro",
+        "No incluye: luminarias, cableado ni caja de paso"
+      ],
+      "necesita": [
+        "Fase disponible en la caja del interruptor; neutro únicamente si compras la versión con neutro",
+        "Red WiFi de 2,4 GHz con buena señal en el punto de instalación. No funciona en redes de 5 GHz",
+        "App Tuya Smart o Smart Life instalada en el celular",
+        "Alexa o Google Home, solo si quieres control por voz",
+        "Instalación por un electricista: el aparato trabaja con 110/220 V"
+      ],
+      "nota_honesta": "Este interruptor no es resistente al agua: no lo instales en baños sin protección, terrazas ni zonas donde le caiga agua directa. La versión sin neutro trabaja con un condensador instalado en la carga y, con bombillos LED de muy bajo vataje, puede presentar un parpadeo leve. Maneja 110/220 V, así que la instalación la debe hacer un electricista.",
+      "fuentes": [
+        "https://www.domotiz.cl/blogs/news/guia-completa-para-conectar-un-interruptor-inteligente-wifi-sin-neutro-con-capacitor — instalación sin neutro con condensador y limitaciones de la versión sin neutro",
+        "https://solution.tuya.com/template/00000007wk — ficha técnica oficial de Tuya para el interruptor WiFi de 2 canales: control por voz, horarios, cuenta regresiva y carga mínima de 5 W",
+        "https://www.mercadolibre.com.ec/interruptor-tactil-2-canales-tuya-smart-wifi/up/MECU3107586905 — corriente nominal 10 A, apps Tuya Smart y Smart Life, cuerpo en ABS",
+        "https://www.facebook.com/groups/799185042772058/posts/953133424043885/ — especificaciones del mismo tipo de producto: 100-250 V 50/60 Hz, 10 A, carga 5-600 W por canal, 0,5 W en reposo, 0 a 40 °C",
+        "https://es.scribd.com/document/911965794/DOMOTICA-HOGAR-INTELIGENTE-MAYORISTa — capacidad de carga de 10 A por canal, WiFi 2,4 GHz y compatibilidad Alexa / Google Home",
+        "https://www.amazon.com.mx/Interruptor-inteligente-interruptor-compatible-templado/dp/B0H17Y12S6 — panel de vidrio templado y carga hasta 220/240 V"
+      ],
+      "pendientes": [
+        "No se encontró una marca ni un modelo comercial único: es un producto genérico Tuya que distintos proveedores venden con 10 A o con cargas declaradas de hasta 1000 W por canal y con o sin condensador. Por eso el amperaje y la carga por canal quedan como rango y hay que confirmarlos con el proveedor antes de publicar cifras. Peso y medidas exactas del producto NO se encontraron en ninguna ficha, por eso van en null. Tampoco se pudo confirmar por fuente independiente la función de apagado del LED indicador (modo nocturno) ni la resistencia al agua. El texto actual mezcla las dos versiones (con y sin neutro) como si fueran una sola: eso es lo que genera devoluciones.\n\nINTERNO — datos que la tienda no puede afirmar y que por eso NO van en el texto del cliente: (a) la carga por canal se declara de 5-600 W en la mayoría de las fichas, pero algunas fichas del mismo producto anuncian hasta 1000 W: hay que definirlo con el proveedor antes de publicar una cifra; (b) el panel de vidrio templado y el cuerpo en ABS provienen de fichas regionales del mismo producto, no de un fabricante identificable; (c) el modo nocturno de apagado del LED indicador no está documentado en ninguna fuente. Además, el texto original mezclaba las dos versiones (con y sin neutro) como si fueran un solo aparato.",
+        "PENDIENTE: falta el peso real del equipo.",
+        "PENDIENTE: faltan las medidas reales del equipo.",
+        "CONFIANZA de la investigacion: media (revisar antes de pautar)."
+      ]
+    },
+    "bombillo-inteligente-rgb-wifi-a-luces-de-colores-con-control-por-app": {
+      "titulo": "Bombillo Inteligente RGB WiFi E27 de 9 W — Blanco regulable y colores · App Tuya / Smart Life",
+      "descripcion": "<p>Bombillo LED inteligente con rosca E27: cambia de color y de tono de blanco desde el celular. 9 W, 806 lúmenes, equivalente a una bombilla incandescente de 60-75 W.</p><ul><li><strong>Rosca E27</strong> estándar: sirve en la mayoría de plafones y lámparas.</li><li><strong>Colores RGB</strong> más blanco regulable de <strong>2700 K (cálido) a 6500 K (frío)</strong>.</li><li>Potencia real: <strong>9 W</strong>. Flujo luminoso: <strong>806 lúmenes</strong> en luz blanca.</li><li>Voltaje 100-250 V AC. Trabaja con la app gratuita Tuya Smart o Smart Life.</li><li>Programa horarios, intensidad y escenas desde la app, estés donde estés.</li><li>Control por voz con Alexa y Google Assistant.</li></ul><p><strong>Antes de comprar:</strong> este bombillo solo funciona con redes WiFi de <strong>2,4 GHz</strong>. Si tu router está configurado solo en 5 GHz, no lo va a encontrar. No necesita hub ni puente adicional.</p>",
+      "specs": [
+        {
+          "k": "Tipo",
+          "v": "Bombillo LED inteligente RGB + blanco regulable, formato bulbo A60"
+        },
+        {
+          "k": "Casquillo",
+          "v": "E27, rosca común"
+        },
+        {
+          "k": "Potencia",
+          "v": "9 W"
+        },
+        {
+          "k": "Flujo luminoso",
+          "v": "806 lúmenes en luz blanca"
+        },
+        {
+          "k": "Equivalencia",
+          "v": "Aproximadamente 60 a 75 W de una bombilla incandescente"
+        },
+        {
+          "k": "Temperatura de color",
+          "v": "Regulable de 2700 K (cálido) a 6500 K (frío), más modo RGB de colores"
+        },
+        {
+          "k": "Voltaje",
+          "v": "100-250 V AC"
+        },
+        {
+          "k": "Conectividad",
+          "v": "WiFi 2,4 GHz"
+        },
+        {
+          "k": "App",
+          "v": "Tuya Smart o Smart Life, descarga gratuita"
+        },
+        {
+          "k": "Control por voz",
+          "v": "Alexa y Google Assistant"
+        },
+        {
+          "k": "Vida útil",
+          "v": "Hasta 30.000 horas"
+        },
+        {
+          "k": "Regulable",
+          "v": "Sí, intensidad y color desde la app"
+        }
+      ],
+      "incluye": [
+        "1 bombillo LED inteligente E27 de 9 W RGB + blanco regulable",
+        "Guía de vinculación a la app Tuya Smart / Smart Life",
+        "No incluye: ningún tipo de puente, hub ni control remoto físico"
+      ],
+      "necesita": [
+        "Red WiFi de 2,4 GHz (los bombillos inteligentes de este tipo no funcionan en redes de 5 GHz)",
+        "App Tuya Smart o Smart Life instalada en el celular",
+        "Alexa o Google Assistant, solo si quieres control por voz",
+        "Una luminaria o plafón con rosca E27"
+      ],
+      "nota_honesta": "El bombillo solo se conecta a redes WiFi de 2,4 GHz. Si tu router emite únicamente en 5 GHz, activa la banda de 2,4 GHz antes de configurarlo. Los colores no tienen la misma potencia de luz que el blanco: en modo color la luz es más decorativa que de trabajo.",
+      "fuentes": [
+        "https://www.sieteiluminacion.com/productos/lampara-led-smart-life-e27-wifi-rgb-celular-app-tuya-dim/ — ficha técnica del mismo modelo: 806 lúmenes, 9 W, E27 220 V, blanco cálido-neutro-frío regulable, 30.000 horas, app Smart Life gratuita",
+        "https://www.amazon.es/bombilla-inteligente-smart/s?k=bombilla+inteligente+tuya+smart — bombilla LED inteligente WiFi E27 9 W RGB + blanco 2700-6500 K, 806 lm, app Tuya Smart Life, compatible Alexa y Google Home",
+        "https://arastorecr.com/producto/bombillo-inteligente-rgb-led-wifi-dimeable-tuya-smart-smart-life/ — flujo luminoso 900 lúmenes, 6500 K + RGB, voltaje 100-250 V, WiFi 2,4 GHz (802.11 b/n/g), app Tuya Smart / Smart Life",
+        "https://www.domadoo.fr/es/domotica-wifi/8022-moes-bombilla-led-tuya-smart-life-e27-color-wifi.html — espectro RGB y temperatura de color ajustable entre 2700 K y 6500 K",
+        "https://es.aliexpress.com/item/1005012011293002.html — mismo tipo de bombillo Tuya E27 de 10 W con 2700-6500 K, app Smart Life y control por voz",
+        "https://www.expert4house.com/es/smart-home/encendiendo/bombilla-inteligente/bombilla-led-wifi-inteligente-tuya-10w-rgbw — bombilla LED Tuya E27 de 10 W RGBW regulable con control remoto, voz y programación"
+      ],
+      "pendientes": [
+        "Dato importante: los lúmenes y los vatios NO aparecen en el texto de la tienda; los saqué de fichas del mismo tipo de bombillo (9 W y 806 lm), pero también existen versiones de 10 W con 900 lm del mismo producto genérico. Antes de publicar una cifra cerrada hay que medir o pedirle al proveedor la ficha del lote. Peso y medidas exactas del bombillo en null: no hay ficha que los declare (un post de catálogo menciona 11 cm de alto y 6 cm de diámetro para un bulbo A60, pero no es fuente de fabricante ni se repite en dos fuentes). La app está confirmada como Tuya Smart / Smart Life en varias fichas del mismo modelo, pero al ser producto genérico el proveedor podría entregar un lote con otra app; conviene verificar el empaque del lote.\n\nINTERNO — la cifra de 9 W y 806 lúmenes sale de fichas del mismo tipo de bombillo, no del texto de la tienda ni de un fabricante identificable: existen versiones de 10 W con 900 lúmenes del mismo producto genérico, así que hay que medir o pedir la ficha del lote antes de fijar el dato. Peso y medidas del bombillo van en null porque ninguna ficha de fabricante los declara. La app Tuya Smart / Smart Life está confirmada en varias fichas del mismo modelo, pero al ser producto genérico el proveedor podría entregar un lote con otra app: conviene revisar el empaque del lote.",
+        "PENDIENTE: falta el peso real del equipo.",
+        "PENDIENTE: faltan las medidas reales del equipo."
+      ]
+    },
+    "ca-mara-wifi-mini-a9-a-vigilancia-inteligente-desde-tu-celular": {
+      "modelo": "A9 Mini",
+      "titulo": "Cámara WiFi Mini A9 — Grabación en tarjeta microSD y visión nocturna",
+      "descripcion": "<p>Mini cámara WiFi para vigilancia de interiores. Se conecta a tu red de 2,4 GHz y se ve desde el celular con la app V380 Pro.</p><ul><li><strong>Detección de movimiento</strong> con alerta al celular.</li><li><strong>Visión nocturna</strong> por infrarrojos.</li><li><strong>Audio bidireccional:</strong> tiene micrófono y parlante, puedes hablar y escuchar.</li><li>Graba en <strong>tarjeta microSD</strong>, hasta 32 GB. La tarjeta se compra aparte.</li><li><strong>Modo AP:</strong> si no tienes WiFi, la cámara crea su propia red y la ves desde el celular conectado a ella, sin internet.</li><li>Batería recargable interna con cable USB.</li></ul><p><strong>Lo que debes saber antes de comprar:</strong></p><ul><li>La rotación de 360° es <strong>horizontal y se hace girando la base con la mano</strong>, no desde la app. La inclinación vertical es limitada.</li><li>La <strong>nube es un servicio aparte y de pago</strong>. Si no pagas suscripción, la grabación va a la tarjeta microSD.</li><li>Graba en resolución <strong>HD 720p</strong>.</li><li>Para verla cuando no estás en casa necesitas internet en la casa y en el celular.</li></ul>",
+      "specs": [
+        {
+          "k": "Resolución",
+          "v": "HD 720p, 1280 x 720"
+        },
+        {
+          "k": "Lente",
+          "v": "Gran angular. El ángulo varía entre 90° y 150° según la versión"
+        },
+        {
+          "k": "Rotación",
+          "v": "Base magnética giratoria manual: 360° en horizontal. La inclinación vertical es limitada"
+        },
+        {
+          "k": "Visión nocturna",
+          "v": "Infrarrojos integrados"
+        },
+        {
+          "k": "Detección de movimiento",
+          "v": "Sí, con alertas a la app"
+        },
+        {
+          "k": "Audio",
+          "v": "Micrófono y altavoz: audio bidireccional"
+        },
+        {
+          "k": "Almacenamiento local",
+          "v": "Tarjeta microSD (TF), hasta 32 GB. Algunas versiones admiten hasta 128 GB. La tarjeta se compra aparte"
+        },
+        {
+          "k": "Almacenamiento en nube",
+          "v": "Servicio opcional de pago por suscripción. En la app V380 cuesta US$2,9 al mes por 7 días de grabación y US$4,6 al mes por 30 días"
+        },
+        {
+          "k": "Conectividad",
+          "v": "WiFi 2,4 GHz. También funciona en modo AP: la cámara crea su propia red y el celular se conecta directo"
+        },
+        {
+          "k": "App",
+          "v": "V380 Pro, gratuita"
+        },
+        {
+          "k": "Alimentación",
+          "v": "Batería recargable interna con cable USB"
+        },
+        {
+          "k": "Medidas",
+          "v": "Aprox. 4,3 x 3,5 x 2,5 cm"
+        }
+      ],
+      "incluye": [
+        "1 cámara A9 Mini",
+        "Base o soporte magnético",
+        "Cable USB de carga",
+        "Guía rápida de configuración",
+        "No incluye: tarjeta microSD ni suscripción de nube"
+      ],
+      "necesita": [
+        "Red WiFi de 2,4 GHz para verla a distancia, o el modo AP si no tienes red",
+        "App V380 Pro instalada en el celular",
+        "Tarjeta microSD si quieres grabar sin pagar la nube",
+        "Suscripción de pago si quieres almacenamiento en nube",
+        "Cargador USB para recargar la batería"
+      ],
+      "nota_honesta": "Dos cosas para que no te lleves una sorpresa: 1) El almacenamiento en nube no está incluido. Es una suscripción de pago que se contrata dentro de la app V380 y cuesta desde US$2,9 al mes. Si no la contratas, la cámara graba en la tarjeta microSD, que se compra aparte. 2) La rotación de 360° es horizontal y se hace girando la base con la mano, no desde la app, y la inclinación vertical es limitada: no cubre techo y piso al mismo tiempo.",
+      "fuentes": [
+        "https://v380.org/cloud-storage-issues/ — precios oficiales del almacenamiento en nube de la plataforma V380: US$2,9/mes con 7 días de retención y US$4,6/mes con 30 días",
+        "https://www.youtube.com/watch?v=rvZ0yz23hAU — video de desempaque de la cámara A9: la base permite girar el ángulo de grabación de forma manual y admite tarjeta TF hasta 128 GB",
+        "https://www.scribd.com/document/727400195/A9-WiFi-Mini-Camera-User-Manual-English — manual de la A9: lente gran angular de 150°, resolución configurable en 1080P / 720P / 640P / 320P, detección de movimiento",
+        "https://www.amazon.ae/A9-Security-Surveillance-Horizontal-Protection/dp/B0GMD25WZY — variante con cobertura 360° horizontal (0° a 360°) e inclinación vertical limitada (de -5° a 105°)",
+        "https://manuals.plus/asin/B0FBRGXVQ7 — manual de la A9 Mini: ángulo de visión de 120° y base giratoria, con dimensiones de 43 x 35 x 25 mm",
+        "https://www.newegg.com/p/0Z2-06TD-011A6 — ficha de la A9 Mini: almacenamiento local en tarjeta SD",
+        "https://www.walmart.com/ip/Mini-WiFi-Camera-A9-Mini-Camera-APP-Remote-Monitor-Home-Security-1080P-Camera-IR-Wireless-Camera-Home-Cam-Night-Vision-Motion-Detection-Indoor-Outdoo/14633504939 — ficha con resolución 1080p, visión nocturna, detección de movimiento y batería interna",
+        "https://community.home-assistant.io/t/popular-a9-mini-wi-fi-camera-the-ha-challenge/230108 — modos de conexión de la A9: modo punto de acceso directo al celular y modo red WiFi",
+        "https://ukspygear.com/blogs/default-blog/do-mini-cameras-need-wifi-security-camera-guide-2024-complete-guide — la A9 graba localmente en tarjeta SD sin necesidad de conexión WiFi activa",
+        "https://www.justanswer.com/home-security-systems/onr2y-buy-cloud-service-v380-pro-show.html — la nube del V380 Pro se compra como suscripción desde la app"
+      ],
+      "pendientes": [
+        "Puntos que quedaron sin resolver: 1) Peso: ninguna ficha lo declara, va en null. 2) Medidas: varían por lote (43 x 35 x 25 mm en un manual, 50 x 45 x 45 mm en otra ficha), por eso va como rango. 3) Resolución: hay lotes verdaderamente 1080p y lotes 720p con empaque que dice 1080p; no se puede confirmar cuál es el del inventario de la tienda sin ver el lote físico. El texto actual dice solo HD en las especificaciones, y eso es lo más honesto hasta confirmar. 4) No se encontró ficha de fabricante: la A9 no tiene fabricante identificable, es un producto genérico, y sus app y especificaciones cambian por lote; por eso no hay un dato de nube único, pero todos los servicios de nube encontrados (V380, iCSee, IPC360) son de pago. 5) No se encontró ninguna fuente que confirme funcionamiento de nube gratuita en Colombia: no existe. Recomendación firme: quitar toda mención a nube del texto o decir explícitamente que es de pago.\n\nINTERNO — el modelo A9 no tiene fabricante identificable y sus especificaciones cambian por lote, así que estos datos son los de las fichas mayoritarias y hay que confirmarlos contra el lote físico: (a) resolución: los listados la anuncian como 1080p, pero el manual del mismo producto da resolución configurable en 1080P / 720P / 640P / 320P y la mayoría de lotes entrega 720p; (b) medidas: 43 x 35 x 25 mm en un manual y 50 x 45 x 45 mm en otra ficha; (c) app: la A9 circula con V380 Pro, V720, iCSee e IPC360 Home según el lote, y la app de nube y los precios de la suscripción cambian con ella; (d) peso: ninguna ficha lo declara, va en null; (e) la tarjeta microSD no está confirmada como incluida: un listado la declara no incluida y otros no lo aclaran; (f) no existe nube gratuita para estas cámaras en Colombia. El texto anterior de la tienda afirmaba rotación 360° controlada desde la app, resolución HD sin precisar y almacenamiento en nube sin decir que era de pago: las tres cosas generan devoluciones.",
+        "PENDIENTE: falta el peso real del equipo.",
+        "CONFIANZA de la investigacion: media (revisar antes de pautar)."
+      ]
+    },
+    "carro-plegable-utilitario-carretilla-de-carga-multiusos": {
+      "titulo": "Carro Plegable Utilitario con Ruedas Todoterreno — Carretilla de Carga Multiusos 80 kg",
+      "descripcion": "<p>Carro plegable de carga para mercado, herramientas, jardín o playa. Marco de acero con mecanismo tipo acordeón: se abre y se guarda en segundos.</p><ul><li><strong>Capacidad de carga: hasta 80 kg</strong> distribuidos.</li><li><strong>4 ruedas grandes todoterreno</strong>, las delanteras giran 360° para maniobrar en espacios estrechos.</li><li><strong>Lona de poliéster Oxford 600D</strong> con recubrimiento de PVC, desmontable y fácil de lavar.</li><li><strong>Mango telescópico</strong> ajustable en altura, de 90 a 100 cm.</li><li>Bolsillos laterales de malla portabotellas.</li><li>Cesta interior aprox. 83 x 44 x 25 cm. Plegado tipo acordeón, con una huella de aprox. 53 x 20 cm.</li><li>Peso del carro: aprox. 7,4 kg.</li></ul><p><strong>Sobre el agua, para que no haya malentendidos:</strong> la lona repele la lluvia ligera y las salpicaduras, pero el carro <strong>no es impermeable</strong>. El agua entra por las costuras y el marco de acero no está diseñado para quedarse mojado. No lo dejes a la intemperie ni lo laves con manguera a presión: guárdalo seco, bajo techo.</p>",
+      "specs": [
+        {
+          "k": "Tipo",
+          "v": "Carro plegable tipo wagon con bolsa de lona, carretilla multiusos"
+        },
+        {
+          "k": "Estructura",
+          "v": "Marco de acero con mecanismo plegable tipo acordeón"
+        },
+        {
+          "k": "Ruedas",
+          "v": "4 ruedas grandes todoterreno; las delanteras giran 360°"
+        },
+        {
+          "k": "Lona",
+          "v": "Poliéster Oxford 600D con recubrimiento de PVC, desmontable"
+        },
+        {
+          "k": "Capacidad de carga",
+          "v": "Hasta 80 kg distribuidos"
+        },
+        {
+          "k": "Mango",
+          "v": "Telescópico, ajustable en altura de 90 a 100 cm"
+        },
+        {
+          "k": "Bolsillos",
+          "v": "Laterales de malla portabotellas"
+        },
+        {
+          "k": "Peso del producto",
+          "v": "Aprox. 7,4 kg"
+        },
+        {
+          "k": "Cesta interior",
+          "v": "Aprox. 83 x 44 x 25 cm"
+        },
+        {
+          "k": "Plegado",
+          "v": "Tipo acordeón. Huella plegada aprox. 53 x 20 cm"
+        },
+        {
+          "k": "Medidas",
+          "v": "Cesta interior aprox. 83 x 44 x 25 cm. Plegado aprox. 53 x 20 cm de huella. Medidas aproximadas de este tipo de carro"
+        }
+      ],
+      "incluye": [
+        "1 carro plegable con la lona montada",
+        "Mango telescópico integrado",
+        "Guía de armado"
+      ],
+      "necesita": [
+        "No requiere herramientas para el uso diario",
+        "Superficie razonablemente plana: aunque tenga ruedas todoterreno, no está diseñado para escaleras"
+      ],
+      "nota_honesta": "El carro no es impermeable. La lona es de poliéster Oxford 600D con recubrimiento de PVC, que repele salpicaduras y lluvia ligera, pero el agua pasa por las costuras y el marco de acero se oxida si queda mojado. No lo dejes en el patio, la terraza ni la intemperie, y no lo laves con manguera a presión: guárdalo seco y bajo techo. La capacidad de carga es de hasta 80 kg distribuidos; pasarse de ese peso o concentrarlo de un solo lado puede doblar el mecanismo. Las ruedas todoterreno sirven para pasto, arena y gravilla, no para escaleras.",
+      "fuentes": [
+        "https://www.mercadolibre.com.co/carro-plegable-para-jardin-con-ruedas-giratorias-80-kg/up/MCOU3427278260 — carro plegable de jardín con ruedas giratorias, 80 kg, lona Oxford 600D con PVC desmontable",
+        "https://www.mercadolibre.com.co/carro-plegable-vocpuli-80l-todo-terreno-negro/up/MCOU4975284332 — carro plegable todo terreno de 80 L, listado colombiano",
+        "https://www.vevor.com/garden-cart-c_10251/vevor-folding-wagon-cart-utility-collapsible-wagon-176-lbs-w-adjustable-handle-p_010103812288?lang=es — carro plegable de 176 libras (80 kg) con mango ajustable: cesta interior 83 x 44 x 25 cm y medida plegada de 20,9 x 7,9 pulgadas",
+        "https://articulo.mercadolibre.com.ve/MLV-888051766-carrito-plegable-multiusos-80kg-carro-de-carga-playa-_JM — peso máximo soportado de 80 kg, estructura metálica y 4 ruedas",
+        "https://m.cncest.com/es/products/carrito-de-compra-plegable-azul-con-ruedas-carretilla-utilitaria-porttil-tela-oxford-38l-capacidad-carga-70kg-uso-exterior — misma familia de producto: marco sólido, tela Oxford y capacidad de carga de 70 kg",
+        "https://www.mercadolibre.com.co/carro-de-compras-plegable-con-ruedas-grandes-para-playa/up/MCOU4083545806 — medidas y peso de un carro plegable de la misma categoría: 7,394 kg",
+        "https://www.instagram.com/reel/DRSmKrrD3RY/ — carretilla portátil multifuncional del mismo tipo con capacidad máxima de 70 kg y mango telescópico ajustable de 90 a 100 cm"
+      ],
+      "pendientes": [
+        "Puntos sin resolver: 1) La capacidad exacta de carga de ESTE carro no se puede confirmar: el rango encontrado es de 70 a 120 kg según el proveedor y las fichas más repetidas dan 80 kg. Hay que pedirle al proveedor la ficha del lote y publicar una sola cifra. 2) Las medidas exactas plegadas y abiertas cambian por lote: las que se dan son de la ficha VEVOR de un modelo equivalente de 80 kg, no de este SKU. 3) Modelo comercial: no hay marca ni modelo identificable, es un carro genérico. 4) Sobre el agua: ninguna ficha declara impermeabilidad ni índice IP. Lo único que se repite es que la tela Oxford 600D con recubrimiento de PVC es resistente a salpicaduras, y el texto de la tienda habla de una cosa distinta: que el acero es resistente a la intemperie. Esas dos ideas se están confundiendo en el anuncio y de ahí salen las devoluciones: el cliente lo deja afuera con lluvia y el marco se oxida. Recomendación firme: quitar del anuncio cualquier palabra que suene a impermeable y decir claramente que no se debe dejar a la intemperie.\n\nINTERNO — lo que no se pudo fijar y hay que definir con el proveedor antes de publicar: (a) la capacidad exacta de este SKU, porque el rango de fichas va de 70 a 120 kg y las más repetidas dan 80 kg; (b) las medidas plegadas y abiertas, que son de la ficha VEVOR de un modelo equivalente de 80 kg, no de este carro; (c) si la caja trae funda o tapa de transporte: ningún listado lo declara; (d) marca y modelo: es un carro genérico sin modelo identificable. Sobre el agua: ninguna ficha declara impermeabilidad ni índice IP; lo único que se repite es que la tela Oxford 600D con recubrimiento de PVC es resistente a salpicaduras, y el texto de la tienda hablaba por separado de un acero resistente a la intemperie. Esas dos ideas se confundían en el anuncio y de ahí salen las devoluciones: el cliente lo dejaba afuera con lluvia y el marco se oxidaba. Quitada toda palabra que suene a impermeable.",
+        "CONFIANZA de la investigacion: media (revisar antes de pautar)."
+      ]
+    },
+    "escurridor-de-cocina-con-tapa-65-cm-acero-inoxidable-antioxido": {
+      "titulo": "Escurridor de Cocina con Tapa 65 cm — Sobre el Fregadero, Acero Inoxidable",
+      "descripcion": "<p>Escurridor de loza y utensilios que se apoya sobre el fregadero: lavas y secas en el mismo lugar, sin ocupar la encimera. Trae tapa abatible y bandeja que drena directo al lavaplatos.</p><ul><li><strong>Largo: 65 cm.</strong> Ancho de 29 a 32 cm y alto de 52 a 78,5 cm según el modelo.</li><li>Organiza platos, cubiertos, tazones, tablas y utensilios.</li><li><strong>Tapa abatible</strong> que protege la loza del polvo.</li><li><strong>Bandeja de drenaje desmontable</strong>, fácil de limpiar.</li><li>Se puede usar sobre el fregadero, sobre el mesón o como estante.</li><li>Peso del producto: aprox. 2,7 kg.</li></ul><p><strong>Antes de comprar, mide tu fregadero:</strong> necesita al menos 65 cm de ancho libre. El escurridor se sostiene por apoyo y peso sobre el fregadero, así que la superficie debe estar nivelada.</p>",
+      "specs": [
+        {
+          "k": "Tipo",
+          "v": "Escurridor de loza y utensilios sobre el fregadero, con tapa"
+        },
+        {
+          "k": "Largo",
+          "v": "65 cm"
+        },
+        {
+          "k": "Ancho",
+          "v": "29 a 32 cm según el modelo"
+        },
+        {
+          "k": "Alto",
+          "v": "52 a 78,5 cm según el modelo, de 1 o 2 niveles"
+        },
+        {
+          "k": "Material",
+          "v": "Acero inoxidable"
+        },
+        {
+          "k": "Capacidad de peso",
+          "v": "Aprox. 30 kg"
+        },
+        {
+          "k": "Peso del producto",
+          "v": "Aprox. 2,7 kg"
+        },
+        {
+          "k": "Drenaje",
+          "v": "Drena directamente al lavaplatos, con bandeja desmontable"
+        },
+        {
+          "k": "Medidas",
+          "v": "65 cm de largo x 29 a 32 cm de ancho x 52 a 78,5 cm de alto, según el modelo"
+        }
+      ],
+      "incluye": [
+        "1 escurridor con tapa abatible",
+        "Porta platos y bandeja de drenaje",
+        "Soporte para cubiertos y tablas",
+        "Herramientas de montaje: llave hexagonal y llave"
+      ],
+      "necesita": [
+        "Fregadero con al menos 65 cm de ancho libre",
+        "Armado de los accesorios según el modelo"
+      ],
+      "nota_honesta": "Para que el acero te dure: sécalo después de cada uso, no lo dejes con residuos de sal ni de limpiadores con cloro, y no lo golpees con ollas. Mide tu fregadero antes de comprar: necesita 65 cm de ancho libre y una superficie nivelada, porque el escurridor se sostiene por apoyo y peso.",
+      "fuentes": [
+        "https://fullhousecol.com/products/organizador-escurridor-de-platos-con-tapa-de-65-cm-acero-inoxidable-negro — vendedor colombiano del mismo escurridor de 65 cm con tapa: declara acero inoxidable 304, drenaje directo al lavaplatos, 65 cm y 85 cm, e incluye accesorios y herramientas de montaje",
+        "https://www.exito.com/escurridor-de-platos-de-65-cm-con-tapa-104322333-mp/p — ficha en Éxito: largo 65 cm, ancho 29 cm, alto 78,5 cm, capacidad para 8 platos, sobre fregadero o encimera",
+        "https://www.facebook.com/importacionesmiachiclayo/posts/-escurridor-de-platos-65-cm-modelo-nuevo-con-tapa-precio-x-oferta-s9000medidas-p/1164633675679997/ — ficha de importador del mismo escurridor de 65 cm con tapa: 65 x 32 x 52 cm, capacidad de 30 kg y peso de 2,7 kg",
+        "https://climahostel.com/blog/novedades/tipos-de-aceros-inoxidables-para-utilizar-en-tu-cocina — el acero inoxidable 201 frente al 304 y por qué el 304 es el recomendado para cocina",
+        "https://www.conasi.eu/blog/consejos-de-salud/acero-inoxidable-utensilios-cocina/ — características de la serie 200 (acero 201) y su comportamiento frente a la corrosión en cocina",
+        "https://es.higoldsink.com/newsinfo-how-to-tell-if-a-stainless-steel-sink-is-304.html — cómo distinguir el acero 304 del 201 con el imán"
+      ],
+      "pendientes": [
+        "Lo que NO se pudo averiguar: 1) El grado exacto del acero de este SKU. La tienda no lo declara: un vendedor colombiano del mismo producto dice 304, pero otros listados regionales del mismo escurridor de 65 cm con tapa dicen 201 y otro vendedor describe el escurridor como acero pintado con pintura anticorrosión. Son productos distintos vendidos con el mismo nombre. Hasta no tener la ficha del proveedor, 'antióxido' no se puede prometer. 2) Las 4 ventosas: ninguna ficha las menciona; probablemente el producto se apoya sobre el fregadero. Hay que verificar el empaque real. 3) Peso soportado: solo una ficha de importador da 30 kg; otra ficha colombiana habla de capacidad para 8 platos, que es otra cosa. Va en rango y hay que confirmarlo. 4) Contenido de la caja: la tienda solo menciona el escurridor y la tapa; los accesorios (porta cubiertos, soporte de tablas, llaves) aparecen en la ficha de un vendedor del mismo producto, así que hay que verificar qué trae el lote propio. 5) Medidas: varían bastante entre fichas (ancho 29 o 32 cm, alto 52 o 78,5 cm) porque existen versiones de 1 y 2 niveles. Ojo también con la variedad que un vendedor describe como acero con pintura anticorrosión: si el producto va pintado, el texto 'acero inoxidable' también quedaría corto.\n\nINTERNO — aquí está lo que la tienda NO puede afirmar y que se retiró del texto del cliente: (a) GRADO DEL ACERO. La tienda no lo declara y el grado cambia el resultado. Un vendedor colombiano del mismo escurridor de 65 cm declara acero inoxidable 304, pero otras fichas regionales del mismo producto declaran acero 201, que sí se oxida en ambiente de cocina, y otro vendedor lo describe como acero con pintura anticorrosión. Además \"no se oxida\" es una promesa absoluta: hasta el acero 304 puede mancharse con sal, cloro y detergentes fuertes. Mientras no se tenga la ficha del proveedor, no se puede prometer \"antióxido\" ni usar la palabra en el título; si el proveedor confirma por escrito que es 304, se puede volver a incluir. (b) VENTOSAS: el texto anterior afirmaba 4 ventosas antideslizantes y ninguna ficha ni listado del producto las menciona; probablemente el escurridor se apoya por peso, así que la afirmación se eliminó y hay que verificar el empaque real. (c) La capacidad de 30 kg viene de una sola ficha de importador y otra ficha colombiana habla de capacidad para 8 platos, que es otra cosa: la cifra queda como aproximada. (d) Medidas: varían bastante (ancho 29 o 32 cm; alto 52 o 78,5 cm) porque existen versiones de 1 y 2 niveles. (e) Contenido de la caja: la tienda solo mencionaba el escurridor y la tapa; los accesorios (porta cubiertos, soporte de tablas, llaves) aparecen en la ficha de un vendedor del mismo producto, así que hay que verificar qué trae el lote propio.",
+        "CONFIANZA de la investigacion: baja (revisar antes de pautar)."
+      ]
+    },
+    "bolso-panalera-con-cuna-y-colchon-portatil-cambiador-3-en-1": {
+      "modelo": "ZF-425",
+      "titulo": "Bolso Pañalera con Cuna Portátil y Colchón — Mochila 3 en 1",
+      "descripcion": "<p>Mochila pañalera que se abre en una superficie plana de descanso con colchón, para las salidas cortas con el bebé.</p><ul><li><strong>Mochila cerrada:</strong> aprox. 43 x 25 x 31 cm.</li><li><strong>Abierta:</strong> 70 a 72 cm de largo x 23 cm de ancho, con colchón acolchado incluido.</li><li>Compartimentos para pañales, biberones, ropita y accesorios, con hasta 8 bolsillos organizadores.</li><li>Correas de hombro acolchadas y manija de transporte.</li><li>Se pliega y queda como bolso cuando terminas de usarla.</li></ul><p><strong>Para qué sirve y para qué no:</strong> es una superficie de descanso <strong>temporal</strong>, para cambiar o acostar al bebé un rato durante una salida, siempre sobre una superficie plana y firme y con un adulto al lado. <strong>No es una cuna de uso nocturno</strong> ni reemplaza la cuna de la casa: 23 cm de ancho es una superficie angosta y el bolso no tiene barandas.</p>",
+      "specs": [
+        {
+          "k": "Tipo",
+          "v": "Mochila pañalera convertible en superficie de descanso portátil con colchón"
+        },
+        {
+          "k": "Medidas de la mochila cerrada",
+          "v": "Aprox. 43 x 25 x 31 cm"
+        },
+        {
+          "k": "Medidas abierta",
+          "v": "70 a 72 cm de largo x 23 cm de ancho"
+        },
+        {
+          "k": "Capacidad de almacenamiento",
+          "v": "20 a 35 L"
+        },
+        {
+          "k": "Compartimentos",
+          "v": "Hasta 8 bolsillos: espacio para pañales, biberones, ropita y accesorios"
+        },
+        {
+          "k": "Colchón",
+          "v": "Acolchado, incluido"
+        },
+        {
+          "k": "Correas",
+          "v": "De hombro acolchadas, más manija de transporte"
+        }
+      ],
+      "incluye": [
+        "1 mochila pañalera",
+        "Colchón o almohadilla de descanso",
+        "Correas de hombro acolchadas y manija de transporte"
+      ],
+      "necesita": [
+        "Una superficie plana y firme para extenderla",
+        "Nada más: no requiere instalación ni herramientas"
+      ],
+      "nota_honesta": "Por seguridad: la superficie de descanso de este bolso es para usarla durante el día, sobre una superficie plana y firme y con un adulto acompañando al bebé. No es una cuna de uso nocturno: mide unos 23 cm de ancho y no tiene barandas. No la uses sobre camas, sofás, sillas ni superficies inclinadas, y nunca dejes al bebé solo.",
+      "fuentes": [
+        "https://www.instagram.com/p/DdXanXQgLjS/ — ficha del modelo ZF-425: mochila pañalera cuna 3 en 1 de 43 cm de alto x 31 cm de ancho x 25 cm de profundidad",
+        "https://www.instagram.com/p/DWg4BvTFfH1/ — ficha del ZF-425: medidas de mochila 43 x 25 x 31 cm, cuna 72 x 23 cm y capacidad de 20 a 35 L",
+        "https://www.facebook.com/zhuangmonar/posts/mochila-pa%C3%B1alera-cuna-3-en-1-zf-425-la-mochila-pa%C3%B1alera-cuando-est%C3%A1-plegada-y-un/608381351913619/ — ficha del ZF-425: mochila de 40 x 20 x 30 cm y cama de bebé ampliada de 70 x 23 cm",
+        "https://www.facebook.com/BabyCenterStoreEc/posts/todo-lo-que-necesitas-en-un-solo-producto-cuna-convertible-en-bolso-3-en-1incluy/1909976482460172/ — cuna convertible en bolso 3 en 1 con 8 bolsillos organizadores",
+        "https://www.facebook.com/groups/1398855587447393/posts/1990507601615519/ — ficha del mismo tipo de pañalera cuna portátil: mochila de 40 x 20 x 30 cm y cama ampliada de 70 x 23 cm",
+        "https://www.mercadolibre.com.co/mochila-3-en-1-panalera-cuna-y-mudador-portatil-para-bebes/p/MCO42265123 — listado colombiano del mismo tipo de mochila pañalera 3 en 1 con cuna y mudador portátil: dimensiones totales de 40 x 30 x 20 cm"
+      ],
+      "pendientes": [
+        "Lo que quedó sin encontrar: 1) Peso máximo soportado por la cuna: ninguna fuente lo declara, va en null. Es el dato más delicado del producto porque es para bebés. 2) Peso del producto: no encontrado, va en null. 3) Si el colchón es desmontable y lavable: ninguna ficha lo aclara, solo se ve en fotos que es una almohadilla acolchada. Hay que verificarlo físicamente antes de afirmarlo. 4) Material de la tela y del relleno: ningún importador lo declara. 5) Contenido exacto de la caja: el título de la tienda dice cambiador 3 en 1, pero no se pudo confirmar por fuente que traiga un cambiador aparte además del colchón y las correas; hay que revisar el empaque del lote. 6) Modelo: ZF-425 es la referencia que usan varios importadores, pero no existe página de fabricante, así que no hay ficha oficial. 7) Normativa: en Colombia los artículos para bebé requieren declaración de conformidad y advertencias de seguridad; este producto no trae ninguna declarada, y por eso el texto del cliente no debe insinuar seguridad certificada ni usar la palabra cuna sin aclarar que es un uso temporal y supervisado. Las medidas de la mochila varían entre fichas (43 x 25 x 31 cm frente a 40 x 20 x 30 cm), así que hay que medir el lote propio.\n\nINTERNO — lo que queda sin resolver y lo que la tienda NO puede afirmar: (a) peso máximo soportado por la superficie de descanso: ninguna fuente lo declara, va en null, y es el dato más delicado porque es un producto para bebés; (b) peso del producto: no encontrado, va en null; (c) si el colchón es desmontable y lavable: ninguna ficha lo aclara, solo se ve en fotos que es una almohadilla acolchada; (d) material de la tela y del relleno: ningún importador lo declara, por eso se retiró el dato de specs; (e) contenido exacto de la caja: el título de la tienda dice \"cambiador 3 en 1\", pero no se pudo confirmar que traiga un cambiador aparte además del colchón y las correas, así que el cambiador se retiró de la lista de contenido; (f) modelo: ZF-425 es la referencia que usan varios importadores, pero no existe página de fabricante, así que no hay ficha oficial; (g) medidas de la mochila: varían entre fichas (43 x 25 x 31 cm frente a 40 x 20 x 30 cm); (h) normativa: en Colombia los artículos para bebé requieren declaración de conformidad y advertencias de seguridad, y este producto no trae ninguna declarada, por eso el texto del cliente no debe insinuar seguridad certificada ni usar la palabra \"cuna\" sin aclarar que es un uso temporal y supervisado.",
+        "PENDIENTE: falta el peso real del equipo.",
+        "CONFIANZA de la investigacion: baja (revisar antes de pautar)."
+      ]
+    },
+    "masajeador-corporal-infrarrojo-con-6-cabezales-relajacion-y-recuperacion": {
+      "titulo": "Masajeador Corporal Eléctrico de Mano con 6 Cabezales Intercambiables — Relajación Muscular en Casa",
+      "descripcion": "<p>Masajeador corporal eléctrico de mano con 6 cabezales intercambiables para masaje relajante y de recuperación muscular después del ejercicio o de jornadas largas de pie.</p><ul><li>6 cabezales intercambiables para distintas zonas y tipos de masaje</li><li>Intensidad regulable con control giratorio</li><li>Cabezales lavables con agua jabonosa templada; el aparato se limpia con un paño húmedo</li><li>Uso máximo recomendado: 15 minutos por sesión, con 15 minutos de enfriamiento entre usos</li></ul><p><strong>Para tener en cuenta:</strong> no es un equipo médico y no reemplaza tratamiento, diagnóstico ni terapia. No lo uses sobre huesos, columna, articulaciones, heridas, moretones o piel inflamada, ni sobre la zona del corazón. No lo uses si tienes marcapasos u otro implante electrónico, si estás embarazada o si tienes trombosis, diabetes o dolor de origen no diagnosticado sin hablar antes con tu médico. No lo uses dormido, bajo cobijas ni después de tomar alcohol o medicamentos que bajen la atención.</p><p>Envío gratis a toda Colombia (8 a 20 días hábiles) · Pago 100 % seguro (PSE, tarjetas) · Garantía y derecho de retracto (Ley 1480 de 2011).</p>",
+      "specs": [
+        {
+          "k": "Tipo",
+          "v": "Masajeador corporal eléctrico de mano con cabezales intercambiables"
+        },
+        {
+          "k": "Cabezales",
+          "v": "6 cabezales intercambiables"
+        },
+        {
+          "k": "Intensidad",
+          "v": "Regulable con control giratorio"
+        },
+        {
+          "k": "Alimentación",
+          "v": "Cable de corriente de 220 V o recargable, según la versión"
+        },
+        {
+          "k": "Tiempo de uso por sesión",
+          "v": "Máximo 15 minutos seguidos, con 15 minutos de enfriamiento antes de volver a usarlo"
+        },
+        {
+          "k": "Limpieza",
+          "v": "Cabezales lavables con agua jabonosa templada; el aparato se pasa con un paño húmedo"
+        },
+        {
+          "k": "Peso",
+          "v": "No informado por el fabricante"
+        },
+        {
+          "k": "Medidas",
+          "v": "No informadas por el fabricante"
+        }
+      ],
+      "incluye": [
+        "1 masajeador corporal de mano",
+        "6 cabezales intercambiables",
+        "Cable de corriente o cable de carga, según la versión"
+      ],
+      "necesita": [
+        "Toma de corriente o carga previa, según la versión",
+        "Usarlo máximo 15 minutos seguidos y dejarlo enfriar 15 minutos antes de repetir"
+      ],
+      "nota_honesta": "Antes de usarlo, ten claras estas tres cosas. Primero: no es un equipo médico; sirve para relajación y recuperación muscular, no para diagnosticar ni tratar ninguna enfermedad. Segundo: tiene zonas y casos prohibidos. No lo uses si tienes marcapasos u otro implante electrónico, si estás embarazada, si tienes trombosis o diabetes, ni sobre columna, huesos, articulaciones, heridas, moretones o piel inflamada, y tampoco en la zona del corazón. Si tienes dolor de origen desconocido, habla con tu médico antes de usarlo. Tercero: la superficie del cabezal se calienta durante el uso, así que úsalo máximo 15 minutos seguidos y déjalo enfriar 15 minutos antes de repetir, para evitar el sobrecalentamiento. Nunca lo dejes solo mientras está encendido, no lo uses dormido y no lo uses bajo cobijas ni almohadas.",
+      "fuentes": [
+        "https://enviomedical.com/es/masajeadores/12597-masajeador-portatil-6-cabezales-en-1-masajeadores.html — ficha del mismo genérico de 6 cabezales: 6 cabezales intercambiables, 10 niveles, 12 modos, 24 W, sesiones de ~15 minutos",
+        "https://site.nimbox.com/products/lloyds-pharmacy-body-massager-with-6-interchangeable-attachments-and-3-modes/58094052/ — modelo equivalente con 6 accesorios y 3 ajustes (masaje, calor, calor + masaje)",
+        "https://uk.bidspirit.com/ui/lotPage/retfordauction/source/catalog/auction/68472/lot/58686/canonical — listado del masajeador corporal infrarrojo con 6 accesorios intercambiables",
+        "https://picclick.co.uk/Lloyds-Pharmacy-Body-Massager-Infra-Red-Heat-113417217947.html — modelo de referencia BS838, con cable de red y función de calor rojo",
+        "https://m.media-amazon.com/images/I/B1EDega-QfS.pdf — manual del masajeador infrarrojo Beurer MG 40: 12 W, uso máximo 15 minutos, contraindicaciones y descripción del calor infrarrojo real",
+        "https://www.mercadolibre.com.co/masajeador-de-cuello-de-mano-de-tejido-profundo-para-hombros/up/MCOU4154856627 — listado del mismo tipo de masajeador de mano con 6 cabezales, vibración, 5 velocidades y regulador",
+        "https://www.ledestar.com/es/is-red-light-therapy-the-same-as-infrared/ — diferencia entre luz roja visible (superficial) e infrarrojo real"
+      ],
+      "pendientes": [
+        "LO PRINCIPAL QUE QUEDÓ SIN RESOLVER: no se encontró ninguna fuente que confirme que la unidad que vende la tienda trae lámpara de calor infrarrojo, por eso el veredicto es no_confirmada y la palabra infrarrojo se retiró del título y de la descripción sugeridos. El mismo genérico de 6 cabezales se fabrica en tres versiones (solo vibración, con LED rojo, o con calor infrarrojo real tipo Beurer MG 40) y los listados no lo aclaran. Acción pendiente con el proveedor: pedir el manual y una foto del cabezal encendido. Si no calienta, se confirma que la palabra infrarrojo no puede volver al texto del cliente. TEXTO RETIRADO DEL LADO DEL CLIENTE POR SER INTERNO: (1) del título, el paréntesis de verificación que se había colado; (2) de la nota honesta, todo lo relativo a la versión infrarroja y a la lámpara por confirmar; (3) de necesita, la frase sobre confirmar con el proveedor la versión exacta y si trae lámpara o LED. Eso queda aquí: hay que pedir al proveedor la versión exacta (con cable de 220 V o recargable), la potencia real y si el cabezal enciende y calienta. La potencia de 24 W sale de un solo listado del mismo genérico, no del proveedor: por eso no se publicó como dato firme. Los 6 cabezales son el único dato corroborado por varias fuentes. Sin confirmar también: modelo y fabricante exactos (el genérico no tiene marca única), peso, medidas y el contenido completo de la caja (si incluye manual, adaptador o estuche).",
+        "PENDIENTE: falta el peso real del equipo.",
+        "PENDIENTE: faltan las medidas reales del equipo.",
+        "CONFIANZA de la investigacion: media (revisar antes de pautar)."
+      ]
+    },
+    "combo-tensiometro-de-muneca-y-oximetro-monitoreo-de-salud-en-casa": {
+      "titulo": "Combo Tensiómetro Digital de Muñeca y Oxímetro de Pulso para Control en Casa",
+      "descripcion": "<p>Combo de dos equipos para el control diario en casa: un tensiómetro digital de muñeca con pantalla LCD y un oxímetro de pulso para medir la saturación de oxígeno (SpO2) y la frecuencia cardíaca.</p><ul><li>Tensión arterial y saturación de oxígeno en un solo combo</li><li>Tensiómetro de muñeca con pantalla LCD</li><li>Oxímetro de pulso para SpO2 y frecuencia cardíaca</li><li>Pensado para llevar un registro diario y mostrarlo en tu próxima consulta</li></ul><p><strong>Cómo tomar una buena lectura:</strong> coloca el brazalete directamente sobre la arteria radial, donde sientes el pulso, sin ropa debajo; mantén la muñeca a la altura del corazón, quédate quieto y no flexiones la muñeca. Los expertos recomiendan usar brazalete de brazo siempre que sea posible, así que lleva tu equipo al consultorio y compáralo con el del médico antes de confiar en las lecturas.</p><p><strong>Este combo es para control en casa, no para diagnosticar.</strong> Los datos son orientativos y cualquier decisión sobre tu tratamiento la toma tu médico. Nunca ajustes ni suspendas tu medicación con una lectura hecha en casa: si tienes una lectura muy alta o muy baja, o sientes síntomas, busca atención médica.</p><p>Envío gratis a toda Colombia (8 a 20 días hábiles) · Pago 100 % seguro (PSE, tarjetas) · Garantía y derecho de retracto (Ley 1480 de 2011).</p>",
+      "specs": [
+        {
+          "k": "Tipo",
+          "v": "Combo de dos equipos: tensiómetro digital de muñeca con brazalete integrado y oxímetro de pulso"
+        },
+        {
+          "k": "Medición del tensiómetro",
+          "v": "Presión arterial sistólica y diastólica, y pulso, de forma automática"
+        },
+        {
+          "k": "Medición del oxímetro",
+          "v": "Saturación de oxígeno (SpO2) y frecuencia cardíaca"
+        },
+        {
+          "k": "Pantalla",
+          "v": "LCD"
+        },
+        {
+          "k": "Alimentación",
+          "v": "Pilas; el tipo y la cantidad no están informados por el fabricante"
+        },
+        {
+          "k": "Peso",
+          "v": "No informado por el fabricante"
+        },
+        {
+          "k": "Medidas",
+          "v": "No informadas por el fabricante"
+        }
+      ],
+      "incluye": [
+        "1 tensiómetro digital de muñeca con brazalete integrado",
+        "1 oxímetro de pulso"
+      ],
+      "necesita": [
+        "Pilas del tipo que indique el manual del equipo",
+        "Usar el tensiómetro con el brazalete sobre la arteria radial, sin ropa debajo y con la muñeca a la altura del corazón, quieto y sin flexionar la muñeca",
+        "Comparar la lectura con la del tensiómetro del consultorio antes de confiar en los datos"
+      ],
+      "nota_honesta": "Este combo es para controlar tu presión arterial y tu saturación de oxígeno en casa, y para llevar ese registro a tu médico: no sirve para diagnosticarte ni para que decidas por tu cuenta. Ten presente que un tensiómetro de muñeca es más sensible a errores que uno de brazo; la Asociación Americana del Corazón recomienda el brazalete de brazo siempre que sea posible, y un estudio poblacional encontró que la medición en la muñeca hecha en casa tiene baja fiabilidad porque la mala colocación produce lecturas falsas. Para que la lectura sirva: brazalete sobre la arteria radial, sin ropa debajo, muñeca a la altura del corazón, quieto y sin flexionarla, y compara el equipo con el del consultorio. Nunca ajustes ni suspendas tu medicación con una lectura de este equipo: esa decisión la toma tu médico. Si tienes una lectura muy alta o muy baja, o sientes síntomas, busca atención médica.",
+      "fuentes": [
+        "https://www.mayoclinic.org/es/diseases-conditions/high-blood-pressure/expert-answers/wrist-blood-pressure-monitors/faq-20057802 — la AHA recomienda brazalete de brazo; los tensiómetros de muñeca dan muchos resultados falsos por mala colocación; cómo usarlo y compararlo en el consultorio",
+        "https://doi.org/10.1161/HYPERTENSIONAHA.116.07961 — estudio poblacional de Casiglia et al. sobre la baja fiabilidad de la automedición de la presión en la muñeca en casa (citado por Mayo Clinic)",
+        "https://www.consumerreports.org/es/salud/son-precisos-los-tensiometros-de-muneca/ — análisis independiente: la organización no recomienda ningún tensiómetro de muñeca",
+        "https://www.invima.gov.co/productos-vigilados/dispositivos-medicos/dispositivos-medicos-equipos-biomedicos — registro sanitario para dispositivos médicos y equipos biomédicos, trámites de riesgo I, IIa, IIb y III, etiquetado y vigencia de 10 años",
+        "https://www.camtomx.com/blog/registro-sanitario-invima-colombia-guia — sin registro sanitario es ilegal vender dispositivos médicos en Colombia; sanciones: multa de hasta 10.000 SMLMV, decomiso de mercancía y cierre temporal; publicidad engañosa hasta 5.000 SMLMV",
+        "https://www.invima.gov.co/blog/sala-de-prensa-13/el-invima-impuso-mas-de-6-000-millones-en-multas-sanitarias-en-2025-384 — el INVIMA reporta casos de ilegalidad en dispositivos médicos dentro de las infracciones sancionadas en 2025",
+        "https://www.invima.gov.co/biblioteca/alerta-145-2024-pulsioximetros-masimo — el INVIMA vigila los pulsioxímetros como dispositivo médico y emite alertas sanitarias por ellos",
+        "https://www.minsalud.gov.co/sites/rid/lists/bibliotecadigital/ride/de/dij/decreto-4725-de-2005.pdf — Decreto 4725 de 2005: clasificación por riesgo de los dispositivos médicos y equipos biomédicos en Colombia",
+        "https://fundaciondelcorazon.com/prensa/notas-de-prensa/1162-como-elegir-un-tensiometro.html — los tensiómetros de muñeca son menos fiables y están sujetos a fallos difíciles de evaluar"
+      ],
+      "pendientes": [
+        "RIESGO MÁS ALTO DEL CATÁLOGO, SIN RESOLVER: no se pudo verificar un registro sanitario INVIMA para este combo porque la ficha de la tienda no publica marca, fabricante ni modelo, y sin esos datos la consulta en el sistema de registros del INVIMA no es posible. Lo que sí está confirmado por fuentes es la obligación legal: los dispositivos médicos y equipos biomédicos requieren registro sanitario o permiso de comercialización para poder comercializarse en Colombia, y vender sin él es ilegal (multas de hasta 10.000 SMLMV, decomiso y cierre). Todo lo relativo a registros sanitarios, validación clínica y fuentes se retiró del lado del cliente (título, descripción, specs, incluye, necesita y nota honesta) y queda aquí. Acción recomendada antes de seguir vendiendo: (1) pedir al proveedor marca, modelo y número de registro sanitario INVIMA de cada equipo por separado, recordando que el tensiómetro y el oxímetro son dos registros distintos; (2) validar cada registro en la consulta de registros sanitarios del INVIMA; (3) mantener fuera del texto del cliente la palabra precisión y cualquier afirmación de exactitud mientras no exista un documento de validación del fabricante con protocolo AAMI, ESH o ISO; (4) mantener la advertencia de que un tensiómetro de muñeca no reemplaza al de brazo y de que estos datos no sirven para ajustar medicación. No se pudo confirmar tampoco: contenido de la caja (pilas, estuche, correa, manual en español), tipo y cantidad de pilas, rango de medición, error admisible, peso y medidas; por eso van en null o como no informado. Riesgo adicional: el oxímetro de pulso para uso en casa mal calibrado puede dar lecturas erróneas y el INVIMA mantiene alertas sanitarias activas sobre pulsioxímetros.",
+        "PENDIENTE: falta el peso real del equipo.",
+        "PENDIENTE: faltan las medidas reales del equipo.",
+        "CONFIANZA de la investigacion: media (revisar antes de pautar)."
+      ]
+    },
+    "masajeador-de-pies-ela©ctrico-a-alivio-y-relajacia-n-diaria": {
+      "titulo": "Masajeador de Pies Eléctrico EMS con Esterilla y Control de Intensidad — Alivio y Relajación Diaria",
+      "descripcion": "<p>Esterilla eléctrica para pies con tecnología EMS, es decir pulsos eléctricos de baja frecuencia sobre la planta del pie. Se usa descalzo, con los dos pies sobre la esterilla, y se controla con un controlador desmontable.</p><ul><li>Tecnología EMS: pulsos eléctricos de baja frecuencia sobre la planta del pie</li><li>6 modos y 10 niveles de intensidad ajustables desde el control</li><li>Controlador desmontable con botones de encendido, modo e intensidad</li><li>Apagado automático a los 15 segundos sin uso</li><li>Carga por USB; la esterilla se limpia con un paño húmedo</li><li>Uso recomendado: 1 a 2 veces al día, empezando en el nivel más bajo</li></ul><p><strong>Contraindicaciones — léelas antes de comprar.</strong> Este equipo envía corriente eléctrica a tu cuerpo. No lo uses si tienes marcapasos, desfibrilador implantado u otro implante electrónico. No lo uses si estás embarazada. No lo uses si tienes epilepsia. Tampoco si tienes problemas de circulación, trombosis o flebitis, diabetes con neuropatía, cáncer en la zona de tratamiento, fiebre, heridas abiertas o lesiones en los pies, ni si tienes el pie dormido o sin sensibilidad. Si tienes alguna condición cardíaca, habla con tu médico antes de usarlo.</p><p>Este equipo es de uso doméstico para masaje y relajación: no diagnostica, no trata ni cura enfermedades. Si tienes dolor persistente en los pies, consulta a un profesional de la salud.</p><p>Envío gratis a toda Colombia (8 a 20 días hábiles) · Pago 100 % seguro (PSE, tarjetas) · Garantía y derecho de retracto (Ley 1480 de 2011).</p>",
+      "specs": [
+        {
+          "k": "Tipo",
+          "v": "Estimulador de pies con esterilla y controlador desmontable"
+        },
+        {
+          "k": "Tecnología",
+          "v": "Pulsos eléctricos de baja frecuencia EMS aplicados a la planta de los pies"
+        },
+        {
+          "k": "Modos e intensidad",
+          "v": "6 modos y 10 niveles de intensidad"
+        },
+        {
+          "k": "Control",
+          "v": "Controlador desmontable con botones de encendido, modo e intensidad; apagado automático a los 15 segundos sin uso"
+        },
+        {
+          "k": "Alimentación",
+          "v": "Batería recargable por USB, con cable de carga incluido"
+        },
+        {
+          "k": "Frecuencia de uso",
+          "v": "1 a 2 veces al día como máximo"
+        },
+        {
+          "k": "Superficie",
+          "v": "Esterilla impermeable, se limpia con un paño húmedo; se usa siempre con los pies descalzos y los dos pies al mismo tiempo"
+        },
+        {
+          "k": "Peso",
+          "v": "No informado por el fabricante"
+        },
+        {
+          "k": "Medidas",
+          "v": "No informadas por el fabricante"
+        }
+      ],
+      "incluye": [
+        "1 esterilla para los pies",
+        "1 controlador EMS desmontable",
+        "1 cable de carga USB",
+        "1 manual de uso"
+      ],
+      "necesita": [
+        "Cargar el controlador antes del primer uso",
+        "Pies descalzos y los dos pies sobre la esterilla al mismo tiempo: con medias o con un solo pie no funciona",
+        "Subir la intensidad desde el nivel más bajo; sentir la estimulación suele requerir nivel 3 o superior",
+        "No tocar la esterilla con las manos mientras está encendida",
+        "Consultar al médico antes de usarlo si tienes alguna de las condiciones listadas en la nota honesta"
+      ],
+      "nota_honesta": "Antes de comprar, lee las contraindicaciones: este aparato envía pulsos eléctricos a tus pies y no le conviene a todo el mundo. No lo uses si tienes marcapasos, desfibrilador automático implantado u otro implante electrónico, porque la corriente puede interferir con el dispositivo. No lo uses si estás embarazada. No lo uses si tienes epilepsia. Tampoco si tienes problemas de circulación, trombosis o flebitis, diabetes con pérdida de sensibilidad en los pies, cáncer en la zona, heridas abiertas o fiebre, ni si estás usando otro equipo electrónico médico. Si tienes alguna condición cardíaca, consulta a tu médico antes de encenderlo. Otras dos advertencias: no toques la esterilla con las manos mientras está encendida, y no lo uses más de 1 o 2 veces al día ni con la intensidad muy alta. Es un equipo de relajación y masaje para uso en casa: no diagnostica ni trata enfermedades, y si el dolor en los pies es persistente, consulta a un profesional de la salud.",
+      "fuentes": [
+        "https://manuales.tekkiwear.com/manuales/es/AF0167%20-%20AF0167%20-%20Castellano.pdf — manual de un estimulador de pies EMS del mismo tipo: tecnología de pulso de baja frecuencia EPS/EMS, 6 modos, 10 niveles, controlador desmontable, cable de carga USB, esterilla, apagado automático a los 15 s, uso 1-2 veces al día",
+        "https://www.physio-pedia.com/Electrotherapy_Contraindications — contraindicaciones absolutas de la electroterapia: embarazo, malignidad en la zona, implantes electrónicos como marcapasos",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC6937082/ — revisión sobre efectos secundarios y contraindicaciones de la electroestimulación: contraindicada en pacientes con dispositivos electrónicos implantados (marcapasos, desfibriladores implantables)",
+        "https://uk.saebo.com/electrical-stimulation-contraindications-facts-and-myth-bustin/ — el embarazo es contraindicación absoluta; la epilepsia y los marcapasos requieren criterio médico",
+        "https://recuviro.com/herramientas-de-recuperacion-muscular/tens/guia/contraindicaciones-tens/ — contraindicaciones absolutas: marcapasos u otros implantes electrónicos, epilepsia no controlada, embarazo",
+        "https://images-eu.ssl-images-amazon.com/images/I/A1Oj2g8kr1S.pdf — manual de estimulador con contraindicación total: marcapasos o desfibrilador implantado, primer trimestre de embarazo, epilepsia",
+        "https://www.scribd.com/document/685313756/EMS-Foot-Massager-and-Circulation-Booster-DL05058 — manual de un masajeador de pies EMS: contraindicaciones por dispositivos electrónicos implantados, presión arterial anormal grave, anemia grave o hipoglucemia",
+        "https://revistamedica.com/doi-evidencia-cientifica-reflexologia-podal/ — revisión sobre la evidencia de la reflexología podal: estudios de baja calidad metodológica y resultados no concluyentes",
+        "https://sescs.es/eficacia-y-seguridad-de-la-reflexologia-podal/ — evaluación de eficacia y seguridad: mejoras solo frente a no tratamiento y limitadas a fatiga, dolor y sueño",
+        "https://medmassager.com/es/blogs/articles/foot-massager-pacemaker — los masajeadores de pies eléctricos y EMS son el caso problemático con marcapasos, a diferencia de los mecánicos"
+      ],
+      "pendientes": [
+        "EL HUECO MÁS PELIGROSO DE ESTE PRODUCTO YA ESTÁ CORREGIDO EN EL TEXTO DEL CLIENTE: la tienda no incluía ninguna contraindicación y es un equipo que aplica corriente eléctrica al cuerpo. Los manuales y la literatura clínica son consistentes en que la electroestimulación está contraindicada en portadores de marcapasos o desfibrilador implantado, en el embarazo y en epilepsia, y que requiere criterio médico con implantes, problemas de circulación, diabetes con neuropatía y heridas en los pies. Eso quedó redactado como consejo al comprador en la descripción y en la nota honesta. TEXTO RETIRADO DEL LADO DEL CLIENTE POR SER INTERNO: (1) de specs, la fila de fases programadas y la fila de mapa de reflexología, ambas con la frase de que no se pudieron confirmar; (2) de la nota honesta, todo el párrafo sobre lo que la tienda promete y lo que no vendemos, y la referencia a la falta de demostración científica; (3) de incluye, la aclaración de que los datos venían del equipo equivalente. Lo que hay que resolver internamente: el mapa de reflexología es marketing, no un dato; no existe en ningún manual del producto y la base científica de la reflexología podal es débil (estudios de baja calidad, resultados no concluyentes); se cataloga como terapia complementaria, no como tratamiento, así que no puede volver al texto comercial, igual que la promesa de trabajar puntos según zonas del cuerpo. Sobre el ciclo de 3 fases: tampoco aparece en ninguna fuente; los equipos equivalentes traen 6 modos seleccionables y no tienen fase de calentamiento, porque no generan calor. Datos que quedaron SIN ENCONTRAR y por eso van en null o como no informado: modelo y fabricante exactos, peso, medidas, número de niveles de esta unidad concreta, si el manual viene en español y si la esterilla es plegable. El dato de 6 modos y 10 niveles proviene de un equipo equivalente, no del proveedor de la tienda: hay que confirmarlo con el proveedor. Recomendación adicional: si el equipo no tiene registro sanitario INVIMA y la tienda lo publicita con efectos terapéuticos, el riesgo legal se suma al riesgo de salud.",
+        "PENDIENTE: falta el peso real del equipo.",
+        "PENDIENTE: faltan las medidas reales del equipo.",
+        "CONFIANZA de la investigacion: media (revisar antes de pautar)."
+      ]
+    },
+    "cepillo-electrico-giratorio-de-limpieza-7-cabezales-con-pantalla-digital": {
+      "titulo": "Cepillo de Limpieza Eléctrico Recargable 9 en 1 con Mango Extensible y 9 Accesorios Intercambiables",
+      "descripcion": "<p>Cepillo de limpieza eléctrico giratorio, inalámbrico y recargable por USB, con mango extensible para alcanzar el piso y las zonas altas sin agacharte.</p><ul><li>Cabezal giratorio motorizado con 2 velocidades y 320 rpm</li><li>9 accesorios intercambiables: cabezales de cerdas, esponjas y discos de pulido</li><li>Largo ajustable, de aproximadamente 109 a 137 cm con la extensión</li><li>Batería recargable por USB, hasta aproximadamente 100 minutos de uso por carga</li><li>Resistencia al agua IPX6 en el cuerpo y la empuñadura: soporta salpicaduras, no se sumerge</li><li>Incluye cable de carga USB</li></ul><p><strong>Cómo usarlo:</strong> cárgalo antes del primer uso. Limpia solo el cabezal y la varilla con agua y jabón; el motor y la empuñadura se pasan con un paño húmedo y nunca se sumergen. Trabaja con movimientos suaves y deja que el motor haga el esfuerzo, sin forzar el cepillo contra las juntas, y acompaña siempre con tu producto de limpieza preferido.</p><p>Sirve en baño, cocina, pisos, azulejos, juntas, vidrio y rincones de difícil acceso.</p><p>Envío gratis a toda Colombia (8 a 20 días hábiles) · Pago 100 % seguro (PSE, tarjetas) · Garantía y derecho de retracto (Ley 1480 de 2011).</p>",
+      "specs": [
+        {
+          "k": "Tipo",
+          "v": "Cepillo de limpieza eléctrico giratorio inalámbrico con mango extensible"
+        },
+        {
+          "k": "Accesorios",
+          "v": "9 accesorios intercambiables: cabezales de cerdas, esponjas y discos de pulido"
+        },
+        {
+          "k": "Velocidades",
+          "v": "2 velocidades"
+        },
+        {
+          "k": "Velocidad de giro",
+          "v": "320 rpm"
+        },
+        {
+          "k": "Batería",
+          "v": "Recargable de 2000 mAh; hasta 100 minutos de uso continuo por carga"
+        },
+        {
+          "k": "Resistencia al agua",
+          "v": "IPX6 en el cuerpo y la empuñadura: resiste salpicaduras, no es sumergible"
+        },
+        {
+          "k": "Carga",
+          "v": "Por USB"
+        },
+        {
+          "k": "Materiales",
+          "v": "ABS, PP, aluminio y caucho, con cerdas de nailon"
+        },
+        {
+          "k": "Largo del mango",
+          "v": "Ajustable, de aproximadamente 109 a 137 cm con la extensión"
+        },
+        {
+          "k": "Peso",
+          "v": "No informado por el fabricante"
+        },
+        {
+          "k": "Medidas",
+          "v": "aprox. 12 × 7 × 132 cm con el mango extendido"
+        }
+      ],
+      "incluye": [
+        "1 cepillo eléctrico giratorio con mango extensible",
+        "9 accesorios intercambiables: cabezales de cerdas, esponjas y discos de pulido",
+        "1 cable de carga USB"
+      ],
+      "necesita": [
+        "Cargar por USB antes del primer uso",
+        "Cargador certificado si le pones adaptador de pared",
+        "No sumergir el motor ni la empuñadura: limpiar solo el cabezal y la varilla con agua y jabón"
+      ],
+      "nota_honesta": "Dos cosas prácticas antes de usarlo. Primero: la resistencia al agua es IPX6, es decir que aguanta salpicaduras, pero no es sumergible. No lo metas en la tina, en el lavadero lleno ni bajo el chorro directo, porque puedes dañar el motor y perder la garantía. Limpia solo el cabezal y la varilla con agua y jabón, y pasa un paño húmedo por la empuñadura. Segundo: usa el cable USB que viene en la caja y, si le pones adaptador de pared, que sea uno certificado, porque los adaptadores genéricos sin certificación son un riesgo eléctrico. Cuando lo uses en el baño, deja el cargador lejos del agua.",
+      "fuentes": [
+        "https://www.amazon.com/-/es/el%C3%A9ctrico-inal%C3%A1mbrico-limpiador-impermeable-velocidades/dp/B0DL9SW8SJ — ficha del modelo 9 en 1 con brazo largo: 9 cabezales, 2 velocidades, 320 rpm, batería 2000 mAh, hasta 100 minutos, IPX6, materiales ABS, PP, aluminio y caucho, cerdas de nailon, dimensiones 4,7 × 2,8 × 52 pulgadas",
+        "https://www.amazon.com/-/es/inal%C3%A1mbrico-reemplazable-velocidades-extensible-desmontable/dp/B0CRQF2JDM — listado equivalente: 9 cabezales de cepillo multifuncionales reemplazables y bolsa de almacenamiento",
+        "https://www.homecenter.com.co/homecenter-co/k/cepillo-de-limpieza-electrico — mercado colombiano: existe el cepillo recargable 9 en 1 con mango extensible y también el cepillo telescópico 7 en 1, lo que explica la contradicción interna de la tienda",
+        "https://carbonestore.com/products/cepillo-giratorio-electrico-de-limpieza-multiusos-con-3-cabezales — listado del mismo genérico con 10 cabezales, batería 2500 mAh, 1,5 h de uso, 25 W y largo ajustable de 43 a 54 pulgadas",
+        "https://archy.mx/producto/cepillo-electrico-9-en-1-recargable-para-limpieza-del-hogar/ — versión 9 en 1 que trae 8 cabezales intercambiables más el cepillo, evidencia de que 9 en 1 no siempre significa 9 cabezales",
+        "https://smartjoys.co/producto/cepillo-de-limpieza-electrico-9-en-1/ — tienda colombiana del mismo producto: protección impermeable IPX7 en el cabezal y uso sin cables",
+        "https://www.amazon.com/-/es/Limpiador-el%C3%A9ctrico-inal%C3%A1mbrico-velocidades-ajustables/dp/B0CZTCWQBC — listados comparables del mismo genérico con variantes de 3, 7 y 8 cabezales e IPX7"
+      ],
+      "pendientes": [
+        "CONTRADICCIÓN DE LA PROPIA TIENDA, RESUELTA CON UN SOLO NÚMERO: 9 accesorios en título, specs, descripción, incluye y título del texto visible. Los hechos: (1) el título decía 9 en 1 y 9 cabezales; (2) la dirección web decía 7 cabezales y además prometía una pantalla digital que no aparece en ninguna fuente; (3) en el mercado el mismo genérico se vende con 7, 8, 9 y 10 accesorios, y en algunos listados 9 en 1 significa 8 cabezales más el cepillo, así que el número no es universal del producto. DECISIÓN: dejar 9 en todas partes, porque es la variante que coincide con todas las características que la tienda describe (mango extensible, 2 velocidades de 320 rpm, carga USB y soporte de pared) y la confirmada en el mercado colombiano; y renombrar la dirección web para que diga 9 accesorios, sin mencionar pantalla digital. CONDICIÓN PENDIENTE (no bloquea la publicación del número 9, pero sí una compra grande): contar físicamente los accesorios de una muestra del empaque. Si la caja trae 7, hay que cambiar todo el sitio a 7 en 1 y ajustar la dirección web, porque un producto no puede tener dos números. DATOS SIN ENCONTRAR, por eso van en null o como no informado: modelo y fabricante exactos (el listado de Amazon lo marca como genérico), peso, si incluye adaptador de pared, si incluye soporte de pared en esta versión y la capacidad real de la batería (2000 mAh y 100 minutos en un listado; 2500 mAh y 90 minutos en otro del mismo genérico, por eso hay que confirmarlo con el proveedor). La resistencia al agua publicada es IPX6, resistente a salpicaduras y no sumergible; algunos listados declaran IPX7, pero no se puede prometer sin el certificado del proveedor, y por eso el texto del cliente no usa la palabra sumergible en ninguna parte. TEXTO RETIRADO DEL LADO DEL CLIENTE POR SER INTERNO: del campo incluye, la disputa del número de accesorios y las frases sobre lo no confirmado; de necesita, la instrucción de contar el empaque y unificar el número; de la nota honesta, el párrafo sobre la inconsistencia de la ficha; de la descripción, la frase que pedía confirmar cuántos accesorios trae el empaque y la promesa de adaptador y soporte de pared.",
+        "PENDIENTE: falta el peso real del equipo.",
+        "CONFIANZA de la investigacion: media (revisar antes de pautar)."
+      ]
     }
+  },
+  "_resumen_auditoria": {
+    "fecha": "2026-09-23",
+    "productos_revisados": 24,
+    "afirmaciones_auditadas": 127,
+    "solo_se_sostienen": 51,
+    "imprecisas": 39,
+    "no_confirmadas": 36,
+    "falsas": 1,
+    "nota": "El detalle de cada afirmacion, con su veredicto y su fuente, esta en AUDITORIA-AFIRMACIONES.md"
   }
 }
