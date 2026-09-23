@@ -359,7 +359,6 @@
       '</div>' +
       '<div class="pbody">' +
       '<a class="ptitle" href="#/producto/' + esc(p.handle) + '">' + esc(p.title) + '</a>' +
-      +
       '<div><span class="pprice">' + money(p.price) + '</span>' +
       (off > 0 ? ' <span class="pold">' + money(p.compare) + '</span>' : '') + '</div>' +
       '<div class="pbtns">' +
@@ -478,9 +477,13 @@
       '</div>' +
       '</div>' +
       '<div class="tst-marquee">' +
-      /* la tira va DUPLICADA: al llegar al 50 % el bucle vuelve a empezar sin
-         salto. El movimiento es siempre derecha -> izquierda, en bucle. */
-      '<div class="tst-track">' + tarjetas + tarjetas + '</div>' +
+      /* La tira va DUPLICADA para que al llegar al 50 % el bucle vuelva a empezar
+         sin salto. Cada copia va en su propio grupo para poder quitar la segunda
+         cuando las reseñas son pocas (ver ajustarResenas). */
+      '<div class="tst-track">' +
+      '<div class="tst-grupo">' + tarjetas + '</div>' +
+      '<div class="tst-grupo" aria-hidden="true">' + tarjetas + '</div>' +
+      '</div>' +
       '</div>' +
       '</section>';
   }
@@ -655,6 +658,21 @@
   function prefiereQuieto() {
     try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
   }
+  /* Las reseñas son pocas todavia: con 3, cada copia mide ~800 px y en un monitor
+     ancho caben LAS DOS, asi que se veian las mismas reseñas repetidas una al lado de
+     la otra. Regla: la copia de mas SOLO se pone si una copia no llena la pantalla.
+     Si caben, se muestran una vez, quietas y centradas. */
+  function ajustarResenas() {
+    var cajas = document.querySelectorAll('.tst-marquee');
+    for (var i = 0; i < cajas.length; i++) {
+      var grupos = cajas[i].querySelectorAll('.tst-grupo');
+      if (grupos.length < 2) continue;
+      var unaCopia = grupos[0].getBoundingClientRect().width;
+      var cabe = unaCopia > 0 && unaCopia <= cajas[i].clientWidth;
+      grupos[1].style.display = cabe ? 'none' : '';
+      cajas[i].classList.toggle('tst-marco--corta', cabe);
+    }
+  }
   function montarCintas() {
     var marcos = document.querySelectorAll('[data-cinta]');
     for (var i = 0; i < marcos.length; i++) montarCinta(marcos[i]);
@@ -733,6 +751,7 @@
     if (!window.__cintaResize) {
       window.__cintaResize = true;
       window.addEventListener('resize', function () {
+        try { ajustarResenas(); } catch (e) {}
         var ms = document.querySelectorAll('[data-cinta]');
         for (var k = 0; k < ms.length; k++) {
           /* se llama a la funcion del propio elemento: el ancho de una vuelta
@@ -1861,6 +1880,7 @@
   initHeroBar();
     /* la cinta se vuelve a montar en cada pintado, porque el HTML se rehace */
     try { montarCintas(); } catch (e) {}
+    try { ajustarResenas(); } catch (e) {}
     /* [2026-09-17] IMPORTANTE: la seccion de seguridad se pinta con sus bloques
        ocultos hasta recibir la clase 'in'. Si no se llama aqui, en la PRIMERA
        carga (sin cache) el inicio se pinta despues de que segInit ya se hubiera

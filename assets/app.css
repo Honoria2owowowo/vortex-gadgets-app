@@ -669,7 +669,15 @@ a.hb-zone{text-decoration:none}
 .tst-marquee{overflow:hidden;position:relative;padding:4px 0 12px;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
-.tst-track{display:flex;gap:14px;width:max-content;animation:tst-scroll 70s linear infinite}
+/* Sin "gap" en la tira: el hueco va como margen de cada tarjeta. Asi cada copia mide
+   EXACTAMENTE lo mismo y el -50 % del bucle cuadra al pixel (con gap, entre las dos
+   copias quedaba medio hueco de mas y el bucle daba un salto de 7 px). */
+.tst-track{display:flex;width:max-content;animation:tst-scroll 70s linear infinite}
+.tst-grupo{display:flex;flex:0 0 auto}
+.tst-grupo .tst-card{margin-right:14px}
+/* Cuando las reseñas caben enteras: una sola copia, quieta y centrada. */
+.tst-marco--corta .tst-track{animation:none;width:100%}
+.tst-marco--corta .tst-grupo{justify-content:center}
 @keyframes tst-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .tst-marquee:hover .tst-track{animation-play-state:paused}
 .tst-card{flex:0 0 262px;margin:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}
