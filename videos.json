@@ -128,6 +128,20 @@
       "portada": "media/video/power-bank-solar.jpg",
       "etiqueta": "Cables integrados",
       "en_inicio": false
+    },
+    {
+      "handle": "power-bank-solar-20000-mah-4-en-1-cables-integrados-y-linterna",
+      "archivo": "media/video/power-bank-solar-2.mp4",
+      "portada": "media/video/power-bank-solar-2.jpg",
+      "etiqueta": "Con los cables puestos",
+      "en_inicio": false
+    },
+    {
+      "handle": "limpiadora-a-vapor-multiusos-15-en-1-desinfeccion-sin-quimicos",
+      "archivo": "media/video/limpiador-vapor-2.mp4",
+      "portada": "media/video/limpiador-vapor-2.jpg",
+      "etiqueta": "Los accesorios que trae",
+      "en_inicio": false
     }
   ]
 }
