@@ -1689,7 +1689,7 @@
   /* ---------- Carrusel del hero (migrado de la tienda vortexgadgets.com.co) ---------- */
   var HERO_SLIDES = [
     { mod: "hero-slide--dark", style: "",
-      content: "<div class=\"hero-slide-media\">\n        <picture>\n          <source media=\"(max-width: 900px)\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-mobile.png?v=1789770031\">\n          <img src=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035&width=640 640w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035&width=960 960w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035&width=1280 1280w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035&width=1920 1920w\" sizes=\"100vw\" alt=\"Audífonos M10\" loading=\"eager\" fetchpriority=\"high\">\n        </picture>\n      </div>\n      <div class=\"hero-slide-overlay\"></div>\n      <div class=\"hero-slide-content\">\n        <p class=\"hero-eyebrow\">OFERTA DE LANZAMIENTO · AUDÍFONOS M10 -26%</p>\n        <h1 class=\"hero-heading\">Audífonos Bluetooth M10: sonido premium, 24 h de batería y estuche de carga. Pagas cuando los tengas en tus manos.</h1>\n        <p class=\"hero-text\">Bluetooth 10 m · controles táctiles. Envío GRATIS a toda Colombia y 5 días de retracto: si no te encantan, te devolvemos tu dinero.</p>\n        <div class=\"hero-actions\">\n          <a class=\"btn-hero btn-hero--orange\" href=\"#/producto/auda-fonos-bluetooth-inala-mbricos-m10-a-sonido-premium-con-estuche-de-carga\">COMPRAR AHORA CON ENVÍO GRATIS — [[P:auda-fonos-bluetooth-inala-mbricos-m10-a-sonido-premium-con-estuche-de-carga|$77.700]]</a>\n          <a class=\"btn-hero btn-hero--outline-white\" href=\"#/catalogo\">Ver todo</a>\n        </div>\n        [[CORTE]]\n        <p class=\"hero-fineprint hero-fineprint--urg\">Precio de lanzamiento · Envío GRATIS a toda Colombia · Llega en 3 a 4 días hábiles · +10 % extra con el código VORTEX10</p>\n      </div>" },
+      content: "<div class=\"hero-slide-media\">\n        <picture>\n          <source media=\"(max-width: 900px)\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-mobile.png?v=1789770031\">\n          <img src=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035&width=640 640w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035&width=960 960w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035&width=1280 1280w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-chica-desktop.png?v=1789770035&width=1920 1920w\" sizes=\"100vw\" alt=\"Audífonos M10\" loading=\"eager\" fetchpriority=\"high\">\n        </picture>\n      </div>\n      <div class=\"hero-slide-overlay\"></div>\n      <div class=\"hero-slide-content\">\n        <p class=\"hero-eyebrow\">OFERTA DE LANZAMIENTO · AUDÍFONOS M10 -26%</p>\n        <h1 class=\"hero-heading\">Audífonos Bluetooth M10: sonido premium, 24 h de batería y estuche de carga. Pagas cuando los tengas en tus manos.</h1>\n        <p class=\"hero-text\">Bluetooth 10 m · controles táctiles. Envío GRATIS a toda Colombia y 5 días de retracto: si no te encantan, te devolvemos tu dinero.</p>\n        <div class=\"hero-actions\">\n          <a class=\"btn-hero btn-hero--orange\" href=\"#/producto/auda-fonos-bluetooth-inala-mbricos-m10-a-sonido-premium-con-estuche-de-carga\">COMPRAR AHORA CON ENVÍO GRATIS — [[P:auda-fonos-bluetooth-inala-mbricos-m10-a-sonido-premium-con-estuche-de-carga|$77.700]]</a>\n          <a class=\"btn-hero btn-hero--outline-white\" href=\"#/catalogo\">Ver todo</a>\n        </div>\n        <p class=\"hero-fineprint hero-fineprint--urg\">[[CORTE]] · Llega en 3 a 4 días hábiles</p>\n      </div>" },
     { mod: "hero-slide--dark", style: "",
       content: "<div class=\"hero-slide-media\">\n        <picture>\n          <source media=\"(max-width: 900px)\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold-mobile.png?v=76911661388189351661788233787\">\n          <img src=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold.png?v=180299142012676739271788230321\" srcset=\"//vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold.png?v=180299142012676739271788230321&width=640 640w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold.png?v=180299142012676739271788230321&width=960 960w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold.png?v=180299142012676739271788230321&width=1280 1280w, //vortexgadgets.com.co/cdn/shop/t/7/assets/hero-blackgold.png?v=180299142012676739271788230321&width=1920 1920w\" sizes=\"100vw\" alt=\"VÓRTEX: tu energía diaria\" loading=\"lazy\">\n        </picture>\n      </div>\n      <div class=\"hero-slide-overlay\"></div>\n      <div class=\"hero-slide-content\">\n        <p class=\"hero-brand\">VÓRTEX GADGETS</p>\n        <h1 class=\"hero-heading\">El sonido <span class=\"accent\">anti-pereza</span> que despierta tu energía</h1>\n        <p class=\"hero-text\">Diseñado para darte foco, energía y motivación en cada nota. Tu mejor versión empieza con un play.</p>\n        <div class=\"hero-guarantee\">\n          <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3z\"/><path d=\"m9 12 2 2 4-4\"/></svg>\n          5 días de retracto: si no te encanta, te devolvemos tu dinero\n        </div>\n        <div class=\"hero-actions\">\n          <a class=\"btn-hero btn-hero--yellow\" href=\"#/catalogo\">Quiero el mío</a>\n          <a class=\"btn-hero btn-hero--outline-white\" href=\"#/como-comprar\">Ver garantía</a>\n        </div>\n      </div>" },
     { mod: "hero-slide--light", style: "",
@@ -1722,7 +1722,10 @@
     var c = state.pruebaSocial || {};
     var v = String(c.corte_despacho || '');
     if (!/^\d{1,2}:\d{2}$/.test(v)) return '';
-    return '<div class="hero-corte" data-corte="' + esc(v) + '">…</div>';
+    /* [2026-09-23] Devuelve un <span>, no un <div>: este contador ahora va DENTRO de la
+       linea fina (un <p>), y un <div> dentro de un <p> es HTML invalido: el navegador
+       cerraria el parrafo antes y el contador se saldria de la linea. */
+    return '<span class="hero-corte" data-corte="' + esc(v) + '">…</span>';
   }
   function pintarCortes() {
     var els = document.querySelectorAll('[data-corte]');
@@ -1737,9 +1740,16 @@
       var ms = fin.getTime() - ahora.getTime();
       var s = Math.floor(ms / 1000);
       var reloj = p2(Math.floor(s / 3600)) + ':' + p2(Math.floor(s % 3600 / 60)) + ':' + p2(s % 60);
+      /* [2026-09-23] Texto mas corto (antes: "y tu pedido sale hoy") porque ahora va en
+         linea con la letra fina. Y en la ULTIMA HORA cambia solo a "Quedan 42 min · sale
+         hoy": esa es la urgencia de minutos que pedia el dueño, pero REAL — nace de su
+         hora de corte, no de un reloj inventado que se reinicia. */
+      var min = Math.max(1, Math.ceil(ms / 60000));
       els[i].innerHTML = (hoy
-        ? 'Pide antes de las ' + reloj12(hh, mm) + ' y tu pedido <b>sale hoy</b>'
-        : 'Ya cerró el despacho de hoy: tu pedido <b>sale en el siguiente</b>') +
+        ? (min <= 60
+          ? 'Quedan ' + min + ' min · <b>sale hoy</b>'
+          : 'Pide antes de las ' + reloj12(hh, mm) + ' y <b>sale hoy</b>')
+        : 'Ya cerró el despacho · <b>sale en el siguiente</b>') +
         ' <b class="hc-reloj">' + reloj + '</b>';
     }
   }

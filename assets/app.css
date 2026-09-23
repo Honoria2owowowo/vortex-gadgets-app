@@ -1183,16 +1183,20 @@ h1,h2,h3,h4{
 }
 
 /* El contador del corte de despacho, encima del botón de compra. */
+/* [2026-09-23] El contador va DENTRO de la linea fina, como chip en linea.
+   ANTES era un BLOQUE de ancho completo (972 px medidos) con fondo negro: una barra
+   pesada justo debajo de los botones, y encima otra linea de letra pequeña. Eso era lo
+   que hacia que el hero se viera cargado. Ahora: en linea, fondo tenue, letra del mismo
+   tamaño que la linea que lo acompaña. */
 .hero-corte{
-  display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;
-  margin-top:12px;padding:8px 15px;border-radius:999px;
-  background:rgba(4,10,14,.72);border:1px solid rgba(76,224,214,.45);
-  color:#E8F6F5;font-size:13px;line-height:1.3;
-  backdrop-filter:blur(3px);
+  display:inline-flex;align-items:center;gap:6px;
+  padding:1px 9px;border-radius:999px;
+  background:rgba(76,224,214,.14);border:1px solid rgba(76,224,214,.45);
+  color:#E8F6F5;font-size:11.5px;line-height:1.5;
 }
 .hero-corte b{color:#7BE9E0;font-weight:var(--fw-head,650)}
 .hero-corte .hc-reloj{font-variant-numeric:tabular-nums;letter-spacing:.03em}
-@media(max-width:520px){ .hero-corte{font-size:12.5px;padding:7px 13px} }
+@media(max-width:520px){ .hero-corte{font-size:11px;padding:1px 7px} }
 
 /* ============================================================================
    [2026-09-22] VIDEOS DE PRODUCTO
