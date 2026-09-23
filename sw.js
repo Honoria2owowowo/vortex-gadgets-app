@@ -1,11 +1,11 @@
 ﻿/* Service Worker â€” VÃ“RTEX Gadgets PWA */
-const VERSION = 'vortex-app-v96';
+const VERSION = 'vortex-app-v97';
 const PRECACHE = [
   './',
   'index.html',
   'manifest.json',
-  'assets/app.css?v=96',
-  'assets/app.js?v=96',
+  'assets/app.css?v=97',
+  'assets/app.js?v=97',
   'assets/cod-splash.png',
   'datos-tienda.json',
   'icons/icon-192-v2.png',
@@ -78,7 +78,10 @@ self.addEventListener('fetch', (event) => {
      de corte, el archivo viejo (con null) habria seguido sirviendose desde la cache y
      el contador no habria aparecido nunca. Se pide sin depender de subir la version. */
   const esAjustes = /\/prueba-social\.json$/i.test(url.pathname);
-  if (url.origin === self.location.origin && (/\.(js|css)$/i.test(url.pathname) || esVideoJson || esPanel || esResenas || esAjustes)) {
+  /* [2026-09-23] ficha-tecnica.json tambien RED PRIMERO: si el dueno corrige un dato del
+     producto, tiene que verse, no quedarse la copia vieja. */
+  const esFicha = /\/ficha-tecnica\.json$/i.test(url.pathname);
+  if (url.origin === self.location.origin && (/\.(js|css)$/i.test(url.pathname) || esVideoJson || esPanel || esResenas || esAjustes || esFicha)) {
     event.respondWith(
       fetch(req, { cache: 'reload' })
         .then((res) => {

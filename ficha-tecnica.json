@@ -1,0 +1,66 @@
+{
+  "_leeme": "FICHA TECNICA Y TEXTOS CORREGIDOS DE PRODUCTO. Todo lo que hay aqui esta sacado de fuentes publicas sobre el modelo HY320 Mini (ficha de hardware del fabricante en projector-database.com, manual del HY320, y varios listados que coinciden). Si un campo esta en null o no esta, NO se dibuja en la app: nunca se ve un hueco vacio. Si tu proveedor te da un dato distinto, CAMBIA SOLO ESTA LINEA y la app entera queda corregida (el catalogo y la ficha).",
+  "_por_que": "La descripcion que traia la tienda decia 'Resolucion nativa 1080P', y el aparato que recibio tu cliente (Yeison) es el HY320mini, que es 720p nativo. Afirmar 1080p nativo cuando el equipo es 720p es publicidad enganosa (Ley 1480 de 2011) y ademas es la causa tipica de devoluciones por 'no se ve como decian'. Aqui queda como es: 720p nativo y decodifica 1080p/4K.",
+  "_por_confirmar": [
+    "PESO Y MEDIDAS: la ficha de hardware del HY320 Mini da 1,20 kg y 218 x 40 x 102 mm. El manual del HY320 (sin 'mini') da 1,20 kg. Pesa y mide TU unidad cuando te llegue el proximo pedido.",
+    "LUMENES: la ficha da 300 ANSI. Otra base de datos de proyectores da 260. Si tu proveedor declara otro numero, usa el suyo.",
+    "VERSION DE ANDROID: la ficha da Android 11. La tienda decia 'Android TV 13'. Por eso el texto de cara al cliente dice solo 'Android con apps instalables', sin numero, hasta que lo confirmes.",
+    "NETFLIX: los listados nombran Netflix, pero Netflix no da soporte oficial a estos proyectores. NO se nombra en el texto hasta que lo pruebes tu. Si Netflix no funciona, es la queja numero uno de este tipo de equipos.",
+    "QUE TRAE LA CAJA: se puso lo que coincide en tres listados independientes (proyector, control remoto, cable de alimentacion, manual, sin pilas). Anote la caja real del proximo pedido y complete la lista."
+  ],
+  "_formato": {
+    "titulo": "Titulo corregido. Sustituye al de la tienda en toda la app (catalogo y ficha).",
+    "descripcion": "Descripcion en HTML. Sustituye a la de la tienda. Usa <p>, <ul> y <li>.",
+    "specs": "Lista de {k: nombre, v: valor}. Se dibuja como tabla de dos columnas. Si la lista esta vacia, no se dibuja.",
+    "incluye": "Lista de textos: que trae la caja.",
+    "necesita": "Lista de textos: que hace falta para usarlo.",
+    "nota_honesta": "Aviso opcional al pie de la ficha (para manejar expectativas y evitar devoluciones).",
+    "fuentes": "De donde salio cada dato. Se muestra en el pie de la ficha, en pequeño."
+  },
+  "productos": {
+    "mini-proyector-portatil-hy320-android-tv-13-1080p-soporte-4k": {
+      "modelo": "HY320 Mini",
+      "titulo": "Mini Proyector Portátil HY320 — 720p Nativo · Decodifica 1080p y 4K · Apps Instalables",
+      "descripcion": "<p>Disfruta una experiencia de <strong>cine en casa</strong> con el proyector HY320: entretenimiento inteligente, conectividad versátil y una imagen LED de 300 lúmenes en un equipo que pesa solo 1,2 kg.</p><ul><li><strong>Resolución nativa 720p (1280 × 720)</strong> y decodifica contenido 1080p y 4K</li><li><strong>Apps instalables:</strong> baja las aplicaciones de streaming directo al proyector, sin cajas ni consolas de por medio</li><li><strong>Rotación de 180°:</strong> proyecta en pared, techo o suelo sin mover muebles</li><li><strong>Corrección trapezoidal vertical automática:</strong> la imagen queda cuadrada sola</li><li><strong>Conectividad:</strong> WiFi, Bluetooth 5.0, HDMI, USB y salida de audio</li><li><strong>Reproduce desde USB</strong> (memoria o disco) sin necesidad de internet</li><li><strong>Lámpara LED de 30.000 horas:</strong> son unos 20 años usándolo 4 horas al día, y no hay que cambiar bombillas</li><li><strong>Espejo de pantalla desde tu celular</strong> (Miracast y AirPlay)</li></ul><p><strong>Incluye:</strong> proyector, control remoto, cable de alimentación y manual de usuario.</p><p><strong>Envío GRATIS a toda Colombia</strong> (3 a 4 días hábiles). <strong>Pagas contra entrega:</strong> en efectivo cuando lo recibes, después de revisarlo. También puedes pagar con tarjeta o PSE desde nuestra tienda web.</p><p><strong>Garantía de 30 días</strong> por fallas de funcionamiento: si algo falla, te lo cambiamos o te devolvemos tu dinero. Además tienes <strong>5 días hábiles de retracto</strong> (Ley 1480 de 2011): si no te convence, lo devuelves y te devolvemos tu dinero. Son dos derechos distintos y los dos aplican.</p>",
+      "specs": [
+        { "k": "Resolución nativa", "v": "720p (1280 × 720)" },
+        { "k": "Contenido que reproduce", "v": "1080p y 4K (decodificados)" },
+        { "k": "Brillo", "v": "300 lúmenes ANSI" },
+        { "k": "Tecnología", "v": "LCD con lámpara LED" },
+        { "k": "Contraste", "v": "1.500:1" },
+        { "k": "Vida de la lámpara", "v": "30.000 horas (≈20 años a 4 h al día)" },
+        { "k": "Tamaño de imagen", "v": "Hasta ~2 m de ancho en cuarto oscuro · ~1,3 m con luz ambiente" },
+        { "k": "Distancia de proyección", "v": "1 a 2,5 m según el tamaño que quieras" },
+        { "k": "Rotación", "v": "180° (pared, techo o suelo)" },
+        { "k": "Corrección de imagen", "v": "Trapezoidal vertical automática" },
+        { "k": "Sistema", "v": "Android con apps instalables" },
+        { "k": "Espejo de pantalla", "v": "Miracast y AirPlay" },
+        { "k": "Conexiones", "v": "WiFi · Bluetooth 5.0 · HDMI · USB · salida de audio" },
+        { "k": "Parlante", "v": "3 W integrado" },
+        { "k": "Ruido", "v": "25 dB (casi inaudible)" },
+        { "k": "Consumo", "v": "60 W" },
+        { "k": "Peso", "v": "1,20 kg" },
+        { "k": "Medidas", "v": "21,8 × 10,2 × 4 cm (ancho × fondo × alto)" }
+      ],
+      "incluye": [
+        "Proyector HY320 Mini",
+        "Control remoto (no incluye pilas)",
+        "Cable de alimentación",
+        "Manual de usuario"
+      ],
+      "necesita": [
+        "Una toma de corriente (consume 60 W, como un bombillo)",
+        "Una pared, el techo o una tela blanca donde proyectar",
+        "Pilas para el control remoto (2 AAA)",
+        "Red WiFi solo si vas a usar las apps; por USB funciona sin internet"
+      ],
+      "nota_honesta": "Como todo proyector LED de este precio, se ve mucho mejor en cuarto oscuro. Con luz ambiente la imagen se ve más apagada: para películas, baja la luz y lo vas a ver increíble. Te lo decimos antes de que lo pidas.",
+      "fuentes": [
+        "Ficha de hardware del HY320 Mini (projector-database.com, con hoja de producto en PDF): 300 ANSI, 1280×720, 1.500:1, 30.000 h, 1,20 kg, 218×40×102 mm, 25 dB, 60 W, Android 11, Bluetooth 5.0, HDMI/USB/jack, keystone vertical automático, Miracast y AirPlay",
+        "Manual del Magcubic HY320 (device.report): parlante 3 W, peso 1,20 kg",
+        "ProjectorCentral (HY320 Mini): 1280×720 TFT LCD, distancia 1,5 a 3 m",
+        "Listados de comercio del HY320 Mini (varios): contenido de la caja, sin pilas"
+      ]
+    }
+  }
+}

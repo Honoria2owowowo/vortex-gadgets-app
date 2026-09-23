@@ -647,7 +647,14 @@ a.hb-zone{text-decoration:none}
    tapado. Aqui se reserva tambien la altura de .buybar en movil.
    ============================================================ */
 @media(max-width:859px){
-  .view{padding-bottom:calc(30px + var(--nav-h) + var(--safe) + 78px)}
+  /* [2026-09-23] Estos 78 px son el hueco de la barra FIJA de compra (.buybar), que
+     solo existe en la ficha de producto. Estaban reservados en TODAS las pantallas
+     moviles, asi que en Inicio, catalogo, carrito y las paginas de informacion quedaba
+     un hueco muerto al final. Aqui se reservan solo donde la barra existe de verdad.
+     En la ficha NO se toca: si se quitan, la barra tapa las resenas (fue un fallo que
+     ya se corrigio el 2026-09-16 y no se repite). */
+  .view{padding-bottom:calc(24px + var(--nav-h) + var(--safe))}
+  .view:has(.pdp){padding-bottom:calc(30px + var(--nav-h) + var(--safe) + 78px)}
 }
 
 /* Casilla de autorizacion de datos personales (Ley 1581) */
@@ -860,6 +867,65 @@ a.hb-zone{text-decoration:none}
      descuadre era exactamente esa diferencia de padding. */
   .hero-slide--sinfoto .hero-slide-content{justify-content:center;padding:36px 18px}
 }
+
+/* ============================================================
+   [2026-09-23] v97 — LO QUE SALIO DE LA AUDITORIA COMO COMPRADOR
+   ============================================================ */
+
+/* EL CONTADOR DE DESPACHO EN LA FICHA. Estaba solo en el carrusel de Inicio, y el
+   trafico del anuncio cae directo en la ficha: no lo veia ninguno de los que llegan del
+   anuncio. Es la correccion mas rentable del paquete. */
+.corte-pdp{display:flex;justify-content:center;margin:14px 0 2px}
+.corte-pdp .hero-corte{font-size:13px;padding:7px 15px}
+@media (max-width:400px){ .corte-pdp .hero-corte{font-size:12px;padding:6px 12px} }
+
+/* LA FICHA TECNICA. En movil, la tabla va a una columna y los dos bloques de abajo se
+   apilan; desde 560 px de ancho, los bloques van lado a lado. */
+.ficha{margin:18px 0 4px;padding:14px 15px;background:var(--panel);border:1px solid var(--line);border-radius:16px}
+.ficha h2{margin:0 0 10px;font-size:17px;font-weight:900;color:#fff}
+.ficha h2 span{font-weight:700;font-size:13px;color:var(--muted)}
+.esp-lista{margin:0}
+.esp{display:flex;gap:10px;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.45}
+.esp:last-child{border-bottom:0}
+.esp dt{color:var(--muted);flex:0 1 auto;max-width:52%}
+.esp dd{margin:0;color:#E6EDF4;font-weight:600;text-align:right;flex:0 1 auto}
+.ficha-cols{display:grid;gap:14px;margin-top:14px}
+@media(min-width:560px){ .ficha-cols{grid-template-columns:1fr 1fr} }
+.ficha-col h3{margin:0 0 7px;font-size:13px;font-weight:800;color:#fff}
+.ficha-ul{list-style:none;margin:0;display:grid;gap:5px}
+.ficha-ul li{position:relative;padding-left:18px;font-size:13px;color:#C7D0DA;line-height:1.5}
+.ficha-ul li::before{content:'✓';position:absolute;left:0;color:#3EE6A0;font-weight:900}
+/* El aviso honesto sobre la luz: manejar expectativas ANTES de la compra es lo que mas
+   devoluciones evita en proyectores de este precio. */
+.ficha-nota{margin:13px 0 0;padding:10px 12px;border-radius:11px;background:rgba(246,196,69,.10);border:1px solid rgba(246,196,69,.35);font-size:12.5px;line-height:1.55;color:#F2E3B8}
+.ficha-fuente{margin:9px 0 0;font-size:11px;color:var(--muted);line-height:1.5}
+
+/* QUIEN VENDE, en la ficha. Cada dato en su linea: es el momento "esta tienda existe?". */
+.quien-vende{margin:14px 0 0;padding:12px 14px;background:var(--panel2);border:1px solid var(--line);border-radius:14px;font-size:13px;line-height:1.6;color:var(--text-2)}
+.quien-vende b{display:block;margin-bottom:4px;color:var(--text);font-weight:var(--fw-label,600)}
+.quien-vende span{display:block}
+.quien-vende a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+
+/* EL "N FOTOS". Iba dentro del desplazador de miniaturas y quedaba fuera de pantalla
+   (medido: 17 px cortados a 390 px). Ahora va en su propia linea, alineado a la
+   derecha, y se ve siempre. */
+.gcount{display:block;text-align:right;font-size:11.5px;color:var(--muted);margin:10px 0 -4px}
+
+/* LAS RESENAS EN REJILLA. Antes: marquesina que se movia sola. En movil cabian 1,4
+   tarjetas y "Kevin B." salia cortado como "B.". Ahora se leen todas, con sus fotos. */
+.tst-grid{display:grid;gap:14px;grid-template-columns:1fr;margin-top:6px}
+@media(min-width:700px){ .tst-grid{grid-template-columns:repeat(2,1fr)} }
+@media(min-width:1000px){ .tst-grid{grid-template-columns:repeat(3,1fr)} }
+/* En rejilla, el ancho lo manda la columna: hay que anular el flex-basis de la tarjeta
+   (262 px), que en grid se ignora pero dejaria un ancho raro si cambia el navegador. */
+.tst-grid .tst-card{flex:none;width:auto;margin:0}
+
+/* EL BOTON FIJO DE COMPRA: medido en 38,8 px de alto, por debajo de los 44 px que
+   recomienda cualquiera para el dedo. Es el boton que mas se pulsa de la app. */
+.buybar .btn{min-height:44px}
+/* El texto de las garantias estaba a 12,5 px: es informacion que da confianza, no letra
+   chica que haya que esconder. */
+.dt{font-size:14px}
 
 /* Cerrar el aviso flotante: el aspa medía 19px y era dificil de pulsar. */
 /* [2026-09-22] El aspa medía 34x34 y en movil lo recomendado son 44x44: era

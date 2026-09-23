@@ -177,6 +177,8 @@
     /* los videos son un archivo aparte y pequeno: si tarda, la app ya esta
        pintada y la seccion aparece cuando llega. Si falla, no se ve nada. */
     loadVideos().then(function () { renderRoute(); });
+    /* la ficha tecnica llega despues y repinta: si no llega, no pasa nada */
+    loadFicha().then(function () { renderRoute(); });
     /* Si algun correo no pudo subirse en su momento (servidor caido o tarda), se
        reintenta aqui, en silencio. */
     try { leadsSubirPendientes(); } catch (e) {}
@@ -269,6 +271,64 @@
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (j) { state.pruebaSocial = j || null; })
       .catch(function () { state.pruebaSocial = null; });
+  }
+
+  /* ---------- Ficha tecnica y textos corregidos (2026-09-23) ----------
+     Un archivo aparte, editable por el dueno, con los datos del producto y las fuentes.
+     Se usa para TRES cosas:
+       - sustituir el titulo y la descripcion que vienen de la tienda (que dicen "1080P
+         nativo" cuando el equipo es 720p nativo: eso es publicidad enganosa)
+       - dibujar la ficha tecnica, el "que trae la caja" y el "que necesita"
+       - dejar por escrito de donde salio cada dato
+     Si el archivo no esta o falla, NADA de esto se dibuja y la app se comporta como
+     antes: nunca se rompe la ficha por un archivo que falta. */
+  function loadFicha() {
+    return fetch('ficha-tecnica.json?v=' + (CONFIG.version || '1'), { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { state.ficha = (j && j.productos) ? j.productos : {}; })
+      .catch(function () { state.ficha = {}; });
+  }
+  function fichaDe(handle) {
+    var f = (state.ficha || {})[handle];
+    return (f && typeof f === 'object') ? f : null;
+  }
+  /* Sustituye el titulo y la descripcion de la tienda por los corregidos.
+     Se llama en CADA repintado a proposito: es idempotente (escribe siempre el mismo
+     valor) y asi no importa el orden en que lleguen el catalogo, la cache o el archivo
+     de la ficha. El texto plano se guarda en .desc porque el buscador lo usa. */
+  function aplicarFicha() {
+    if (!state.products || !state.products.length) return;
+    for (var i = 0; i < state.products.length; i++) {
+      var p = state.products[i];
+      var f = fichaDe(p.handle);
+      if (!f) continue;
+      if (f.titulo) p.title = f.titulo;
+      if (f.descripcion) { p.descHtml = f.descripcion; p.desc = stripHtml(f.descripcion); }
+    }
+  }
+  /* El bloque de la ficha tecnica. Todo por esc(), y cada parte solo si existe. */
+  function vFicha(handle) {
+    var f = fichaDe(handle);
+    if (!f) return '';
+    var filas = (f.specs || []).map(function (s) {
+      return '<div class="esp"><dt>' + esc(s.k) + '</dt><dd>' + esc(s.v) + '</dd></div>';
+    }).join('');
+    var inc = (f.incluye || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
+    var nec = (f.necesita || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
+    if (!filas && !inc && !nec) return '';
+    return '<section class="ficha">' +
+      '<h2>Ficha técnica' + (f.modelo ? ' <span>· ' + esc(f.modelo) + '</span>' : '') + '</h2>' +
+      (filas ? '<dl class="esp-lista">' + filas + '</dl>' : '') +
+      (inc || nec ? '<div class="ficha-cols">' +
+        (inc ? '<div class="ficha-col"><h3>Qué trae la caja</h3><ul class="ficha-ul">' + inc + '</ul></div>' : '') +
+        (nec ? '<div class="ficha-col"><h3>Qué necesitas para usarlo</h3><ul class="ficha-ul">' + nec + '</ul></div>' : '') +
+        '</div>' : '') +
+      (f.nota_honesta ? '<p class="ficha-nota">' + esc(f.nota_honesta) + '</p>' : '') +
+      (f.fuentes && f.fuentes.length
+        ? '<p class="ficha-fuente">Especificaciones de la ficha del fabricante' +
+          (f.modelo ? ' del ' + esc(f.modelo) : '') + ' y su manual.</p>'
+        : '') +
+      '</section>';
   }
   /* ---------- WhatsApp ---------- */
   function waLink(text) { return 'https://wa.me/' + CONFIG.waNumber + '?text=' + encodeURIComponent(text); }
@@ -478,15 +538,14 @@
       (conNota.length < ts.length ? ', ' + conNota.length + ' con nota' : '') + ')</small>' +
       '</div>' +
       '</div>' +
-      '<div class="tst-marquee">' +
-      /* La tira va DUPLICADA para que al llegar al 50 % el bucle vuelva a empezar
-         sin salto. Cada copia va en su propio grupo para poder quitar la segunda
-         cuando las reseñas son pocas (ver ajustarResenas). */
-      '<div class="tst-track">' +
-      '<div class="tst-grupo">' + tarjetas + '</div>' +
-      '<div class="tst-grupo" aria-hidden="true">' + tarjetas + '</div>' +
-      '</div>' +
-      '</div>' +
+      /* [2026-09-23] REJILLA, no marquesina. La marquesina se movia sola y en un
+         celular cabian 1,4 tarjetas: "Kevin B." salia cortado como "B." y no se podia
+         leer una resena entera. Las 5 fotos reales de clientes (con la caja abierta, el
+         control en la mano) quedaban escondidas detras de la animacion: era el mejor
+         activo de la tienda, tirado. Quietas y en rejilla se leen todas.
+         Ya no hay copia duplicada, asi que ajustarResenas() no tiene nada que ajustar
+         (busca .tst-marquee, que ya no existe: no hace nada, no rompe). */
+      '<div class="tst-grid">' + tarjetas + '</div>' +
       '</section>';
   }
   function loadTestimonios() {
@@ -901,12 +960,21 @@
       '<div class="detail">' +
       /* ---- Galería ---- */
       '<div class="gallery">' +
-      '<div class="gmain">' + (off > 0 ? '<span class="pbadge" style="top:12px;left:12px">-' + off + '%</span>' : '') +
+      /* [2026-09-23] Se QUITA el badge "-28 %" que iba encima de la foto: caia justo
+         sobre el texto que la propia imagen trae dentro ("WIFI 6" se leia "WIEI 6").
+         El descuento no se pierde: ya se ve en la linea del precio (.d-pct) y en el
+         carrusel. Tapar el producto para repetir un dato que ya esta al lado no
+         compensa lo que ensucia. */
+      '<div class="gmain">' +
       '<span class="gzoom"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg> Toca para ver</span>' +
       (main ? '<img data-gmain src="' + esc(main) + '" alt="' + esc(p.title) + '" data-action="open-gallery" data-idx="0">' : '') + '</div>' +
-      (imgs.length > 1 ? '<div class="gthumbs">' + imgs.map(function (im, i) {
+      /* [2026-09-23] El "N fotos" estaba DENTRO de .gthumbs, que es un desplazador
+         horizontal: en un celular quedaba fuera de pantalla (medido: 17 px cortados).
+         Ahora va en su propia linea, encima de las miniaturas, y siempre se ve. */
+      (imgs.length > 1 ? '<div class="gcount">' + imgs.length + ' fotos · toca una para ampliarla</div>' +
+      '<div class="gthumbs">' + imgs.map(function (im, i) {
         return '<button class="gthumb' + (i === 0 ? ' active' : '') + '" data-action="open-gallery" data-idx="' + i + '" data-full="' + esc(im) + '" aria-label="Foto ' + (i + 1) + ' de ' + imgs.length + '"><img src="' + esc(im) + '" alt=""></button>';
-      }).join('') + '<span class="gcount">' + imgs.length + ' fotos</span></div>' : '') +
+      }).join('') + '</div>' : '') +
       '</div>' +
       /* ---- Info ---- */
       '<div class="pdp-info">' +
@@ -925,6 +993,8 @@
       '<li>Sin tarjeta ni anticipos</li>' +
       '<li>Revisas el producto antes de pagar</li>' +
       '</ul><span class="d-check">✓ Envío GRATIS a toda Colombia</span></div>' +
+      /* [2026-09-23] Aqui, pegado al boton: es donde se decide la compra. */
+      bloqueCorte() +
       (p.available
         ? '<div class="d-buy">' +
           '<div class="d-qtyrow"><span class="lbl">Cantidad</span><div class="qty"><button data-action="qty-dec" aria-label="Menos">−</button>' +
@@ -943,7 +1013,21 @@
          en el menu lateral, pero el comprador decide aqui: es lo primero que se
          mira antes de dar la cedula y la direccion en un pago contra entrega.
          Datos reales, los mismos que ya estan publicados. */
-      '<p class="quien-vende">Vendido por <b>VÓRTEX Gadgets</b> · Cali, Colombia</p>' +
+      /* [2026-09-23] Ampliado. Antes solo decia "Vendido por VORTEX Gadgets - Cali".
+         El comprador esta a punto de dar su cedula y su direccion: aqui es donde se
+         pregunta "esta tienda existe?". Van los datos REALES que ya estaban publicados
+         en el pie, sin inventar nada.
+         TODO cuando el dueno cree el NIT: anadirlo aqui, en el pie
+         (index.html, lineas del comentario "NIT <numero>-<digito>") y en el
+         aviso legal. */
+      '<div class="quien-vende">' +
+      '<b>¿Quién te vende?</b>' +
+      '<span>VÓRTEX Gadgets · Negocio colombiano con sede en Cali, Colombia.</span>' +
+      '<span>Dirección: Avenida 6A Norte, 21-NORTE-35 · Cali.</span>' +
+      '<span>WhatsApp y llamadas (24/7): <a href="' + waLink('Hola, tengo una pregunta sobre el proyector HY320') + '" target="_blank" rel="noopener">' + esc(CONFIG.waDisplay) + '</a></span>' +
+      '<span>Correo: <a href="mailto:soportevortexgadgets@gmail.com">soportevortexgadgets@gmail.com</a></span>' +
+      '<span>Identificación del titular: C.C. 1126705132.</span>' +
+      '</div>' +
       '<div class="d-trust">' +
       '<div class="dt"><span class="ck">✓</span><span>Envío GRATIS a toda Colombia</span></div>' +
       '<div class="dt"><span class="ck">✓</span><span>Pago contra entrega: revisas antes de pagar</span></div>' +
@@ -952,13 +1036,26 @@
       '</div>' +
       '<div class="acc">' +
       '<button class="acc-h" data-action="acc-toggle">Descripción <span class="chev">▾</span></button>' +
-      '<div class="acc-b">' + saneaPlazo(p.desc || 'Producto disponible en la tienda VÓRTEX Gadgets.') + '</div>' +
+      /* descHtml es la descripcion corregida de ficha-tecnica.json (con vinetas); si no
+         esta, se usa la de la tienda tal cual, como antes. */
+      '<div class="acc-b">' + saneaPlazo(p.descHtml || p.desc || 'Producto disponible en la tienda VÓRTEX Gadgets.') + '</div>' +
       '<button class="acc-h" data-action="acc-toggle">Envío y contra entrega <span class="chev">▾</span></button>' +
       '<div class="acc-b">Despachamos a todo Colombia con número de guía: tu pedido llega en 3 a 4 días hábiles.\n\nPagas CONTRA ENTREGA: en efectivo al recibir tu pedido, después de revisarlo. También puedes pagar en línea (PSE o tarjeta) desde nuestra tienda web.</div>' +
       '<button class="acc-h" data-action="acc-toggle">Garantía y devoluciones <span class="chev">▾</span></button>' +
-      '<div class="acc-b">Todos nuestros productos tienen garantía de funcionamiento. Si algo llega dañado o no funciona, te lo cambiamos o devolvemos tu dinero. Escríbenos por WhatsApp y te atendemos.</div>' +
+      /* [2026-09-23] Aqui estaba la contradiccion: la ficha decia "30 dias" y las
+         preguntas frecuentes "5 dias habiles", sin decir que son DOS derechos distintos
+         (garantia por falla y retracto por Ley 1480). El comprador desconfiado lo leia
+         como "no tienen claro lo que ofrecen". */
+      '<div class="acc-b">' +
+      '<p><b>Garantía de 30 días por fallas de funcionamiento.</b> Si el producto llega dañado o deja de funcionar como debe, escríbenos por WhatsApp y te lo cambiamos o te devolvemos tu dinero.</p>' +
+      '<p><b>5 días hábiles de retracto (Ley 1480 de 2011).</b> Es un derecho distinto: si el producto funciona bien pero no te convence, tienes 5 días hábiles desde que lo recibes para devolverlo y te devolvemos tu dinero.</p>' +
+      '<p>Son dos derechos diferentes y los dos aplican. Para cualquiera de los dos, escríbenos por WhatsApp y te acompañamos en el proceso.</p>' +
+      '</div>' +
       '</div>' +
       '</div></div>' +
+      /* [2026-09-23] La ficha tecnica, antes de los videos y las resenas: es lo que
+         contesta "que estoy comprando". */
+      vFicha(p.handle) +
       vVideoProducto(p.handle) +
       /* [2026-09-22] Las resenas tambien en la ficha, que es donde decide el
          cliente. Si la lista esta vacia, vTestimonios devuelve '' y no se ve
@@ -1282,18 +1379,22 @@
           '<div class="fld"><label for="cod_apellido">Apellido *</label><input id="cod_apellido" required maxlength="40" name="family-name" autocomplete="family-name" value="' + esc(d.apellido || '') + '" placeholder="Ej: Gómez"></div>' +
         '</div>' +
         '<div class="fld-row">' +
-          '<div class="fld"><label for="cod_tipoDoc">Tipo de documento *</label><select id="cod_tipoDoc">' + optsDoc + '</select></div>' +
+          '<div class="fld"><label for="cod_tipoDoc">Tipo de documento *</label><select id="cod_tipoDoc" required>' + optsDoc + '</select></div>' +
           '<div class="fld"><label for="cod_numDoc">Número de documento *</label><input id="cod_numDoc" required maxlength="15" inputmode="numeric" autocomplete="off" value="' + esc(d.numDoc || '') + '" placeholder="Ej: 1126705132"></div>' +
         '</div>' +
         '<div class="fld"><label for="cod_telefono">Teléfono / WhatsApp *</label><input id="cod_telefono" required maxlength="10" pattern="3[0-9]{9}" type="tel" inputmode="tel" autocomplete="tel" value="' + esc(d.telefono || '') + '" placeholder="Ej: 3001234567 (10 dígitos)"></div>' +
         '<div class="fld"><label for="cod_correo">Correo (opcional)</label><input id="cod_correo" type="email" inputmode="email" autocomplete="email" value="' + esc(d.correo || '') + '" placeholder="tucorreo@ejemplo.com"></div>' +
         '<div class="fld-row">' +
-          '<div class="fld"><label for="cod_departamento">Departamento *</label><select id="cod_departamento"><option value="">Selecciona…</option>' + optsDep + '</select></div>' +
+          '<div class="fld"><label for="cod_departamento">Departamento *</label><select id="cod_departamento" required><option value="">Selecciona…</option>' + optsDep + '</select></div>' +
           '<div class="fld"><label for="cod_ciudad">Ciudad o municipio *</label><input id="cod_ciudad" required maxlength="60" autocomplete="address-level2" value="' + esc(d.ciudad || '') + '" placeholder="Ej: Cali"></div>' +
         '</div>' +
         '<div class="fld"><label for="cod_direccion">Dirección de entrega *</label><input id="cod_direccion" required maxlength="120" autocomplete="street-address" value="' + esc(d.direccion || '') + '" placeholder="Calle 1 #2-3, torre 4, apto 501, barrio…"></div>' +
         '<div class="fld"><label for="cod_notas">Notas para la entrega</label><textarea id="cod_notas" maxlength="300" rows="3" placeholder="Punto de referencia, horario en que estás, nombre del conjunto, color o talla…"></textarea></div>' +
-        '<label class="cod-acepto"><input type="checkbox" id="cod_acepto">' +
+        /* [2026-09-23] La autorizacion de la Ley 1581 tenia el * en el texto pero el atributo
+   no. El JS YA la exigia (leerCod: "Autorizacion de datos (marca la casilla)"), asi que
+   nunca se despacho un pedido sin autorizar; pero el atributo es el cinturon ademas de
+   los tirantes y ayuda al autocompletado. */
+      '<label class="cod-acepto"><input type="checkbox" id="cod_acepto" required>' +
         '<span>Autorizo el tratamiento de mis datos personales para gestionar y entregar este pedido, conforme a la <b>Ley 1581 de 2012</b>. No se usan para nada más.</span></label>' +
         '<p class="cod-legal">Lee nuestra <a href="#/info/politica-de-privacidad">política de privacidad</a>. Sin esta autorización no podemos despachar tu pedido.</p>' +
         '<button class="btn btn-accent btn-block" type="button" data-action="cod-submit">Confirmar pedido contra entrega</button>' +
@@ -1648,7 +1749,21 @@
     var pedido = codPedidoObj(d, items);
     var guardado = pedido ? codGuardarPedido(pedido) : false;
     try { sessionStorage.setItem('vx_last_wa', msg); } catch (e) {}
-    trackPixel('InitiateCheckout', { value: Math.round(total), currency: 'COP', num_items: piezas });
+    /* [2026-09-23] Se prepara el evento de PEDIDO. En toda la app no habia NINGUN
+       Purchase: sin un evento que represente la venta, Facebook no puede aprender a
+       quien mostrarle el anuncio y el informe no cuenta los pedidos de verdad.
+       Se dispara cuando el pedido queda CONFIRMADO, no al pulsar el boton.
+       En contra entrega el "Purchase" se cuenta al pedir; para saber cuantos llegan de
+       verdad hay que devolver el pedido ENTREGADO por la API de conversiones (queda
+       apuntado para el siguiente paso). */
+    var evPedido = {
+      content_ids: items.map(function (l) { return l.handle; }),
+      content_name: items.length === 1 ? ((productByHandle(items[0].handle) || {}).title || '') : 'Pedido VÓRTEX',
+      content_type: 'product',
+      value: Math.round(total),
+      currency: 'COP',
+      num_items: piezas
+    };
     if (pedido) { try { sessionStorage.setItem('vx_pedido_id', pedido.id); } catch (e) {} }
 
     /* SIN SERVIDOR CONFIGURADO: se mantiene el comportamiento de siempre (WhatsApp).
@@ -1659,6 +1774,7 @@
       saveCart([]);
       codEnviando = false;
       if (!guardado) toast('No pudimos guardar la copia local, pero el pedido va por WhatsApp', true);
+      trackPixel('Purchase', evPedido);
       irA('#/contraentrega/enviado');
       return;
     }
@@ -1678,6 +1794,9 @@
       if (res && res.ok) {
         saveCart([]);
         if (!guardado) toast('Aviso: no se pudo guardar la copia local del pedido', true);
+        /* Solo aqui: el pedido lo confirmo el servidor. En el otro camino (WhatsApp) se
+           dispara arriba. Son excluyentes, asi que nunca se cuenta dos veces. */
+        trackPixel('Purchase', evPedido);
         irA('#/contraentrega/enviado');
       } else {
         /* El carrito y los datos se dejan intactos para poder reintentar. */
@@ -1726,6 +1845,14 @@
        linea fina (un <p>), y un <div> dentro de un <p> es HTML invalido: el navegador
        cerraria el parrafo antes y el contador se saldria de la linea. */
     return '<span class="hero-corte" data-corte="' + esc(v) + '">…</span>';
+  }
+  /* [2026-09-23] El mismo contador, pero como BLOQUE en la ficha, pegado al boton de
+     compra. htmlCorte() devuelve un <span> porque en el carrusel va dentro de un <p>;
+     aqui lo envolvemos en su propia caja, que es la que le da el tamano. */
+  function bloqueCorte() {
+    var c = htmlCorte();
+    if (!c) return '';
+    return '<div class="corte-pdp">' + c + '</div>';
   }
   function pintarCortes() {
     var els = document.querySelectorAll('[data-corte]');
@@ -1871,6 +1998,9 @@
     /* al cambiar de pantalla, cualquier video que estuviera sonando se para:
        si no, seguiria reproduciendose fuera de la vista */
     try { pausarVideos(null); } catch (e) {}
+    /* los textos corregidos del producto se aplican en CADA repintado: asi da igual el
+       orden en que lleguen el catalogo, la copia guardada o el archivo de la ficha */
+    try { aplicarFicha(); } catch (e) {}
     var r = parseHash();
     var seg = r.seg;
     if (seg[0] === 'catalogo') { var params = new URLSearchParams(r.q || ''); state.cat = params.get('cat') || ''; if (params.get('q')) state.searchTerm = params.get('q'); }
@@ -1981,6 +2111,18 @@
       var hcod = findHandle(t);
       var qcod = qtyOf(document);
       if (!hcod) { location.hash = '#/contraentrega'; return; }
+      /* [2026-09-23] InitiateCheckout AQUI: cuando el cliente ABRE el formulario.
+         Antes se disparaba al ENVIARLO (en codSubmit), o sea que "inicio de pago"
+         llegaba justo cuando ya habia terminado y el embudo salia aplastado. */
+      var pcs = productByHandle(hcod);
+      trackPixel('InitiateCheckout', {
+        content_ids: [hcod],
+        content_name: pcs ? pcs.title : '',
+        content_type: 'product',
+        value: Math.round((pcs ? pcs.price : 0) * qcod),
+        currency: 'COP',
+        num_items: qcod
+      });
       location.hash = '#/contraentrega?p=' + encodeURIComponent(hcod) + '&n=' + qcod;
       return;
     }
