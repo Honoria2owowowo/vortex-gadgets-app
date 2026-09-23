@@ -598,7 +598,12 @@ img{max-width:100%}
 a.hb-zone{text-decoration:none}
 .hb-left{flex:0 0 auto}
 .hb-right{flex:0 0 auto;margin-left:auto}
-.hb-mid{flex:1 1 auto;display:flex;align-items:flex-start;height:var(--hb-h);overflow:hidden;padding:0 14px}
+/* justify-content:center -> el bloque de mensajes queda centrado en la zona del
+   medio. Antes se quedaba pegado a la izquierda de una zona que se estiraba a 769 px
+   y dejaba ~600 px de vacio antes de "Todos los gadgets" en pantallas anchas.
+   align-items:flex-start se mantiene: es lo que evita que el texto baile mientras
+   sube (el movimiento es vertical, en el otro eje). */
+.hb-mid{flex:1 1 auto;display:flex;align-items:flex-start;justify-content:center;height:var(--hb-h);overflow:hidden;padding:0 14px}
 .hb-sep{width:1px;flex:0 0 auto;background:var(--line);margin:9px 0}
 .hb-txt{display:flex;flex-direction:column;line-height:1.22;min-width:0}
 .hb-txt b{font-size:12.5px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -612,6 +617,8 @@ a.hb-zone{text-decoration:none}
   .hb-sep-end{display:none}
   .hb-left .hb-chev{display:none}
   .hb-zone{padding:0 11px}
+/* En el movil no hay hueco que rellenar: el centrado solo dejaria espacio raro. */
+.hb-mid{justify-content:flex-start}
   .hb-mid{padding:0 10px}
 }
 
