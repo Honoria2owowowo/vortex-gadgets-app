@@ -29,7 +29,17 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .hidden{display:none!important}
 
 /* ---------- Anuncio + barra superior ---------- */
-.announce{background:linear-gradient(90deg,#008C8C,#00A6A6);color:#04231F;font-weight:800;font-size:12px;letter-spacing:.4px;overflow:hidden}
+/* [2026-09-23] Paleta nueva en la banda, a peticion del dueño. Sacada de SU captura
+   contando pixeles: fondo #FF4D6C con texto blanco (el color NO es una aproximacion a
+   ojo). El degradado conserva la forma del anterior: el extremo oscuro (#D7415B) es
+   el claro con el brillo al 84 %, la MISMA relacion que unia #00A6A6
+   con #008C8C.
+   MEDIDO: el texto blanco sobre este rosa da 3.22:1, por debajo del minimo de
+   4.5:1 para texto pequeño. El de antes (verde oscuro sobre teal) daba
+   5.54:1. Es la pareja que trae la paleta del dueño, asi que se pone tal
+   cual; si quiere mas legibilidad, oscurecer el rosa a #C73C54 sube a
+   5.00:1 sin salirse de la misma familia. */
+.announce{background:linear-gradient(90deg,#D7415B,#FF4D6C);color:#fff;font-weight:800;font-size:12px;letter-spacing:.4px;overflow:hidden}
 .an-track{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;padding:7px 10px;row-gap:4px}
 /* OJO: .an-item NO debe ser contenedor flex. Si lo es, el texto suelto se
    convierte en flex items anonimos y CSS DESCARTA el espacio en blanco de los
@@ -41,7 +51,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 /* el separador va dentro de CADA item (no entre items). Asi, al duplicar la
    secuencia, el ritmo de puntos es identico en las dos mitades y el bucle de
    translateX(-50%) encaja sin salto. */
-.an-item::after{content:'';display:inline-block;vertical-align:middle;width:4px;height:4px;border-radius:50%;background:#04231F;opacity:.42;margin:0 15px}
+.an-item::after{content:'';display:inline-block;vertical-align:middle;width:4px;height:4px;border-radius:50%;background:#fff;opacity:.55;margin:0 15px}
 /* En movimiento: una sola fila, sin centrar, de DERECHA a IZQUIERDA.
    OJO: NO se puede animar a -50%. translateX(%) se calcula sobre el ANCHO DEL
    PROPIO ELEMENTO, y .an-track es un contenedor flex de bloque: mide lo que le
