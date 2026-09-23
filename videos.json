@@ -1,0 +1,54 @@
+{
+  "_lee_esto_primero": [
+    "VIDEOS DE PRODUCTO.",
+    "",
+    "Salen en dos sitios: en la portada (seccion 'Miralos en accion') y en la ficha",
+    "del producto que les toca.",
+    "",
+    "Cada entrada tiene cuatro datos:",
+    "  handle  = el producto de Shopify al que pertenece (el mismo que usa la app)",
+    "  archivo = el video",
+    "  portada = la imagen que se ve ANTES de tocar (asi el video no se descarga",
+    "            hasta que alguien lo pide: en datos moviles eso importa)",
+    "  etiqueta = el texto corto que va encima del video",
+    "",
+    "QUITAR UNA ENTRADA = ese producto deja de tener video. No hay que tocar codigo.",
+    "PONER UNO NUEVO = deja el mp4 y su portada en media/video/ y copia el bloque,",
+    "cambiando el handle. El video debe ser vertical (9:16) y SIN audio.",
+    "",
+    "Los videos pesan poco a proposito: 9,4 MB entre los cinco, ya comprimidos y",
+    "sin pista de audio. Se descargan solo al tocar, nunca al abrir la app."
+  ],
+  "videos": [
+    {
+      "handle": "mini-proyector-portatil-hy320-android-tv-13-1080p-soporte-4k",
+      "archivo": "media/video/proyector-hy320.mp4",
+      "portada": "media/video/proyector-hy320.jpg",
+      "etiqueta": "Unboxing: lo que recibes"
+    },
+    {
+      "handle": "airpods-pro-2-compatibles-audifonos-inalambricos-con-estuche-de-carga",
+      "archivo": "media/video/audifonos-a9.mp4",
+      "portada": "media/video/audifonos-a9.jpg",
+      "etiqueta": "Pantalla del estuche"
+    },
+    {
+      "handle": "auda-fonos-bluetooth-inala-mbricos-m10-a-sonido-premium-con-estuche-de-carga",
+      "archivo": "media/video/audifonos-m10.mp4",
+      "portada": "media/video/audifonos-m10.jpg",
+      "etiqueta": "Batería en pantalla"
+    },
+    {
+      "handle": "mini-aire-acondicionado-evaporativo-portatil-enfria-y-humecta",
+      "archivo": "media/video/mini-aire.mp4",
+      "portada": "media/video/mini-aire.jpg",
+      "etiqueta": "Enfriando en vivo"
+    },
+    {
+      "handle": "limpiadora-a-vapor-multiusos-15-en-1-desinfeccion-sin-quimicos",
+      "archivo": "media/video/limpiador-vapor.mp4",
+      "portada": "media/video/limpiador-vapor.jpg",
+      "etiqueta": "Vapor en acción"
+    }
+  ]
+}

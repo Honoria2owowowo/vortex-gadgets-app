@@ -1,11 +1,11 @@
 ﻿/* Service Worker â€” VÃ“RTEX Gadgets PWA */
-const VERSION = 'vortex-app-v78';
+const VERSION = 'vortex-app-v79';
 const PRECACHE = [
   './',
   'index.html',
   'manifest.json',
-  'assets/app.css?v=78',
-  'assets/app.js?v=78',
+  'assets/app.css?v=79',
+  'assets/app.js?v=79',
   'assets/cod-splash.png',
   'datos-tienda.json',
   'icons/icon-192-v2.png',
@@ -32,6 +32,13 @@ self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
+
+  /* [2026-09-22] LOS VIDEOS SE DEJAN PASAR SIN TOCAR.
+     Un mp4 el navegador lo pide por trozos (peticiones Range) y necesita que esa
+     peticion llegue tal cual al servidor. Si el service worker contesta con una
+     copia completa de la cache, el video se queda en negro o no deja adelantar.
+     Ademas aqui no queremos 9 MB de video dentro de la cache del shell. */
+  if (/\.(mp4|webm|m4v)$/i.test(url.pathname)) return;
 
   // NavegaciÃ³n: red primero, cachÃ© si estÃ¡s sin conexiÃ³n
   if (req.mode === 'navigate') {

@@ -65,7 +65,7 @@
   /* ---------- Estado ---------- */
   var state = {
     cat: '',
-    products: [], collections: [], loading: true, searchTerm: '', pruebaSocial: null
+    products: [], collections: [], loading: true, searchTerm: '', pruebaSocial: null, videos: []
   };
   function loadCart() {
     try { return JSON.parse(localStorage.getItem('vx_cart')) || []; } catch (e) { return []; }
@@ -174,6 +174,9 @@
        seccion aparezca sola si hay resenas reales */
     loadTestimonios().then(function () { renderRoute(); });
     loadPruebaSocial().then(function () { renderRoute(); });
+    /* los videos son un archivo aparte y pequeno: si tarda, la app ya esta
+       pintada y la seccion aparece cuando llega. Si falla, no se ve nada. */
+    loadVideos().then(function () { renderRoute(); });
     iniciarReloj();
     if (tryCache()) { state.loading = false; renderRoute(); pintarDescuentoPopup(); }
     loadStorefront().then(function () {
@@ -509,11 +512,110 @@
     } catch (err) { mostrar(); }
   }
 
+  /* ============ VIDEOS DE PRODUCTO [2026-09-22] ============
+     Adaptado de la seccion de referencia: fila de videos verticales con la
+     mini-ficha del producto debajo.
+
+     El titulo NO dice "favoritos de nuestra comunidad" como la referencia:
+     estos videos no son de clientes, son los videos del producto. Llamarlos
+     "de la comunidad" seria una mentira, igual que lo serian unas resenas
+     inventadas. El titulo dice lo que son. */
+
+  function loadVideos() {
+    return fetch('videos.json', { cache: 'no-cache' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) { state.videos = (d && d.videos) || []; })
+      .catch(function () { state.videos = []; });
+  }
+  function videoDe(handle) {
+    var v = state.videos || [];
+    for (var i = 0; i < v.length; i++) { if (v[i].handle === handle) return v[i]; }
+    return null;
+  }
+  function vidCardHtml(v) {
+    var p = productoPorHandle(v.handle);
+    /* Si el producto no esta en el catalogo, la tarjeta NO se pinta: un video
+       sin producto no se puede pedir y confunde mas que ayuda. */
+    if (!p) return '';
+    return '<article class="vc" data-handle="' + esc(p.handle) + '">' +
+      '<div class="vc-frame" data-action="vid-play" data-src="' + esc(v.archivo) + '">' +
+      '<img class="vc-poster" src="' + esc(v.portada) + '" alt="' + esc(p.title) + '" width="540" height="960" loading="lazy" decoding="async">' +
+      '<button class="vc-play" data-action="vid-play" data-src="' + esc(v.archivo) + '" aria-label="Ver el video: ' + esc(p.title) + '"><span class="vc-tri"></span></button>' +
+      (v.etiqueta ? '<span class="vc-tag">' + esc(v.etiqueta) + '</span>' : '') +
+      '</div>' +
+      '<div class="vc-info">' +
+      (p.image ? '<img class="vc-thumb" src="' + esc(p.image) + '" alt="" loading="lazy">' : '') +
+      '<div class="vc-txt"><b>' + esc(p.title) + '</b><span>' + money(p.price) + '</span></div>' +
+      '</div>' +
+      '<a class="vc-cta" href="#/producto/' + esc(p.handle) + '">Pedir contra entrega</a>' +
+      '</article>';
+  }
+  function vVideos() {
+    var lista = (state.videos || []).filter(function (v) { return productoPorHandle(v.handle); });
+    if (!lista.length) return '';
+    return '<h2 class="section-title">Míralos en acción</h2>' +
+      '<p class="section-sub">Video real de cada producto. Toca para verlo.</p>' +
+      '<div class="vc-row">' + lista.map(vidCardHtml).join('') + '</div>';
+  }
+  function vVideoProducto(handle) {
+    var v = videoDe(handle);
+    if (!v) return '';
+    var card = vidCardHtml(v);
+    if (!card) return '';
+    return '<div class="vc-solo">' +
+      '<h2 class="section-title">Míralo en acción</h2>' +
+      '<p class="section-sub">Video real del producto. Toca para verlo.</p>' +
+      '<div class="vc-row vc-row--una">' + card + '</div>' +
+      '</div>';
+  }
+  /* Pausa todos los videos menos el que se acaba de tocar. */
+  function pausarVideos(excepto) {
+    var vs = document.querySelectorAll('.vc-frame video');
+    for (var i = 0; i < vs.length; i++) {
+      if (excepto && excepto.contains(vs[i])) continue;
+      try { vs[i].pause(); } catch (e) {}
+      if (vs[i].parentNode) vs[i].parentNode.classList.remove('reproduciendo');
+    }
+  }
+  /* Crea el <video> la PRIMERA vez que se toca; despues solo reproduce o pausa.
+     El archivo no se descarga hasta este momento. */
+  function alternarVideo(marco, btn) {
+    var vid = marco.querySelector('video');
+    if (vid) {
+      if (vid.paused) { pausarVideos(marco); marco.classList.add('reproduciendo'); vid.play(); }
+      else { vid.pause(); marco.classList.remove('reproduciendo'); }
+      return;
+    }
+    var src = btn && btn.getAttribute && btn.getAttribute('data-src');
+    if (!src) return;
+    pausarVideos(marco);
+    var el = document.createElement('video');
+    el.className = 'vc-video';
+    el.muted = true;
+    el.loop = true;
+    el.playsInline = true;
+    el.setAttribute('playsinline', '');
+    el.setAttribute('muted', '');
+    el.setAttribute('preload', 'auto');
+    var pos = marco.querySelector('img.vc-poster');
+    if (pos) el.setAttribute('poster', pos.getAttribute('src'));
+    el.addEventListener('canplay', function () { marco.classList.remove('cargando'); });
+    el.addEventListener('error', function () { marco.classList.remove('cargando', 'reproduciendo'); });
+    /* setAttribute y NO el.src = ...: hace lo mismo, pero deja el valor visible
+       como atributo y asi se puede comprobar en las pruebas. */
+    el.setAttribute('src', src);
+    marco.appendChild(el);
+    marco.classList.add('reproduciendo', 'cargando');
+    var pr = el.play();
+    if (pr && pr.catch) pr.catch(function () { marco.classList.remove('cargando', 'reproduciendo'); });
+  }
+
   function vHome() {
     var dest = state.products.filter(function (p) { return p.available; }).slice(0, 8);
     return '' +
       vHeroSlider() +
       vHeroBar() +
+      vVideos() +
       vTestimonios() +
       '<h2 class="section-title">Destacados de la semana</h2>' +
       '<p class="section-sub">Elige, completa tus datos y paga al recibir</p>' + gridHtml(dest) +
@@ -640,6 +742,7 @@
       '<div class="acc-b">Todos nuestros productos tienen garantía de funcionamiento. Si algo llega dañado o no funciona, te lo cambiamos o devolvemos tu dinero. Escríbenos por WhatsApp y te atendemos.</div>' +
       '</div>' +
       '</div></div>' +
+      vVideoProducto(p.handle) +
       /* [2026-09-22] Las resenas tambien en la ficha, que es donde decide el
          cliente. Si la lista esta vacia, vTestimonios devuelve '' y no se ve
          nada: nunca hay un bloque vacio. */
@@ -1458,6 +1561,9 @@
     return { seg: seg, q: parts[1] || '' };
   }
   function renderRoute() {
+    /* al cambiar de pantalla, cualquier video que estuviera sonando se para:
+       si no, seguiria reproduciendose fuera de la vista */
+    try { pausarVideos(null); } catch (e) {}
     var r = parseHash();
     var seg = r.seg;
     if (seg[0] === 'catalogo') { var params = new URLSearchParams(r.q || ''); state.cat = params.get('cat') || ''; if (params.get('q')) state.searchTerm = params.get('q'); }
@@ -1532,6 +1638,11 @@
     if (act === 'acc-toggle') {
       var acc = t.closest('.acc');
       if (acc) { acc.classList.toggle('open'); $$('.acc.open', acc.parentNode).forEach(function (a) { if (a !== acc) a.classList.remove('open'); }); }
+      return;
+    }
+    if (act === 'vid-play') {
+      var marco = t.classList && t.classList.contains('vc-frame') ? t : t.closest('.vc-frame');
+      if (marco) alternarVideo(marco, t);
       return;
     }
     if (act === 'add-cart') { var h = findHandle(t); if (h) addToCart(h, qtyOf(document)); return; }
