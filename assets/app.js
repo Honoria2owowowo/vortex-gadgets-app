@@ -112,7 +112,7 @@
   /* ---------- Datos: Storefront (vivo) + respaldo local ---------- */
   function normSnap(p) {
     return {
-      title: p.title, handle: p.handle, vendor: p.vendor,
+      title: p.title, handle: p.handle, 
       price: Number(p.price) || 0, compare: Number(p.compare_at) || 0,
       image: p.image || (p.images && p.images[0]) || '', images: p.images || [],
       desc: p.body ? stripHtml(p.body) : '', available: p.available !== false,
@@ -359,7 +359,7 @@
       '</div>' +
       '<div class="pbody">' +
       '<a class="ptitle" href="#/producto/' + esc(p.handle) + '">' + esc(p.title) + '</a>' +
-      (p.vendor ? '<span class="pvendor">' + esc(p.vendor) + '</span>' : '') +
+      +
       '<div><span class="pprice">' + money(p.price) + '</span>' +
       (off > 0 ? ' <span class="pold">' + money(p.compare) + '</span>' : '') + '</div>' +
       '<div class="pbtns">' +
@@ -801,7 +801,7 @@
     var list = state.products.filter(function (p) {
       if (tipos && tipos.indexOf(p.type) < 0) return false;
       if (!q) return true;
-      return normTxt(p.title + ' ' + (p.vendor || '') + ' ' + p.desc).indexOf(q) > -1;
+      return normTxt(p.title + ' ' + ' ' + p.desc).indexOf(q) > -1;
     });
     var nombreCat = (CATEGORIAS.filter(function (c) { return c.slug === cat; })[0] || {}).nombre || '';
     return '<h1 style="font-size:22px;font-weight:900">' + (nombreCat ? esc(nombreCat) : 'Catálogo') + '</h1>' +
