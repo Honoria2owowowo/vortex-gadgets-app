@@ -1484,6 +1484,7 @@
       (sonidoOn ? '' : '<button class="btn sonar off sm" id="btnSonido">Aviso con sonido (panel abierto)</button>') +
       (sonidoOn ? '<button class="btn sonar on sm" id="btnSonido">Sonido del panel activo</button>' : '') +
       botonesPush() +
+      '<button class="btn sm" id="btnCorreos">Correos</button>' +
       '<button class="btn sm" id="btnRendimiento">Rendimiento</button>' +
       '<button class="btn sm" id="btnRefrescar">Actualizar</button>' +
       '<button class="btn ghost sm" id="btnSalir" style="background:#e2e8f0;color:#0f172a">Salir</button>';
@@ -1507,6 +1508,8 @@
     conectarBotonesPush();
     var br = document.getElementById('btnRendimiento');
     if (br) br.onclick = alternarRendimiento;
+    var bc = document.getElementById('btnCorreos');
+    if (bc) bc.onclick = alternarCorreos;
     /* La caja de rendimiento vive fuera de la barra (que se repinta entera), asi
        que solo se crea una vez y se coloca despues del resumen. */
     if (!document.getElementById('rendBox')) {
@@ -1517,6 +1520,206 @@
       var st = document.getElementById('stats');
       if (st && st.parentNode) st.parentNode.insertBefore(rb, st.nextSibling);
     }
+    /* La caja de correos tambien vive fuera de la barra (que se repinta entera),
+       asi que se crea una sola vez. */
+    if (!document.getElementById('correosBox')) {
+      var cb = document.createElement('div');
+      cb.id = 'correosBox';
+      cb.style.display = 'none';
+      cb.setAttribute('data-dias', '0');
+      var st2 = document.getElementById('stats');
+      if (st2 && st2.parentNode) st2.parentNode.insertBefore(cb, st2.nextSibling);
+    }
+  }
+
+  /* ---------- CORREOS (leads) [2026-09-22] ----------
+     Los correos que la gente deja en el formulario del pie a cambio del cupon del
+     10 %. Se guardan en la base de datos (D1) y aqui se ven y se descargan. */
+  var correosCache = [];
+
+  function alternarCorreos() {
+    var caja = document.getElementById('correosBox');
+    if (!caja) return;
+    var abierta = caja.getAttribute('data-abierto') === '1';
+    if (abierta) {
+      caja.style.display = 'none';
+      caja.setAttribute('data-abierto', '0');
+      return;
+    }
+    caja.style.display = '';
+    caja.setAttribute('data-abierto', '1');
+    pintarCorreos();
+  }
+
+  function pintarCorreos() {
+    var caja = document.getElementById('correosBox');
+    if (!caja) return;
+    var dias = caja.getAttribute('data-dias') || '0';
+    caja.innerHTML =
+      '<div class="rend-top">' +
+        '<button class="btn sm" data-cd="0">Todo</button>' +
+        '<button class="btn sm" data-cd="30">30 días</button>' +
+        '<button class="btn sm" data-cd="90">90 días</button>' +
+        '<button class="btn ghost sm" id="btnCorreosCsv">Descargar CSV</button>' +
+        '<button class="btn ghost sm" id="btnCorreosCerrar" style="margin-left:auto">Cerrar</button>' +
+      '</div>' +
+      '<p class="rend-nota">Cargando los correos…</p>';
+
+    var cerrar = document.getElementById('btnCorreosCerrar');
+    if (cerrar) cerrar.onclick = alternarCorreos;
+    Array.prototype.forEach.call(caja.querySelectorAll('[data-cd]'), function (b) {
+      b.classList.toggle('sel', String(dias) === b.getAttribute('data-cd'));
+      b.onclick = function () {
+        caja.setAttribute('data-dias', b.getAttribute('data-cd'));
+        pintarCorreos();
+      };
+    });
+
+    /* Se piden TODOS y el filtro de dias se hace en el navegador: asi cambiar de
+       periodo no gasta otra peticion ni espera. */
+    pedirApi('/api/leads?dias=3650').then(function (j) {
+      correosCache = (j && j.leads) || [];
+      dibujarCorreos(j ? j.total : correosCache.length, j ? j.activos : 0, dias);
+    }).catch(function (e) {
+      caja.innerHTML =
+        '<div class="rend-top">' +
+          '<button class="btn ghost sm" id="btnCorreosCerrar" style="margin-left:auto">Cerrar</button>' +
+        '</div>' +
+        '<p class="rend-nota">No se pudieron traer los correos: ' + esc(e.message) + '</p>' +
+        /* Un 404 es lo que sale mientras el Worker de Cloudflare no este actualizado.
+           Es el unico fallo que se arregla fuera de aqui, asi que se dice claro. */
+        (/404/.test(e.message)
+          ? '<p class="rend-nota"><b>Falta un paso:</b> pega el worker.js nuevo en Cloudflare ' +
+            '(Workers &amp; Pages → vortex-pedidos → Edit code) y pulsa Deploy. ' +
+            'Esta explicado en el LEEME-API.md.</p>'
+          : '');
+      var c2 = document.getElementById('btnCorreosCerrar');
+      if (c2) c2.onclick = alternarCorreos;
+    });
+  }
+
+  function dibujarCorreos(totalServidor, activosServidor, dias) {
+    var caja = document.getElementById('correosBox');
+    if (!caja) return;
+    var lista = correosCache.slice();
+    if (dias !== '0') {
+      var desde = Date.now() - parseInt(dias, 10) * 24 * 60 * 60 * 1000;
+      lista = lista.filter(function (l) { return new Date(l.creado).getTime() >= desde; });
+    }
+    var bajas = lista.filter(function (l) { return l.baja; }).length;
+    var activos = lista.length - bajas;
+
+    var aviso = totalServidor === 0
+      ? '<p class="rend-nota">Todavía no hay ningún correo. Aparecerán aquí solos en cuanto ' +
+        'alguien escriba su correo en el formulario del pie de la app.</p>'
+      : '';
+
+    caja.innerHTML =
+      '<div class="rend-top">' +
+        '<button class="btn sm" data-cd="0">Todo</button>' +
+        '<button class="btn sm" data-cd="30">30 días</button>' +
+        '<button class="btn sm" data-cd="90">90 días</button>' +
+        '<button class="btn ghost sm" id="btnCorreosCsv">Descargar CSV</button>' +
+        '<button class="btn ghost sm" id="btnCorreosCerrar" style="margin-left:auto">Cerrar</button>' +
+      '</div>' +
+      '<div class="rend-global">' +
+        '<span class="rg-num">' + activos + '</span>' +
+        '<span class="rg-txt">correo(s) en la lista<br>' +
+        '<b>' + totalServidor + '</b> en total' +
+        (bajas ? ' · <b>' + bajas + '</b> dado(s) de baja' : '') + '</span>' +
+      '</div>' + aviso +
+      '<p class="rend-nota">' +
+        'Entran solos desde el formulario "Únete y recibe 10 %" del pie de la app. ' +
+        'El mismo correo no se guarda dos veces: si alguien vuelve a suscribirse, se anota ' +
+        'la fecha y ya está. Los que se dan de baja <b>no se borran</b>, quedan marcados: ' +
+        'así queda la prueba de que se respetó la Ley 1581.' +
+      '</p>' +
+      (lista.length ? buscarCorreosHtml() + tablaCorreosHtml(lista) : '');
+
+    var cerrar = document.getElementById('btnCorreosCerrar');
+    if (cerrar) cerrar.onclick = alternarCorreos;
+    var csv = document.getElementById('btnCorreosCsv');
+    if (csv) csv.onclick = function () { descargarCorreosCSV(lista); };
+    Array.prototype.forEach.call(caja.querySelectorAll('[data-cd]'), function (b) {
+      b.classList.toggle('sel', String(dias) === b.getAttribute('data-cd'));
+      b.onclick = function () {
+        caja.setAttribute('data-dias', b.getAttribute('data-cd'));
+        dibujarCorreos(totalServidor, activosServidor, b.getAttribute('data-cd'));
+      };
+    });
+    var buscador = document.getElementById('buscarCorreo');
+    if (buscador) buscador.oninput = function () {
+      var f = String(buscador.value || '').trim().toLowerCase();
+      Array.prototype.forEach.call(caja.querySelectorAll('tr[data-correo]'), function (tr) {
+        var texto = String(tr.getAttribute('data-correo') || '').toLowerCase();
+        tr.style.display = (f === '' || texto.indexOf(f) > -1) ? '' : 'none';
+      });
+    };
+    Array.prototype.forEach.call(caja.querySelectorAll('[data-baja]'), function (b) {
+      b.onclick = function () {
+        var correo = b.getAttribute('data-baja');
+        var quitar = b.getAttribute('data-estado') !== '1';
+        if (!confirm((quitar ? '¿Dar de baja' : '¿Volver a dar de alta') + ' a ' + correo + '?')) return;
+        pedirApi('/api/lead-baja', { metodo: 'POST', cuerpo: { correo: correo, baja: quitar ? 1 : 0 } })
+          .then(function () {
+            toast(quitar ? 'Correo dado de baja' : 'Correo dado de alta');
+            pintarCorreos();
+          })
+          .catch(function (e) { toast('No se pudo: ' + e.message, true); });
+      };
+    });
+  }
+
+  function buscarCorreosHtml() {
+    return '<div class="rend-top" style="margin-top:6px">' +
+      '<input id="buscarCorreo" type="search" placeholder="Buscar un correo…" ' +
+      'style="flex:1;min-width:180px;padding:8px 10px;border:1.5px solid var(--line);border-radius:10px">' +
+      '</div>';
+  }
+
+  function tablaCorreosHtml(lista) {
+    function fecha(iso) {
+      if (!iso) return '';
+      try {
+        var d = new Date(iso);
+        return d.toLocaleDateString('es-CO') + ' ' +
+          d.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+      } catch (e) { return String(iso).slice(0, 16); }
+    }
+    return '<table class="rend"><thead><tr>' +
+      '<th>Correo</th><th>Entró</th><th>Última vez</th><th></th>' +
+      '</tr></thead><tbody>' +
+      lista.map(function (l) {
+        return '<tr data-correo="' + esc(l.correo) + '">' +
+          '<td>' + esc(l.correo) +
+            (l.baja ? ' <span class="rk mal">de baja</span>'
+                    : ' <span class="rk ok">activo</span>') + '</td>' +
+          '<td>' + esc(fecha(l.creado)) + '</td>' +
+          '<td>' + esc(fecha(l.ultima || l.creado)) + '</td>' +
+          '<td><button class="btn ghost sm" data-baja="' + esc(l.correo) + '" ' +
+            'data-estado="' + (l.baja ? '1' : '0') + '">' +
+            (l.baja ? 'Dar de alta' : 'Dar de baja') + '</button></td>' +
+          '</tr>';
+      }).join('') +
+      '</tbody></table>';
+  }
+
+  function descargarCorreosCSV(lista) {
+    if (!lista || !lista.length) { toast('No hay correos que descargar', true); return; }
+    function c(s) { s = String(s == null ? '' : s); return '"' + s.replace(/"/g, '""') + '"'; }
+    var filas = ['"Correo";"Entró";"Última vez";"Origen";"Cupón";"Estado"'];
+    lista.forEach(function (l) {
+      filas.push([l.correo, l.creado, l.ultima || l.creado, l.origen, l.cupon,
+        l.baja ? 'DE BAJA' : 'activo'].map(c).join(';'));
+    });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob(['\uFEFF' + filas.join('\r\n')],
+      { type: 'text/csv;charset=utf-8' }));
+    a.download = 'correos-vortex-' + new Date().toISOString().slice(0, 10) + '.csv';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); document.body.removeChild(a); }, 400);
+    toast('CSV descargado (' + lista.length + ' correo(s))');
   }
 
   function pintarBanner() {

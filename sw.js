@@ -1,11 +1,11 @@
 ﻿/* Service Worker â€” VÃ“RTEX Gadgets PWA */
-const VERSION = 'vortex-app-v82';
+const VERSION = 'vortex-app-v83';
 const PRECACHE = [
   './',
   'index.html',
   'manifest.json',
-  'assets/app.css?v=82',
-  'assets/app.js?v=82',
+  'assets/app.css?v=83',
+  'assets/app.js?v=83',
   'assets/cod-splash.png',
   'datos-tienda.json',
   'icons/icon-192-v2.png',
@@ -65,7 +65,10 @@ self.addEventListener('fetch', (event) => {
      Con cache-primero, si el dueno agrega un video editando el archivo, la
      primera carga seguia mostrando el viejo y habia que recargar dos veces. */
   const esVideoJson = /\/videos\.json$/i.test(url.pathname);
-  if (url.origin === self.location.origin && (/\.(js|css)$/i.test(url.pathname) || esVideoJson)) {
+  /* [2026-09-22] El panel tambien va con el codigo, RED PRIMERO: se abre desde un
+     marcador y con cache-primero te seguia saliendo el panel de ayer. */
+  const esPanel = /gestor-pedidos-cod\.html$/i.test(url.pathname);
+  if (url.origin === self.location.origin && (/\.(js|css)$/i.test(url.pathname) || esVideoJson || esPanel)) {
     event.respondWith(
       fetch(req, { cache: 'reload' })
         .then((res) => {

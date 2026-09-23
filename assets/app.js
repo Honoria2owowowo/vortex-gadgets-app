@@ -177,6 +177,9 @@
     /* los videos son un archivo aparte y pequeno: si tarda, la app ya esta
        pintada y la seccion aparece cuando llega. Si falla, no se ve nada. */
     loadVideos().then(function () { renderRoute(); });
+    /* Si algun correo no pudo subirse en su momento (servidor caido o tarda), se
+       reintenta aqui, en silencio. */
+    try { leadsSubirPendientes(); } catch (e) {}
     iniciarReloj();
     if (tryCache()) { state.loading = false; renderRoute(); pintarDescuentoPopup(); }
     loadStorefront().then(function () {
@@ -1478,6 +1481,86 @@
     return tarea;
   }
 
+  /* ---------- Correos (leads) [2026-09-22] ----------
+     El formulario del pie promete "10 % en tu primera compra" a cambio del correo.
+     Antes ese correo NO se guardaba: solo se abria WhatsApp, y quien no pulsaba se
+     perdia para siempre.
+
+     Ahora se guarda dos veces:
+       1) en el telefono del visitante, para que no se pierda ni si el servidor esta
+          caido o tarda;
+       2) en el servidor (Cloudflare + base de datos), que es la lista de verdad.
+     Si (2) falla, queda marcado como pendiente y se reintenta solo. */
+  var LEADS_KEY = 'vx_leads';
+
+  function leadsLeer() {
+    try {
+      var a = JSON.parse(localStorage.getItem(LEADS_KEY) || '[]');
+      return Array.isArray(a) ? a : [];
+    } catch (e) { return []; }
+  }
+  function leadsEscribir(a) {
+    /* Se guardan como mucho los ultimos 200: esto es un respaldo, no la lista. */
+    try { localStorage.setItem(LEADS_KEY, JSON.stringify(a.slice(0, 200))); } catch (e) {}
+  }
+  function leadMarcarEnviado(correo) {
+    var a = leadsLeer();
+    for (var i = 0; i < a.length; i++) { if (a[i] && a[i].correo === correo) a[i].enviado = 1; }
+    leadsEscribir(a);
+  }
+  /* Devuelve true si es la primera vez que este correo entra en ESTE telefono. */
+  function leadGuardar(correo) {
+    var mail = String(correo || '').trim().toLowerCase();
+    if (!mail) return false;
+    var a = leadsLeer();
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] && a[i].correo === mail) {
+        a[i].veces = (a[i].veces || 1) + 1;
+        a[i].ultima = new Date().toISOString();
+        leadsEscribir(a);
+        if (!a[i].enviado) leadEnviar(mail);
+        return false;
+      }
+    }
+    a.unshift({ correo: mail, creado: new Date().toISOString(), enviado: 0 });
+    leadsEscribir(a);
+    return true;
+  }
+  function leadEnviar(correo) {
+    var base = String(CONFIG.apiPedidos || '').replace(/\/+$/, '');
+    if (!base || !correo || !window.fetch) return null;
+    var ctrl = null, reloj = null;
+    try { if (window.AbortController) ctrl = new AbortController(); } catch (e) { ctrl = null; }
+    var tarea = fetch(base + '/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ correo: correo, cupon: CONFIG.couponCode, origen: 'app_pwa' }),
+      signal: ctrl ? ctrl.signal : undefined,
+      keepalive: true
+    }).then(function (r) {
+      if (reloj) clearTimeout(reloj);
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      leadMarcarEnviado(correo);
+      return r.json();
+    }).catch(function () {
+      if (reloj) clearTimeout(reloj);
+      /* Al visitante no se le dice nada feo: para el, la suscripcion ya quedo hecha.
+         El correo sigue guardado aqui y se reintenta solo. */
+      return null;
+    });
+    if (ctrl) reloj = setTimeout(function () { try { ctrl.abort(); } catch (e) {} }, 12000);
+    return tarea;
+  }
+  /* Reintenta los que quedaron pendientes. Se llama al abrir la app. De a pocos,
+     para no lanzar 50 peticiones de golpe si el servidor estuvo caido mucho tiempo. */
+  function leadsSubirPendientes() {
+    var a = leadsLeer(), n = 0;
+    for (var i = 0; i < a.length && n < 5; i++) {
+      if (a[i] && a[i].correo && !a[i].enviado) { leadEnviar(a[i].correo); n++; }
+    }
+    return n;
+  }
+
   var codEnviando = false;
   function codSubmit() {
     if (codEnviando) return;
@@ -1822,9 +1905,16 @@
       var elm = document.getElementById('ftEmail');
       var mail = elm ? String(elm.value || '').trim() : '';
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) { toast('Escribe un correo válido', true); if (elm) elm.focus(); return; }
-      window.open(waLink('Hola VÓRTEX Gadgets, quiero suscribirme y recibir el 10 % en mi primera compra. Mi correo es: ' + mail), '_blank');
+      /* PRIMERO se guarda, despues se abre WhatsApp. Al reves, quien no pulsaba o
+         tenia la ventana bloqueada no quedaba en ningun sitio. */
+      var esNuevo = leadGuardar(mail);
+      leadEnviar(mail);
+      try { trackPixel('Lead', { content_name: 'newsletter' }); } catch (e) {}
       if (elm) elm.value = '';
-      toast('Te escribimos por WhatsApp para confirmar tu suscripción');
+      toast(esNuevo
+        ? 'Listo. Tu cupón es ' + CONFIG.couponCode + ' (10 % extra)'
+        : 'Ya estabas en la lista. Tu cupón es ' + CONFIG.couponCode);
+      window.open(waLink('Hola VÓRTEX Gadgets, quiero suscribirme y recibir el 10 % en mi primera compra. Mi correo es: ' + mail), '_blank');
       return;
     }
     if (act === 'toast-close') { apagarAviso(); toastIdx = SOCIAL_TOASTS.length; pararToasts(); return; }
