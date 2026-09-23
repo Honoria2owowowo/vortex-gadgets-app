@@ -551,7 +551,17 @@
       '</article>';
   }
   function vVideos() {
-    var lista = (state.videos || []).filter(function (v) { return productoPorHandle(v.handle); });
+    /* Solo lo que tenga en_inicio: true, y UNO por producto: si no, la cinta
+       mostraria el mismo producto repetido (el proyector tiene 3 videos) y se
+       veria pobre. Los demas salen en la ficha de su producto. */
+    var vistos = {}, lista = [];
+    (state.videos || []).forEach(function (v) {
+      if (v.en_inicio !== true) return;
+      if (vistos[v.handle]) return;
+      if (!productoPorHandle(v.handle)) return;
+      vistos[v.handle] = 1;
+      lista.push(v);
+    });
     if (!lista.length) return '';
     var tarjetas = lista.map(vidCardHtml).join('');
     if (!tarjetas) return '';
@@ -568,14 +578,19 @@
       '</div>';
   }
   function vVideoProducto(handle) {
-    var v = videoDe(handle);
-    if (!v) return '';
-    var card = vidCardHtml(v);
-    if (!card) return '';
+    /* TODOS los videos de ese producto, en fila. Un producto puede tener varios
+       (el proyector tiene 3) y aqui si tienen que salir todos, en su ficha. */
+    var lista = (state.videos || []).filter(function (v) { return v.handle === handle; });
+    if (!lista.length) return '';
+    var tarjetas = lista.map(vidCardHtml).join('');
+    if (!tarjetas) return '';
+    var varios = lista.length > 1;
     return '<div class="vc-solo">' +
       '<h2 class="section-title">Míralo en acción</h2>' +
-      '<p class="section-sub">Video real del producto. Toca para verlo.</p>' +
-      '<div class="vc-row vc-row--una">' + card + '</div>' +
+      '<p class="section-sub">' + (varios
+        ? 'Videos reales del producto. Toca para verlos.'
+        : 'Video real del producto. Toca para verlo.') + '</p>' +
+      '<div class="vc-row' + (varios ? '' : ' vc-row--una') + '">' + tarjetas + '</div>' +
       '</div>';
   }
   /* ============ LA CINTA DE LA PORTADA ============
