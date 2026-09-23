@@ -215,7 +215,7 @@
        resenas, se ignora entera, aunque este en el archivo. */
     if (Number(c.media) > 0 && Number(c.resenas) > 0) {
       partes.push('<b>★ ' + Number(c.media).toFixed(1) + '/5</b> — ' +
-        Number(c.resenas).toLocaleString('es-CO') + ' reseñas');
+        Number(c.resenas).toLocaleString('es-CO') + (Number(c.resenas) === 1 ? ' reseña' : ' reseñas'));
     }
     if (Number(c.pedidos_entregados) > 0) {
       partes.push('<b>+' + Number(c.pedidos_entregados).toLocaleString('es-CO') +
@@ -397,7 +397,7 @@
       '<div class="tst-meta">' + esc(meta) + '</div>' +
       '</div>' +
       '</div>' +
-      '<div class="tst-stars">' + tstStars(Number(t.estrellas) || 5) + '</div>' +
+      '<div class="tst-stars">' + tstStars(tstEstrellas(t)) + '</div>' +
       (t.titulo ? '<div class="tst-tit">' + esc(t.titulo) + '</div>' : '') +
       '<blockquote class="tst-txt">' + esc(t.texto) + '</blockquote>' +
       /* [2026-09-22] La foto que mando el cliente. Es opcional: una resena sin
@@ -413,6 +413,16 @@
        - una resena SIN "producto" sale en todas las fichas y en el inicio
      Asi una resena del proyector no aparece dando a entender que es del
      enfriador de aire. */
+  /* Una sola forma de leer las estrellas, para que la media y la tarjeta NO puedan
+     contradecirse. Antes la media sumaba "|| 0" y la tarjeta pintaba "|| 5": una
+     resena sin estrellas habria dado 0.0 de media con 5 estrellas dibujadas debajo.
+     Si falta el dato se toma 5, que es como se pintaba la tarjeta, y queda dicho en
+     el _formato de testimonios.json que hay que rellenarlo siempre. */
+  function tstEstrellas(t) {
+    var n = Number(t && t.estrellas);
+    if (!(n >= 1 && n <= 5)) n = 5;
+    return n;
+  }
   function tstDeProducto(handle) {
     var ts = state.testimonios || [];
     if (!handle) return ts;
@@ -422,7 +432,7 @@
     var ts = tstDeProducto(handle);
     if (!ts.length) return '';
     var suma = 0;
-    ts.forEach(function (t) { suma += Number(t.estrellas) || 0; });
+    ts.forEach(function (t) { suma += tstEstrellas(t); });
     var media = (suma / ts.length).toFixed(1);
     var tarjetas = ts.map(tstCard).join('');
     return '<section class="tst">' +

@@ -8,8 +8,8 @@
     "corte_despacho": "OPCIONAL. La HORA REAL a la que cierra tu despacho del dia, formato 24h, ej \"16:00\". Sale un contador encima del boton de compra: 'Pide antes de las 4:00 p.m. y tu pedido sale hoy'. Si ya paso el corte, dice que sale en el siguiente. null = no se muestra."
   },
   "pedidos_entregados": null,
-  "media": null,
-  "resenas": null,
+  "media": 5.0,
+  "resenas": 1,
   "cierra_el": null,
   "corte_despacho": null
 }

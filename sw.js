@@ -1,11 +1,11 @@
 ﻿/* Service Worker â€” VÃ“RTEX Gadgets PWA */
-const VERSION = 'vortex-app-v83';
+const VERSION = 'vortex-app-v84';
 const PRECACHE = [
   './',
   'index.html',
   'manifest.json',
-  'assets/app.css?v=83',
-  'assets/app.js?v=83',
+  'assets/app.css?v=84',
+  'assets/app.js?v=84',
   'assets/cod-splash.png',
   'datos-tienda.json',
   'icons/icon-192-v2.png',
@@ -68,7 +68,12 @@ self.addEventListener('fetch', (event) => {
   /* [2026-09-22] El panel tambien va con el codigo, RED PRIMERO: se abre desde un
      marcador y con cache-primero te seguia saliendo el panel de ayer. */
   const esPanel = /gestor-pedidos-cod\.html$/i.test(url.pathname);
-  if (url.origin === self.location.origin && (/\.(js|css)$/i.test(url.pathname) || esVideoJson || esPanel)) {
+  /* [2026-09-22] testimonios.json tambien, RED PRIMERO. El archivo se pedia con
+     "?v=36" escrito a mano: al agregar una reseña nueva, la clave de cache no
+     cambiaba y la app seguia sirviendo la lista VACIA de antes. Como el dueño va a
+     mandar reseñas a menudo, no puede depender de subir la version cada vez. */
+  const esResenas = /\/testimonios\.json$/i.test(url.pathname);
+  if (url.origin === self.location.origin && (/\.(js|css)$/i.test(url.pathname) || esVideoJson || esPanel || esResenas)) {
     event.respondWith(
       fetch(req, { cache: 'reload' })
         .then((res) => {

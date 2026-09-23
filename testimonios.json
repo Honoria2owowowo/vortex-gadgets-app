@@ -11,5 +11,16 @@
     "foto": "OPCIONAL: enlace a la foto que mando el cliente (dejalo fuera si no mando ninguna)",
     "producto": "OPCIONAL: identificador del producto si la resena es de uno concreto. Si no lo pones, la resena sale en TODAS las fichas"
   },
-  "testimonios": []
+  "testimonios": [
+    {
+      "nombre": "M. Estrada",
+      "estrellas": 5,
+      "titulo": "Excelente",
+      "texto": "Se ve muy bien, gracias",
+      "fecha": "2026-09-15",
+      "verificado": true,
+      "foto": "imgs/resenas/m-estrada-hy320.jpg",
+      "producto": "mini-proyector-portatil-hy320-android-tv-13-1080p-soporte-4k"
+    }
+  ]
 }
