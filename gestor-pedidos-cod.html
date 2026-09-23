@@ -1687,7 +1687,10 @@
           '<b>Edit code</b>, borra todo, pega el <b>worker.js</b> nuevo y pulsa ' +
           '<b>Deploy</b>. Después vuelve aquí y pulsa "Actualizar".<br>' +
           'Está explicado paso a paso en el LEEME-API.md, y no hay que tocar la base de ' +
-          'datos ni los secretos.</p>'
+          'datos ni los secretos.<br>' +
+          'Mientras tanto los correos <b>no se pierden, pero quedan a medias</b>: se guardan ' +
+          'en el teléfono de cada visitante y suben solos en cuanto esa persona vuelva a ' +
+          'abrir la app. Por eso conviene hacerlo hoy, no la semana que viene.</p>'
         : '<p class="rend-nota">No se pudieron traer los correos: ' + esc(mensaje) + '</p>');
     var c2 = document.getElementById('btnCorreosCerrar');
     if (c2) c2.onclick = alternarCorreos;
