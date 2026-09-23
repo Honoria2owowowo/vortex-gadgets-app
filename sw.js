@@ -1,11 +1,11 @@
 ﻿/* Service Worker â€” VÃ“RTEX Gadgets PWA */
-const VERSION = 'vortex-app-v79';
+const VERSION = 'vortex-app-v80';
 const PRECACHE = [
   './',
   'index.html',
   'manifest.json',
-  'assets/app.css?v=79',
-  'assets/app.js?v=79',
+  'assets/app.css?v=80',
+  'assets/app.js?v=80',
   'assets/cod-splash.png',
   'datos-tienda.json',
   'icons/icon-192-v2.png',
@@ -61,7 +61,11 @@ self.addEventListener('fetch', (event) => {
   // Mismo origen (shell, datos, imÃ¡genes de assets): cachÃ© primero + actualizaciÃ³n en segundo plano
   // Codigo (JS y CSS): RED PRIMERO, para que las actualizaciones se vean en la siguiente carga.
   // Antes iba cache-first, que es la razon por la que al desplegar seguia sirviendo el archivo viejo.
-  if (url.origin === self.location.origin && /\.(js|css)$/i.test(url.pathname)) {
+  /* [2026-09-22] videos.json va con el codigo, RED PRIMERO.
+     Con cache-primero, si el dueno agrega un video editando el archivo, la
+     primera carga seguia mostrando el viejo y habia que recargar dos veces. */
+  const esVideoJson = /\/videos\.json$/i.test(url.pathname);
+  if (url.origin === self.location.origin && (/\.(js|css)$/i.test(url.pathname) || esVideoJson)) {
     event.respondWith(
       fetch(req, { cache: 'reload' })
         .then((res) => {
