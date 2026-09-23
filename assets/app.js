@@ -553,9 +553,19 @@
   function vVideos() {
     var lista = (state.videos || []).filter(function (v) { return productoPorHandle(v.handle); });
     if (!lista.length) return '';
+    var tarjetas = lista.map(vidCardHtml).join('');
+    if (!tarjetas) return '';
+    /* La lista se dibuja DOS veces: la segunda copia es la que entra por la
+       derecha mientras la primera va saliendo, y asi el bucle no tiene salto.
+       La copia va oculta para los lectores de pantalla, que ya oyen la primera. */
     return '<h2 class="section-title">Míralos en acción</h2>' +
       '<p class="section-sub">Video real de cada producto. Toca para verlo.</p>' +
-      '<div class="vc-row">' + lista.map(vidCardHtml).join('') + '</div>';
+      '<div class="vc-marco" data-cinta>' +
+      '<div class="vc-cinta">' +
+      '<div class="vc-grupo">' + tarjetas + '</div>' +
+      '<div class="vc-grupo" aria-hidden="true">' + tarjetas + '</div>' +
+      '</div>' +
+      '</div>';
   }
   function vVideoProducto(handle) {
     var v = videoDe(handle);
@@ -568,6 +578,122 @@
       '<div class="vc-row vc-row--una">' + card + '</div>' +
       '</div>';
   }
+  /* ============ LA CINTA DE LA PORTADA ============
+     Anda sola de derecha a izquierda y no tiene salto: la lista va dibujada dos
+     veces y al pasar de una vuelta se le resta el ancho de una vuelta, asi que
+     lo que entra por la derecha es identico a lo que salio por la izquierda.
+
+     Se mueve con scrollLeft de verdad (no con una animacion de CSS) para que el
+     dedo tambien pueda arrastrarla, y para poder centrar una tarjeta cuando
+     alguien la toca. */
+  function prefiereQuieto() {
+    try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
+  }
+  function montarCintas() {
+    var marcos = document.querySelectorAll('[data-cinta]');
+    for (var i = 0; i < marcos.length; i++) montarCinta(marcos[i]);
+  }
+  function montarCinta(marco) {
+    if (marco.getAttribute('data-cinta-lista')) return;
+    marco.setAttribute('data-cinta-lista', 'si');
+
+    var VELOCIDAD = 40;               /* px por segundo: se nota que anda, no marea */
+    var quieto = prefiereQuieto();
+    var vuelta = 0, visible = false, corriendo = false, ultimo = 0, hasta = 0;
+
+    function medir() {
+      var g = marco.querySelector('.vc-grupo');
+      vuelta = g ? Math.round(g.getBoundingClientRect().width) : 0;
+    }
+    /* Se arranca en la segunda copia: asi tambien hay recorrido hacia atras. */
+    function acomodar() {
+      if (vuelta > 0 && marco.scrollLeft < vuelta) marco.scrollLeft = vuelta;
+    }
+    function centrar(nodo) {
+      if (!nodo) return;
+      var destino = nodo.offsetLeft - (marco.clientWidth - nodo.offsetWidth) / 2;
+      try { marco.scrollTo({ left: destino, behavior: 'smooth' }); }
+      catch (e) { marco.scrollLeft = destino; }
+    }
+    marco.cintaCentrar = centrar;
+    marco.cintaSoltar = function (ms) { hasta = Date.now() + (ms || 4000); };
+
+    function enMarcha() {
+      return visible && !quieto
+        && !marco.classList.contains('vc-marco--parada')   /* hay un video reproduciendose */
+        && !marco.classList.contains('vc-marco--raton')    /* el raton esta encima */
+        && Date.now() >= hasta;                            /* acaba de tocarla */
+    }
+    function paso(ts) {
+      if (!visible) { corriendo = false; return; }   /* se apaga solo al salir de pantalla */
+      var dt = ultimo ? Math.min((ts - ultimo) / 1000, 0.1) : 0;
+      ultimo = ts;
+      if (enMarcha() && vuelta > 0) {
+        marco.scrollLeft += VELOCIDAD * dt;
+        if (marco.scrollLeft >= vuelta * 2) marco.scrollLeft -= vuelta;
+        else if (marco.scrollLeft < vuelta * 0.5) marco.scrollLeft += vuelta;
+      }
+      requestAnimationFrame(paso);
+    }
+    function encender() {
+      if (corriendo) return;
+      corriendo = true; ultimo = 0;
+      requestAnimationFrame(paso);
+    }
+
+    /* El dedo y el raton la paran. Si no, no se puede tocar nada: la tarjeta se
+       mueve justo cuando vas a pulsarla. */
+    marco.addEventListener('touchstart', function () { hasta = Date.now() + 6000; }, { passive: true });
+    marco.addEventListener('mousedown', function () { hasta = Date.now() + 6000; });
+    marco.addEventListener('mouseenter', function () { marco.classList.add('vc-marco--raton'); });
+    marco.addEventListener('mouseleave', function () { marco.classList.remove('vc-marco--raton'); });
+
+    marco.medirCinta = medir;
+    medir();
+    acomodar();
+    if (quieto) marco.classList.add('vc-marco--quieto');
+
+    try {
+      var io = new IntersectionObserver(function (es) {
+        for (var k = 0; k < es.length; k++) {
+          if (es[k].isIntersecting) { visible = true; encender(); }
+          else { visible = false; }
+        }
+      }, { threshold: 0.15 });
+      io.observe(marco);
+    } catch (e) { visible = true; encender(); }
+
+    /* el ancho de una vuelta cambia al girar el telefono */
+    if (!window.__cintaResize) {
+      window.__cintaResize = true;
+      window.addEventListener('resize', function () {
+        var ms = document.querySelectorAll('[data-cinta]');
+        for (var k = 0; k < ms.length; k++) {
+          /* se llama a la funcion del propio elemento: el ancho de una vuelta
+             vive dentro de su cierre, no como propiedad suelta */
+          if (ms[k].medirCinta) ms[k].medirCinta();
+        }
+      });
+    }
+  }
+  function cintaDe(nodo) {
+    return (nodo && nodo.closest) ? nodo.closest('.vc-marco') : null;
+  }
+  /* Para la cinta y centra la tarjeta: nadie puede mirar un video que se le
+     escapa hacia el lado mientras lo esta viendo. */
+  function cintaParar(nodo) {
+    var c = cintaDe(nodo);
+    if (!c) return;
+    c.classList.add('vc-marco--parada');
+    if (c.cintaCentrar) c.cintaCentrar(nodo.closest ? nodo.closest('.vc') : null);
+  }
+  function cintaSeguir(nodo) {
+    var c = cintaDe(nodo);
+    if (!c) return;
+    c.classList.remove('vc-marco--parada');
+    if (c.cintaSoltar) c.cintaSoltar(5000);
+  }
+
   /* Pausa todos los videos menos el que se acaba de tocar. */
   function pausarVideos(excepto) {
     var vs = document.querySelectorAll('.vc-frame video');
@@ -582,8 +708,8 @@
   function alternarVideo(marco, btn) {
     var vid = marco.querySelector('video');
     if (vid) {
-      if (vid.paused) { pausarVideos(marco); marco.classList.add('reproduciendo'); vid.play(); }
-      else { vid.pause(); marco.classList.remove('reproduciendo'); }
+      if (vid.paused) { pausarVideos(marco); marco.classList.add('reproduciendo'); cintaParar(marco); vid.play(); }
+      else { vid.pause(); marco.classList.remove('reproduciendo'); cintaSeguir(marco); }
       return;
     }
     var src = btn && btn.getAttribute && btn.getAttribute('data-src');
@@ -606,6 +732,7 @@
     el.setAttribute('src', src);
     marco.appendChild(el);
     marco.classList.add('reproduciendo', 'cargando');
+    cintaParar(marco);
     var pr = el.play();
     if (pr && pr.catch) pr.catch(function () { marco.classList.remove('cargando', 'reproduciendo'); });
   }
@@ -615,7 +742,6 @@
     return '' +
       vHeroSlider() +
       vHeroBar() +
-      vVideos() +
       vTestimonios() +
       '<h2 class="section-title">Destacados de la semana</h2>' +
       '<p class="section-sub">Elige, completa tus datos y paga al recibir</p>' + gridHtml(dest) +
@@ -630,6 +756,7 @@
       '<div><b style="color:#fff">¿Dudas o pedido especial?</b></div>' +
       '<a class="btn btn-wa" href="' + waLink('Hola VÓRTEX, tengo una consulta') + '" target="_blank" rel="noopener">Chatear ahora</a>' +
       '</div>' +
+      vVideos() +
       vSeguridad();
   }
   function stepHtml(n, t, d) {
@@ -1586,6 +1713,8 @@
     renderNav();
     initHeroSlider();
   initHeroBar();
+    /* la cinta se vuelve a montar en cada pintado, porque el HTML se rehace */
+    try { montarCintas(); } catch (e) {}
     /* [2026-09-17] IMPORTANTE: la seccion de seguridad se pinta con sus bloques
        ocultos hasta recibir la clase 'in'. Si no se llama aqui, en la PRIMERA
        carga (sin cache) el inicio se pinta despues de que segInit ya se hubiera

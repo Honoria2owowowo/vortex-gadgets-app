@@ -1166,6 +1166,7 @@ h1,h2,h3,h4{
    padding funciona en cualquier Android, y aspect-ratio no. Los videos son todos
    9:16, asi que la tarjeta nunca queda con franjas.
    ============================================================================ */
+/* La fila sencilla: se usa en la ficha del producto, con una sola tarjeta. */
 .vc-row{display:flex;gap:12px;overflow-x:auto;padding:2px 0 14px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .vc-row::-webkit-scrollbar{display:none}
 .vc{flex:0 0 58%;max-width:240px;scroll-snap-align:start;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
@@ -1192,3 +1193,22 @@ h1,h2,h3,h4{
   .vc-play{width:58px;height:58px}
   .vc-row--una .vc{max-width:230px}
 }
+
+/* ============================================================================
+   [2026-09-22] LA CINTA DE VIDEOS DE LA PORTADA
+
+   Se desliza de verdad (scrollLeft), no con una animacion de CSS: asi el dedo
+   puede arrastrarla y se puede centrar una tarjeta al tocarla. Las tarjetas
+   llevan ANCHO FIJO y no un porcentaje, porque dentro de una cinta de ancho
+   "max-content" un flex-basis en % no tiene contra que calcularse y el navegador
+   lo resuelve de formas distintas.
+   ============================================================================ */
+.vc-marco{position:relative;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:2px 0 14px;scroll-behavior:auto}
+.vc-marco::-webkit-scrollbar{display:none}
+.vc-cinta{display:flex;width:max-content}
+.vc-grupo{display:flex;flex:0 0 auto}
+.vc-grupo .vc{flex:0 0 auto;width:215px;max-width:none;margin-right:12px}
+@media(max-width:400px){ .vc-grupo .vc{width:185px} }
+@media(min-width:760px){ .vc-grupo .vc{width:200px} }
+/* Con "reducir movimiento" activado en el telefono, la cinta queda quieta
+   (lo decide el JavaScript) pero SIGUE pudiendose arrastrar con el dedo. */
