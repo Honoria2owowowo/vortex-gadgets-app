@@ -408,16 +408,18 @@
       tstFotos(t) +
       '</figure>';
   }
-  /* [2026-09-22] Que resenas van en cada sitio:
-       - una resena CON "producto" solo sale en la ficha de ese producto
-       - una resena SIN "producto" sale en todas las fichas y en el inicio
-     Asi una resena del proyector no aparece dando a entender que es del
-     enfriador de aire. */
+  /* [2026-09-23] Que resenas van en cada sitio:
+       - la seccion SOLO se pinta en la FICHA del producto. El inicio ya NO la llama:
+         el dueño las quito de la portada a proposito.
+       - dentro de una ficha: una resena CON "producto" solo sale en la ficha de ese
+         producto, y una SIN "producto" sale en todas las fichas.
+     Asi una resena del proyector no aparece dando a entender que es del enfriador. */
   /* Una sola forma de leer las estrellas, para que la media y la tarjeta NO puedan
      contradecirse. Antes la media sumaba "|| 0" y la tarjeta pintaba "|| 5": una
      resena sin estrellas habria dado 0.0 de media con 5 estrellas dibujadas debajo.
-     Si falta el dato se toma 5, que es como se pintaba la tarjeta, y queda dicho en
-     el _formato de testimonios.json que hay que rellenarlo siempre. */
+     [2026-09-23] OJO: si falta el dato YA NO se toma 5 (eso era antes, y era
+     inventarse una valoracion). Ahora vale 0 = "el cliente no puso nota": no pinta
+     estrellas ni entra en la media. El detalle esta dentro de tstEstrellas. */
   function tstEstrellas(t) {
     var n = Number(t && t.estrellas);
     /* 0 significa "el cliente no puso nota". NO se rellena con 5: una reseña sin
@@ -827,7 +829,10 @@
     return '' +
       vHeroSlider() +
       vHeroBar() +
-      vTestimonios() +
+      /* [2026-09-23] AQUI estaba vTestimonios(): las reseñas salian tambien en el
+         inicio. El dueño pidio quitarlas de ahi ("en el inicio no van"), y solo de
+         ahi: la seccion sigue existiendo y se llama desde la ficha del producto, que
+         es donde el comprador decide. Quitar esta llamada no borra la seccion. */
       '<h2 class="section-title">Destacados de la semana</h2>' +
       '<p class="section-sub">Elige, completa tus datos y paga al recibir</p>' + gridHtml(dest) +
       '<h2 class="section-title">Así de fácil compras</h2>' +
