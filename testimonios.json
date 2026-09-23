@@ -40,6 +40,16 @@
       "verificado": true,
       "foto": "imgs/resenas/m-estrada-hy320.jpg",
       "producto": "mini-proyector-portatil-hy320-android-tv-13-1080p-soporte-4k"
+    },
+    {
+      "nombre": "Kevin B.",
+      "fecha": "2026-09-12",
+      "verificado": true,
+      "texto": "Muy bueno. Por su precio lo vale",
+      "fotos": [
+        "imgs/resenas/kevin-hy320.jpg"
+      ],
+      "producto": "mini-proyector-portatil-hy320-android-tv-13-1080p-soporte-4k"
     }
   ]
 }
