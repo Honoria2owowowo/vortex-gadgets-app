@@ -1,11 +1,11 @@
 ﻿/* Service Worker â€” VÃ“RTEX Gadgets PWA */
-const VERSION = 'vortex-app-v91';
+const VERSION = 'vortex-app-v92';
 const PRECACHE = [
   './',
   'index.html',
   'manifest.json',
-  'assets/app.css?v=91',
-  'assets/app.js?v=91',
+  'assets/app.css?v=92',
+  'assets/app.js?v=92',
   'assets/cod-splash.png',
   'datos-tienda.json',
   'icons/icon-192-v2.png',
@@ -73,7 +73,12 @@ self.addEventListener('fetch', (event) => {
      cambiaba y la app seguia sirviendo la lista VACIA de antes. Como el dueño va a
      mandar reseñas a menudo, no puede depender de subir la version cada vez. */
   const esResenas = /\/testimonios\.json$/i.test(url.pathname);
-  if (url.origin === self.location.origin && (/\.(js|css)$/i.test(url.pathname) || esVideoJson || esPanel || esResenas)) {
+  /* [2026-09-23] prueba-social.json (la hora de corte, el fin de la promocion, los
+     pedidos entregados) tambien RED PRIMERO. Estaba en cache-primero: al poner la hora
+     de corte, el archivo viejo (con null) habria seguido sirviendose desde la cache y
+     el contador no habria aparecido nunca. Se pide sin depender de subir la version. */
+  const esAjustes = /\/prueba-social\.json$/i.test(url.pathname);
+  if (url.origin === self.location.origin && (/\.(js|css)$/i.test(url.pathname) || esVideoJson || esPanel || esResenas || esAjustes)) {
     event.respondWith(
       fetch(req, { cache: 'reload' })
         .then((res) => {
