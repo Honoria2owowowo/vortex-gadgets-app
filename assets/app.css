@@ -827,20 +827,25 @@ a.hb-zone{text-decoration:none}
 @media (max-width:900px){
   .hero-cols{flex-direction:column;align-items:stretch;gap:14px}
   .hero-col{width:100%}
-  /* [2026-09-23] align-items:stretch (antes: center). La caja del precio es mas BAJA que
-     la foto, asi que quedaba flotando a media altura con hueco arriba y abajo: eso era lo
-     que se veia desorganizado. Ahora se estira al alto de la foto y el texto se centra
-     dentro (ver .hero-prod-tag). */
-  .hero-prod{width:100%;max-width:none;margin:0;flex-direction:row;gap:14px;align-items:stretch}
+  /* [2026-09-23] APILADO: foto arriba (centrada) y caja del precio debajo, a lo ancho.
+     Antes iban en FILA con align-items:center y la caja (mas baja que la foto) quedaba
+     flotando a media altura: hueco arriba y abajo, y la caja sobresalia 13 px por la
+     derecha (medido: 153.2 px de caja contra 140 de foto).
+     OJO, esto ya se intento mal una vez: poner la caja en fila con align-items:stretch y
+     la caja como contenedor flex. Al volverse flex, el texto "-28 % · <s>$359.900</s> ·
+     Ahorras $100.000" deja de fluir como texto y pasa a ser TRES cajas apiladas: salian
+     4 lineas y los "·" quedaban huerfanos al final y al principio de linea.
+     Apilado, el texto fluye normal (una linea) y el bloque crece ~54 px. */
+  .hero-prod{width:100%;max-width:none;margin:0;flex-direction:column;align-items:center;gap:12px}
   /* [2026-09-22] El tamano se mide contra el ALTO de la pantalla (18vh, tope
      140 px), no contra el ancho. Medido en 390x844: con 82 px fijos la foto era
      una miniatura sobre una tarjeta de 358 px y sobraban 244 px de amarillo
      vacio. Con 18vh crece en celulares altos y encoge en los bajos, para que el
      boton de compra nunca quede recortado. */
   .hero-prod-img{width:min(140px,18vh);height:min(140px,18vh);aspect-ratio:auto;flex:0 0 auto;border-radius:16px;border-width:2px}
-  /* [2026-09-23] La caja del precio es ahora una tarjeta del alto de la foto, con el
-     texto centrado dentro: dos bloques iguales al lado, en vez de un cuadro flotando. */
-  .hero-prod-tag{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;justify-content:center;font-size:13.5px;padding:12px 16px;line-height:1.45;text-align:center;border-radius:14px}
+  /* [2026-09-23] Bloque NORMAL (nada de flex ni grid: eso parte el texto en cajas y deja
+     los "·" huerfanos). A todo lo ancho, texto centrado, y el mismo ancho que la foto. */
+  .hero-prod-tag{width:100%;max-width:none;font-size:13.5px;padding:11px 14px;line-height:1.45;text-align:center;border-radius:14px}
 }
 
 /* [2026-09-23] La diapositiva SIN foto (la del proyector) no necesita llenar el alto del
@@ -850,7 +855,10 @@ a.hb-zone{text-decoration:none}
    esta diapositiva: el aire queda repartido arriba y abajo y parece intencionado.
    Las diapositivas CON foto llenan el alto solas, asi que no se tocan. */
 @media (max-width:900px){
-  .hero-slide--sinfoto .hero-slide-content{justify-content:center;padding-bottom:64px}
+  /* Padding IGUAL arriba y abajo. Con 22 arriba y 64 abajo el aire quedaba repartido
+     pero 42 px mas abajo (medido: 82.6 px arriba contra 124.6 abajo en 390 px). El
+     descuadre era exactamente esa diferencia de padding. */
+  .hero-slide--sinfoto .hero-slide-content{justify-content:center;padding:36px 18px}
 }
 
 /* Cerrar el aviso flotante: el aspa medía 19px y era dificil de pulsar. */
