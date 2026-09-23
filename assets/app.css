@@ -1220,7 +1220,21 @@ h1,h2,h3,h4{
 }
 .hero-corte b{color:#7BE9E0;font-weight:var(--fw-head,650)}
 .hero-corte .hc-reloj{font-variant-numeric:tabular-nums;letter-spacing:.03em}
-@media(max-width:520px){ .hero-corte{font-size:11px;padding:1px 7px} }
+@media (max-width:520px){ .hero-corte{font-size:11px;padding:1px 7px} }
+
+/* [2026-09-23] CELULARES MUY ESTRECHOS (<=400 px). Medido en 345 px de layout:
+   - las pildoras "SOPORTE 4K" + "IMAGEN LED" se partian en dos filas y el "+" quedaba
+     SOLO al final de la primera. Es el mismo huerfano que el dueño vio en el precio.
+   - el precio necesitaba 256.23 px de 264 disponibles: funcionaba con 8 px de margen,
+     o sea que se partiria con cualquier cambio de fuente o un precio mas largo.
+   Se reduce el relleno y la letra de las pildoras (que NO son botones: son adorno, no
+   hay riesgo de dejar un area de toque pequeña) y un punto la del precio. */
+@media (max-width:400px){
+  .hero-pills{gap:8px}
+  .hero-pill{padding:6px 14px;font-size:13px}
+  .hero-pill-plus{font-size:18px}
+  .hero-prod-tag{font-size:12.5px;padding:10px 12px}
+}
 
 /* ============================================================================
    [2026-09-22] VIDEOS DE PRODUCTO
