@@ -39,7 +39,14 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
    5.54:1. Es la pareja que trae la paleta del dueño, asi que se pone tal
    cual; si quiere mas legibilidad, oscurecer el rosa a #C73C54 sube a
    5.00:1 sin salirse de la misma familia. */
-.announce{background:linear-gradient(90deg,#D7415B,#FF4D6C);color:#fff;font-weight:800;font-size:12px;letter-spacing:.4px;overflow:hidden}
+/* [2026-09-23] La banda va OSCURA con el rosa solo en las palabras clave.
+   El rosa es --sale, el color de oferta que la app ya usa en los badges, el chip de la
+   ficha, el cupon y los iconos de urgencia: no se añade un color, se usa el que ya
+   significa "oferta". Y el fondo son los tokens de siempre (--panel2 -> --panel).
+   MEDIDO: el texto claro da ~15,9 : 1 y el rosa ~5,8 : 1 sobre este fondo, los dos por
+   encima del minimo de 4,5. La banda rosa entera se quedaba en 3,22-4,36 : 1.
+   El borde inferior la despega de la barra del logo, que tambien es oscura. */
+.announce{background:linear-gradient(90deg,var(--panel2),var(--panel));color:var(--text);border-bottom:1px solid var(--line);font-weight:800;font-size:12px;letter-spacing:.4px;overflow:hidden}
 .an-track{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;padding:7px 10px;row-gap:4px}
 /* OJO: .an-item NO debe ser contenedor flex. Si lo es, el texto suelto se
    convierte en flex items anonimos y CSS DESCARTA el espacio en blanco de los
@@ -47,11 +54,11 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
    MANOS". Sin flex, el contenido se compone como texto normal y el espacio se
    respeta. */
 .an-item{flex:0 0 auto;white-space:nowrap;font-weight:600}
-.an-item b{font-weight:900;letter-spacing:.6px}
+.an-item b{font-weight:900;letter-spacing:.6px;color:var(--sale)}
 /* el separador va dentro de CADA item (no entre items). Asi, al duplicar la
    secuencia, el ritmo de puntos es identico en las dos mitades y el bucle de
    translateX(-50%) encaja sin salto. */
-.an-item::after{content:'';display:inline-block;vertical-align:middle;width:4px;height:4px;border-radius:50%;background:#fff;opacity:.55;margin:0 15px}
+.an-item::after{content:'';display:inline-block;vertical-align:middle;width:4px;height:4px;border-radius:50%;background:var(--muted);opacity:.5;margin:0 15px}
 /* En movimiento: una sola fila, sin centrar, de DERECHA a IZQUIERDA.
    OJO: NO se puede animar a -50%. translateX(%) se calcula sobre el ANCHO DEL
    PROPIO ELEMENTO, y .an-track es un contenedor flex de bloque: mide lo que le
