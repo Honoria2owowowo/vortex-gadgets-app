@@ -13,6 +13,15 @@
   },
   "testimonios": [
     {
+      "nombre": "Andrés",
+      "estrellas": 5,
+      "texto": "Ya estoy haciendo el retiro del paquete y estoy muy contento",
+      "fecha": "2026-09-16",
+      "verificado": true,
+      "foto": "imgs/resenas/andres-hy320.jpg",
+      "producto": "mini-proyector-portatil-hy320-android-tv-13-1080p-soporte-4k"
+    },
+    {
       "nombre": "M. Estrada",
       "estrellas": 5,
       "titulo": "Excelente",
