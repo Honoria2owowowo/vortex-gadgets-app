@@ -885,10 +885,19 @@ a.hb-zone{text-decoration:none}
 .ficha h2{margin:0 0 10px;font-size:17px;font-weight:900;color:#fff}
 .ficha h2 span{font-weight:700;font-size:13px;color:var(--muted)}
 .esp-lista{margin:0}
-.esp{display:flex;gap:10px;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.45}
+/* La forma de la tabla la decide el ANCHO DE LA PANTALLA, no la longitud del dato.
+   En movil, un valor largo alineado a la derecha y partido en 3 lineas deja el borde
+   izquierdo en zigzag: se apila y se alinea a la izquierda. Desde 640 px hay sitio de
+   sobra y se ve como una tabla de especificaciones. */
+.esp{display:block;padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.45}
 .esp:last-child{border-bottom:0}
-.esp dt{color:var(--muted);flex:0 1 auto;max-width:52%}
-.esp dd{margin:0;color:#E6EDF4;font-weight:600;text-align:right;flex:0 1 auto}
+.esp dt{color:var(--muted);font-size:12px}
+.esp dd{margin:2px 0 0;color:#E6EDF4;font-weight:600}
+@media(min-width:640px){
+  .esp{display:flex;gap:12px;justify-content:space-between;align-items:baseline}
+  .esp dt{font-size:13.5px;flex:0 1 auto;max-width:52%}
+  .esp dd{margin:0;text-align:right;flex:0 1 auto}
+}
 .ficha-cols{display:grid;gap:14px;margin-top:14px}
 @media(min-width:560px){ .ficha-cols{grid-template-columns:1fr 1fr} }
 .ficha-col h3{margin:0 0 7px;font-size:13px;font-weight:800;color:#fff}

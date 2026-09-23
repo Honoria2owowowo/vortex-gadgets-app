@@ -310,6 +310,9 @@
   function vFicha(handle) {
     var f = fichaDe(handle);
     if (!f) return '';
+    /* Todas las filas son iguales: la forma la decide el CSS segun el ancho de la
+       pantalla (apilado en movil, tabla de dos columnas desde 640 px). No se decide por
+       la longitud del texto: eso obligaba a inventar un corte y mezclaba dos formas. */
     var filas = (f.specs || []).map(function (s) {
       return '<div class="esp"><dt>' + esc(s.k) + '</dt><dd>' + esc(s.v) + '</dd></div>';
     }).join('');
