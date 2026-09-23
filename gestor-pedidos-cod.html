@@ -1585,16 +1585,16 @@
         '<div class="rend-top">' +
           '<button class="btn ghost sm" id="btnCorreosCerrar" style="margin-left:auto">Cerrar</button>' +
         '</div>' +
-        '<p class="rend-nota">No se pudieron traer los correos: ' + esc(e.message) + '</p>' +
-        /* Un 404 es lo que sale mientras el Worker de Cloudflare no este actualizado.
-           Es el unico fallo que se arregla fuera de aqui, asi que se dice claro. */
-        (/404/.test(e.message)
-          ? '<p class="rend-nota"><b>Falta un paso:</b> pega el worker.js nuevo en Cloudflare ' +
-            '(Workers &amp; Pages → vortex-pedidos → Edit code) y pulsa Deploy. ' +
-            'Esta explicado en el LEEME-API.md.</p>'
-          : '');
-      var c2 = document.getElementById('btnCorreosCerrar');
-      if (c2) c2.onclick = alternarCorreos;
+        '<p class="rend-nota">Comprobando de dónde viene el fallo…</p>';
+      /* DOS causas distintas dan el mismo error, y hay que distinguirlas:
+           - la clave es incorrecta (el problema esta aqui), o
+           - el Worker de Cloudflare todavia NO tiene esta ruta (falta pegarlo).
+         Se distinguen preguntando por los PEDIDOS: si eso responde bien, la clave es
+         correcta y lo que falta es actualizar el Worker. Sin esto el aviso diria
+         "Clave incorrecta" y te haria buscar el problema donde no esta. */
+      pedirApi('/api/pedidos?dias=1')
+        .then(function () { errorCorreos(e.message, true); })
+        .catch(function () { errorCorreos(e.message, false); });
     });
   }
 
@@ -1668,6 +1668,29 @@
           .catch(function (e) { toast('No se pudo: ' + e.message, true); });
       };
     });
+  }
+
+  /* Aviso de error de la seccion de correos. "faltaWorker" solo se pone cuando ya se
+     comprobo que la clave SI funciona (los pedidos responden), o sea que el unico
+     fallo posible es que el Worker de Cloudflare no este actualizado todavia. */
+  function errorCorreos(mensaje, faltaWorker) {
+    var caja = document.getElementById('correosBox');
+    if (!caja) return;
+    caja.innerHTML =
+      '<div class="rend-top">' +
+        '<button class="btn ghost sm" id="btnCorreosCerrar" style="margin-left:auto">Cerrar</button>' +
+      '</div>' +
+      (faltaWorker
+        ? '<p class="rend-nota"><b>Falta un paso, y no es en el panel.</b> Tu clave está bien ' +
+          '(los pedidos responden), pero el servidor todavía no conoce esta parte.<br>' +
+          'Ve a Cloudflare → <b>Workers &amp; Pages</b> → <b>vortex-pedidos</b> → ' +
+          '<b>Edit code</b>, borra todo, pega el <b>worker.js</b> nuevo y pulsa ' +
+          '<b>Deploy</b>. Después vuelve aquí y pulsa "Actualizar".<br>' +
+          'Está explicado paso a paso en el LEEME-API.md, y no hay que tocar la base de ' +
+          'datos ni los secretos.</p>'
+        : '<p class="rend-nota">No se pudieron traer los correos: ' + esc(mensaje) + '</p>');
+    var c2 = document.getElementById('btnCorreosCerrar');
+    if (c2) c2.onclick = alternarCorreos;
   }
 
   function buscarCorreosHtml() {
