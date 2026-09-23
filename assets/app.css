@@ -827,14 +827,30 @@ a.hb-zone{text-decoration:none}
 @media (max-width:900px){
   .hero-cols{flex-direction:column;align-items:stretch;gap:14px}
   .hero-col{width:100%}
-  .hero-prod{width:100%;max-width:none;margin:0;flex-direction:row;gap:14px;align-items:center}
+  /* [2026-09-23] align-items:stretch (antes: center). La caja del precio es mas BAJA que
+     la foto, asi que quedaba flotando a media altura con hueco arriba y abajo: eso era lo
+     que se veia desorganizado. Ahora se estira al alto de la foto y el texto se centra
+     dentro (ver .hero-prod-tag). */
+  .hero-prod{width:100%;max-width:none;margin:0;flex-direction:row;gap:14px;align-items:stretch}
   /* [2026-09-22] El tamano se mide contra el ALTO de la pantalla (18vh, tope
      140 px), no contra el ancho. Medido en 390x844: con 82 px fijos la foto era
      una miniatura sobre una tarjeta de 358 px y sobraban 244 px de amarillo
      vacio. Con 18vh crece en celulares altos y encoge en los bajos, para que el
      boton de compra nunca quede recortado. */
   .hero-prod-img{width:min(140px,18vh);height:min(140px,18vh);aspect-ratio:auto;flex:0 0 auto;border-radius:16px;border-width:2px}
-  .hero-prod-tag{font-size:13px;padding:7px 14px;line-height:1.4;text-align:left}
+  /* [2026-09-23] La caja del precio es ahora una tarjeta del alto de la foto, con el
+     texto centrado dentro: dos bloques iguales al lado, en vez de un cuadro flotando. */
+  .hero-prod-tag{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;justify-content:center;font-size:13.5px;padding:12px 16px;line-height:1.45;text-align:center;border-radius:14px}
+}
+
+/* [2026-09-23] La diapositiva SIN foto (la del proyector) no necesita llenar el alto del
+   carrusel: su contenido mide ~476 px dentro de 656 px en un movil de 390x844, o sea
+   ~110 px de amarillo vacio al final. El CSS base centra el contenido, pero una regla de
+   movil lo pone en "flex-start" (todo el aire abajo). Aqui se vuelve a centrar SOLO en
+   esta diapositiva: el aire queda repartido arriba y abajo y parece intencionado.
+   Las diapositivas CON foto llenan el alto solas, asi que no se tocan. */
+@media (max-width:900px){
+  .hero-slide--sinfoto .hero-slide-content{justify-content:center;padding-bottom:64px}
 }
 
 /* Cerrar el aviso flotante: el aspa medía 19px y era dificil de pulsar. */
