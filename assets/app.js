@@ -397,15 +397,16 @@
       '<div class="tst-meta">' + esc(meta) + '</div>' +
       '</div>' +
       '</div>' +
-      '<div class="tst-stars">' + tstStars(tstEstrellas(t)) + '</div>' +
+      (tstEstrellas(t) ? '<div class="tst-stars">' + tstStars(tstEstrellas(t)) + '</div>' : '') +
       (t.titulo ? '<div class="tst-tit">' + esc(t.titulo) + '</div>' : '') +
-      '<blockquote class="tst-txt">' + esc(t.texto) + '</blockquote>' +
-      /* [2026-09-22] La foto que mando el cliente. Es opcional: una resena sin
-         foto se ve igual de bien. Se marca como "foto del cliente" para que
-         quede claro que no es material de la tienda. */
-      (t.foto
-        ? '<figure class="tst-foto"><img src="' + esc(t.foto) + '" alt="Foto enviada por ' + esc(t.nombre) + '" loading="lazy" decoding="async"><figcaption>Foto del cliente</figcaption></figure>'
-        : '') +
+      (t.texto ? '<blockquote class="tst-txt">' + esc(t.texto) + '</blockquote>' : '') +
+      /* [2026-09-22] Las fotos que mando el cliente (una o varias). Son opcionales:
+         una resena sin foto se ve igual de bien. Van rotuladas como del cliente para
+         que quede claro que no son material de la tienda.
+         OJO con el "+" de delante: la linea de arriba ya cierra con "+", asi que
+         poner otro mas hace "+ +tstFotos(t)", que es un MAS UNARIO: convierte la
+         cadena en un numero y las fotos se pintaban como "NaN". Va sin el. */
+      tstFotos(t) +
       '</figure>';
   }
   /* [2026-09-22] Que resenas van en cada sitio:
@@ -420,8 +421,32 @@
      el _formato de testimonios.json que hay que rellenarlo siempre. */
   function tstEstrellas(t) {
     var n = Number(t && t.estrellas);
-    if (!(n >= 1 && n <= 5)) n = 5;
-    return n;
+    /* 0 significa "el cliente no puso nota". NO se rellena con 5: una reseña sin
+       nota no pinta estrellas y no entra en la media. Inventarle una valoracion
+       seria lo mismo que inventarse una reseña. */
+    return (n >= 1 && n <= 5) ? n : 0;
+  }
+  /* Fotos que mando el cliente. Se aceptan las dos formas:
+       "foto": "..."            -> una sola
+       "fotos": ["...","..."]   -> varias (lo normal: la gente manda 2 o 3 por WhatsApp)
+     Se rotulan como del cliente para que quede claro que no son material de la tienda. */
+  function tstFotos(t) {
+    var lista = [];
+    if (t && t.fotos && t.fotos.length) lista = t.fotos.slice(0, 4);
+    else if (t && t.foto) lista = [t.foto];
+    lista = lista.filter(function (u) { return !!u; });
+    if (!lista.length) return '';
+    var alt = 'Foto enviada por ' + esc(t.nombre);
+    if (lista.length === 1) {
+      return '<figure class="tst-foto"><img src="' + esc(lista[0]) + '" alt="' + alt +
+        '" loading="lazy" decoding="async"><figcaption>Foto del cliente</figcaption></figure>';
+    }
+    return '<figure class="tst-foto tst-foto--varias"><div class="tst-2up">' +
+      lista.map(function (u) {
+        return '<img src="' + esc(u) + '" alt="' + alt + '" loading="lazy" decoding="async">';
+      }).join('') +
+      '</div><figcaption>' + (lista.length === 2 ? 'Fotos' : lista.length + ' fotos') +
+      ' del cliente</figcaption></figure>';
   }
   function tstDeProducto(handle) {
     var ts = state.testimonios || [];
@@ -431,18 +456,25 @@
   function vTestimonios(handle) {
     var ts = tstDeProducto(handle);
     if (!ts.length) return '';
+    /* La media se calcula SOLO con las reseñas que traen nota. Si alguien mando
+       fotos pero no puso estrellas, no puede subir ni bajar la media. */
+    var conNota = ts.filter(function (t) { return tstEstrellas(t) > 0; });
     var suma = 0;
-    ts.forEach(function (t) { suma += tstEstrellas(t); });
-    var media = (suma / ts.length).toFixed(1);
+    conNota.forEach(function (t) { suma += tstEstrellas(t); });
+    var media = conNota.length ? (suma / conNota.length).toFixed(1) : '';
     var tarjetas = ts.map(tstCard).join('');
     return '<section class="tst">' +
       '<div class="tst-head">' +
       /* En la ficha el titular NO dice "de este producto": son clientes de la
          tienda. Afirmar que la resena es de ese producto seria inventar. */
       '<h2>' + (handle ? 'Lo que dicen nuestros clientes' : 'Reseñas de clientes') + '</h2>' +
-      '<div class="tst-score"><b>' + media + '</b>' +
-      '<span class="tst-stars">' + tstStars(Math.round(suma / ts.length)) + '</span>' +
-      '<small>(' + ts.length + (ts.length === 1 ? ' reseña' : ' reseñas') + ' de compra verificada)</small>' +
+      '<div class="tst-score">' +
+      (conNota.length
+        ? '<b>' + media + '</b><span class="tst-stars">' +
+          tstStars(Math.round(suma / conNota.length)) + '</span>'
+        : '') +
+      '<small>(' + ts.length + (ts.length === 1 ? ' reseña' : ' reseñas') + ' de compra verificada' +
+      (conNota.length < ts.length ? ', ' + conNota.length + ' con nota' : '') + ')</small>' +
       '</div>' +
       '</div>' +
       '<div class="tst-marquee">' +
@@ -457,7 +489,13 @@
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (j) {
         var arr = (j && j.testimonios) ? j.testimonios : [];
-        state.testimonios = arr.filter(function (t) { return t && t.nombre && t.texto; });
+        /* Una foto del producto en casa del cliente es la prueba mas fuerte que
+           hay: vale por si sola, aunque no escriba ni una palabra. */
+        state.testimonios = arr.filter(function (t) {
+          if (!t || !t.nombre) return false;
+          var tieneFoto = !!(t.foto || (t.fotos && t.fotos.length));
+          return !!(t.texto || tieneFoto);
+        });
       })
       .catch(function () { state.testimonios = []; });
   }

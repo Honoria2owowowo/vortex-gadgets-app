@@ -1058,22 +1058,20 @@ h1,h2,h3,h4{
   .pcard:active .pimg img,.pimg.is-tap img{transform:none;filter:none}
 }
 
-/* [2026-09-22] La foto que manda el cliente en una resena.
-   object-fit:cover con altura fija para que todas las tarjetas de la tira midan
-   lo mismo, manda la foto que manda (vertical, cuadrada o panoramica). */
-/* [2026-09-22] Foto que manda el cliente. ANTES solo tenia "margin:10px 0 0", sin
-   tamano para la imagen: una foto de movil (816 px) dentro de una tarjeta de 262 px
-   se salia de la tarjeta y rompia la fila de reseñas entera.
-   Se limita la ALTURA (no se recorta a un formato fijo): con recorte vertical 4:5 una
-   foto APAISADA del cliente perderia los lados, y ahi suele estar el producto. Con
-   altura maxima salen bien las dos: la vertical manda y la apaisada se ve entera. */
+/* [2026-09-22] LA FOTO QUE MANDA EL CLIENTE.
+   Altura FIJA + object-fit:cover: asi todas las tarjetas de la tira miden lo mismo,
+   mande el cliente una foto vertical, cuadrada o panoramica. En una foto de producto
+   el objeto suele ir centrado, asi que el recorte no se lleva lo importante.
+   OJO, esto ya paso aqui: habia DOS reglas para ".tst-foto img" (una con
+   max-height:340px y otra con height:140px) y con el mismo selector gana la ULTIMA.
+   La altura fija mandaba y la otra no hacia nada: parecia puesta y no lo estaba. */
 .tst-foto{margin:10px 0 0}
-.tst-foto img{display:block;width:100%;max-height:340px;object-fit:cover;border-radius:10px;border:1px solid var(--line);background:#0B0E14}
-.tst-foto figcaption{margin-top:6px;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
-.tst-foto img{width:100%;height:140px;object-fit:cover;border-radius:10px;
-  border:1px solid var(--line);display:block;background:#0A0E13}
+.tst-foto img{display:block;width:100%;height:160px;object-fit:cover;border-radius:10px;border:1px solid var(--line);background:#0A0E13}
 .tst-foto figcaption{margin-top:5px;font-size:10.5px;color:var(--muted);letter-spacing:.2px}
-@media(max-width:420px){ .tst-card{flex:0 0 232px} .tst-foto img{height:124px} }
+/* Varias fotos (lo normal: la gente manda 2 o 3 por WhatsApp): en fila y al mismo alto. */
+.tst-foto--varias .tst-2up{display:flex;gap:6px}
+.tst-foto--varias .tst-2up img{flex:1 1 0;min-width:0;width:auto;height:120px}
+@media(max-width:420px){ .tst-card{flex:0 0 232px} .tst-foto img{height:140px} .tst-foto--varias .tst-2up img{height:104px} }
 
 /* ============================================================================
    [2026-09-22] Línea de prueba social y contador honestos.
