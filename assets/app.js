@@ -1042,19 +1042,10 @@
       /* descHtml es la descripcion corregida de ficha-tecnica.json (con vinetas); si no
          esta, se usa la de la tienda tal cual, como antes. */
       '<div class="acc-b">' + saneaPlazo(p.descHtml || p.desc || 'Producto disponible en la tienda VÓRTEX Gadgets.') + '</div>' +
-      '<button class="acc-h" data-action="acc-toggle">Envío y contra entrega <span class="chev">▾</span></button>' +
-      '<div class="acc-b">Despachamos a todo Colombia con número de guía: tu pedido llega en 3 a 4 días hábiles.\n\nPagas CONTRA ENTREGA: en efectivo al recibir tu pedido, después de revisarlo. También puedes pagar en línea (PSE o tarjeta) desde nuestra tienda web.</div>' +
-      '<button class="acc-h" data-action="acc-toggle">Garantía y devoluciones <span class="chev">▾</span></button>' +
-      /* [2026-09-23] Aqui estaba la contradiccion: la ficha decia "30 dias" y las
-         preguntas frecuentes "5 dias habiles", sin decir que son DOS derechos distintos
-         (garantia por falla y retracto por Ley 1480). El comprador desconfiado lo leia
-         como "no tienen claro lo que ofrecen". */
-      '<div class="acc-b">' +
-      '<p><b>Garantía de 30 días por fallas de funcionamiento.</b> Si el producto llega dañado o deja de funcionar como debe, escríbenos por WhatsApp y te lo cambiamos o te devolvemos tu dinero.</p>' +
-      '<p><b>5 días hábiles de retracto (Ley 1480 de 2011).</b> Es un derecho distinto: si el producto funciona bien pero no te convence, tienes 5 días hábiles desde que lo recibes para devolverlo y te devolvemos tu dinero.</p>' +
-      '<p>Son dos derechos diferentes y los dos aplican. Para cualquiera de los dos, escríbenos por WhatsApp y te acompañamos en el proceso.</p>' +
-      '</div>' +
-      '</div>' +
+      /* [2026-09-23] Aqui estaban "Envio y contra entrega" y "Garantia y devoluciones".
+          Se bajaron al final de la pagina: son papeleo, y arriba estorbaban entre el
+          comprador y lo que de verdad decide (la ficha tecnica y la prueba social). */
+       '</div>' +
       '</div></div>' +
       /* [2026-09-23] La ficha tecnica, antes de los videos y las resenas: es lo que
          contesta "que estoy comprando". */
@@ -1064,7 +1055,21 @@
          cliente. Si la lista esta vacia, vTestimonios devuelve '' y no se ve
          nada: nunca hay un bloque vacio. */
       vTestimonios(p.handle) +
-      /* barra fija móvil */
+      
+       /* [2026-09-23] El papeleo, al final: envio y garantia. Va despues de la prueba
+          social, para que el comprador decida primero QUE compra y quien mas lo compro,
+          y solo despues lea las condiciones. */
+       '<div class="acc acc-cola">' +
+       '<button class="acc-h" data-action="acc-toggle">Envío y contra entrega <span class="chev">▾</span></button>' +
+       '<div class="acc-b">Despachamos a todo Colombia con número de guía: tu pedido llega en 3 a 4 días hábiles.\n\nPagas CONTRA ENTREGA: en efectivo al recibir tu pedido, después de revisarlo. También puedes pagar en línea (PSE o tarjeta) desde nuestra tienda web.</div>' +
+       '<button class="acc-h" data-action="acc-toggle">Garantía y devoluciones <span class="chev">▾</span></button>' +
+       '<div class="acc-b">' +
+       '<p><b>Garantía de 30 días por fallas de funcionamiento.</b> Si el producto llega dañado o deja de funcionar como debe, escríbenos por WhatsApp y te lo cambiamos o te devolvemos tu dinero.</p>' +
+       '<p><b>5 días hábiles de retracto (Ley 1480 de 2011).</b> Es un derecho distinto: si el producto funciona bien pero no te convence, tienes 5 días hábiles desde que lo recibes para devolverlo y te devolvemos tu dinero.</p>' +
+       '<p>Son dos derechos diferentes y los dos aplican. Para cualquiera de los dos, escríbenos por WhatsApp y te acompañamos en el proceso.</p>' +
+       '</div>' +
+       '</div>' +
+       /* barra fija móvil */
       (p.available
         ? '<div class="buybar">' +
           '<div class="bb-price"><span class="bb-now">' + money(p.price) + '</span>' +
