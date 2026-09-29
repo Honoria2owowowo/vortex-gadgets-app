@@ -90,6 +90,16 @@
       "verificado": true,
       "foto": "imgs/resenas/sofia-garcia-masajeador-pies.jpg",
       "producto": "masajeador-de-pies-ela©ctrico-a-alivio-y-relajacia-n-diaria"
+    },
+    {
+      "nombre": "Lucía Ramírez",
+      "estrellas": 5,
+      "titulo": "Muy satisfecho",
+      "texto": "El producto llegó en perfecto estado, muy bien embalado y funciona correctamente. El tamaño es justo para los pies. Esperamos tener muy buenos resultados al usarlo.",
+      "fecha": "2026-09-28",
+      "verificado": true,
+      "foto": "imgs/resenas/lucia-ramirez-masajeador-pies.jpg",
+      "producto": "masajeador-de-pies-ela©ctrico-a-alivio-y-relajacia-n-diaria"
     }
   ]
 }
