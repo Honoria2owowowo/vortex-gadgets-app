@@ -120,6 +120,16 @@
       "verificado": true,
       "foto": "imgs/resenas/carlos-rodriguez-hy320.jpg",
       "producto": "mini-proyector-portatil-hy320-android-tv-13-1080p-soporte-4k"
+    },
+    {
+      "nombre": "Mateo González",
+      "estrellas": 5,
+      "titulo": "Muy satisfecho",
+      "texto": "La imagen es de muy buena calidad, cumple con lo prometido",
+      "fecha": "2026-09-28",
+      "verificado": true,
+      "foto": "imgs/resenas/mateo-gonzalez-hy320.jpg",
+      "producto": "mini-proyector-portatil-hy320-android-tv-13-1080p-soporte-4k"
     }
   ]
 }
