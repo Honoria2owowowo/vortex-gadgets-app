@@ -110,6 +110,16 @@
       "verificado": true,
       "foto": "imgs/resenas/elena-flores-masajeador-pies.jpg",
       "producto": "masajeador-de-pies-ela©ctrico-a-alivio-y-relajacia-n-diaria"
+    },
+    {
+      "nombre": "Carlos Rodríguez",
+      "estrellas": 5,
+      "titulo": "Muy satisfecho",
+      "texto": "me gustó mucho ya lo probé y está bonito",
+      "fecha": "2026-09-22",
+      "verificado": true,
+      "foto": "imgs/resenas/carlos-rodriguez-hy320.jpg",
+      "producto": "mini-proyector-portatil-hy320-android-tv-13-1080p-soporte-4k"
     }
   ]
 }
