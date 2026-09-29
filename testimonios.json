@@ -100,6 +100,16 @@
       "verificado": true,
       "foto": "imgs/resenas/lucia-ramirez-masajeador-pies.jpg",
       "producto": "masajeador-de-pies-ela©ctrico-a-alivio-y-relajacia-n-diaria"
+    },
+    {
+      "nombre": "Elena Flores",
+      "estrellas": 5,
+      "titulo": "Muy satisfecho",
+      "texto": "me gustó",
+      "fecha": "2026-09-01",
+      "verificado": true,
+      "foto": "imgs/resenas/elena-flores-masajeador-pies.jpg",
+      "producto": "masajeador-de-pies-ela©ctrico-a-alivio-y-relajacia-n-diaria"
     }
   ]
 }
