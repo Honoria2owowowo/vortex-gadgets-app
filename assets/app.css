@@ -1195,20 +1195,34 @@ h1,h2,h3,h4{
   .pcard:active .pimg img,.pimg.is-tap img{transform:none;filter:none}
 }
 
-/* [2026-09-22] LA FOTO QUE MANDA EL CLIENTE.
-   Altura FIJA + object-fit:cover: asi todas las tarjetas de la tira miden lo mismo,
-   mande el cliente una foto vertical, cuadrada o panoramica. En una foto de producto
-   el objeto suele ir centrado, asi que el recorte no se lleva lo importante.
+/* [2026-09-22] / [2026-09-28] LA FOTO QUE MANDA EL CLIENTE.
+   ANTES: altura FIJA (160 px, y 140 px en movil) + object-fit:cover. Eso venia de la
+   MARQUESINA, donde todas las tarjetas tenian que medir lo mismo. Pero el precio era
+   recortar la foto: una foto de cliente vertical (600x1067) dentro de una caja de
+   140-160 px de alto con "cover" se amplia a unos 555 px y el navegador tapa cerca del
+   70 % de la imagen. En el celular el cliente NO veia la foto: veia una franja.
+   Y la uniformidad ya no hace falta: desde v94 esto es una REJILLA, no una marquesina.
+   AHORA: la foto ENTERA, siempre. max-width:100 % + max-height:420 px con la altura
+   automatica: la imagen se encoge conservando su forma y se centra, sin recortar ni un
+   pixel. Una vertical queda mas estrecha que la tarjeta, y esta bien: en una prueba de
+   cliente lo unico que importa es que se vea completa. object-fit:contain queda de
+   red de seguridad por si la caja y la foto no acaban de cuadrar.
    OJO, esto ya paso aqui: habia DOS reglas para ".tst-foto img" (una con
    max-height:340px y otra con height:140px) y con el mismo selector gana la ULTIMA.
    La altura fija mandaba y la otra no hacia nada: parecia puesta y no lo estaba. */
 .tst-foto{margin:10px 0 0}
-.tst-foto img{display:block;width:100%;height:160px;object-fit:cover;border-radius:10px;border:1px solid var(--line);background:#0A0E13}
-.tst-foto figcaption{margin-top:5px;font-size:10.5px;color:var(--muted);letter-spacing:.2px}
-/* Varias fotos (lo normal: la gente manda 2 o 3 por WhatsApp): en fila y al mismo alto. */
-.tst-foto--varias .tst-2up{display:flex;gap:6px}
-.tst-foto--varias .tst-2up img{flex:1 1 0;min-width:0;width:auto;height:120px}
-@media(max-width:420px){ .tst-card{flex:0 0 232px} .tst-foto img{height:140px} .tst-foto--varias .tst-2up img{height:104px} }
+.tst-foto img{display:block;margin:0 auto;max-width:100%;height:auto;max-height:420px;object-fit:contain;border-radius:10px;border:1px solid var(--line);background:#0A0E13}
+.tst-foto figcaption{margin-top:5px;font-size:10.5px;color:var(--muted);letter-spacing:.2px;text-align:center}
+/* Varias fotos (lo normal: la gente manda 2 o 3 por WhatsApp): en fila. El alto lo pone
+   cada una segun su forma y se alinean ARRIBA, asi ninguna se deforma.
+   Antes iban a 120 px de alto con ancho de flex: eso ESTIRABA la foto. */
+.tst-foto--varias .tst-2up{display:flex;gap:6px;align-items:flex-start}
+.tst-foto--varias .tst-2up img{flex:1 1 0;min-width:0;width:auto;height:auto;max-height:300px;object-fit:contain}
+/* [2026-09-28] AQUI ESTABA EL FALLO QUE SE VEIA EN EL CELULAR: esta regla volvia a
+   poner la foto a 140 px de alto (y 104 px las de dos) en pantallas de 420 px o menos,
+   justo los moviles. Se quitan las dos alturas. El ancho de tarjeta de 232 px se queda
+   porque no hace nada: en la rejilla lo anula ".tst-grid .tst-card" por especificidad. */
+@media(max-width:420px){ .tst-card{flex:0 0 232px} }
 
 /* ============================================================================
    [2026-09-22] Línea de prueba social y contador honestos.
