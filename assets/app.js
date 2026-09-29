@@ -512,11 +512,35 @@
       '</div><figcaption>' + (lista.length === 2 ? 'Fotos' : lista.length + ' fotos') +
       ' del cliente</figcaption></figure>';
   }
-  function tstDeProducto(handle) {
-    var ts = state.testimonios || [];
-    if (!handle) return ts;
-    return ts.filter(function (t) { return !t.producto || t.producto === handle; });
-  }
+   /* [2026-09-28] ORDEN: la resena MAS NUEVA primero.
+      Antes se pintaban en el orden del archivo, o sea la primera que se subio quedaba
+      arriba para siempre: con cada resena nueva la ficha se veia mas vieja, no mas
+      viva. Se ordena AQUI y no dentro de vTestimonios para que cualquier sitio que
+      pinte resenas salga en el mismo orden.
+      Las que no traigan una fecha legible van al final: nunca se cae la seccion por
+      una fecha mal escrita (se comparan como texto AAAAMMDD, que ordena solo). */
+   function tstFechaOrden(t) {
+     var f = String((t && t.fecha) || '').trim();
+     var m = f.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+     if (m) return m[1] + ('0' + m[2]).slice(-2) + ('0' + m[3]).slice(-2);
+     var d = Date.parse(f);
+     if (isNaN(d)) return '';
+     var x = new Date(d);
+     return String(x.getFullYear()) + ('0' + (x.getMonth() + 1)).slice(-2) + ('0' + x.getDate()).slice(-2);
+   }
+   function tstDeProducto(handle) {
+     var ts = state.testimonios || [];
+     var lista = handle
+       ? ts.filter(function (t) { return !t.producto || t.producto === handle; })
+       : ts.slice();
+     return lista.sort(function (a, b) {
+       var fa = tstFechaOrden(a), fb = tstFechaOrden(b);
+       if (fa === fb) return 0;
+       if (!fa) return 1;
+       if (!fb) return -1;
+       return fa < fb ? 1 : -1;
+     });
+   }
   function vTestimonios(handle) {
     var ts = tstDeProducto(handle);
     if (!ts.length) return '';
